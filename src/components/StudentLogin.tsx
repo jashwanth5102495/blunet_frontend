@@ -165,7 +165,7 @@ const StudentLogin = () => {
             <div className="w-full max-w-md">
 
               <div className="text-center mb-6">
-                <div className="text-2xl font-semibold tracking-[0.35em]">JASNAV</div>
+                <div className="text-2xl font-semibold tracking-[0.35em]">BLUNET</div>
                 <p className="text-xs text-gray-500 mt-3">
                   Log in below or{' '}
                   <button

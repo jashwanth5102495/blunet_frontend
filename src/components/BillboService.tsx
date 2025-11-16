@@ -61,7 +61,7 @@ const BillboService = () => {
             Our Revolutionary Advertising Platform
           </p>
           <p className="text-gray-400 max-w-3xl mx-auto">
-            A child company of JasNav IT Solutions, bringing affordable advertising solutions to businesses of all sizes
+            A child company of BluNet IT Services, bringing affordable advertising solutions to businesses of all sizes
           </p>
         </motion.div>
 

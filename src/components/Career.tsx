@@ -362,7 +362,7 @@ const Career = () => {
               className="space-y-16"
             >
               <div className="text-center">
-                <h2 className="text-4xl font-bold mb-6">Why Choose Jasnav It Solutions for Your Career?</h2>
+                <h2 className="text-4xl font-bold mb-6">Why Choose BluNet IT Services for Your Career?</h2>
                 <p className="text-xl text-gray-300 max-w-3xl mx-auto">
                   We don't just teach technology - we build careers. Our comprehensive approach ensures 
                   you're not just job-ready, but career-ready.
@@ -635,7 +635,7 @@ const Career = () => {
               <div className="text-center max-w-3xl mx-auto">
                 <h2 className="text-4xl font-bold mb-4">Verify Certificate</h2>
                 <p className="text-gray-300 mb-6">
-                  Enter a student ID to verify if their certificate is officially certified by the Jasnav Group.
+                  Enter a student ID to verify if their certificate is officially certified by the BluNet IT Services.
                 </p>
                 <div className="flex flex-col sm:flex-row items-center gap-3 justify-center">
                   <input

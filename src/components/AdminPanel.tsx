@@ -981,7 +981,7 @@ const AdminPanel: React.FC = () => {
           studentName: `${student.firstName} ${student.lastName}`,
           studentEmail: student.email,
           paymentMethod: 'admin_manual',
-          metadata: { createdByAdmin: true, adminEmail: 'admin@jasnav.com' }
+          metadata: { createdByAdmin: true, adminEmail: 'support@blunetitservices.in' }
         };
 
         console.log('=== PAYMENT DATA DEBUG ===');
@@ -1021,7 +1021,7 @@ const AdminPanel: React.FC = () => {
             },
             body: JSON.stringify({
               confirmationStatus: change.newStatus,
-              adminEmail: 'admin@jasnav.com'
+              adminEmail: 'support@blunetitservices.in'
             })
           });
 
@@ -1038,7 +1038,7 @@ const AdminPanel: React.FC = () => {
         console.log('Making API call to:', `${BASE_URL}/api/payments/${change.paymentId}/confirm`);
         console.log('Request body:', {
           confirmationStatus: change.newStatus,
-          adminEmail: 'admin@jasnav.com'
+          adminEmail: 'support@blunetitservices.in'
         });
         
         response = await fetch(`${BASE_URL}/api/payments/${change.paymentId}/confirm`, {
@@ -1048,7 +1048,7 @@ const AdminPanel: React.FC = () => {
           },
           body: JSON.stringify({
             confirmationStatus: change.newStatus,
-            adminEmail: 'admin@jasnav.com'
+            adminEmail: 'support@blunetitservices.in'
           })
         });
 

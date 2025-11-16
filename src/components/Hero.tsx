@@ -72,7 +72,7 @@ const Hero = () => {
         {/* Main heading with Company Name */}
         <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
           <VariableProximity
-            label="Jasnav It Solutions"
+            label="BluNet IT Services"
             fromFontVariationSettings="'wght' 400, 'opsz' 9"
             toFontVariationSettings="'wght' 800, 'opsz' 40"
             containerRef={containerRef as unknown as React.RefObject<HTMLElement>}

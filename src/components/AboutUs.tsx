@@ -95,7 +95,7 @@ const AboutUs: React.FC = () => {
             
             <div className="space-y-6 text-gray-300 leading-relaxed text-lg">
               <p>
-                At <strong className="text-white">Jasnav It Solutions</strong>, we are focused on productivity and creating smooth workflows that drive business success. We are a full-service software company specializing in building modern, scalable, and user-friendly solutions that help businesses optimize their operations and achieve seamless digital transformation.
+                At <strong className="text-white">BluNet IT Services</strong>, we are focused on productivity and creating smooth workflows that drive business success. We are a full-service software company specializing in building modern, scalable, and user-friendly solutions that help businesses optimize their operations and achieve seamless digital transformation.
               </p>
               
               <p>

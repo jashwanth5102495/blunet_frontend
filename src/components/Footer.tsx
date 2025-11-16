@@ -8,8 +8,8 @@ const Footer = () => {
           {/* Company Info */}
           <div className="lg:col-span-2">
             <div className="flex items-center mb-6">
-              <div className="text-2xl font-bold text-white mr-2">Jasnav It Solutions</div>
-              <div className="text-xl font-semibold text-gray-300">IT Solutions</div>
+              <div className="text-2xl font-bold text-white mr-2">BluNet IT Services</div>
+              <div className="text-xl font-semibold text-gray-300">IT Services</div>
             </div>
             <p className="text-gray-400 mb-6 max-w-md">
               We are a full-service software company specializing in building modern, scalable, and user-friendly solutions that help businesses grow and succeed in the digital age.
@@ -62,11 +62,11 @@ const Footer = () => {
                 <div>
                   <p className="text-gray-400 text-sm">Email</p>
                   <div className="flex flex-col">
-                    <a href="mailto:info@jasnav.co.in" className="text-white hover:text-blue-400 transition-colors block">
-                      info@jasnav.co.in
+                    <a href="mailto:support@blunetitservices.in" className="text-white hover:text-blue-400 transition-colors block">
+                      support@blunetitservices.in
                     </a>
-                    <a href="mailto:jasnav.co@gmail.com" className="text-white hover:text-blue-400 transition-colors block">
-                      jasnav.co@gmail.com
+                    <a href="mailto:support@blunetitservices.in" className="text-white hover:text-blue-400 transition-colors block">
+                      support@blunetitservices.in
                     </a>
                   </div>
                 </div>
@@ -97,7 +97,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-400 text-sm mb-4 md:mb-0">
-              © 2024 Jasnav It Solutions. All rights reserved.
+              © 2024 BluNet IT Services. All rights reserved.
             </div>
             <div className="flex space-x-6 text-sm">
               <a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>

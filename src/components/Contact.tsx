@@ -95,12 +95,8 @@ const Contact = () => {
               <h3 className="text-xl font-bold text-white">Email</h3>
             </div>
             <p className="text-gray-300 mb-4">Get in touch via email for general inquiries and support.</p>
-            <a href="mailto:info@jasnav.co.in" className="text-blue-400 hover:text-blue-300 transition-colors">
-                info@jasnav.co.in
-            </a>
-            <br />
-            <a href="mailto:jasnav.co@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors">
-                jasnav.co@gmail.com
+            <a href="mailto:support@blunetitservices.in" className="text-blue-400 hover:text-blue-300 transition-colors">
+                support@blunetitservices.in
             </a>
           </div>
 
