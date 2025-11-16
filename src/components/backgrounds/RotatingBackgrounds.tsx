@@ -21,7 +21,7 @@ const RotatingBackgrounds: React.FC<RotatingBackgroundsProps> = ({
       name: 'Threads',
       component: (
         <Threads
-          color={[0.0, 1.0, 0.0]} // Bright green color
+          color={[0.2, 0.6, 1.0]} // Vibrant blue color
           amplitude={1.5}
           distance={0.1}
           enableMouseInteraction={true}
