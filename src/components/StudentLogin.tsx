@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import Header from './Header';
 import FloatingLines from './FloatingLines';
 import ModernClock from './ModernClock';
 import { GoogleLogin } from '@react-oauth/google';
@@ -133,10 +132,8 @@ const StudentLogin = () => {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <Header />
-
-      <div className="pt-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 h-[calc(100vh-5rem)]">
+      <div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
 
           {/* LEFT SIDE (Clock Centered Here) */}
           <div className="relative hidden lg:block h-full">
@@ -153,11 +150,6 @@ const StudentLogin = () => {
 
             {/* Black overlay */}
             <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-black/50 via-black/25 to-transparent" />
-
-            {/* ⭐ CLOCK CENTERED IN LEFT SIDE ⭐ */}
-            <div className="absolute inset-0 flex items-center justify-center z-10">
-              <ModernClock />
-            </div>
           </div>
 
           {/* RIGHT - Login panel */}

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Header from './Header';
 
 // Declare global objects
 declare global {
@@ -88,6 +87,16 @@ const StudentRegistration = () => {
       newErrors.username = 'Username is required';
     } else if (studentDetails.username.length < 4) {
       newErrors.username = 'Username must be at least 4 characters';
+    } else {
+      // Check if username looks like an email
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const hasEmailDomain = /\.(com|in|org|net|edu|gov|co|uk|us|ca|au|de|fr|jp|cn|br|ru|it|es|nl|se|no|dk|fi|pl|be|ch|at|nz|za|sg|hk|tw|kr|mx|ar|cl|pe|ve|ec|bo|py|uy|cr|pa|do|pr|gt|hn|ni|sv|bz|jm|tt|gd|lc|vc|bb|ag|kn|dm|ws|to|tv|fm|gg|je|im|ac|io|ai|sh|tc|vg|ky|bm|ms|pn|gs|fk|gi|mt|cy|mc|va|sm|li|ad|is|fo|gl|pm|bl|mf|sx|cw|aw|bq|gp|mq|re|yt|tf|wf|pf|nc|vu|sb|fj|ki|nr|pw|mh|mp|gu|as|um|pr|vi|cx|cc|nf|ck|nu|tk|tp|mn|kp|bd|bt|bn|kh|tl|mm|la|mv|np|pk|lk|af|am|az|bh|ge|ir|iq|il|jo|kw|kg|lb|om|qa|sa|sy|tj|tm|ae|uz|ye|dz|ao|bj|bw|bf|bi|cm|cv|cf|td|km|cg|cd|ci|dj|eg|gq|er|et|ga|gm|gh|gn|gw|ke|ls|lr|ly|mg|mw|ml|mr|mu|yt|ma|mz|na|ne|ng|rw|st|sn|sc|sl|so|ss|sd|sz|tz|tg|tn|ug|zm|zw)$/i;
+      
+      if (emailPattern.test(studentDetails.username)) {
+        newErrors.username = 'Username cannot be an email address. Please use a unique username instead.';
+      } else if (hasEmailDomain.test(studentDetails.username)) {
+        newErrors.username = 'Username cannot contain email domains like .com, .in, etc.';
+      }
     }
     if (!studentDetails.password.trim()) {
       newErrors.password = 'Password is required';
@@ -427,9 +436,7 @@ const StudentRegistration = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-200 via-blue-50 to-white text-gray-900">
-      <Header />
-      
-      <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+      <div className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
           {/* Header */}
           <motion.div
