@@ -210,14 +210,6 @@ const StudentLogin = () => {
               </div>
 
               <div className="mb-4">
-                <style>{`
-                  .google-login-wrapper > div,
-                  .google-login-wrapper > div > div,
-                  .google-login-wrapper iframe {
-                    width: 100% !important;
-                    max-width: 100% !important;
-                  }
-                `}</style>
                 <div className="google-login-wrapper w-full">
                   <GoogleLogin
                     onSuccess={handleGoogleSuccess}
