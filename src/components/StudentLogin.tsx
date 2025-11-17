@@ -224,7 +224,6 @@ const StudentLogin = () => {
                     onError={() => setError('Google login failed. Please try again.')}
                     useOneTap
                     size="large"
-                    width={400}
                     theme="outline"
                   />
                 </div>
