@@ -220,17 +220,14 @@ const StudentLogin = () => {
 
               {isGoogleReady && (
                 <div className="mb-4 w-full">
-                  <div className="w-full flex justify-center">
-                    <GoogleLogin
-                      onSuccess={handleGoogleSuccess}
-                      onError={() => setError('Google login failed. Please try again.')}
-                      width="384"
-                      size="large"
-                      theme="outline"
-                      text="continue_with"
-                      shape="rectangular"
-                    />
-                  </div>
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={() => setError('Google login failed. Please try again.')}
+                    size="large"
+                    theme="outline"
+                    text="continue_with"
+                    shape="rectangular"
+                  />
                 </div>
               )}
 
