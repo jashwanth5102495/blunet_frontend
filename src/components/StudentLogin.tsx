@@ -31,15 +31,25 @@ const StudentLogin = () => {
   // Calculate the container width for Google button
   useEffect(() => {
     const calculateWidth = () => {
-      const container = document.querySelector('.google-button-container');
-      if (container) {
-        const width = container.clientWidth;
+      // Get the width from the input fields instead of container
+      const inputField = document.querySelector('input[name="username"]') as HTMLElement;
+      if (inputField) {
+        const width = inputField.offsetWidth;
         setGoogleButtonWidth(width);
+      } else {
+        // Fallback to container width
+        const container = document.querySelector('.google-button-container');
+        if (container) {
+          const width = container.clientWidth;
+          setGoogleButtonWidth(width);
+        }
       }
     };
 
     if (isGoogleReady) {
-      calculateWidth();
+      // Wait longer to ensure DOM is fully rendered
+      setTimeout(calculateWidth, 200);
+      setTimeout(calculateWidth, 500);
       window.addEventListener('resize', calculateWidth);
       return () => window.removeEventListener('resize', calculateWidth);
     }
