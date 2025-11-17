@@ -922,36 +922,4 @@ active Background Animations */
 .animate-twinkle {
   animation: twinkle 2s ease-in-out infinite;
 }
-
-/* Google OAuth Button Full Width Fix */
-.google-login-wrapper {
-  width: 100% !important;
-  display: block !important;
-}
-
-.google-login-wrapper > div {
-  width: 100% !important;
-  display: block !important;
-}
-
-.google-login-wrapper > div > div {
-  width: 100% !important;
-  display: block !important;
-}
-
-.google-login-wrapper iframe {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 100% !important;
-}
-
-.google-login-wrapper button {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 100% !important;
-}
-
-/* Force all nested elements to be full width */
-.google-login-wrapper * {
-  max-width: 100% !important;
-}
+ 

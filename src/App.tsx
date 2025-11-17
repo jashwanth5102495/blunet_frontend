@@ -305,14 +305,8 @@ function AppInner() {
 }
 
 function App() {
-  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
-  
-  if (!googleClientId) {
-    console.error('Google Client ID is missing!');
-  }
-
   return (
-    <GoogleOAuthProvider clientId={googleClientId}>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || ''}>
       <ThemeProvider>
         <Router basename={import.meta.env.VITE_BASE_PATH || '/'}>
           <AppInner />
