@@ -922,4 +922,22 @@ active Background Animations */
 .animate-twinkle {
   animation: twinkle 2s ease-in-out infinite;
 }
- 
+
+/* Google OAuth Button Full Width Fix */
+.google-login-wrapper {
+  width: 100%;
+}
+
+.google-login-wrapper > div {
+  width: 100% !important;
+}
+
+.google-login-wrapper iframe {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.google-login-wrapper button {
+  width: 100% !important;
+  max-width: 100% !important;
+}
