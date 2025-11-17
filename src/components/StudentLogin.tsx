@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import FloatingLines from './FloatingLines';
 import ModernClock from './ModernClock';
 import { GoogleLogin } from '@react-oauth/google';
+import toast, { Toaster } from 'react-hot-toast';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
@@ -65,6 +66,10 @@ const StudentLogin = () => {
           rawText ||
           `Login failed (${response.status}).`;
         setError(errMsg);
+        toast.error(errMsg, {
+          duration: 4000,
+          position: 'top-center',
+        });
         return;
       }
 
@@ -75,10 +80,21 @@ const StudentLogin = () => {
       };
       localStorage.setItem('currentUser', JSON.stringify(userData));
       if (userData.token) localStorage.setItem('authToken', userData.token);
+      
+      toast.success('Login successful! Welcome back 👋', {
+        duration: 2000,
+        position: 'top-center',
+      });
+      
       navigate('/student-portal');
     } catch (err) {
       console.error('Login error:', err);
-      setError('Unable to connect to server. Please try again.');
+      const errorMsg = 'Unable to connect to server. Please try again.';
+      setError(errorMsg);
+      toast.error(errorMsg, {
+        duration: 4000,
+        position: 'top-center',
+      });
     } finally {
       setIsLoading(false);
     }
@@ -108,23 +124,40 @@ const StudentLogin = () => {
       if (!resp.ok || !data?.success) {
         const msg = data?.message || data?.error || 'Google login failed.';
         setError(msg);
+        toast.error(msg, {
+          duration: 4000,
+          position: 'top-center',
+        });
         setIsGoogleLoading(false);
         return;
       }
 
-      const { student, token, setupRequired } = data.data;
+      const { student, token, needsSetup } = data.data;
       const userData = { ...student, isAuthenticated: true, token };
       localStorage.setItem('currentUser', JSON.stringify(userData));
       if (token) localStorage.setItem('authToken', token);
 
-      if (setupRequired) {
+      // Use needsSetup from backend response, or fall back to student.setupRequired
+      const requiresSetup = needsSetup || student.setupRequired;
+      
+      toast.success('Google login successful! 🎉', {
+        duration: 2000,
+        position: 'top-center',
+      });
+      
+      if (requiresSetup) {
         navigate('/student-setup');
       } else {
         navigate('/student-portal');
       }
     } catch (e) {
       console.error('Google login error:', e);
-      setError('Unable to login with Google. Please try again.');
+      const errorMsg = 'Unable to login with Google. Please try again.';
+      setError(errorMsg);
+      toast.error(errorMsg, {
+        duration: 4000,
+        position: 'top-center',
+      });
     } finally {
       setIsGoogleLoading(false);
     }
@@ -132,6 +165,7 @@ const StudentLogin = () => {
 
   return (
     <div className="min-h-screen bg-black text-white">
+      <Toaster />
       <div>
         <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
 
@@ -159,14 +193,7 @@ const StudentLogin = () => {
               <div className="text-center mb-6">
                 <div className="text-2xl font-semibold tracking-[0.35em]">BLUNET</div>
                 <p className="text-xs text-gray-500 mt-3">
-                  Log in below or{' '}
-                  <button
-                    onClick={() => navigate('/student-registration')}
-                    className="text-gray-700 hover:text-black underline"
-                  >
-                    sign up
-                  </button>{' '}
-                  to create an account
+                  Welcome back! Please login to continue
                 </p>
               </div>
 
@@ -182,21 +209,12 @@ const StudentLogin = () => {
                 <p className="mt-2 text-xs">We appreciate your patience and understanding as we work to improve our platform.</p>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 mb-4">
-                <div className="flex items-center justify-center">
-                  <GoogleLogin
-                    onSuccess={handleGoogleSuccess}
-                    onError={() => setError('Google login failed. Please try again.')}
-                    useOneTap
-                  />
-                </div>
-
-                <button type="button" className="flex items-center justify-center gap-2 border border-gray-200 rounded-md py-2 hover:bg-gray-50">
-                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M22 12.06C22 6.5 17.52 2 11.94 2 6.36 2 2 6.5 2 12.06c0 4.98 3.64 9.1 8.4 9.96v-7.04H7.9v-2.92h2.5V9.9c0-2.5 1.48-3.86 3.76-3.86 1.1 0 2.24.2 2.24.2v2.48h-1.26c-1.24 0-1.62.78-1.62 1.58v1.9h2.76l-.44 2.92h-2.32V22c4.76-.86 8.44-4.98 8.44-9.94z" />
-                  </svg>
-                  <span className="text-sm">Facebook</span>
-                </button>
+              <div className="mb-4">
+                <GoogleLogin
+                  onSuccess={handleGoogleSuccess}
+                  onError={() => setError('Google login failed. Please try again.')}
+                  useOneTap
+                />
               </div>
 
               <div className="flex items-center gap-3 mb-4">
@@ -250,6 +268,19 @@ const StudentLogin = () => {
                 >
                   Forgot password?
                 </button>
+              </div>
+
+              {/* Sign Up Call-to-Action */}
+              <div className="mt-6 pt-6 border-t border-gray-200">
+                <p className="text-center text-sm text-gray-600">
+                  Don't have an account?{' '}
+                  <button
+                    onClick={() => navigate('/student-registration')}
+                    className="font-bold text-black hover:underline"
+                  >
+                    Sign up
+                  </button>
+                </p>
               </div>
 
             </div>
