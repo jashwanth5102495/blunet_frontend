@@ -27,6 +27,38 @@ const StudentLogin = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Force Google button to be full width after it loads
+  useEffect(() => {
+    if (isGoogleReady) {
+      const forceGoogleButtonWidth = () => {
+        const googleWrapper = document.querySelector('.google-login-wrapper');
+        if (googleWrapper) {
+          const iframe = googleWrapper.querySelector('iframe');
+          const divs = googleWrapper.querySelectorAll('div');
+          
+          // Force all elements to be full width
+          divs.forEach((div: any) => {
+            div.style.width = '100%';
+            div.style.maxWidth = '100%';
+            div.style.minWidth = '100%';
+          });
+          
+          if (iframe) {
+            (iframe as HTMLElement).style.width = '100%';
+            (iframe as HTMLElement).style.maxWidth = '100%';
+            (iframe as HTMLElement).style.minWidth = '100%';
+          }
+        }
+      };
+
+      // Run multiple times to override Google's resize
+      setTimeout(forceGoogleButtonWidth, 100);
+      setTimeout(forceGoogleButtonWidth, 300);
+      setTimeout(forceGoogleButtonWidth, 500);
+      setTimeout(forceGoogleButtonWidth, 1000);
+    }
+  }, [isGoogleReady]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLoginData(prev => ({
