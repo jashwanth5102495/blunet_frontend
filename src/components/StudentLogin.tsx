@@ -210,11 +210,15 @@ const StudentLogin = () => {
               </div>
 
               <div className="mb-4">
-                <GoogleLogin
-                  onSuccess={handleGoogleSuccess}
-                  onError={() => setError('Google login failed. Please try again.')}
-                  useOneTap
-                />
+                <div className="w-full [&>div]:w-full [&_button]:w-full [&_button]:h-[50px] [&_button]:justify-center">
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={() => setError('Google login failed. Please try again.')}
+                    useOneTap
+                    size="large"
+                    width="100%"
+                  />
+                </div>
               </div>
 
               <div className="flex items-center gap-3 mb-4">
