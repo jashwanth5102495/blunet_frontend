@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import FloatingLines from './FloatingLines';
+import toast, { Toaster } from 'react-hot-toast';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
@@ -168,6 +169,10 @@ const StudentSetup: React.FC = () => {
     e.preventDefault();
     
     if (!validate()) {
+      toast.error('Please fill in all required fields correctly', {
+        duration: 3000,
+        position: 'top-center',
+      });
       return;
     }
 
@@ -177,7 +182,12 @@ const StudentSetup: React.FC = () => {
     const stored = localStorage.getItem('currentUser');
     const token = localStorage.getItem('authToken');
     if (!stored || !token) {
-      setError('Not authenticated. Please login again.');
+      const errorMsg = 'Not authenticated. Please login again.';
+      setError(errorMsg);
+      toast.error(errorMsg, {
+        duration: 4000,
+        position: 'top-center',
+      });
       setIsSaving(false);
       return;
     }
@@ -186,7 +196,12 @@ const StudentSetup: React.FC = () => {
     try { user = JSON.parse(stored); } catch {}
     const id = user?._id || user?.id;
     if (!id) {
-      setError('Missing student id.');
+      const errorMsg = 'Missing student id.';
+      setError(errorMsg);
+      toast.error(errorMsg, {
+        duration: 4000,
+        position: 'top-center',
+      });
       setIsSaving(false);
       return;
     }
@@ -213,6 +228,10 @@ const StudentSetup: React.FC = () => {
       if (!resp.ok || !data?.success) {
         const msg = data?.message || data?.error || 'Could not save setup details.';
         setError(msg);
+        toast.error(msg, {
+          duration: 4000,
+          position: 'top-center',
+        });
         setIsSaving(false);
         return;
       }
@@ -221,169 +240,190 @@ const StudentSetup: React.FC = () => {
       const updatedUser = { ...user, ...data.data, isAuthenticated: true };
       localStorage.setItem('currentUser', JSON.stringify(updatedUser));
 
+      toast.success('Profile setup complete! Redirecting... 🎉', {
+        duration: 2000,
+        position: 'top-center',
+      });
+
       // Navigate to portal
-      navigate('/student-portal');
+      setTimeout(() => {
+        navigate('/student-portal');
+      }, 1000);
     } catch (err) {
       console.error('Setup save error:', err);
-      setError('Unable to save. Please try again.');
+      const errorMsg = 'Unable to save. Please try again.';
+      setError(errorMsg);
+      toast.error(errorMsg, {
+        duration: 4000,
+        position: 'top-center',
+      });
     } finally {
       setIsSaving(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-200 via-blue-50 to-white text-gray-900">
-      <div className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl mx-auto">
-          {/* Header */}
-          <motion.div
-            className="text-center mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900">Complete Your Profile</h1>
-            <p className="text-sm sm:text-base text-gray-500 mt-2">
-              Welcome{userInfo?.firstName ? `, ${userInfo.firstName}` : ''}! Please provide a few more details to complete your registration.
-            </p>
-          </motion.div>
+    <div className="min-h-screen bg-black text-white">
+      <Toaster />
+      <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
+        
+        {/* LEFT SIDE - FloatingLines Animation */}
+        <div className="relative hidden lg:block h-full">
+          <FloatingLines
+            enabledWaves={['top', 'middle', 'bottom']}
+            lineCount={[8, 12, 14]}
+            lineDistance={[10, 8, 6]}
+            bendRadius={5.0}
+            bendStrength={-0.4}
+            interactive={true}
+            parallax={true}
+            animationSpeed={0.8}
+          />
+          {/* Black overlay */}
+          <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-black/50 via-black/25 to-transparent" />
+        </div>
 
-          {/* User Info Display */}
-          {userInfo && (
-            <motion.div
-              className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-            >
-              <p className="text-sm text-gray-700">
-                <strong>Name:</strong> {userInfo.firstName} {userInfo.lastName}
+        {/* RIGHT SIDE - Setup Form */}
+        <div className="bg-white text-gray-900 flex items-center justify-center px-6 py-12 rounded-tl-3xl lg:rounded-none overflow-y-auto">
+          <div className="w-full max-w-md">
+            
+            {/* Header */}
+            <div className="text-center mb-6">
+              <div className="text-2xl font-semibold tracking-[0.35em]">BLUNET</div>
+              <p className="text-xs text-gray-500 mt-3">
+                Complete your profile to continue
               </p>
-              <p className="text-sm text-gray-700">
-                <strong>Email:</strong> {userInfo.email}
-              </p>
-            </motion.div>
-          )}
+            </div>
 
-          {/* Form */}
-          <motion.div
-            className="bg-white/60 backdrop-blur-xl border border-white/40 rounded-3xl p-6 sm:p-8 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.25)]"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <form onSubmit={onSubmit} className="space-y-6">
+            {/* User Info Display */}
+            {userInfo && (
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
+                <p className="text-sm text-gray-700">
+                  <strong>Name:</strong> {userInfo.firstName} {userInfo.lastName}
+                </p>
+                <p className="text-sm text-gray-700">
+                  <strong>Email:</strong> {userInfo.email}
+                </p>
+              </div>
+            )}
+
+            {/* Form */}
+            <form onSubmit={onSubmit} className="space-y-4">
               {/* Show username/email/password for LOCAL auth users ONLY */}
               {!isGoogleAuth && (
                 <>
                   {/* Username */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Username *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Username *</label>
                     <input
                       type="text"
                       name="username"
                       value={form.username || ''}
                       onChange={onChange}
-                      className={`w-full px-4 py-3 bg-white/80 border rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition-colors ${
-                        errors.username ? 'border-red-400 focus:border-red-400 focus:ring-red-200' : 'border-gray-200 focus:border-gray-300 focus:ring-black/10'
+                      className={`w-full px-4 py-3 bg-gray-100 border rounded-md ${
+                        errors.username ? 'border-red-400' : 'border-gray-200'
                       }`}
                       placeholder="Choose a username"
                     />
-                    {errors.username && <p className="mt-1 text-sm text-red-400">{errors.username}</p>}
+                    {errors.username && <p className="mt-1 text-sm text-red-600">{errors.username}</p>}
                   </div>
 
                   {/* Email */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
                     <input
                       type="email"
                       name="email"
                       value={form.email || ''}
                       onChange={onChange}
-                      className={`w-full px-4 py-3 bg-white/80 border rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition-colors ${
-                        errors.email ? 'border-red-400 focus:border-red-400 focus:ring-red-200' : 'border-gray-200 focus:border-gray-300 focus:ring-black/10'
+                      className={`w-full px-4 py-3 bg-gray-100 border rounded-md ${
+                        errors.email ? 'border-red-400' : 'border-gray-200'
                       }`}
                       placeholder="Enter your email"
                     />
-                    {errors.email && <p className="mt-1 text-sm text-red-400">{errors.email}</p>}
+                    {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
                   </div>
 
                   {/* Password */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Password *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Password *</label>
                     <input
                       type="password"
                       name="password"
                       value={form.password || ''}
                       onChange={onChange}
-                      className={`w-full px-4 py-3 bg-white/80 border rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition-colors ${
-                        errors.password ? 'border-red-400 focus:border-red-400 focus:ring-red-200' : 'border-gray-200 focus:border-gray-300 focus:ring-black/10'
+                      className={`w-full px-4 py-3 bg-gray-100 border rounded-md ${
+                        errors.password ? 'border-red-400' : 'border-gray-200'
                       }`}
                       placeholder="Create a password"
                     />
-                    {errors.password && <p className="mt-1 text-sm text-red-400">{errors.password}</p>}
+                    {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
                   </div>
 
                   {/* Confirm Password */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password *</label>
                     <input
                       type="password"
                       name="confirmPassword"
                       value={form.confirmPassword || ''}
                       onChange={onChange}
-                      className={`w-full px-4 py-3 bg-white/80 border rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition-colors ${
-                        errors.confirmPassword ? 'border-red-400 focus:border-red-400 focus:ring-red-200' : 'border-gray-200 focus:border-gray-300 focus:ring-black/10'
+                      className={`w-full px-4 py-3 bg-gray-100 border rounded-md ${
+                        errors.confirmPassword ? 'border-red-400' : 'border-gray-200'
                       }`}
                       placeholder="Confirm your password"
                     />
-                    {errors.confirmPassword && <p className="mt-1 text-sm text-red-400">{errors.confirmPassword}</p>}
+                    {errors.confirmPassword && <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>}
                   </div>
 
-                  <hr className="my-6 border-gray-200" />
+                  <div className="flex items-center gap-3 my-4">
+                    <div className="h-px flex-1 bg-gray-200"></div>
+                    <span className="text-xs text-gray-500">Additional Information</span>
+                    <div className="h-px flex-1 bg-gray-200"></div>
+                  </div>
                 </>
               )}
 
               {/* Phone */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
                 <input
                   type="tel"
                   name="phone"
                   value={form.phone}
                   onChange={onChange}
-                  className={`w-full px-4 py-3 bg-white/80 border rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition-colors ${
-                    errors.phone ? 'border-red-400 focus:border-red-400 focus:ring-red-200' : 'border-gray-200 focus:border-gray-300 focus:ring-black/10'
+                  className={`w-full px-4 py-3 bg-gray-100 border rounded-md ${
+                    errors.phone ? 'border-red-400' : 'border-gray-200'
                   }`}
                   placeholder="Enter your phone number"
                 />
-                {errors.phone && <p className="mt-1 text-sm text-red-400">{errors.phone}</p>}
+                {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone}</p>}
               </div>
 
               {/* Date of Birth */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth *</label>
                 <input
                   type="date"
                   name="dateOfBirth"
                   value={form.dateOfBirth}
                   onChange={onChange}
-                  className={`w-full px-4 py-3 bg-white/80 border rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 transition-colors ${
-                    errors.dateOfBirth ? 'border-red-400 focus:border-red-400 focus:ring-red-200' : 'border-gray-200 focus:border-gray-300 focus:ring-black/10'
+                  className={`w-full px-4 py-3 bg-gray-100 border rounded-md ${
+                    errors.dateOfBirth ? 'border-red-400' : 'border-gray-200'
                   }`}
                 />
-                {errors.dateOfBirth && <p className="mt-1 text-sm text-red-400">{errors.dateOfBirth}</p>}
+                {errors.dateOfBirth && <p className="mt-1 text-sm text-red-600">{errors.dateOfBirth}</p>}
               </div>
 
               {/* Education */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Education Level *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Education Level *</label>
                 <select
                   name="education"
                   value={form.education}
                   onChange={onChange}
-                  className={`w-full px-4 py-3 bg-white/80 border rounded-xl text-gray-900 focus:outline-none focus:ring-2 transition-colors ${
-                    errors.education ? 'border-red-400 focus:border-red-400 focus:ring-red-200' : 'border-gray-200 focus:border-gray-300 focus:ring-black/10'
+                  className={`w-full px-4 py-3 bg-gray-100 border rounded-md ${
+                    errors.education ? 'border-red-400' : 'border-gray-200'
                   }`}
                 >
                   <option value="">Select your education level</option>
@@ -394,17 +434,17 @@ const StudentSetup: React.FC = () => {
                   <option value="phd">PhD</option>
                   <option value="other">Other</option>
                 </select>
-                {errors.education && <p className="mt-1 text-sm text-red-400">{errors.education}</p>}
+                {errors.education && <p className="mt-1 text-sm text-red-600">{errors.education}</p>}
               </div>
 
               {/* Experience */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Experience Level</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Experience Level</label>
                 <select
                   name="experience"
                   value={form.experience}
                   onChange={onChange}
-                  className="w-full px-4 py-3 bg-white/80 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-gray-300 transition-colors"
+                  className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-md"
                 >
                   <option value="beginner">Beginner (0-1 years)</option>
                   <option value="intermediate">Intermediate (1-3 years)</option>
@@ -412,75 +452,79 @@ const StudentSetup: React.FC = () => {
                 </select>
               </div>
 
-              {/* Address Fields */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900">Address (Optional)</h3>
-                
-                <input
-                  type="text"
-                  name="address.street"
-                  value={form.address.street}
-                  onChange={onChange}
-                  placeholder="Street Address"
-                  className="w-full px-4 py-3 bg-white/80 border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-gray-300 transition-colors"
-                />
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    name="address.city"
-                    value={form.address.city}
-                    onChange={onChange}
-                    placeholder="City"
-                    className="w-full px-4 py-3 bg-white/80 border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-gray-300 transition-colors"
-                  />
-                  <input
-                    type="text"
-                    name="address.state"
-                    value={form.address.state}
-                    onChange={onChange}
-                    placeholder="State"
-                    className="w-full px-4 py-3 bg-white/80 border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-gray-300 transition-colors"
-                  />
+              {/* Address Section - Collapsible */}
+              <div className="pt-4">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="h-px flex-1 bg-gray-200"></div>
+                  <span className="text-xs text-gray-500">Address (Optional)</span>
+                  <div className="h-px flex-1 bg-gray-200"></div>
                 </div>
+                
+                <div className="space-y-3">
+                  <input
+                    type="text"
+                    name="address.street"
+                    value={form.address.street}
+                    onChange={onChange}
+                    placeholder="Street Address"
+                    className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-md"
+                  />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    name="address.zipCode"
-                    value={form.address.zipCode}
-                    onChange={onChange}
-                    placeholder="ZIP Code"
-                    className="w-full px-4 py-3 bg-white/80 border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-gray-300 transition-colors"
-                  />
-                  <input
-                    type="text"
-                    name="address.country"
-                    value={form.address.country}
-                    onChange={onChange}
-                    placeholder="Country"
-                    className="w-full px-4 py-3 bg-white/80 border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-gray-300 transition-colors"
-                  />
+                  <div className="grid grid-cols-2 gap-3">
+                    <input
+                      type="text"
+                      name="address.city"
+                      value={form.address.city}
+                      onChange={onChange}
+                      placeholder="City"
+                      className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-md"
+                    />
+                    <input
+                      type="text"
+                      name="address.state"
+                      value={form.address.state}
+                      onChange={onChange}
+                      placeholder="State"
+                      className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-md"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <input
+                      type="text"
+                      name="address.zipCode"
+                      value={form.address.zipCode}
+                      onChange={onChange}
+                      placeholder="ZIP Code"
+                      className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-md"
+                    />
+                    <input
+                      type="text"
+                      name="address.country"
+                      value={form.address.country}
+                      onChange={onChange}
+                      placeholder="Country"
+                      className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-md"
+                    />
+                  </div>
                 </div>
               </div>
 
               {error && (
-                <div className="p-3 bg-red-100 border border-red-200 text-red-600 text-sm rounded-md">
+                <div className="mt-3 p-3 bg-red-100 border border-red-200 text-red-600 text-sm rounded-md">
                   {error}
                 </div>
               )}
 
-              <motion.button
+              <button
                 type="submit"
                 disabled={isSaving}
-                className="w-full px-8 py-3 rounded-xl bg-gradient-to-b from-gray-900 to-gray-700 text-white font-semibold hover:from-gray-800 hover:to-gray-600 transition-all duration-300 shadow-[0_10px_25px_-10px_rgba(0,0,0,0.35)] disabled:opacity-50"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                className="w-full mt-4 bg-black text-white py-3 rounded-md font-medium hover:bg-gray-900 disabled:opacity-60 transition-colors"
               >
                 {isSaving ? 'Saving...' : 'Complete Setup'}
-              </motion.button>
+              </button>
             </form>
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>
