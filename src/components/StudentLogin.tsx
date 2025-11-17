@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import FloatingLines from './FloatingLines';
@@ -10,6 +10,7 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
 const StudentLogin = () => {
   const navigate = useNavigate();
+  const [isGoogleReady, setIsGoogleReady] = useState(false);
   const [loginData, setLoginData] = useState({
     username: '',
     password: ''
@@ -17,6 +18,14 @@ const StudentLogin = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
+  // Ensure Google OAuth is ready before rendering the button
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsGoogleReady(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -209,13 +218,21 @@ const StudentLogin = () => {
                 <p className="mt-2 text-xs">We appreciate your patience and understanding as we work to improve our platform.</p>
               </div>
 
-              <div className="mb-4">
-                <GoogleLogin
-                  onSuccess={handleGoogleSuccess}
-                  onError={() => setError('Google login failed. Please try again.')}
-                  useOneTap
-                />
-              </div>
+              {isGoogleReady && (
+                <div className="mb-4 w-full">
+                  <div className="w-full flex justify-center">
+                    <GoogleLogin
+                      onSuccess={handleGoogleSuccess}
+                      onError={() => setError('Google login failed. Please try again.')}
+                      width="384"
+                      size="large"
+                      theme="outline"
+                      text="continue_with"
+                      shape="rectangular"
+                    />
+                  </div>
+                </div>
+              )}
 
               <div className="flex items-center gap-3 mb-4">
                 <div className="h-px flex-1 bg-gray-200"></div>
