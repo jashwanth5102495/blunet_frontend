@@ -210,13 +210,22 @@ const StudentLogin = () => {
               </div>
 
               <div className="mb-4">
-                <div className="w-full [&>div]:w-full [&_button]:w-full [&_button]:h-[50px] [&_button]:justify-center">
+                <style>{`
+                  .google-login-wrapper > div,
+                  .google-login-wrapper > div > div,
+                  .google-login-wrapper iframe {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                  }
+                `}</style>
+                <div className="google-login-wrapper w-full">
                   <GoogleLogin
                     onSuccess={handleGoogleSuccess}
                     onError={() => setError('Google login failed. Please try again.')}
                     useOneTap
                     size="large"
-                    width="100%"
+                    width={400}
+                    theme="outline"
                   />
                 </div>
               </div>
