@@ -11,6 +11,7 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 const StudentLogin = () => {
   const navigate = useNavigate();
   const [isGoogleReady, setIsGoogleReady] = useState(false);
+  const [googleButtonWidth, setGoogleButtonWidth] = useState(400);
   const [loginData, setLoginData] = useState({
     username: '',
     password: ''
@@ -27,35 +28,20 @@ const StudentLogin = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Force Google button to be full width after it loads
+  // Calculate the container width for Google button
   useEffect(() => {
-    if (isGoogleReady) {
-      const forceGoogleButtonWidth = () => {
-        const googleWrapper = document.querySelector('.google-login-wrapper');
-        if (googleWrapper) {
-          const iframe = googleWrapper.querySelector('iframe');
-          const divs = googleWrapper.querySelectorAll('div');
-          
-          // Force all elements to be full width
-          divs.forEach((div: any) => {
-            div.style.width = '100%';
-            div.style.maxWidth = '100%';
-            div.style.minWidth = '100%';
-          });
-          
-          if (iframe) {
-            (iframe as HTMLElement).style.width = '100%';
-            (iframe as HTMLElement).style.maxWidth = '100%';
-            (iframe as HTMLElement).style.minWidth = '100%';
-          }
-        }
-      };
+    const calculateWidth = () => {
+      const container = document.querySelector('.google-button-container');
+      if (container) {
+        const width = container.clientWidth;
+        setGoogleButtonWidth(width);
+      }
+    };
 
-      // Run multiple times to override Google's resize
-      setTimeout(forceGoogleButtonWidth, 100);
-      setTimeout(forceGoogleButtonWidth, 300);
-      setTimeout(forceGoogleButtonWidth, 500);
-      setTimeout(forceGoogleButtonWidth, 1000);
+    if (isGoogleReady) {
+      calculateWidth();
+      window.addEventListener('resize', calculateWidth);
+      return () => window.removeEventListener('resize', calculateWidth);
     }
   }, [isGoogleReady]);
 
@@ -251,17 +237,16 @@ const StudentLogin = () => {
               </div>
 
               {isGoogleReady && (
-                <div className="mb-4 w-full">
-                  <div className="google-login-wrapper">
-                    <GoogleLogin
-                      onSuccess={handleGoogleSuccess}
-                      onError={() => setError('Google login failed. Please try again.')}
-                      size="large"
-                      theme="outline"
-                      text="continue_with"
-                      shape="rectangular"
-                    />
-                  </div>
+                <div className="mb-4 w-full google-button-container">
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={() => setError('Google login failed. Please try again.')}
+                    width={googleButtonWidth.toString()}
+                    size="large"
+                    theme="outline"
+                    text="continue_with"
+                    shape="rectangular"
+                  />
                 </div>
               )}
 
