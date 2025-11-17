@@ -273,7 +273,7 @@ function AppInner() {
           <Route path="/frontend-development-intermediate/module/:slug" element={<><Header hideDock={true} /><ModuleComingSoon /></>} />
           <Route path="/course-enrollment/:courseId" element={<CourseEnrollment />} />
           <Route path="/student-registration" element={<StudentRegistration />} />
-          <Route path="/student-login" element={<><Header /><StudentLogin /></>} />
+          <Route path="/student-login" element={<StudentLogin />} />
           <Route path="/student-setup" element={<StudentSetup />} />
           <Route path="/student-portal" element={<StudentPortal />} />
           <Route path="/creator-portal" element={<><Header /><CreatorPortal /></>} />
