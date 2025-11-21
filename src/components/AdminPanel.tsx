@@ -193,6 +193,7 @@ const AdminPanel: React.FC = () => {
   const [activeCredentialsStudent, setActiveCredentialsStudent] = useState<Student | null>(null);
   // View toggle for Student Courses
   const [courseView, setCourseView] = useState<'all' | 'completed'>('all');
+  const [studentLayout, setStudentLayout] = useState<'table' | 'cards'>('table');
   // Certificate Upload States & Handlers
   const [certificateFileMap, setCertificateFileMap] = useState<{[key:string]: File | null}>({});
   const [certificateUploading, setCertificateUploading] = useState<{[key:string]: boolean}>({});
@@ -1577,6 +1578,23 @@ const AdminPanel: React.FC = () => {
               >
                 Completed Students
               </button>
+              <div className="ml-auto flex items-center space-x-2">
+                <span className="text-white/60 text-sm">Layout</span>
+                <button
+                  onClick={() => setStudentLayout('table')}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium ${studentLayout === 'table' ? 'bg-blue-600 text-white' : 'bg-black/30 text-white/80 border border-white/10'}`}
+                  title="Show students in a compact table"
+                >
+                  Table
+                </button>
+                <button
+                  onClick={() => setStudentLayout('cards')}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium ${studentLayout === 'cards' ? 'bg-blue-600 text-white' : 'bg-black/30 text-white/80 border border-white/10'}`}
+                  title="Show students as larger cards"
+                >
+                  Cards
+                </button>
+              </div>
             </div>
 
             {courseView === 'completed' && (
@@ -1804,7 +1822,50 @@ const AdminPanel: React.FC = () => {
                   </div>
                 ) : null}
 
-                <div className="space-y-6">
+                {/* Table layout */}
+                {studentLayout === 'table' && (
+                  <div className="overflow-x-auto rounded-lg border border-white/10 mb-6">
+                    <table className="min-w-full text-sm">
+                      <thead>
+                        <tr className="text-white/70">
+                          <th className="px-4 py-3 text-left">Name</th>
+                          <th className="px-4 py-3 text-left">Email</th>
+                          <th className="px-4 py-3 text-left">Student ID</th>
+                          <th className="px-4 py-3 text-left">Joined</th>
+                          <th className="px-4 py-3 text-left">Enrolled</th>
+                          <th className="px-4 py-3 text-left">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-white/10">
+                        {(activeTab === 'courses' && courseView === 'completed' ? paginatedStudents.filter(s => (s.enrolledCourses || []).some(isEnrollmentFullyCompleted)) : paginatedStudents).map(student => (
+                          <tr key={student._id} className="text-white">
+                            <td className="px-4 py-3">
+                              <button className="text-white hover:text-blue-400 font-medium" onClick={() => handleStudentClick(student)}>
+                                {student.firstName} {student.lastName}
+                              </button>
+                              {student.referralCode && (
+                                <span className="ml-2 px-2 py-1 bg-orange-500/20 text-orange-300 rounded-full text-xs align-middle">Ref: {student.referralCode}</span>
+                              )}
+                            </td>
+                            <td className="px-4 py-3 text-white/80">{student.email}</td>
+                            <td className="px-4 py-3 text-white/60 font-mono">{student.studentId}</td>
+                            <td className="px-4 py-3">{new Date(student.createdAt).toLocaleDateString()}</td>
+                            <td className="px-4 py-3">{student.enrolledCourses?.length || 0}</td>
+                            <td className="px-4 py-3">
+                              <div className="flex items-center gap-2">
+                                <button onClick={() => openStudentCredentials(student)} className="px-2 py-1 bg-gray-600 hover:bg-gray-700 text-white text-xs rounded" title="Show Student Credentials">Info</button>
+                                <button onClick={() => handleDeleteStudent(student)} className="px-2 py-1 bg-red-600 hover:bg-red-700 text-white text-xs rounded" title="Delete Student">Delete</button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+
+                {/* Card layout (hidden when table selected) */}
+                <div className={studentLayout === 'cards' ? 'space-y-6' : 'hidden'}>
                 {(activeTab === 'courses' && courseView === 'completed' ? paginatedStudents.filter(s => (s.enrolledCourses || []).some(isEnrollmentFullyCompleted)) : paginatedStudents).map(student => (
                   <div key={student._id} className="bg-white/5 rounded-lg p-6 border border-white/10">
                     {/* Student Header */}
