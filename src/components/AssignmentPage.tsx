@@ -45,6 +45,8 @@ interface Topic {
   content: string;
   examples?: string[];
   syntax?: string;
+  explanation?: string;
+  id?: string; // fallback id from backend topics
 }
 
 interface Assignment {
@@ -120,7 +122,9 @@ const AssignmentPage = () => {
         if (result.success) {
           setAssignment(result.data);
           if (result.data.topics && result.data.topics.length > 0) {
-            setSelectedTopic(result.data.topics[0].topicId);
+            const first = result.data.topics[0];
+            const tid = first.topicId || first.id || first.title;
+            setSelectedTopic(tid);
           }
         } else {
           throw new Error(result.message || 'Assignment not found');
@@ -293,7 +297,18 @@ const AssignmentPage = () => {
     }));
   };
 
-  const selectedTopicData = assignment?.topics.find(topic => topic.topicId === selectedTopic);
+  const selectedTopicData = assignment?.topics.find(topic => (topic.topicId || topic.id || topic.title) === selectedTopic);
+
+  // Auto-expand Explanation when available for the selected topic
+  React.useEffect(() => {
+    if (selectedTopicData?.explanation) {
+      const key = `explanation-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`;
+      setExpandedSections(prev => ({
+        ...prev,
+        [key]: prev[key] ?? true,
+      }));
+    }
+  }, [selectedTopic, selectedTopicData?.explanation]);
 
   if (loading) {
     return (
@@ -481,15 +496,15 @@ const AssignmentPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
               {/* Topic Sidebar */}
               <div className="lg:col-span-1">
-                <div className="bg-gray-900/80 backdrop-blur-sm rounded-xl border border-gray-800 p-4 sticky top-24">
+                <div className="bg-gray-900/80 backdrop-blur-sm rounded-xl border border-gray-800 p-4 sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
                   <h3 className="text-white font-semibold mb-4">Topics</h3>
                   <div className="space-y-2">
                     {assignment.topics.map((topic) => (
                       <button
-                        key={topic.topicId}
-                        onClick={() => setSelectedTopic(topic.topicId)}
+                        key={topic.topicId || topic.id || topic.title}
+                        onClick={() => setSelectedTopic(topic.topicId || topic.id || topic.title)}
                         className={`w-full text-left px-4 py-3 rounded-lg transition-all ${
-                          selectedTopic === topic.topicId
+                          selectedTopic === (topic.topicId || topic.id || topic.title)
                             ? 'bg-blue-600 text-white'
                             : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
                         }`}
@@ -516,21 +531,70 @@ const AssignmentPage = () => {
                       </div>
                     </div>
 
-                    {/* Syntax */}
-                    {selectedTopicData.syntax && (
+                    {/* Explanation */}
+                    {selectedTopicData.explanation && (
                       <div className="mb-6">
                         <button
-                          onClick={() => toggleSection(`syntax-${selectedTopicData.topicId}`)}
+                          onClick={() => toggleSection(`explanation-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`)}
                           className="w-full flex items-center justify-between bg-gray-800 px-4 py-3 rounded-lg hover:bg-gray-700 transition-colors mb-2"
                         >
-                          <span className="text-white font-medium">Syntax</span>
-                          {expandedSections[`syntax-${selectedTopicData.topicId}`] ? (
+                          <span className="text-white font-medium">Explanation</span>
+                          {expandedSections[`explanation-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`] ? (
                             <ChevronDownIcon className="w-5 h-5 text-gray-400" />
                           ) : (
                             <ChevronRightIcon className="w-5 h-5 text-gray-400" />
                           )}
                         </button>
-                        {expandedSections[`syntax-${selectedTopicData.topicId}`] && (
+                        {expandedSections[`explanation-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`] && (
+                          <div className="bg-gray-800 p-4 rounded-lg">
+                            <p className="text-sm text-gray-300 whitespace-pre-line">{selectedTopicData.explanation}</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    {/* Topic navigation */}
+                    <div className="flex items-center justify-between mt-4">
+                      {(() => {
+                        const idx = assignment.topics.findIndex(t => (t.topicId || t.id || t.title) === selectedTopic);
+                        const prev = idx > 0 ? assignment.topics[idx - 1] : null;
+                        const next = idx >= 0 && idx < assignment.topics.length - 1 ? assignment.topics[idx + 1] : null;
+                        const prevId = prev && (prev.topicId || prev.id || prev.title);
+                        const nextId = next && (next.topicId || next.id || next.title);
+                        return (
+                          <>
+                            <button
+                              disabled={!prev}
+                              onClick={() => prevId && setSelectedTopic(prevId)}
+                              className={`px-4 py-2 rounded-lg ${prev ? 'bg-gray-800 hover:bg-gray-700 text-white' : 'bg-gray-700 text-gray-400 cursor-not-allowed'}`}
+                            >
+                              ← Previous
+                            </button>
+                            <button
+                              disabled={!next}
+                              onClick={() => nextId && setSelectedTopic(nextId)}
+                              className={`px-4 py-2 rounded-lg ${next ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-gray-700 text-gray-400 cursor-not-allowed'}`}
+                            >
+                              Next →
+                            </button>
+                          </>
+                        );
+                      })()}
+                    </div>
+                    {/* Syntax */}
+                    {selectedTopicData.syntax && (
+                      <div className="mb-6">
+                        <button
+                          onClick={() => toggleSection(`syntax-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`)}
+                          className="w-full flex items-center justify-between bg-gray-800 px-4 py-3 rounded-lg hover:bg-gray-700 transition-colors mb-2"
+                        >
+                          <span className="text-white font-medium">Syntax</span>
+                          {expandedSections[`syntax-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`] ? (
+                            <ChevronDownIcon className="w-5 h-5 text-gray-400" />
+                          ) : (
+                            <ChevronRightIcon className="w-5 h-5 text-gray-400" />
+                          )}
+                        </button>
+                        {expandedSections[`syntax-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`] && (
                           <div className="bg-gray-800 p-4 rounded-lg">
                             <pre className="text-sm text-green-400 overflow-x-auto">
                               <code>{selectedTopicData.syntax}</code>
@@ -544,17 +608,17 @@ const AssignmentPage = () => {
                     {selectedTopicData.examples && selectedTopicData.examples.length > 0 && (
                       <div>
                         <button
-                          onClick={() => toggleSection(`examples-${selectedTopicData.topicId}`)}
+                          onClick={() => toggleSection(`examples-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`)}
                           className="w-full flex items-center justify-between bg-gray-800 px-4 py-3 rounded-lg hover:bg-gray-700 transition-colors mb-2"
                         >
                           <span className="text-white font-medium">Examples</span>
-                          {expandedSections[`examples-${selectedTopicData.topicId}`] ? (
+                          {expandedSections[`examples-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`] ? (
                             <ChevronDownIcon className="w-5 h-5 text-gray-400" />
                           ) : (
                             <ChevronRightIcon className="w-5 h-5 text-gray-400" />
                           )}
                         </button>
-                        {expandedSections[`examples-${selectedTopicData.topicId}`] && (
+                        {expandedSections[`examples-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`] && (
                           <div className="space-y-4">
                             {selectedTopicData.examples.map((example, index) => (
                               <div key={index} className="bg-gray-800 p-4 rounded-lg">

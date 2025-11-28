@@ -128,14 +128,9 @@ const SecureAdminPanel: React.FC = () => {
     // Simulate processing time to prevent timing attacks
     await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
 
-    // Validate credentials locally first
-    const localValid = sanitizedUserId === CORRECT_USER_ID && sanitizedPassword === CORRECT_PASSWORD;
-
-    if (!localValid) {
-      recordFailedAttempt();
-      setError('Invalid credentials. Please check your User ID and Password.');
-      setUserId('');
-      setPassword('');
+    // Skip local credential check — rely on backend auth
+    if (!sanitizedUserId || !sanitizedPassword) {
+      setError('Please enter both User ID and Password.');
       setIsLoading(false);
       return;
     }

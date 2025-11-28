@@ -131,9 +131,21 @@ interface Faculty {
   createdAt: string;
 }
 
+// Active Users row type
+interface ActiveUserRow {
+  studentMongoId: string;
+  studentId: string;
+  name: string;
+  email: string;
+  username?: string;
+  totalTimeSpent: number; // minutes
+  lastActivityAt: string;
+  isActiveSession: boolean;
+}
+
 const AdminPanel: React.FC = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'projects' | 'courses' | 'payments' | 'referral' | 'faculty'>('projects');
+  const [activeTab, setActiveTab] = useState<'projects' | 'courses' | 'payments' | 'referral' | 'faculty' | 'activeUsers'>('projects');
   const [projects, setProjects] = useState<Project[]>([]);
   const [students, setStudents] = useState<Student[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
@@ -198,6 +210,57 @@ const AdminPanel: React.FC = () => {
   const [certificateFileMap, setCertificateFileMap] = useState<{[key:string]: File | null}>({});
   const [certificateUploading, setCertificateUploading] = useState<{[key:string]: boolean}>({});
   const [certificateMessages, setCertificateMessages] = useState<{[key:string]: string}>({});
+
+  // Active Users state and helpers
+  const [activeUsersData, setActiveUsersData] = useState<{ activeCount: number; users: ActiveUserRow[]; windowMinutes: number }>({ activeCount: 0, users: [], windowMinutes: 10 });
+  const [activeUsersLoading, setActiveUsersLoading] = useState(false);
+  const [activeUsersError, setActiveUsersError] = useState<string | null>(null);
+
+  const fetchActiveUsers = async (windowMinutes: number = 10) => {
+    try {
+      setActiveUsersLoading(true);
+      setActiveUsersError(null);
+
+      const token = sessionStorage.getItem('admin_auth_token');
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      const resp = await fetch(`${BASE_URL}/api/analytics/active-users?windowMinutes=${windowMinutes}`, {
+        method: 'GET',
+        headers
+      });
+
+      if (!resp.ok) {
+        if (resp.status === 401 || resp.status === 403) {
+          throw new Error('Unauthorized. Please log in again.');
+        }
+        throw new Error(`Failed to load active users (${resp.status})`);
+      }
+
+      const result = await resp.json();
+      const data = result?.data || { activeCount: 0, users: [], windowMinutes };
+      setActiveUsersData({ activeCount: data.activeCount || 0, users: data.users || [], windowMinutes: data.windowMinutes || windowMinutes });
+    } catch (e: any) {
+      console.error('Error fetching active users:', e);
+      setActiveUsersError(e?.message || 'Failed to load active users');
+    } finally {
+      setActiveUsersLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'activeUsers') {
+      fetchActiveUsers(activeUsersData.windowMinutes);
+    }
+  }, [activeTab]);
+
+  const formatMinutes = (m: number) => {
+    const hours = Math.floor((m || 0) / 60);
+    const mins = Math.round((m || 0) % 60);
+    return `${hours}h ${mins}m`;
+  };
 
   const handleCertificateFileChange = (studentId: string, file: File | null) => {
     setCertificateFileMap(prev => ({ ...prev, [studentId]: file || null }));
@@ -1156,6 +1219,18 @@ const AdminPanel: React.FC = () => {
             <span className="text-xl">🤝</span>
             <span>Faculty & Referral</span>
           </button>
+
+          <button
+            onClick={() => setActiveTab('activeUsers')}
+            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
+              activeTab === 'activeUsers'
+                ? 'bg-blue-600 text-white shadow-lg'
+                : 'text-gray-400 hover:text-white hover:bg-white/10'
+            }`}
+          >
+            <span className="text-xl">👥</span>
+            <span>Active Users</span>
+          </button>
         </nav>
 
         {/* Footer */}
@@ -1180,12 +1255,14 @@ const AdminPanel: React.FC = () => {
                 {activeTab === 'courses' && '🎓 Student Courses'}
                 {activeTab === 'payments' && '💳 Payment Records'}
                 {activeTab === 'referral' && '🤝 Faculty & Referral System'}
+                {activeTab === 'activeUsers' && '👥 Active Users'}
               </h2>
               <p className="text-white/70 mt-1">
                 {activeTab === 'projects' && 'Manage and track all client projects'}
                 {activeTab === 'courses' && 'Monitor student progress and assignments'}
                 {activeTab === 'payments' && 'View payment history and transactions'}
                 {activeTab === 'referral' && 'Track referral codes and commission earnings'}
+                {activeTab === 'activeUsers' && 'Live active students and engagement time overview'}
               </p>
             </div>
           </div>
@@ -1193,6 +1270,83 @@ const AdminPanel: React.FC = () => {
 
         {/* Content Area */}
         <div className="flex-1 p-6 overflow-auto">
+          {activeTab === 'activeUsers' && (
+            <div className="space-y-6">
+              <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-xl font-bold">Live Active Students</h3>
+                    <p className="text-white/60 text-sm">Window: last {activeUsersData.windowMinutes} minutes</p>
+                  </div>
+                  <div className="text-3xl font-extrabold">{activeUsersLoading ? '…' : activeUsersData.activeCount}</div>
+                </div>
+                {activeUsersError && (
+                  <p className="mt-3 text-red-400 text-sm">{activeUsersError}</p>
+                )}
+                <div className="mt-4 flex items-center gap-3">
+                  <label className="text-white/70 text-sm">Window</label>
+                  <select
+                    className="bg-black/30 border border-white/10 rounded px-2 py-1 text-sm"
+                    value={activeUsersData.windowMinutes}
+                    onChange={(e) => fetchActiveUsers(parseInt(e.target.value || '10', 10))}
+                  >
+                    <option value={5}>Last 5m</option>
+                    <option value={10}>Last 10m</option>
+                    <option value={15}>Last 15m</option>
+                    <option value={30}>Last 30m</option>
+                  </select>
+                  <button
+                    onClick={() => fetchActiveUsers(activeUsersData.windowMinutes)}
+                    className="px-3 py-2 bg-white/10 hover:bg-white/20 rounded-lg"
+                    title="Refresh Active Users"
+                  >
+                    Refresh
+                  </button>
+                </div>
+              </div>
+
+              <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-bold">All Users Engagement</h3>
+                  <div className="text-white/60 text-sm">Sorted by total time spent</div>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="min-w-full table-auto">
+                    <thead>
+                      <tr className="text-left text-white/70 text-sm">
+                        <th className="px-4 py-2">Name</th>
+                        <th className="px-4 py-2">Email</th>
+                        <th className="px-4 py-2">Username</th>
+                        <th className="px-4 py-2">Student ID</th>
+                        <th className="px-4 py-2">Total Time</th>
+                        <th className="px-4 py-2">Last Activity</th>
+                        <th className="px-4 py-2">Session Active</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/10">
+                      {activeUsersLoading ? (
+                        <tr><td className="px-4 py-3 text-white/60" colSpan={7}>Loading…</td></tr>
+                      ) : activeUsersData.users.length === 0 ? (
+                        <tr><td className="px-4 py-3 text-white/60" colSpan={7}>No user activity found</td></tr>
+                      ) : (
+                        activeUsersData.users.map((u) => (
+                          <tr key={u.studentMongoId} className="text-white">
+                            <td className="px-4 py-3">{u.name}</td>
+                            <td className="px-4 py-3 text-white/80">{u.email}</td>
+                            <td className="px-4 py-3 text-white/80">{u.username || '-'}</td>
+                            <td className="px-4 py-3 text-white/60 font-mono">{u.studentId}</td>
+                            <td className="px-4 py-3">{formatMinutes(u.totalTimeSpent)}</td>
+                            <td className="px-4 py-3 text-white/60">{u.lastActivityAt ? new Date(u.lastActivityAt).toLocaleString() : '-'}</td>
+                            <td className="px-4 py-3">{u.isActiveSession ? 'Yes' : 'No'}</td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
         {activeTab === 'projects' && (
           <>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -1833,6 +1987,7 @@ const AdminPanel: React.FC = () => {
                           <th className="px-4 py-3 text-left">Student ID</th>
                           <th className="px-4 py-3 text-left">Joined</th>
                           <th className="px-4 py-3 text-left">Enrolled</th>
+                          <th className="px-4 py-3 text-left">Payments</th>
                           <th className="px-4 py-3 text-left">Actions</th>
                         </tr>
                       </thead>
@@ -1851,6 +2006,52 @@ const AdminPanel: React.FC = () => {
                             <td className="px-4 py-3 text-white/60 font-mono">{student.studentId}</td>
                             <td className="px-4 py-3">{new Date(student.createdAt).toLocaleDateString()}</td>
                             <td className="px-4 py-3">{student.enrolledCourses?.length || 0}</td>
+                            <td className="px-4 py-3">
+                              {(() => {
+                                const studentPayments = getStudentPayments(student._id);
+                                const primaryEnrollmentCourseIdSafe = (() => {
+                                  const enr = (student.enrolledCourses && student.enrolledCourses[0]) || null;
+                                  if (!enr) return null;
+                                  return typeof enr.courseId === 'object' ? (enr.courseId?._id || null) : (typeof enr.courseId === 'string' ? enr.courseId : null);
+                                })();
+                                const coursePayment = studentPayments.find(p => (p.courseId?._id && primaryEnrollmentCourseIdSafe && p.courseId._id === primaryEnrollmentCourseIdSafe)) || studentPayments[0];
+                                const safeCourseId = primaryEnrollmentCourseIdSafe || (coursePayment?.courseId?._id || 'unknownCourse');
+                                const paymentId = coursePayment?.paymentId || `new_payment_${student._id}_${safeCourseId}`;
+                                const changeKey = `${student._id}-${paymentId}`;
+                                const pendingChange = pendingPaymentChanges[changeKey];
+                                const isSaving = savingPayments[changeKey];
+                                const currentStatus = pendingChange ? pendingChange.newStatus : (coursePayment?.confirmationStatus || 'pending');
+                                return (
+                                  <div className="flex items-center space-x-2">
+                                    <select
+                                      value={currentStatus}
+                                      onChange={(e) => {
+                                        if (!safeCourseId || safeCourseId === 'unknownCourse') {
+                                          alert('Course ID missing for this student; expand cards view to manage.');
+                                          return;
+                                        }
+                                        handlePaymentStatusUpdate(student._id, paymentId, e.target.value, safeCourseId);
+                                      }}
+                                      className="bg-black/50 border border-white/20 rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-blue-500"
+                                    >
+                                      <option value="pending">Pending</option>
+                                      <option value="error">Error</option>
+                                      <option value="confirmed">Confirmed</option>
+                                    </select>
+                                    {pendingChange ? (
+                                      <button
+                                        onClick={() => savePaymentStatusChange(changeKey)}
+                                        disabled={isSaving}
+                                        className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 text-white px-2 py-1 rounded text-xs font-medium transition-colors"
+                                        title="Save payment status change"
+                                      >
+                                        {isSaving ? 'Saving...' : 'Save'}
+                                      </button>
+                                    ) : null}
+                                  </div>
+                                );
+                              })()}
+                            </td>
                             <td className="px-4 py-3">
                               <div className="flex items-center gap-2">
                                 <button onClick={() => openStudentCredentials(student)} className="px-2 py-1 bg-gray-600 hover:bg-gray-700 text-white text-xs rounded" title="Show Student Credentials">Info</button>

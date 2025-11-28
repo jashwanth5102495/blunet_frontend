@@ -98,6 +98,7 @@ const Courses = () => {
         }
       ]
     },
+
     {
       id: 'FRONTEND-BEGINNER',
       title: 'Frontend Development - Beginner',
@@ -300,6 +301,795 @@ const Courses = () => {
           topics: ['Security Integration', 'Compliance', 'Multi-Cloud Strategies', 'Team Scaling']
         }
       ]
+    },
+    {
+      id: 'NETWORKING-BEGINNER',
+      title: 'Networking - Beginner',
+      category: 'networking',
+      level: 'beginner',
+      description: 'Build a strong foundation in computer networks, protocols, network devices, and hands-on tools like Cisco Packet Tracer, Nmap, and Wireshark.',
+      technologies: ['Cisco Packet Tracer', 'Nmap', 'Wireshark', 'Firewalls', 'Routers & Switches', 'Network Troubleshooting Tools'],
+      price: 1500,
+      duration: '8 weeks',
+      projects: 4,
+      modules: [
+        {
+          title: 'Networking Fundamentals',
+          duration: '2 weeks',
+          topics: [
+            'OSI Model (All 7 Layers)',
+            'TCP/IP Model',
+            'IP Addressing (IPv4 & IPv6)',
+            'TCP vs UDP',
+            'MAC Address, ARP, DNS, DHCP',
+            'Basic Protocols (HTTP, HTTPS, FTP, SMTP)',
+            'Network Topologies & Architecture',
+            'Concept of LAN, WAN, MAN, PAN'
+          ]
+        },
+        {
+          title: 'Cisco Packet Tracer – Network Building',
+          duration: '2 weeks',
+          topics: [
+            'Installation & Setup',
+            'Creating Your First Network',
+            'Configuring Routers & Switches',
+            'Assigning IP Addresses',
+            'Building LAN & WAN Structures',
+            'Simulating Real-Time Network Traffic',
+            'Creating Your Own Mini-Lab'
+          ]
+        },
+        {
+          title: 'Nmap – Network Scanning Basics',
+          duration: '1 week',
+          topics: [
+            'Introduction to Network Scanning',
+            'Port Scanning & Host Discovery',
+            'Nmap Commands',
+            'Scanning Techniques (SYN Scan, UDP Scan)',
+            'Detecting Services & OS Fingerprinting'
+          ]
+        },
+        {
+          title: 'Wireshark – Packet Analysis',
+          duration: '1 week',
+          topics: [
+            'Introduction to Packet Capturing',
+            'Understanding Frames, Packets & Segments',
+            'Traffic Filtering',
+            'Analyzing TCP/UDP Traffic',
+            'Detecting Network Issues with Wireshark'
+          ]
+        },
+        {
+          title: 'Networking Troubleshooting',
+          duration: '1 week',
+          topics: [
+            'Common Network Problems',
+            'Ping, Traceroute, Netstat, ipconfig',
+            'Connectivity Issues',
+            'Diagnosing DNS & Routing Problems',
+            'Tools and Best Practices for Troubleshooting'
+          ]
+        },
+        {
+          title: 'Network Devices & Firewalls',
+          duration: '1 week',
+          topics: [
+            'Routers, Switches, Access Points',
+            'Modems, Hubs, Repeaters, Bridges',
+            'Introduction to Firewalls',
+            'Types of Firewalls',
+            'Basic Firewall Rules & Configuration',
+            'Overview of Network Security Devices'
+          ]
+        }
+      ],
+      image: 'https://images.pexels.com/photos/1054397/pexels-photo-1054397.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop',
+      rating: 4.7,
+      students: 12542,
+      maxStudents: 20000,
+      instructor: 'Alex Carter'
+    },
+    {
+      id: 'NETWORKING-INTERMEDIATE',
+      title: 'Networking - Intermediate',
+      category: 'networking',
+      level: 'intermediate',
+      description: 'Master advanced networking skills using Linux-based tools, server configuration, routing, switching, monitoring, and real-world network automation workflows.',
+      technologies: [
+        'Linux Networking', 'SSH', 'Netcat (nc)', 'Netstat / ss', 'tcpdump', 'Traceroute / MTR',
+        'iptables / ufw / firewalld', 'OpenVPN / WireGuard', 'Nagios / Zabbix', 'SNMP',
+        'Bonding & VLANs', 'Routing Protocols (OSPF/BGP basics)'
+      ],
+      price: 2200,
+      duration: '10 weeks',
+      projects: 6,
+      modules: [
+        {
+          title: 'Linux Networking Fundamentals (Advanced)',
+          duration: '2 weeks',
+          topics: [
+            'Linux network configuration (ifconfig, ip, nmcli)',
+            'Understanding network interfaces, links, routes',
+            'Static & dynamic routing in Linux',
+            'Host files, resolv.conf, DNS configuration',
+            'Socket programming basics (theory)',
+            'SSH, SCP, and secure remote access',
+            'Network namespaces & virtual interfaces'
+          ]
+        },
+        {
+          title: 'Advanced Network Scanning & Analysis Tools',
+          duration: '2 weeks',
+          topics: [
+            'Deep-dive into Nmap scripting engine (NSE)',
+            'Masscan for high-speed scanning',
+            'Netcat (nc) for port listening & banner grabbing',
+            'tcpdump advanced packet capture',
+            'ss & netstat for connection tracking',
+            'Scanning services, OS fingerprinting, version detection',
+            'Real-world enumeration workflows'
+          ]
+        },
+        {
+          title: 'Linux-Based Firewall & Security Devices',
+          duration: '2 weeks',
+          topics: [
+            'iptables deep configuration',
+            'NAT, DNAT, SNAT, MASQUERADE rules',
+            'firewalld zones, policies, and rich rules',
+            'ufw for simplified firewall management',
+            'Intro to pfSense (overview)',
+            'Configuring port forwarding, blocking, filtering',
+            'Linux as a router + firewall combo'
+          ]
+        },
+        {
+          title: 'VPNs, Tunneling & Secure Communications',
+          duration: '1.5 weeks',
+          topics: [
+            'OpenVPN setup (server + client)',
+            'WireGuard VPN configuration',
+            'SSH tunneling & port forwarding',
+            'SOCKS proxy with SSH',
+            'GRE tunnels',
+            'IPsec fundamentals',
+            'Secure remote access for enterprise networks'
+          ]
+        },
+        {
+          title: 'Network Monitoring, Logging & Performance Tools',
+          duration: '1.5 weeks',
+          topics: [
+            'SNMP setup on Linux',
+            'Nagios monitoring',
+            'Zabbix installation & alerts',
+            'Syslog management & rotation',
+            'iftop, htop, bmon, nload for bandwidth monitoring',
+            'MTR & traceroute advanced usage',
+            'Network baseline creation and anomaly detection'
+          ]
+        },
+        {
+          title: 'Routing, Switching & VLANs in Linux',
+          duration: '1 week',
+          topics: [
+            'Linux as a router',
+            'Routing tables & policy-based routing',
+            'VLAN creation with vconfig / ip link',
+            'Bonding & link aggregation (LACP)',
+            'Bridging interfaces',
+            'DHCP server setup (dnsmasq / isc-dhcp)',
+            'Mini enterprise network creation in Linux'
+          ]
+        }
+      ],
+      image: 'https://images.pexels.com/photos/2881232/pexels-photo-2881232.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop',
+      rating: 4.6,
+      students: 9431,
+      maxStudents: 20000,
+      instructor: 'Nina Patel'
+    },
+    {
+      id: 'NETWORKING-ADVANCED',
+      title: 'Networking – Advanced (CCNA Certification Track)',
+      category: 'networking',
+      level: 'advanced',
+      description: 'Master enterprise networking, routing, switching, automation, and security to fully prepare for Cisco CCNA 200-301. Real-world Packet Tracer labs and CLI tasks throughout.',
+      technologies: [
+        'Cisco IOS CLI',
+        'Cisco Packet Tracer',
+        'GNS3 / EVE-NG (Intro)',
+        'IPv4 & IPv6 Routing',
+        'Static Routing',
+        'RIP',
+        'OSPF',
+        'Inter-VLAN Routing',
+        'NAT',
+        'DHCP',
+        'DNS',
+        'SNMP',
+        'ACLs (Standard & Extended)',
+        'STP',
+        'Port Security',
+        'EtherChannel',
+        'Wireless LAN Fundamentals',
+        'Network Security Devices',
+        'REST APIs',
+        'Python for Networking Automation'
+      ],
+      price: 3000,
+      duration: '12 weeks',
+      projects: 10,
+      modules: [
+        {
+          title: 'CCNA Introduction & Exam Orientation',
+          duration: '0.5 week',
+          topics: [
+            'What is CCNA 200-301',
+            'Exam Topics Breakdown',
+            'Role of a Network Engineer',
+            'Understanding Cisco IOS',
+            'How to prepare for the exam',
+            'How to practice labs (Packet Tracer & GNS3)'
+          ]
+        },
+        {
+          title: 'Network Fundamentals (20%)',
+          duration: '1.5 weeks',
+          topics: [
+            'IPv4 & IPv6 Addressing',
+            'Subnetting & VLSM',
+            'Cabling Types (UTP, Fiber, Coaxial)',
+            'Switching Concepts',
+            'Routing Concepts',
+            'Collision/Broadcast/Collision Domains',
+            'Bandwidth, Latency, Throughput',
+            'Interface & Cable Issues',
+            'Basic Cisco IOS Configuration'
+          ]
+        },
+        {
+          title: 'Network Access (20%)',
+          duration: '2 weeks',
+          topics: [
+            'Switch Operations',
+            'MAC Address Table',
+            'VLANs & Trunking',
+            '802.1Q Tagging',
+            'Inter-VLAN Routing',
+            'STP (Spanning Tree Protocol)',
+            'Port Security',
+            'EtherChannel',
+            'Labs: VLAN Setup',
+            'Labs: Trunk Configuration',
+            'Labs: STP Behavior',
+            'Labs: Port Security Setup'
+          ]
+        },
+        {
+          title: 'IP Connectivity (25%)',
+          duration: '2 weeks',
+          topics: [
+            'Static Routing',
+            'Default Routes',
+            'OSPF (Single Area)',
+            'First-Hop Redundancy Concepts',
+            'Router Selection Process',
+            'ECMP Routing',
+            'Routing Table Lookup',
+            'IPv6 Routing',
+            'Labs: Static Routing',
+            'Labs: OSPF Configuration',
+            'Labs: Default Routes',
+            'Labs: IPv6 Routing'
+          ]
+        },
+        {
+          title: 'IP Services (10%)',
+          duration: '1 week',
+          topics: [
+            'NAT, PAT',
+            'DHCP, DNS',
+            'SNMP Functions',
+            'Syslog',
+            'QoS Basics',
+            'TFTP/FTP Services',
+            'Labs: NAT/PAT Setup',
+            'Labs: DHCP Server Config',
+            'Labs: Syslog Logging'
+          ]
+        },
+        {
+          title: 'Security Fundamentals (15%)',
+          duration: '1.5 weeks',
+          topics: [
+            'AAA Concepts',
+            'WPA/WPA2 Security',
+            'Secure Administration (SSH)',
+            'Device Hardening',
+            'Access Lists (Standard & Extended ACLs)',
+            'VPN Fundamentals',
+            'Firewall Basics',
+            'Labs: ACL Filtering',
+            'Labs: SSH Device Hardening'
+          ]
+        },
+        {
+          title: 'Wireless Networking (CCNA Wireless Basics)',
+          duration: '1 week',
+          topics: [
+            'Wireless Standards (802.11)',
+            'Frequencies & Channels',
+            'WLC vs Autonomous AP',
+            'SSID, Authentication, Encryption',
+            'Wireless Troubleshooting'
+          ]
+        },
+        {
+          title: 'WAN Technologies',
+          duration: '1 week',
+          topics: [
+            'VPN Concepts (IPsec)',
+            'GRE Tunnels',
+            'Metro Ethernet',
+            'MPLS (overview)',
+            'WAN Architecture'
+          ]
+        },
+        {
+          title: 'Automation & Programmability (10%)',
+          duration: '1 week',
+          topics: [
+            'SDN Concepts',
+            'REST APIs',
+            'JSON & YAML',
+            'Cisco DNA Center Basics',
+            'Controller vs Distributed Networks',
+            'Python Basics for Networking',
+            'Automation Workflows',
+            'Labs: Simple Python Interface Info',
+            'Labs: REST API Example'
+          ]
+        },
+        {
+          title: 'Full CCNA Lab + Final Exam Simulation',
+          duration: '1 week',
+          topics: [
+            'Complete Enterprise Network Setup',
+            'Router & Switch Configuration',
+            'OSPF + VLANs + ACLs + NAT',
+            'Wireless + DHCP + Syslog',
+            'Troubleshooting Scenarios',
+            'CCNA-Level Final Exam (Mock Test)'
+          ]
+        }
+      ],
+      image: 'https://images.pexels.com/photos/1054397/pexels-photo-1054397.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop',
+      rating: 4.9,
+      students: 11984,
+      maxStudents: 20000,
+      instructor: 'Marco Ruiz'
+    },
+    {
+      id: 'GENAI-BEGINNER',
+      title: "Generative AI (Understanding and Building LLM's) - Beginner Level",
+      category: 'ai',
+      level: 'beginner',
+      description: 'Intro to LLMs, prompt engineering, embeddings, and transformer basics. Build a simple chat assistant.',
+      technologies: ['Python', 'OpenAI API', 'Hugging Face', 'Transformers', 'Embeddings', 'LangChain', 'LlamaIndex', 'FastAPI', 'Streamlit'],
+      price: 1800,
+      duration: '8 weeks',
+      projects: 3,
+      modules: [
+        { title: 'Foundations of Generative AI', duration: '1 week', topics: ['Generative models', 'LLMs overview', 'Use cases'] },
+        { title: 'Transformers at a Glance', duration: '1 week', topics: ['Attention', 'Tokens', 'Embeddings'] },
+        { title: 'Prompt Engineering Basics', duration: '2 weeks', topics: ['Prompt design', 'Chain-of-thought', 'System prompts'] },
+        { title: 'APIs and Tooling', duration: '2 weeks', topics: ['OpenAI API', 'Hugging Face', 'LangChain'] },
+        { title: 'Retrieval and Embeddings', duration: '1 week', topics: ['Vector stores', 'FAISS', 'Semantic search'] },
+        { title: 'Mini Project: Chat Assistant', duration: '1 week', topics: ['Streamlit UI', 'FastAPI backend', 'Evaluation'] }
+      ],
+      image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop',
+      rating: 4.7,
+      students: 4820,
+      maxStudents: 20000,
+      instructor: 'Ayesha Khan'
+    },
+    {
+      id: 'GENAI-INTERMEDIATE',
+      title: "Generative AI (Understanding and Building LLM's) - Intermediate Level",
+      category: 'ai',
+      level: 'intermediate',
+      description: 'RAG systems, fine-tuning (LoRA/PEFT), tokenization, evaluation, and guardrails. Build production-grade apps.',
+      technologies: ['PyTorch', 'HuggingFace Transformers', 'Datasets', 'Tokenizers', 'LangChain', 'Vector DB (FAISS/Pinecone)', 'FastAPI', 'Docker', 'Weights & Biases', 'LoRA / PEFT'],
+      price: 2400,
+      duration: '10 weeks',
+      projects: 5,
+      modules: [
+        { title: 'Tokenization & Datasets', duration: '1 week', topics: ['Subword tokenizers', 'HF Datasets', 'Preprocessing'] },
+        { title: 'RAG Architecture', duration: '2 weeks', topics: ['Indexing', 'Query pipelines', 'Context windows'] },
+        { title: 'Fine-tuning with LoRA/PEFT', duration: '2 weeks', topics: ['Adapters', 'Training loops', 'Evaluation'] },
+        { title: 'Guardrails & Safety', duration: '1 week', topics: ['Prompt safety', 'Content filters', 'OpenAI policies'] },
+        { title: 'Observability & Experiment Tracking', duration: '1 week', topics: ['W&B', 'Metrics', 'A/B tests'] },
+        { title: 'Packaging & Deployment', duration: '2 weeks', topics: ['Docker', 'FastAPI', 'CI/CD'] }
+      ],
+      image: 'https://images.pexels.com/photos/3861959/pexels-photo-3861959.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop',
+      rating: 4.8,
+      students: 7210,
+      maxStudents: 20000,
+      instructor: 'Rahul Mehta'
+    },
+    {
+      id: 'GENAI-ADVANCED',
+      title: "Generative AI (Understanding and Building LLM's) - Advanced Level",
+      category: 'ai',
+      level: 'advanced',
+      description: 'Pretraining, RLHF/DPO, distributed training, quantization, and MLOps for scaling LLMs.',
+      technologies: ['PyTorch', 'DeepSpeed', 'FSDP', 'PEFT', 'BitsAndBytes', 'RLHF (PPO/DPO)', 'GGUF/GPTQ', 'Kubernetes', 'Ray', 'Monitoring (Prometheus/W&B)'],
+      price: 3500,
+      duration: '12 weeks',
+      projects: 8,
+      modules: [
+        { title: 'LLM Pretraining Fundamentals', duration: '1 week', topics: ['Objective functions', 'Data pipelines', 'Scaling laws'] },
+        { title: 'Distributed Training', duration: '2 weeks', topics: ['FSDP', 'DeepSpeed', 'Sharding'] },
+        { title: 'Quantization & Inference', duration: '2 weeks', topics: ['BitsAndBytes', 'GGUF/GPTQ', 'Serving'] },
+        { title: 'RLHF & DPO', duration: '2 weeks', topics: ['Reward modeling', 'PPO', 'DPO'] },
+        { title: 'Evaluation & Alignment', duration: '1 week', topics: ['Benchmarks', 'Hallucination tests', 'Safety checks'] },
+        { title: 'MLOps for LLMs', duration: '2 weeks', topics: ['Kubernetes', 'Ray', 'Monitoring'] },
+        { title: 'Capstone: Fine-tuned LLM Service', duration: '2 weeks', topics: ['Data curation', 'Training', 'API serving'] }
+      ],
+      image: 'https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop',
+      rating: 4.9,
+      students: 3920,
+      maxStudents: 20000,
+      instructor: 'Dr. Elena Novikova'
+    },
+    {
+      id: 'CYBER-SECURITY-BEGINNER',
+      title: 'Cyber Security - Beginner',
+      category: 'cyber',
+      level: 'beginner',
+      description: 'Start your cybersecurity journey by understanding core security concepts, operating systems, ethical tools, network analysis, firewalls, and foundational attack techniques.',
+      technologies: ['Linux', 'Windows', 'Kali Linux', 'Parrot OS', 'Nmap', 'Wireshark', 'Gobuster', 'BloodHound', 'Firewalls', 'IDS/IPS', 'Encryption'],
+      price: 1600,
+      duration: '8 weeks',
+      projects: 6,
+      modules: [
+        {
+          title: 'Module 1: Cyber Security Fundamentals',
+          duration: '2 weeks',
+          topics: [
+            'What is Cyber Security?',
+            'CIA Triad (Confidentiality, Integrity, Availability)',
+            'Threats, Vulnerabilities, and Risks',
+            'Malware Types (Virus, Worm, Trojan, Ransomware)',
+            'Security Policies & Best Practices',
+            'Authentication vs Authorization',
+            'Encryption Basics (Symmetric & Asymmetric)',
+            'Hashing, Salting & Password Security',
+            'Introduction to Ethical Hacking & Cyber Kill Chain'
+          ]
+        },
+        {
+          title: 'Module 2: Operating Systems for Cyber Security',
+          duration: '2 weeks',
+          topics: [
+            'Windows OS Basics for Security',
+            'Linux OS Basics (Directories & File Permissions)',
+            'Kali Linux Overview and Use Cases',
+            'Parrot Security OS Overview',
+            'Raspberry Pi for Security Projects',
+            'Flipper Zero – What It Is & Use Cases',
+            'Essential Linux Commands (cd, ls, pwd, chmod, chown, mv, cp, rm)',
+            'Package Management (apt, apt-get)',
+            'SSH Basics & Creating SSH Keys'
+          ]
+        },
+        {
+          title: 'Module 3: Networking Tools – Nmap & Wireshark',
+          duration: '1 week',
+          topics: [
+            'Introduction to Network Scanning',
+            'Host Discovery',
+            'Port Scanning Techniques',
+            'Nmap Basic Commands',
+            'OS Fingerprinting (Nmap)',
+            'Introduction to Wireshark',
+            'Packet Capturing Techniques',
+            'Filtering Traffic in Wireshark',
+            'Basic TCP/UDP Analysis'
+          ]
+        },
+        {
+          title: 'Module 4: Enumeration Tools – Nmap, Gobuster & BloodHound',
+          duration: '1 week',
+          topics: [
+            'Nmap Service Enumeration',
+            'Nmap Script Scanning (NSE Introduction)',
+            'Understanding Web Enumeration',
+            'Gobuster Directory Bruteforcing',
+            'Gobuster DNS Enumeration',
+            'Active Directory Basics',
+            'What is BloodHound?',
+            'Mapping AD Relationships with BloodHound',
+            'Privilege Escalation Concepts'
+          ]
+        },
+        {
+          title: 'Module 5: Firewalls & Network Protection',
+          duration: '1 week',
+          topics: [
+            'What is a Firewall?',
+            'Packet Filtering Firewalls',
+            'Stateful & Stateless Firewalls',
+            'Application-Level Firewalls',
+            'IDS vs IPS',
+            'Proxy Servers',
+            'NAT & Port Forwarding Basics',
+            'Basic Firewall Rules & Policies',
+            'Real-world Firewall Use Cases'
+          ]
+        },
+        {
+          title: 'Module 6: Cyber Attacks & Security Certifications Introduction',
+          duration: '1 week',
+          topics: [
+            'Phishing Attacks',
+            'Brute-Force & Password Attacks',
+            'Man-in-the-Middle Attacks',
+            'Social Engineering Basics',
+            'Denial-of-Service (DoS) Attacks',
+            'SQL Injection Basics',
+            'XSS (Cross-Site Scripting) Basics',
+            'Malware Delivery Techniques',
+            'Introduction to Certifications (CompTIA Security+, A+, Network+, CEH, OSCP, CC, etc.)'
+          ]
+        }
+      ],
+      image: 'https://images.pexels.com/photos/5380643/pexels-photo-5380643.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop',
+      rating: 4.7,
+      students: 12842,
+      maxStudents: 20000,
+      instructor: 'Rachel Kim'
+    },
+    {
+      id: 'CYBER-SECURITY-INTERMEDIATE',
+      title: 'Cyber Security - Intermediate',
+      category: 'cyber',
+      level: 'intermediate',
+      description: "Master advanced hacking methodologies, virus creation concepts, password cracking, backdoors, SQL injection, social engineering, phishing, cloud & IoT attacks, post-exploitation, reporting, and tool analysis.",
+      technologies: ['Kali Linux', 'John the Ripper', 'Hydra', 'Hashcat', 'CeWL', 'Medusa', 'Netcat', 'msfvenom', 'Meterpreter', 'SQLMap', 'SET', 'Metasploit', 'Python', 'Bash', 'GitHub'],
+      price: 2400,
+      duration: '10 weeks',
+      projects: 12,
+      modules: [
+        { title: 'Module 1: Viruses & Malware Engineering', duration: '1 week', topics: [
+          'What is a Computer Virus?',
+          'Worms vs Viruses',
+          'Trojans & RATs',
+          'File Infectors',
+          'Macro & Script-based Viruses',
+          'Boot Sector Viruses',
+          'Polymorphic & Metamorphic Viruses',
+          'Ransomware Fundamentals',
+          'How AI Can Generate a Virus (Ethical Demonstration)'
+        ]},
+        { title: 'Module 2: Password Cracking in Kali Linux', duration: '1 week', topics: [
+          'Introduction to Password Cracking',
+          'John the Ripper Basics',
+          'John the Ripper Wordlist Attacks',
+          'Introduction to Hydra',
+          'Password Cracking with Hydra (SSH, FTP, HTTP)',
+          'Hashcat Basics & GPU Cracking',
+          'CeWL – Wordlist Generator',
+          'Medusa – Parallel Bruteforce Tool',
+          'Ethical Use of Password Cracking Tools'
+        ]},
+        { title: 'Module 3: Backdoors & Persistence', duration: '1 week', topics: [
+          'What is a Backdoor?',
+          'Remote Access Trojans (RATs)',
+          'Bind Shells vs Reverse Shells',
+          'Netcat Backdoor Techniques',
+          'msfvenom Payload Creation',
+          'Meterpreter Backdoor Sessions',
+          'Persistence Mechanisms in Linux',
+          'Persistence Techniques in Windows',
+          'How to Create a Backdoor (Ethical Demo)'
+        ]},
+        { title: 'Module 4: SQL Injection & Bug Bounty Introduction', duration: '1 week', topics: [
+          'What is SQL Injection?',
+          'Types of SQL Injection (Union, Blind, Error-Based)',
+          'SQLMap Tool Basics',
+          'Manual SQL Injection Testing',
+          'Database Fingerprinting',
+          'Bypassing Login Panels',
+          'Extracting Data via SQLi',
+          'Preventing SQL Injection',
+          'What is Bug Bounty Hunting?'
+        ]},
+        { title: 'Module 5: Social Engineering Attacks', duration: '1 week', topics: [
+          'Introduction to Social Engineering',
+          'Pretexting Techniques',
+          'Impersonation Attacks',
+          'Physical Social Engineering Attacks',
+          'Tailgating & Dumpster Diving',
+          'Social Engineering Toolkits (SET)',
+          'Methods of Influence',
+          'Psychological Manipulation Techniques',
+          'Summary & Real-World Examples'
+        ]},
+        { title: 'Module 6: Everything About Phishing Attacks', duration: '1 week', topics: [
+          'What is Phishing?',
+          'Email Phishing Attacks',
+          'Spear Phishing',
+          'Whaling Attacks',
+          'Clone Phishing',
+          'SMS Phishing (Smishing)',
+          'Voice Phishing (Vishing)',
+          'Phishing Toolkits & Frameworks',
+          'Real-World Case Study'
+        ]},
+        { title: 'Module 7: Cloud, Mobile & IoT Security', duration: '1 week', topics: [
+          'Introduction to Cloud & IoT Threats',
+          'Cloud Attack Vectors',
+          'Vulnerabilities in Cloud Platforms',
+          'Attacking Containers & Virtual Machines',
+          'Mobile OS Vulnerabilities (Android/iOS)',
+          'IoT Device Exploitation Basics',
+          'Common Attacks on Specialized Systems',
+          'Securing Cloud & IoT',
+          'Summary'
+        ]},
+        { title: 'Module 8: Post-Exploitation Techniques', duration: '1 week', topics: [
+          'Introduction to Post-Exploitation',
+          'Privilege Escalation Basics',
+          'Creating Foothold in a System',
+          'Maintaining Persistence',
+          'Lateral Movement Techniques',
+          'Tokens & Credential Dumping',
+          'Detection Avoidance Techniques',
+          'Internal Network Enumeration',
+          'Summary'
+        ]},
+        { title: 'Module 9: Reporting & Communication in Cyber Security', duration: '1 week', topics: [
+          'Introduction to Security Reporting',
+          'Components of a Good Penetration Testing Report',
+          'Writing Executive Summaries',
+          'Documenting Vulnerabilities & Evidence',
+          'Remediation Recommendations',
+          'Communication with Clients During Pentesting',
+          'Report Delivery Best Practices',
+          'Ethics & Confidentiality',
+          'Summary'
+        ]},
+        { title: 'Module 10: Tools & Code Analysis', duration: '1 week', topics: [
+          'Introduction to Scripting for Cyber Security',
+          'Understanding Python & Bash Basics',
+          'Analyzing Exploit Code',
+          'Common Automation Scripts for Pentesting',
+          'Working with GitHub Exploits',
+          'Using Metasploit Modules',
+          'Static vs Dynamic Code Analysis',
+          'Identifying Malicious Code Patterns',
+          'Summary'
+        ]}
+      ],
+      image: 'https://images.pexels.com/photos/5380642/pexels-photo-5380642.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop',
+      rating: 4.8,
+      students: 9560,
+      maxStudents: 20000,
+      instructor: 'Omar Hassan'
+    },
+    {
+      id: 'CYBER-SECURITY-ADVANCED',
+      title: 'Cyber Security - Advanced',
+      category: 'cyber',
+      level: 'advanced',
+      description: 'Master OS, networking, IAM, crypto, hardening, ethical hacking, IR/forensics, cloud, and full Security+/A+ prep with hands-on labs.',
+      technologies: ['OS Internals', 'Networking', 'IAM', 'Cryptography', 'Endpoint Hardening', 'Ethical Hacking', 'Incident Response', 'Forensics', 'Cloud Security', 'Virtualization'],
+      price: 3200,
+      duration: '12 weeks',
+      projects: 6,
+      modules: [
+        { title: 'Module 1: Operating System Mastery for Security & IT', duration: '1 week', topics: [
+          'Windows OS Architecture',
+          'Linux Internals (Advanced)',
+          'File systems: NTFS, FAT32, ext4, XFS',
+          'System logs & auditing',
+          'OS hardening techniques',
+          'Boot process & troubleshooting (BIOS/UEFI)',
+          'Disk partitioning, imaging & recovery',
+          'Hands-On: Windows Admin Tools, systemctl/journalctl, diskpart/gparted, chroot, fsck, dd'
+        ]},
+        { title: 'Module 2: Networking Mastery for Cybersecurity', duration: '1 week', topics: [
+          'Advanced TCP/IP operations',
+          'VLANs, Subnets, Routing protocols',
+          'Firewalls, NAT, Port Forwarding',
+          'Wireless security standards',
+          'VPNs (IPSec, OpenVPN, WireGuard)',
+          'Network Troubleshooting (A+ Core)',
+          'Hands-On: Packet Tracer/GNS3, Wireshark, tcpdump',
+          'Hands-On: iptables, ufw, traceroute, mtr, nmap, OpenVPN/WireGuard'
+        ]},
+        { title: 'Module 3: Hardware & Device Security (A+ Core Coverage)', duration: '1 week', topics: [
+          'Computer hardware components',
+          'Peripherals, printers, IoT devices',
+          'Storage devices & RAID',
+          'Mobile device security',
+          'BIOS/UEFI security',
+          'Safe disposal & data protection',
+          'Hands-On: Memtest86, CrystalDiskInfo, SMART monitoring, BIOS security configuration'
+        ]},
+        { title: 'Module 4: Identity, Access & Authentication', duration: '1 week', topics: [
+          'AAA: Authentication, Authorization, Accounting',
+          'MFA, RBAC, ABAC, DAC/MAC',
+          'SSO & federated identity',
+          'Credential management & password policies',
+          'Biometrics & zero-trust',
+          'Hands-On: FreeIPA, Active Directory, OpenLDAP, SSH key management, Vault'
+        ]},
+        { title: 'Module 5: Cryptography & Secure Communications', duration: '1 week', topics: [
+          'Symmetric / Asymmetric encryption',
+          'TLS/SSL, HTTPS',
+          'Hashing, Salting',
+          'Digital certificates & PKI',
+          'VPN cryptography',
+          'Cryptographic attacks',
+          'Hands-On: OpenSSL, GPG, Hashcat, Wireshark TLS decryption, CA setup'
+        ]},
+        { title: 'Module 6: Endpoint Security & System Hardening', duration: '1 week', topics: [
+          'Endpoint protection, EDR/XDR basics',
+          'Host firewalls',
+          'Application whitelisting',
+          'Patch management',
+          'Secure configurations (CIS Benchmarks)',
+          'Malware analysis fundamentals',
+          'Hands-On: ClamAV, Rkhunter, chkrootkit, Sysinternals, OSQuery, Lynis'
+        ]},
+        { title: 'Module 7: Ethical Hacking & Penetration Testing', duration: '1 week', topics: [
+          'Reconnaissance',
+          'Scanning & enumeration',
+          'Vulnerability exploitation',
+          'Privilege escalation',
+          'Web security tests',
+          'Practical exploitation labs',
+          'Hands-On: Kali, nmap/masscan, Metasploit, Burp, sqlmap, Hydra, John, Nikto'
+        ]},
+        { title: 'Module 8: Incident Response & Digital Forensics', duration: '1 week', topics: [
+          'Incident response lifecycle',
+          'Types of attacks',
+          'Log analysis',
+          'SIEM operations',
+          'Disk imaging & volatile memory capture',
+          'Forensic chain of custody',
+          'Hands-On: Autopsy, FTK Imager, Volatility, Splunk/Wazuh, syslog, tcpdump/Wireshark'
+        ]},
+        { title: 'Module 9: Cloud Security & Virtualization', duration: '1 week', topics: [
+          'Virtualization (VMware, VirtualBox, Proxmox)',
+          'Cloud fundamentals (Azure/AWS basics)',
+          'IAM cloud policies',
+          'Secure cloud networking',
+          'Container basics (Docker, image security)',
+          'Cloud storage security',
+          'Hands-On: VirtualBox labs, Docker, AWS/Azure Free Tier, Minikube (basic)'
+        ]},
+        { title: 'Module 10: Complete Security+ & A+ Exam Preparation Bootcamp', duration: '1 week', topics: [
+          'Complete Security+ Blueprint mapping',
+          'A+ Core 1 + Core 2 coverage',
+          '200+ scenario-based questions',
+          'Attack simulation labs',
+          'Troubleshooting war-room practice',
+          'OS issues, network issues, security incidents',
+          'Hands-On: Boson/SY0-701 tests, VulnHub/TryHackMe, VirtualBox home lab, A+ break-fix'
+        ]}
+      ],
+      image: 'https://images.pexels.com/photos/5380640/pexels-photo-5380640.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop',
+      rating: 4.8,
+      students: 2750,
+      maxStudents: 20000,
+      instructor: 'Elena Novikova'
     }
   ];
 
@@ -308,6 +1098,8 @@ const Courses = () => {
     { id: 'ai', name: 'AI & Machine Learning', count: courses.filter(c => c.category === 'ai').length },
     { id: 'frontend', name: 'Frontend Development', count: courses.filter(c => c.category === 'frontend').length },
     { id: 'devops', name: 'DevOps & Cloud', count: courses.filter(c => c.category === 'devops').length },
+    { id: 'networking', name: 'Networking', count: courses.filter(c => c.category === 'networking').length },
+    { id: 'cyber', name: 'Cyber Security', count: courses.filter(c => c.category === 'cyber').length },
   ];
 
   // Filter courses based on selected filters
@@ -573,6 +1365,8 @@ const Courses = () => {
                         src={course.image}
                         alt={course.title}
                         className="w-full h-full object-cover"
+                        loading="lazy"
+                        referrerPolicy="no-referrer"
                       />
                       <div className="absolute top-3 left-3">
                         <span className={`px-2 py-1 rounded text-xs font-medium ${
@@ -610,7 +1404,6 @@ const Courses = () => {
                         <div className="flex items-center gap-1">
                           <span className="text-yellow-500">★</span>
                           <span className="font-medium">{course.rating}</span>
-                          <span>({course.students.toLocaleString()} students)</span>
                         </div>
                       </div>
 

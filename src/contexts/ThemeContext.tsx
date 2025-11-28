@@ -13,8 +13,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const getInitialTheme = (): Theme => {
     const stored = localStorage.getItem('theme');
     if (stored === 'light' || stored === 'dark') return stored as Theme;
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    return prefersDark ? 'dark' : 'light';
+    // Default to dark if no stored preference
+    return 'dark';
   };
 
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
