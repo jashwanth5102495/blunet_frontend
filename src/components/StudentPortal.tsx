@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { normalizeCourseKey, getCourseTitleFromKey } from '../data/courseAssignments';
 
 import Sidebar from './Sidebar';
 import MagicBento from './MagicBento';
@@ -220,6 +221,7 @@ const StudentPortal: React.FC = () => {
       'devops-beginner': ['DEVOPS-BEGINNER', 'devops-beginner', 'DevOps - Beginner'],
       'devops-intermediate': ['4', 'devops-intermediate', 'DevOps - Intermediate'],
       'mobile-core': ['5', 'mobile-core', 'Mobile Development - Core'],
+      'networking-beginner': ['networking-beginner', 'Networking - Beginner', 'NETWORKING-BEGINNER', 'networking_beginner', 'Networking Beginner'],
       // Reverse mappings for backend course IDs
       '1': ['ai-tools-mastery', 'AI-TOOLS-MASTERY', 'AI Tools Mastery'],
       'AI-TOOLS-MASTERY': ['ai-tools-mastery', '1', 'AI-TOOLS-MASTERY'],
@@ -229,7 +231,10 @@ const StudentPortal: React.FC = () => {
       'FRONTEND-INTERMEDIATE': ['frontend-intermediate', 'Frontend Development - Intermediate'],
       'FRONTEND-BEGINNER': ['frontend-beginner', 'Frontend Development - Beginner'],
       'DevOps - Beginner': ['devops-beginner', 'DEVOPS-BEGINNER'],
-      'DEVOPS-BEGINNER': ['devops-beginner', 'DevOps - Beginner']
+      'DEVOPS-BEGINNER': ['devops-beginner', 'DevOps - Beginner'],
+      'Networking - Beginner': ['networking-beginner', 'NETWORKING-BEGINNER'],
+      'NETWORKING-BEGINNER': ['networking-beginner', 'Networking - Beginner'],
+      'Networking Beginner': ['networking-beginner', 'Networking - Beginner', 'NETWORKING-BEGINNER']
     };
     return mappings[courseId] || [courseId];
   };
@@ -1886,10 +1891,76 @@ const StudentPortal: React.FC = () => {
           'Hands-On: Boson/SY0-701 tests, VulnHub/TryHackMe, VirtualBox home lab, A+ break-fix'
         ]}
       ]
+    },
+    {
+      id: 'DATA-SCIENCE-BEGINNER',
+      title: 'Data Science - Beginner',
+      category: 'data-science',
+      level: 'beginner',
+      description: 'Learn Python, statistics, data wrangling, and EDA.',
+      technologies: ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn'],
+      price: 1800,
+      duration: '8 weeks',
+      projects: 4,
+      image: 'https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&w=400&h=250&q=60',
+      rating: 4.6,
+      students: 2100,
+      maxStudents: 20000,
+      instructor: 'Priya Sharma',
+      modules: [
+        { title: 'Python Foundations for Data', duration: '2 weeks', topics: ['Syntax', 'Data types', 'Functions'] },
+        { title: 'Data Wrangling & Cleaning', duration: '2 weeks', topics: ['Pandas basics', 'Missing values', 'Joins'] },
+        { title: 'Exploratory Data Analysis', duration: '2 weeks', topics: ['Descriptive stats', 'Visualization'] },
+        { title: 'Mini Project', duration: '2 weeks', topics: ['EDA report'] }
+      ]
+    },
+    {
+      id: 'DATA-SCIENCE-INTERMEDIATE',
+      title: 'Data Science - Intermediate',
+      category: 'data-science',
+      level: 'intermediate',
+      description: 'Statistics, feature engineering, model training, and evaluation.',
+      technologies: ['Scikit-learn', 'Statsmodels', 'Jupyter', 'Pandas'],
+      price: 2400,
+      duration: '10 weeks',
+      projects: 5,
+      image: 'https://images.unsplash.com/photo-1557425493-6f90ae4659fc?auto=format&fit=crop&w=400&h=250&q=60',
+      rating: 4.7,
+      students: 1750,
+      maxStudents: 20000,
+      instructor: 'Miguel Alvarez',
+      modules: [
+        { title: 'Statistics for DS', duration: '2 weeks', topics: ['Probability', 'Distributions', 'Hypothesis tests'] },
+        { title: 'Feature Engineering', duration: '2 weeks', topics: ['Encoding', 'Scaling', 'Pipelines'] },
+        { title: 'Modeling & Evaluation', duration: '3 weeks', topics: ['Regression', 'Classification', 'Metrics', 'Cross-validation'] },
+        { title: 'Capstone Prep', duration: '3 weeks', topics: ['Framing', 'Iteration', 'Interpretation'] }
+      ]
+    },
+    {
+      id: 'DATA-SCIENCE-ADVANCED',
+      title: 'Data Science - Advanced',
+      category: 'data-science',
+      level: 'advanced',
+      description: 'Prod ML pipelines, experiment tracking, deployment, and monitoring.',
+      technologies: ['XGBoost', 'LightGBM', 'MLflow', 'Docker', 'FastAPI'],
+      price: 2900,
+      duration: '12 weeks',
+      projects: 6,
+      image: 'https://images.unsplash.com/photo-1545235617-9465d2a55698?auto=format&fit=crop&w=400&h=250&q=60',
+      rating: 4.8,
+      students: 1320,
+      maxStudents: 20000,
+      instructor: 'Sara Cohen',
+      modules: [
+        { title: 'Advanced Modeling', duration: '3 weeks', topics: ['Ensembles', 'Hyperparameters', 'Imbalanced data'] },
+        { title: 'Experiment Tracking & Pipelines', duration: '3 weeks', topics: ['MLflow', 'Artifacts', 'Reproducibility'] },
+        { title: 'Deployment & Monitoring', duration: '3 weeks', topics: ['FastAPI', 'Docker', 'Serving', 'Drift detection'] },
+        { title: 'Capstone: Production ML', duration: '3 weeks', topics: ['Pipeline', 'Docs', 'Presentation'] }
+      ]
     }
   ];
 
-  const categories = ['all', 'frontend', 'ai', 'devops', 'mobile', 'networking', 'cyber'];
+  const categories = ['all', 'frontend', 'ai', 'devops', 'mobile', 'networking', 'cyber', 'data-science'];
   const filteredCourses = selectedCategory === 'all' 
     ? allCourses 
     : allCourses.filter(course => course.category === selectedCategory);
@@ -1928,7 +1999,7 @@ const StudentPortal: React.FC = () => {
     
     return {
       id: course.courseId || course.id,
-      title: course.title,
+      title: getCourseTitleFromKey(normalizeCourseKey(course.courseId || course.id)) || course.title,
       instructor: (course.instructor as any)?.name || course.instructor as string || 'Unknown Instructor',
       progress: progress?.progress || 0,
       totalLessons: progress?.totalLessons || 20,
@@ -2588,6 +2659,62 @@ const StudentPortal: React.FC = () => {
       description: 'Learn DevOps fundamentals including CI/CD, containerization, and automation practices.'
     },
 
+    // Networking - Beginner Course Assignments (Course ID: 'networking-beginner')
+    {
+      id: 'networking-beginner-1',
+      title: 'Assignment 1: Linux Network Interface Operations & Configuration',
+      courseId: 'networking-beginner',
+      courseName: 'Networking - Beginner',
+      dueDate: '2024-06-15',
+      status: 'pending',
+      description: 'Hands-on interface configuration, IP addressing, routes, and DNS on Linux.'
+    },
+    {
+      id: 'networking-beginner-2',
+      title: 'Cisco Packet Tracer Basics',
+      courseId: 'networking-beginner',
+      courseName: 'Networking - Beginner',
+      dueDate: '2024-06-22',
+      status: 'pending',
+      description: 'Build simple network topologies and simulate traffic in Packet Tracer.'
+    },
+    {
+      id: 'networking-beginner-3',
+      title: 'Ping, Traceroute, Netstat',
+      courseId: 'networking-beginner',
+      courseName: 'Networking - Beginner',
+      dueDate: '2024-06-29',
+      status: 'pending',
+      description: 'Use core troubleshooting tools to test connectivity and inspect sockets.'
+    },
+    {
+      id: 'networking-beginner-4',
+      title: 'Nmap Scanning Basics',
+      courseId: 'networking-beginner',
+      courseName: 'Networking - Beginner',
+      dueDate: '2024-07-06',
+      status: 'pending',
+      description: 'Perform safe host discovery and port scans; interpret common states.'
+    },
+    {
+      id: 'networking-beginner-5',
+      title: 'DNS and DHCP Fundamentals',
+      courseId: 'networking-beginner',
+      courseName: 'Networking - Beginner',
+      dueDate: '2024-07-13',
+      status: 'pending',
+      description: 'Understand name resolution and dynamic addressing; verify and troubleshoot.'
+    },
+    {
+      id: 'networking-beginner-6',
+      title: 'Wireshark Traffic Analysis',
+      courseId: 'networking-beginner',
+      courseName: 'Networking - Beginner',
+      dueDate: '2024-07-20',
+      status: 'pending',
+      description: 'Capture and analyze traffic; apply filters to inspect protocols and flows.'
+    },
+
     // Frontend Development - Intermediate Course Assignments (Course ID: 'frontend-intermediate')
     {
       id: 'frontend-intermediate-1',
@@ -2857,7 +2984,8 @@ const StudentPortal: React.FC = () => {
     
     // Map course IDs to their respective learning routes
     const courseRoutes: { [key: string]: string } = {
-      'frontend-beginner': '/course-learning/frontend-beginner/html-fundamentals/html-structure',      'frontend-intermediate': '/frontend-development-intermediate',
+      'frontend-beginner': '/course-learning/frontend-beginner/html-fundamentals/html-structure',
+      'frontend-intermediate': '/frontend-development-intermediate',
       'FRONTEND-INTERMEDIATE': '/frontend-development-intermediate',
       'frontend-advanced': '/course-learning-advanced/frontend-advanced/advanced-react/performance-optimization',
       'devops-beginner': '/course-learning-devops-beginner/devops-beginner/devops-fundamentals/intro-devops',
@@ -2867,7 +2995,11 @@ const StudentPortal: React.FC = () => {
       'mobile-advanced': '/course-learning-mobile-advanced/mobile-advanced/react-native/navigation',
       'browser-extensions': '/course-learning-browser-extensions/browser-extensions/extension-fundamentals/manifest-files',
       'ai-tools-mastery': '/ai-study-material',
-      'AI-TOOLS-MASTERY': '/ai-study-material'
+      'AI-TOOLS-MASTERY': '/ai-study-material',
+      'networking-beginner': '/networking-beginner',
+      'NETWORKING-BEGINNER': '/networking-beginner',
+      'networking-intermediate': '/networking-intermediate',
+      'NETWORKING-INTERMEDIATE': '/networking-intermediate'
     };
 
     // Navigate to the appropriate course learning page

@@ -341,8 +341,16 @@ window.addEventListener('load', addInteractivity);`
       // Strip common emoji Unicode ranges and variation selectors
       .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u200D\uFE0F]/gu, '');
 
+    // Normalize inline text color to inherit so content respects theme
+    const withoutInlineColors = withoutEmojis
+      .replace(/color\s*:\s*(#[0-9a-fA-F]{3,6}|rgb\s*\([^\)]*\)|[a-zA-Z]+)\s*;?/gi, 'color: inherit;');
+
+    // Remove hard white backgrounds that clash with dark mode
+    const withoutHardBackgrounds = withoutInlineColors
+      .replace(/background-color\s*:\s*(#fff|white|rgb\s*\(\s*255\s*,\s*255\s*,\s*255\s*\))\s*;?/gi, 'background-color: transparent;');
+
     // Neon yellow highlight for emphasized text with high-contrast text
-    const highlighted = withoutEmojis.replace(
+    const highlighted = withoutHardBackgrounds.replace(
       /<strong>/g,
       '<strong style="background-color:#FFF200;color:#111;padding:0 3px;border-radius:3px;box-shadow:0 0 10px rgba(255,242,0,0.6);font-weight:600;">'
     );
@@ -9038,7 +9046,7 @@ app.listen(PORT, () => {
                   <Code className="h-4 w-4 text-white" />
                 </div>
                 <div className="min-w-0">
-                  <h1 className="text-base lg:text-lg font-semibold text-gray-900 dark:text-white truncate">
+                  <h1 className="text-base lg:text-lg font-semibold text-white truncate">
                     Frontend Development - Beginner
                   </h1>
                   <p className="text-xs lg:text-sm text-gray-500 dark:text-gray-400">Module-based course</p>
@@ -9111,8 +9119,8 @@ app.listen(PORT, () => {
                       }}
                       className={`w-full text-left ${sidebarOpen ? 'p-3' : 'p-2'} rounded-lg transition-all duration-200 ${
                         module.id === moduleId
-                          ? 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 text-blue-900 dark:text-blue-100'
-                          : 'hover:bg-gray-50 dark:hover:bg-gray-700/50 text-gray-700 dark:text-gray-300 border border-transparent'
+                          ? 'bg-blue-50 dark:bg-blue-800/40 border border-blue-400 text-blue-900 dark:text-white'
+                          : 'hover:bg-gray-50 dark:hover:bg-gray-800/60 text-gray-700 dark:text-gray-200 border border-gray-700/40'
                       }`}
                       title={!sidebarOpen ? module.title : undefined}
                     >
@@ -9120,7 +9128,7 @@ app.listen(PORT, () => {
                       <div className={`${sidebarOpen ? 'w-6 h-6' : 'w-8 h-8'} rounded-full flex items-center justify-center text-xs font-medium ${
                         module.id === moduleId
                           ? 'bg-blue-600 text-white'
-                          : 'bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-300'
+                          : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-200'
                       }`}>
                         {index + 1}
                       </div>
@@ -9142,7 +9150,7 @@ app.listen(PORT, () => {
             {/* Current Module Lessons */}
             {sidebarOpen && (
               <div className="mb-6">
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Current Module: {currentModule.title}</h3>
+                <h3 className="text-sm font-semibold text-white mb-3">Current Module: {currentModule.title}</h3>
               </div>
             )}
             
@@ -9153,8 +9161,8 @@ app.listen(PORT, () => {
                     onClick={() => navigate(`/course-learning/${courseId}/${currentModule.id}/${lesson.id}`)}
                     className={`w-full text-left ${sidebarOpen ? 'p-4' : 'p-2'} rounded-lg transition-all duration-200 ${
                       lesson.id === lessonId 
-                        ? 'bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-600 text-blue-900 dark:text-blue-100' 
-                        : 'hover:bg-gray-50 dark:hover:bg-gray-700/50 text-gray-700 dark:text-gray-300'
+                        ? 'bg-blue-50 dark:bg-blue-800/40 border-l-4 border-blue-500 text-blue-900 dark:text-white' 
+                        : 'hover:bg-gray-50 dark:hover:bg-gray-800/60 text-gray-700 dark:text-gray-200'
                     }`}
                     title={!sidebarOpen ? lesson.title : undefined}
                   >
@@ -9162,7 +9170,7 @@ app.listen(PORT, () => {
                     <div className={`${sidebarOpen ? 'w-8 h-8' : 'w-6 h-6'} rounded-full flex items-center justify-center text-sm font-medium ${
                       lesson.id === lessonId
                         ? 'bg-blue-600 text-white'
-                        : 'bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-300'
+                        : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-200'
                     }`}>
                       {index + 1}
                     </div>
@@ -9346,7 +9354,7 @@ app.listen(PORT, () => {
                     </p> */}
                   </div>
                   <div className="bg-gray-900 dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-700/50 dark:border-gray-700 max-h-[calc(100vh-340px)] overflow-y-auto">
-                  <div className="text-[15px] md:text-[16px] leading-7 text-gray-800 dark:text-gray-100 text-left">
+                  <div className="prose prose-lg max-w-none dark:prose-invert text-left">
             {renderContentWithVideos(
               currentLesson.content,
               lessonVideos[currentLesson.id],

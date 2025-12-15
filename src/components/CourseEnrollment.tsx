@@ -334,6 +334,252 @@ const CourseEnrollment: React.FC = () => {
         'Implement security best practices',
         'Manage enterprise-scale deployments'
       ]
+    },
+    {
+      id: 'NETWORKING-BEGINNER',
+      title: 'Networking - Beginner',
+      category: 'networking',
+      level: 'beginner',
+      description: 'Foundation in networking: OSI/TCP-IP, basic protocols, Packet Tracer, Nmap, Wireshark.',
+      detailedDescription: 'Build a strong foundation in computer networks, devices, addressing, and analysis tools with hands-on labs using Cisco Packet Tracer, Nmap, and Wireshark.',
+      technologies: ['Cisco Packet Tracer', 'Nmap', 'Wireshark', 'Routers', 'Switches', 'Firewalls'],
+      price: 1500,
+      duration: '8 weeks',
+      projects: 4,
+      modules: [
+        { title: 'Networking Fundamentals', duration: '2 weeks', topics: ['OSI Model', 'TCP/IP', 'IPv4/IPv6', 'DNS/DHCP'] },
+        { title: 'Packet Tracer Basics', duration: '2 weeks', topics: ['Router/Switch setup', 'LAN/WAN topology', 'IP addressing'] },
+        { title: 'Nmap & Wireshark', duration: '2 weeks', topics: ['Host discovery', 'Port scanning', 'Packet capture', 'Traffic filtering'] }
+      ],
+      prerequisites: ['Basic computer knowledge'],
+      whatYouWillLearn: ['Understand core networking', 'Configure small networks', 'Analyze traffic with Wireshark']
+    },
+
+    {
+      id: 'NETWORKING-INTERMEDIATE',
+      title: 'Networking - Intermediate',
+      category: 'networking',
+      level: 'intermediate',
+      description: 'Linux networking, routing/switching, VPNs, firewalls, monitoring and automation basics.',
+      detailedDescription: 'Advance your networking skills using Linux tooling, routing and switching concepts, VPNs, and real-world monitoring workflows with hands-on labs.',
+      technologies: ['Linux', 'SSH', 'tcpdump', 'iptables/ufw', 'OpenVPN', 'WireGuard', 'SNMP', 'Nagios/Zabbix'],
+      price: 2200,
+      duration: '10 weeks',
+      projects: 6,
+      modules: [
+        { title: 'Linux Networking Advanced', duration: '2 weeks', topics: ['ip/nmcli', 'routes', 'DNS config', 'namespaces'] },
+        { title: 'Scanning & Analysis', duration: '2 weeks', topics: ['NSE basics', 'masscan', 'tcpdump filters'] },
+        { title: 'Routing/Switching & VPNs', duration: '2 weeks', topics: ['Linux router', 'VLANs', 'Bonding', 'OpenVPN/WireGuard'] },
+        { title: 'Firewalls & Monitoring', duration: '2 weeks', topics: ['iptables/ufw', 'Nagios/Zabbix', 'SNMP'] },
+        { title: 'Automation & Scripting', duration: '2 weeks', topics: ['Netcat', 'Bash scripting', 'Config automation'] }
+      ],
+      prerequisites: ['Networking basics or equivalent'],
+      whatYouWillLearn: ['Configure routing/switching', 'Set up VPNs/firewalls', 'Monitor and troubleshoot networks']
+    },
+    {
+      id: 'NETWORKING-ADVANCED',
+      title: 'Networking – Advanced (CCNA Certification Track)',
+      category: 'networking',
+      level: 'advanced',
+      description: 'Enterprise networking, routing/switching, VLANs, ACLs, NAT, wireless, automation; CCNA-ready.',
+      detailedDescription: 'Master enterprise-grade networking aligned to CCNA 200-301 with extensive Packet Tracer labs covering routing, switching, VLANs, ACLs, NAT, wireless, and programmability.',
+      technologies: ['Cisco IOS', 'Packet Tracer', 'IPv4/IPv6', 'OSPF', 'VLANs', 'ACLs', 'NAT', 'Wireless', 'REST APIs', 'Python'],
+      price: 3000,
+      duration: '12 weeks',
+      projects: 10,
+      modules: [
+        { title: 'Network Fundamentals', duration: '2 weeks', topics: ['IP addressing', 'Subnetting', 'Routing basics', 'Switching basics'] },
+        { title: 'Network Access', duration: '3 weeks', topics: ['VLANs', 'Trunking', 'STP', 'Port Security', 'EtherChannel'] },
+        { title: 'IP Connectivity & Services', duration: '3 weeks', topics: ['Static routing', 'OSPF', 'DHCP', 'DNS', 'NAT'] },
+        { title: 'Security & Wireless', duration: '2 weeks', topics: ['ACLs', 'Wireless basics', 'SNMP'] },
+        { title: 'Automation & Labs', duration: '2 weeks', topics: ['REST APIs', 'Python basics', 'End-to-end CCNA lab'] }
+      ],
+      prerequisites: ['Intermediate networking'],
+      whatYouWillLearn: ['Configure enterprise networks', 'Prepare for CCNA exam', 'Automate basic tasks']
+    },
+    {
+      id: 'GENAI-BEGINNER',
+      title: "Generative AI (Understanding and Building LLM's) - Beginner Level",
+      category: 'ai',
+      level: 'beginner',
+      description: 'Intro to LLMs, transformers, embeddings, APIs, and prompt engineering; build a chat app.',
+      detailedDescription: 'Learn the foundations of generative AI and LLMs, prompt engineering, embeddings, and tooling to build a simple assistant end-to-end.',
+      technologies: ['Python', 'OpenAI API', 'Hugging Face', 'Transformers', 'Embeddings', 'LangChain'],
+      price: 1800,
+      duration: '8 weeks',
+      projects: 3,
+      modules: [
+        { title: 'Foundations of Generative AI', duration: '1 week', topics: ['LLMs overview', 'Use cases'] },
+        { title: 'Transformers & Embeddings', duration: '2 weeks', topics: ['Attention', 'Tokens', 'Vector stores'] },
+        { title: 'Prompt Engineering & APIs', duration: '3 weeks', topics: ['Prompt design', 'OpenAI API', 'LangChain'] },
+        { title: 'Mini Project', duration: '2 weeks', topics: ['Streamlit UI', 'FastAPI backend'] }
+      ],
+      prerequisites: ['Basic Python familiarity'],
+      whatYouWillLearn: ['Use LLM APIs', 'Design effective prompts', 'Build a basic chat assistant']
+    },
+    {
+      id: 'GENAI-INTERMEDIATE',
+      title: "Generative AI (Understanding and Building LLM's) - Intermediate Level",
+      category: 'ai',
+      level: 'intermediate',
+      description: 'RAG systems, LoRA/PEFT fine-tuning, tokenization, evaluation, and guardrails.',
+      detailedDescription: 'Build production-grade LLM applications with RAG pipelines, adapters for fine-tuning, evaluation frameworks, and safety guardrails.',
+      technologies: ['PyTorch', 'HF Transformers', 'Datasets', 'Tokenizers', 'LangChain', 'FAISS/Pinecone', 'FastAPI', 'Docker', 'W&B'],
+      price: 2400,
+      duration: '10 weeks',
+      projects: 5,
+      modules: [
+        { title: 'Tokenization & Datasets', duration: '1 week', topics: ['Subword tokenizers', 'HF Datasets'] },
+        { title: 'RAG Architecture', duration: '2 weeks', topics: ['Indexing', 'Query pipelines'] },
+        { title: 'Fine-tuning with LoRA/PEFT', duration: '2 weeks', topics: ['Adapters', 'Training loops'] },
+        { title: 'Guardrails & Safety', duration: '1 week', topics: ['Prompt safety', 'Content filters'] },
+        { title: 'Packaging & Deployment', duration: '2 weeks', topics: ['Docker', 'FastAPI', 'CI/CD'] }
+      ],
+      prerequisites: ['Beginner GenAI knowledge'],
+      whatYouWillLearn: ['Design RAG', 'Fine-tune with adapters', 'Evaluate and deploy LLM apps']
+    },
+    {
+      id: 'GENAI-ADVANCED',
+      title: "Generative AI (Understanding and Building LLM's) - Advanced Level",
+      category: 'ai',
+      level: 'advanced',
+      description: 'Pretraining, RLHF/DPO, distributed training, quantization, scaling and MLOps.',
+      detailedDescription: 'Master advanced LLM training and serving with distributed strategies, RLHF/DPO, quantization, and robust MLOps.',
+      technologies: ['PyTorch', 'DeepSpeed', 'FSDP', 'PEFT', 'BitsAndBytes', 'RLHF/DPO', 'GGUF/GPTQ', 'Kubernetes', 'Ray'],
+      price: 3500,
+      duration: '12 weeks',
+      projects: 8,
+      modules: [
+        { title: 'LLM Pretraining', duration: '2 weeks', topics: ['Objectives', 'Data pipelines'] },
+        { title: 'Distributed Training', duration: '3 weeks', topics: ['FSDP', 'DeepSpeed', 'Sharding'] },
+        { title: 'Quantization & Inference', duration: '2 weeks', topics: ['GGUF/GPTQ', 'BitsAndBytes'] },
+        { title: 'RLHF & DPO', duration: '3 weeks', topics: ['Reward modeling', 'Policies'] },
+        { title: 'MLOps for LLMs', duration: '2 weeks', topics: ['Kubernetes', 'Ray', 'Monitoring'] }
+      ],
+      prerequisites: ['Intermediate GenAI knowledge'],
+      whatYouWillLearn: ['Train/fine-tune at scale', 'Serve optimized models', 'Operate LLMs in production']
+    },
+    {
+      id: 'CYBER-SECURITY-BEGINNER',
+      title: 'Cyber Security - Beginner',
+      category: 'cyber',
+      level: 'beginner',
+      description: 'Core security concepts, OS basics, Nmap, Wireshark, firewalls, and attack fundamentals.',
+      detailedDescription: 'Start your cybersecurity journey with foundational concepts, hands-on tooling, and introduction to common attacks and defenses.',
+      technologies: ['Linux', 'Windows', 'Kali', 'Parrot OS', 'Nmap', 'Wireshark', 'Gobuster', 'BloodHound', 'Firewalls'],
+      price: 1600,
+      duration: '8 weeks',
+      projects: 6,
+      modules: [
+        { title: 'Security Fundamentals', duration: '2 weeks', topics: ['CIA triad', 'Threats', 'Malware', 'Policies'] },
+        { title: 'Operating Systems for Security', duration: '2 weeks', topics: ['Windows', 'Linux', 'Kali/Parrot'] },
+        { title: 'Networking Tools', duration: '2 weeks', topics: ['Nmap basics', 'Wireshark capture/filtering'] },
+        { title: 'Enumeration & Firewalls', duration: '2 weeks', topics: ['Gobuster', 'BloodHound', 'Firewall rules'] }
+      ],
+      prerequisites: ['Basic IT knowledge'],
+      whatYouWillLearn: ['Use core security tools', 'Analyze network traffic', 'Understand basic attacks']
+    },
+    {
+      id: 'CYBER-SECURITY-INTERMEDIATE',
+      title: 'Cyber Security - Intermediate',
+      category: 'cyber',
+      level: 'intermediate',
+      description: 'Advanced hacking methodologies, cracking tools, backdoors, SQLi, social engineering, reporting.',
+      detailedDescription: 'Practice offensive security workflows with common tools and methodologies, then learn reporting and defensive measures.',
+      technologies: ['Kali', 'John', 'Hydra', 'Hashcat', 'Netcat', 'msfvenom', 'Meterpreter', 'SQLMap', 'SET'],
+      price: 2400,
+      duration: '10 weeks',
+      projects: 12,
+      modules: [
+        { title: 'Password Cracking & Enumeration', duration: '2 weeks', topics: ['John/Hydra', 'Hashcat', 'CeWL'] },
+        { title: 'Exploitation & Backdoors', duration: '3 weeks', topics: ['msfvenom', 'Meterpreter', 'Reverse shells'] },
+        { title: 'Web Attacks', duration: '2 weeks', topics: ['SQLi', 'XSS', 'Burp basics'] },
+        { title: 'Social Engineering', duration: '1 week', topics: ['Phishing with SET', 'Payload delivery'] },
+        { title: 'Post-Exploitation & Reporting', duration: '2 weeks', topics: ['Persistence', 'Lateral movement', 'Documentation'] }
+      ],
+      prerequisites: ['Beginner cybersecurity knowledge'],
+      whatYouWillLearn: ['Conduct basic pentests', 'Use common offensive tools', 'Document findings']
+    },
+    {
+      id: 'CYBER-SECURITY-ADVANCED',
+      title: 'Cyber Security - Advanced',
+      category: 'cyber',
+      level: 'advanced',
+      description: 'Security+ mapping, cloud/IAM, crypto, EDR/XDR, forensics, incident response, SIEM.',
+      detailedDescription: 'Comprehensive coverage of advanced security domains including identity, cryptography, endpoint hardening, cloud security, SIEM, and digital forensics.',
+      technologies: ['OpenSSL', 'GPG', 'EDR/XDR', 'Wireshark', 'tcpdump', 'Splunk/Wazuh', 'Autopsy', 'Volatility', 'Docker', 'AWS/Azure'],
+      price: 3000,
+      duration: '12 weeks',
+      projects: 10,
+      modules: [
+        { title: 'Identity & Access', duration: '2 weeks', topics: ['MFA', 'RBAC/ABAC', 'SSO'] },
+        { title: 'Cryptography & Secure Comms', duration: '2 weeks', topics: ['TLS/SSL', 'PKI', 'Hashing/Salting'] },
+        { title: 'Endpoint Security & Hardening', duration: '2 weeks', topics: ['EDR/XDR', 'Whitelisting', 'Patch mgmt'] },
+        { title: 'Ethical Hacking & Pentesting', duration: '2 weeks', topics: ['Recon', 'Exploit', 'Escalation'] },
+        { title: 'Incident Response & Forensics', duration: '2 weeks', topics: ['IR lifecycle', 'Disk/memory forensics', 'SIEM operations'] } 
+      ],
+      prerequisites: ['Intermediate cybersecurity knowledge'],
+      whatYouWillLearn: ['Design secure architectures', 'Respond to incidents', 'Prepare for certifications']
+    },
+    {
+      id: 'DATA-SCIENCE-BEGINNER',
+      title: 'Data Science - Beginner',
+      category: 'data-science',
+      level: 'beginner',
+      description: 'Python, data wrangling, and exploratory analysis fundamentals.',
+      detailedDescription: 'Build a solid foundation in Python for data, learn to clean and transform datasets, and perform exploratory analysis and visualization to derive insights.',
+      technologies: ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn'],
+      price: 1600,
+      duration: '8 weeks',
+      projects: 4,
+      modules: [
+        { title: 'Python Foundations for Data', duration: '2 weeks', topics: ['Syntax', 'Data types', 'Functions'] },
+        { title: 'Data Wrangling & Cleaning', duration: '2 weeks', topics: ['Pandas basics', 'Missing values', 'Joins'] },
+        { title: 'Exploratory Data Analysis', duration: '2 weeks', topics: ['Descriptive stats', 'Visualization'] },
+        { title: 'Mini Project', duration: '2 weeks', topics: ['EDA report on a public dataset'] }
+      ],
+      prerequisites: ['Basic programming knowledge'],
+      whatYouWillLearn: ['Process data with Pandas', 'Analyze datasets', 'Create compelling visuals']
+    },
+    {
+      id: 'DATA-SCIENCE-INTERMEDIATE',
+      title: 'Data Science - Intermediate',
+      category: 'data-science',
+      level: 'intermediate',
+      description: 'Statistics, feature engineering, model training, and validation.',
+      detailedDescription: 'Go deeper into statistical concepts and build predictive models using scikit-learn. Learn robust feature engineering and evaluation best practices.',
+      technologies: ['Scikit-learn', 'Statsmodels', 'Jupyter', 'Pandas'],
+      price: 2200,
+      duration: '10 weeks',
+      projects: 5,
+      modules: [
+        { title: 'Statistics for DS', duration: '2 weeks', topics: ['Probability', 'Distributions', 'Hypothesis tests'] },
+        { title: 'Feature Engineering', duration: '2 weeks', topics: ['Encoding', 'Scaling', 'Pipelines'] },
+        { title: 'Modeling & Evaluation', duration: '3 weeks', topics: ['Regression', 'Classification', 'Metrics', 'Cross-validation'] },
+        { title: 'Capstone Prep', duration: '3 weeks', topics: ['Framing', 'Iteration', 'Interpretation'] }
+      ],
+      prerequisites: ['Beginner data science or equivalent'],
+      whatYouWillLearn: ['Engineer features', 'Train models', 'Evaluate with robust metrics']
+    },
+    {
+      id: 'DATA-SCIENCE-ADVANCED',
+      title: 'Data Science - Advanced',
+      category: 'data-science',
+      level: 'advanced',
+      description: 'Production ML, experiment tracking, deployment, and monitoring.',
+      detailedDescription: 'Design end-to-end ML pipelines, track experiments and artifacts, containerize services, and deploy and monitor models in production.',
+      technologies: ['XGBoost', 'LightGBM', 'MLflow', 'Docker', 'FastAPI'],
+      price: 2700,
+      duration: '12 weeks',
+      projects: 6,
+      modules: [
+        { title: 'Advanced Modeling', duration: '3 weeks', topics: ['Tree ensembles', 'Hyperparameters', 'Imbalanced data'] },
+        { title: 'Experiment Tracking & Pipelines', duration: '3 weeks', topics: ['MLflow', 'Artifacts', 'Reproducibility'] },
+        { title: 'Deployment & Monitoring', duration: '3 weeks', topics: ['FastAPI', 'Docker', 'Serving', 'Drift detection'] },
+        { title: 'Capstone: Production ML', duration: '3 weeks', topics: ['Pipeline', 'Docs', 'Presentation'] }
+      ],
+      prerequisites: ['Intermediate data science or ML experience'],
+      whatYouWillLearn: ['Build production pipelines', 'Deploy models', 'Monitor performance']
     }
   ];
 

@@ -17,6 +17,7 @@ const StudentLogin = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -100,21 +101,18 @@ const StudentLogin = () => {
     }
   };
 
-  const googleLogin = useGoogleLogin({
+  const googleLogin = googleClientId ? useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
         setIsGoogleLoading(true);
         setError('');
-        
         // Get user info from Google using the access token
         const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
           headers: {
             Authorization: `Bearer ${tokenResponse.access_token}`,
           },
         });
-        
         const userInfo = await userInfoResponse.json();
-        
         // Send the access token or user info to your backend
         const resp = await fetch(`${BASE_URL}/api/students/google-login`, {
           method: 'POST',
@@ -127,7 +125,6 @@ const StudentLogin = () => {
             userInfo: userInfo
           })
         });
-
         const data = await resp.json().catch(async () => ({ raw: await resp.text() }));
         if (!resp.ok || !data?.success) {
           const msg = data?.message || data?.error || 'Google login failed.';
@@ -139,19 +136,15 @@ const StudentLogin = () => {
           setIsGoogleLoading(false);
           return;
         }
-
         const { student, token, needsSetup } = data.data;
         const userData = { ...student, isAuthenticated: true, token };
         localStorage.setItem('currentUser', JSON.stringify(userData));
         if (token) localStorage.setItem('authToken', token);
-
         const requiresSetup = needsSetup || student.setupRequired;
-
         toast.success('Google login successful! 🎉', {
           duration: 2000,
           position: 'top-center',
         });
-
         if (requiresSetup) {
           navigate('/student-setup');
         } else {
@@ -178,7 +171,11 @@ const StudentLogin = () => {
         position: 'top-center',
       });
     },
-  });
+  }) : () => {
+    const msg = 'Google login is not configured.';
+    setError(msg);
+    toast.error(msg, { duration: 3000, position: 'top-center' });
+  };
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -230,7 +227,7 @@ const StudentLogin = () => {
                 <button
                   type="button"
                   onClick={() => googleLogin()}
-                  disabled={isGoogleLoading}
+                  disabled={isGoogleLoading || !googleClientId}
                   className="w-full flex items-center justify-center gap-3 px-4 py-3 
                bg-white border border-gray-300 rounded-md 
                text-gray-700 font-medium text-sm
@@ -241,7 +238,7 @@ const StudentLogin = () => {
                 >
                   {/* Google icon from your SVG file */}
                   <img src="/icons8-google.svg" alt="Google" className="w-5 h-5" />
-                  <span>{isGoogleLoading ? 'Signing in...' : 'Continue with Google'}</span>
+                  <span>{isGoogleLoading ? 'Signing in...' : (googleClientId ? 'Continue with Google' : 'Google login unavailable')}</span>
                 </button>
               </div>
 

@@ -24,6 +24,8 @@ const getCourseAndModuleForAssignment = (id: string, title?: string) => {
     courseId = 'frontend-beginner';
   } else if (id?.startsWith('devops-beginner')) {
     courseId = 'devops-beginner';
+  } else if (id?.startsWith('networking-beginner')) {
+    courseId = 'networking-beginner';
   } else if (id?.startsWith('frontend-intermediate')) {
     courseId = 'frontend-intermediate';
   } else if (id?.startsWith('ai-tools')) {
@@ -310,6 +312,9 @@ const AssignmentPage = () => {
     }
   }, [selectedTopic, selectedTopicData?.explanation]);
 
+  // Render Explanation as plain text for networking-beginner-1
+  const isNetworkingAssignment1 = assignment?.assignmentId === 'networking-beginner-1';
+
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
@@ -523,35 +528,56 @@ const AssignmentPage = () => {
                     <h2 className="text-3xl font-bold text-white mb-6">
                       {selectedTopicData.title}
                     </h2>
-                    
-                    {/* Content */}
-                    <div className="prose prose-invert max-w-none mb-6">
-                      <div className="text-gray-300 leading-relaxed whitespace-pre-line">
-                        {selectedTopicData.content}
-                      </div>
-                    </div>
 
-                    {/* Explanation */}
-                    {selectedTopicData.explanation && (
+                    {/* Explanation (first, plain) */}
+                    {(selectedTopicData.explanation || selectedTopicData.content) && (
+                      <div className="mb-6">
+                        <h3 className="text-white font-semibold mb-2">Explanation</h3>
+                        <p className="text-base md:text-lg text-gray-200 whitespace-pre-line leading-relaxed">
+                          {selectedTopicData.explanation || selectedTopicData.content}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Commands (boxed) */}
+                    {selectedTopicData.examples && selectedTopicData.examples.length > 0 && (
+                      <div className="mb-6">
+                        <h3 className="text-white font-medium mb-2">Commands</h3>
+                        <div className="bg-gray-800 p-4 rounded-lg">
+                          <pre className="text-sm text-blue-400 whitespace-pre-wrap">
+                            <code>{selectedTopicData.examples.join('\n')}</code>
+                          </pre>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Topic navigation removed here to avoid duplicate buttons; kept only at footer */}
+                    {/* Syntax */}
+                    {selectedTopicData.syntax && (
                       <div className="mb-6">
                         <button
-                          onClick={() => toggleSection(`explanation-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`)}
+                          onClick={() => toggleSection(`syntax-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`)}
                           className="w-full flex items-center justify-between bg-gray-800 px-4 py-3 rounded-lg hover:bg-gray-700 transition-colors mb-2"
                         >
-                          <span className="text-white font-medium">Explanation</span>
-                          {expandedSections[`explanation-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`] ? (
+                          <span className="text-white font-medium">Syntax</span>
+                          {expandedSections[`syntax-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`] ? (
                             <ChevronDownIcon className="w-5 h-5 text-gray-400" />
                           ) : (
                             <ChevronRightIcon className="w-5 h-5 text-gray-400" />
                           )}
                         </button>
-                        {expandedSections[`explanation-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`] && (
+                        {expandedSections[`syntax-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`] && (
                           <div className="bg-gray-800 p-4 rounded-lg">
-                            <p className="text-sm text-gray-300 whitespace-pre-line">{selectedTopicData.explanation}</p>
+                            <pre className="text-sm text-green-400 overflow-x-auto">
+                              <code>{selectedTopicData.syntax}</code>
+                            </pre>
                           </div>
                         )}
                       </div>
                     )}
+
+                    {/* Examples removed: commands are shown above in a simple box */}
+
                     {/* Topic navigation */}
                     <div className="flex items-center justify-between mt-4">
                       {(() => {
@@ -604,33 +630,7 @@ const AssignmentPage = () => {
                       </div>
                     )}
 
-                    {/* Examples */}
-                    {selectedTopicData.examples && selectedTopicData.examples.length > 0 && (
-                      <div>
-                        <button
-                          onClick={() => toggleSection(`examples-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`)}
-                          className="w-full flex items-center justify-between bg-gray-800 px-4 py-3 rounded-lg hover:bg-gray-700 transition-colors mb-2"
-                        >
-                          <span className="text-white font-medium">Examples</span>
-                          {expandedSections[`examples-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`] ? (
-                            <ChevronDownIcon className="w-5 h-5 text-gray-400" />
-                          ) : (
-                            <ChevronRightIcon className="w-5 h-5 text-gray-400" />
-                          )}
-                        </button>
-                        {expandedSections[`examples-${selectedTopicData.topicId || selectedTopicData.id || selectedTopicData.title}`] && (
-                          <div className="space-y-4">
-                            {selectedTopicData.examples.map((example, index) => (
-                              <div key={index} className="bg-gray-800 p-4 rounded-lg">
-                                <pre className="text-sm text-blue-400 overflow-x-auto">
-                                  <code>{example}</code>
-                                </pre>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    )}
+                    {/* Examples removed: commands are shown above in a simple box */}
                   </div>
                 )}
               </div>

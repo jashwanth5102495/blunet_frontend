@@ -1090,6 +1090,72 @@ const Courses = () => {
       students: 2750,
       maxStudents: 20000,
       instructor: 'Elena Novikova'
+    },
+    {
+      id: 'DATA-SCIENCE-BEGINNER',
+      title: 'Data Science - Beginner',
+      category: 'data-science',
+      level: 'beginner',
+      description: 'Learn Python, statistics, data wrangling, and EDA with real datasets.',
+      technologies: ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn'],
+      price: 1800,
+      duration: '8 weeks',
+      projects: 4,
+      modules: [
+        { title: 'Python Foundations for Data', duration: '2 weeks', topics: ['Syntax', 'Data types', 'Functions', 'File I/O'] },
+        { title: 'Data Wrangling & Cleaning', duration: '2 weeks', topics: ['Pandas basics', 'Missing values', 'Joins/Merge', 'Reshaping'] },
+        { title: 'Exploratory Data Analysis', duration: '2 weeks', topics: ['Descriptive stats', 'Visualization', 'Insights'] },
+        { title: 'Mini Project', duration: '2 weeks', topics: ['End-to-end EDA report'] }
+      ],
+      image: 'https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&w=400&h=250&q=60',
+      rating: 4.6,
+      students: 2100,
+      maxStudents: 20000,
+      instructor: 'Priya Sharma'
+    },
+    {
+      id: 'DATA-SCIENCE-INTERMEDIATE',
+      title: 'Data Science - Intermediate',
+      category: 'data-science',
+      level: 'intermediate',
+      description: 'Statistics, feature engineering, model training, and evaluation.',
+      technologies: ['Scikit-learn', 'Statsmodels', 'Jupyter', 'Pandas'],
+      price: 2400,
+      duration: '10 weeks',
+      projects: 5,
+      modules: [
+        { title: 'Statistics for Data Science', duration: '2 weeks', topics: ['Probability', 'Distributions', 'Hypothesis testing'] },
+        { title: 'Feature Engineering', duration: '2 weeks', topics: ['Encoding', 'Scaling', 'Imputation', 'Pipelines'] },
+        { title: 'Modeling & Evaluation', duration: '3 weeks', topics: ['Regression', 'Classification', 'Metrics', 'Cross-validation'] },
+        { title: 'Capstone Prep', duration: '3 weeks', topics: ['Problem framing', 'Model iteration', 'Reporting'] }
+      ],
+      image: 'https://images.unsplash.com/photo-1557425493-6f90ae4659fc?auto=format&fit=crop&w=400&h=250&q=60',
+      rating: 4.7,
+      students: 1750,
+      maxStudents: 20000,
+      instructor: 'Miguel Alvarez'
+    },
+    {
+      id: 'DATA-SCIENCE-ADVANCED',
+      title: 'Data Science - Advanced',
+      category: 'data-science',
+      level: 'advanced',
+      description: 'End-to-end ML pipelines, model deployment, and performance tuning.',
+      technologies: ['XGBoost', 'LightGBM', 'MLflow', 'Docker', 'FastAPI'],
+      price: 2900,
+      duration: '12 weeks',
+      projects: 6,
+      modules: [
+        { title: 'Advanced Modeling & Ensembles', duration: '3 weeks', topics: ['Tree ensembles', 'Hyperparameter search', 'Imbalanced data'] },
+        { title: 'Experiment Tracking & Pipelines', duration: '3 weeks', topics: ['MLflow', 'Artifacts', 'Reproducibility'] },
+        { title: 'Deployment & Monitoring', duration: '3 weeks', topics: ['FastAPI', 'Docker', 'Model serving', 'Drift monitoring'] },
+        { title: 'Capstone: Production ML', duration: '3 weeks', topics: ['Full pipeline', 'Docs', 'Presentation'] }
+      ],
+      image: 'https://images.unsplash.com/photo-1545235617-9465d2a55698?auto=format&fit=crop&w=400&h=250&q=60',
+      rating: 4.8,
+      students: 1320,
+      maxStudents: 20000,
+      instructor: 'Sara Cohen'
     }
   ];
 
@@ -1100,6 +1166,7 @@ const Courses = () => {
     { id: 'devops', name: 'DevOps & Cloud', count: courses.filter(c => c.category === 'devops').length },
     { id: 'networking', name: 'Networking', count: courses.filter(c => c.category === 'networking').length },
     { id: 'cyber', name: 'Cyber Security', count: courses.filter(c => c.category === 'cyber').length },
+    { id: 'data-science', name: 'Data Science', count: courses.filter(c => c.category === 'data-science').length },
   ];
 
   // Filter courses based on selected filters
@@ -1475,7 +1542,7 @@ const Courses = () => {
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                navigate('/student-registration');
+                                navigate(`/course-enrollment/${course.id}`);
                               }}
                               className={`px-4 py-2 rounded font-medium text-sm transition-colors ${
                                 theme === 'dark' ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-600 text-white hover:bg-blue-700'

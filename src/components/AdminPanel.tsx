@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { getAssignmentDefinitions, normalizeCourseKey } from '../data/courseAssignments';
+import { getAssignmentDefinitions, normalizeCourseKey, getCourseTitleFromKey } from '../data/courseAssignments';
 import { useNavigate } from 'react-router-dom';
 import StudentDetailModal from './StudentDetailModal';
 import { PaymentStatusBadge, PaymentStatusType } from './PaymentStatus';
@@ -392,6 +392,7 @@ const AdminPanel: React.FC = () => {
     'frontend-beginner': 4,
     'ai-tools-mastery': 4,
     'devops-beginner': 4,
+    'networking-beginner': 4,
   };
 
   function getCourseKeyFromEnrollment(enrollment: any) {
@@ -2140,7 +2141,7 @@ const AdminPanel: React.FC = () => {
                               <div className="flex items-center justify-between mb-3">
                                 <div>
                                   <div className="text-white font-medium flex items-center">
-                                    <span>{enrollment.courseId?.title || 'Course Title N/A'}</span>
+                                    <span>{enrollment.courseId?.title || getCourseTitleFromKey(getCourseKeyFromEnrollment(enrollment)) || 'Course Title N/A'}</span>
                                     {isEnrollmentFullyCompleted(enrollment) && (
                                       <>
                                         <span className="ml-2 px-2 py-1 bg-emerald-600 text-white text-xs rounded-full">

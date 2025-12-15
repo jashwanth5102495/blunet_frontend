@@ -26,6 +26,20 @@ export function getAssignmentDefinitions(courseKey: string): AssignmentDef[] {
         { id: 'ai-automation', title: 'AI Automation & Workflows' },
         { id: 'ai-capstone', title: 'AI Capstone Project' }
       ];
+    case 'devops-beginner':
+      return [
+        { id: 'linux-basics', title: 'Linux Basics' },
+        { id: 'version-control', title: 'Git & Version Control' },
+        { id: 'ci-cd', title: 'CI/CD Foundations' },
+        { id: 'containers', title: 'Containers & Docker' }
+      ];
+    case 'networking-beginner':
+      return [
+        { id: 'networking-fundamentals', title: 'Networking Fundamentals' },
+        { id: 'packet-tracer-basics', title: 'Cisco Packet Tracer Basics' },
+        { id: 'tools-and-troubleshooting', title: 'Ping, Traceroute, Netstat' },
+        { id: 'nmap-basics', title: 'Nmap Scanning Basics' }
+      ];
     default:
       return [];
   }
@@ -39,7 +53,26 @@ export function normalizeCourseKey(input: any): string | null {
   const s = str.toLowerCase();
   if (s.includes('frontend') && s.includes('beginner')) return 'frontend-beginner';
   if (s.includes('ai') && s.includes('tools')) return 'ai-tools-mastery';
+  if (s.includes('devops') && s.includes('beginner')) return 'devops-beginner';
+  if (s.includes('network') && s.includes('beginner')) return 'networking-beginner';
   // Allow exact keys
-  if (s === 'frontend-beginner' || s === 'ai-tools-mastery') return s;
+  if (s === 'frontend-beginner' || s === 'ai-tools-mastery' || s === 'devops-beginner' || s === 'networking-beginner') return s;
   return null;
+}
+
+// Shared mapping for display titles from normalized keys
+export function getCourseTitleFromKey(key: string | null | undefined): string | null {
+  if (!key) return null;
+  switch (key) {
+    case 'frontend-beginner':
+      return 'Frontend Development - Beginner';
+    case 'ai-tools-mastery':
+      return 'A.I Tools Mastery';
+    case 'devops-beginner':
+      return 'DevOps Fundamentals';
+    case 'networking-beginner':
+      return 'Networking - Beginner';
+    default:
+      return null;
+  }
 }

@@ -9,6 +9,7 @@ import TradingSection from './components/TradingSection';
 import TechnologiesCarousel from './components/TechnologiesCarousel';
 import IntroductionPage from './pages/IntroductionPage.jsx';
 import ModuleComingSoon from './pages/ModuleComingSoon.jsx';
+import CourseIntro from './pages/CourseIntro.jsx';
 import FrontendProjectPage from './components/FrontendProjectPage';
 import DevOpsBeginnerIntroductionPage from './pages/DevOpsBeginnerIntroductionPage.jsx'
 import ProjectsCatalog from './components/ProjectsCatalog';
@@ -28,6 +29,8 @@ import ProjectTracking from './components/ProjectTracking';
 import CourseLearning from './components/CourseLearning';
 import CourseLearningDevOpsBeginner from './components/CourseLearningDevOpsBeginner';
 import CourseLearningDevOpsAdvanced from './components/CourseLearningDevOpsAdvanced';
+import CourseLearningNetworkingBeginner from './components/CourseLearningNetworkingBeginner';
+import CourseLearningNetworkingIntermediate from './components/CourseLearningNetworkingIntermediate';
 import CourseEnrollment from './components/CourseEnrollment';
 import AssignmentPage from './components/AssignmentPage';
 import AIStudyMaterial from './components/AIStudyMaterial';
@@ -286,12 +289,36 @@ function AppInner() {
           <Route path="/course-learning-devops-advanced/:courseId/:moduleId/:lessonId" element={<CourseLearningDevOpsAdvanced />} />
           <Route path="/course-learning-devops-advanced/*" element={<CourseLearningDevOpsAdvanced />} />
           <Route path="/ai-study-material" element={<AIStudyMaterialProtected />} />
-          {/* Unique, protected per-student URL for Frontend Beginner HTML intro */}
+
           <Route path="/learn/:studentSlug/frontend-development-beginner" element={<IntroHtmlProtected />} />
           
-          {/* DevOps Beginner introduction and module routes */}
+
           <Route path="/devops-beginner" element={<><Header hideDock={true} /><DevOpsBeginnerIntroductionPage /></>} />
           <Route path="/devops-beginner/module/:slug" element={<><Header hideDock={true} /><ModuleComingSoon /></>} />
+
+
+          <Route path="/networking-beginner" element={<><Header hideDock={true} /><CourseIntro courseSlug="networking-beginner" /></>} />
+          <Route path="/networking-beginner/module/:slug" element={<><Header hideDock={true} /><CourseLearningNetworkingBeginner /></>} />
+          <Route path="/networking-intermediate" element={<><Header hideDock={true} /><CourseIntro courseSlug="networking-intermediate" /></>} />
+          <Route path="/networking-intermediate/module/:slug" element={<><Header hideDock={true} /><CourseLearningNetworkingIntermediate /></>} />
+          <Route path="/networking-advanced" element={<><Header hideDock={true} /><CourseIntro courseSlug="networking-advanced" /></>} />
+          <Route path="/networking-advanced/module/:slug" element={<><Header hideDock={true} /><ModuleComingSoon /></>} />
+
+
+          <Route path="/genai-beginner" element={<><Header hideDock={true} /><CourseIntro courseSlug="genai-beginner" /></>} />
+          <Route path="/genai-beginner/module/:slug" element={<><Header hideDock={true} /><ModuleComingSoon /></>} />
+          <Route path="/genai-intermediate" element={<><Header hideDock={true} /><CourseIntro courseSlug="genai-intermediate" /></>} />
+          <Route path="/genai-intermediate/module/:slug" element={<><Header hideDock={true} /><ModuleComingSoon /></>} />
+          <Route path="/genai-advanced" element={<><Header hideDock={true} /><CourseIntro courseSlug="genai-advanced" /></>} />
+          <Route path="/genai-advanced/module/:slug" element={<><Header hideDock={true} /><ModuleComingSoon /></>} />
+
+
+          <Route path="/cyber-security-beginner" element={<><Header hideDock={true} /><CourseIntro courseSlug="cyber-security-beginner" /></>} />
+          <Route path="/cyber-security-beginner/module/:slug" element={<><Header hideDock={true} /><ModuleComingSoon /></>} />
+          <Route path="/cyber-security-intermediate" element={<><Header hideDock={true} /><CourseIntro courseSlug="cyber-security-intermediate" /></>} />
+          <Route path="/cyber-security-intermediate/module/:slug" element={<><Header hideDock={true} /><ModuleComingSoon /></>} />
+          <Route path="/cyber-security-advanced" element={<><Header hideDock={true} /><CourseIntro courseSlug="cyber-security-advanced" /></>} />
+          <Route path="/cyber-security-advanced/module/:slug" element={<><Header hideDock={true} /><ModuleComingSoon /></>} />
           
           <Route path="/assignment/:assignmentId" element={<AssignmentPage />} />
           <Route path="/ai-tools-project/:projectId" element={<AIToolsProjectPage />} />
@@ -305,15 +332,20 @@ function AppInner() {
 }
 
 function App() {
-  return (
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || ''}>
-      <ThemeProvider>
-        <Router basename={import.meta.env.VITE_BASE_PATH || '/'}>
-          <AppInner />
-        </Router>
-      </ThemeProvider>
-    </GoogleOAuthProvider>
+  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  const appTree = (
+    <ThemeProvider>
+      <Router basename={import.meta.env.VITE_BASE_PATH || '/'}>
+        <AppInner />
+      </Router>
+    </ThemeProvider>
   );
+
+  return clientId ? (
+    <GoogleOAuthProvider clientId={clientId}>
+      {appTree}
+    </GoogleOAuthProvider>
+  ) : appTree;
 }
 
 export default App;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { XMarkIcon, AcademicCapIcon, CreditCardIcon, CalendarIcon, UserIcon, EnvelopeIcon, PhoneIcon, IdentificationIcon } from '@heroicons/react/24/outline';
+import { normalizeCourseKey, getCourseTitleFromKey } from '../data/courseAssignments';
 
 interface Student {
   _id: string;
@@ -170,7 +171,7 @@ const StudentDetailModal: React.FC<StudentDetailModalProps> = ({ student, isOpen
                       <div className="flex items-center justify-between mb-3">
                         <div>
                           <h4 className="text-white font-medium text-lg">
-                            {payment.courseId?.title || 'Course Title N/A'}
+                            {payment.courseId?.title || getCourseTitleFromKey(normalizeCourseKey(payment.courseId)) || 'Course Title N/A'}
                           </h4>
                           <p className="text-gray-400 text-sm">
                             Course ID: {payment.courseId?.courseId || 'N/A'}
@@ -224,7 +225,7 @@ const StudentDetailModal: React.FC<StudentDetailModalProps> = ({ student, isOpen
                     <div className="flex items-center justify-between mb-3">
                       <div>
                         <h4 className="text-white font-medium text-lg">
-                          {enrollment.courseId?.title || 'Course Title N/A'}
+                          {enrollment.courseId?.title || getCourseTitleFromKey(normalizeCourseKey(enrollment.courseId)) || 'Course Title N/A'}
                         </h4>
                         <p className="text-gray-400 text-sm">
                           Course ID: {enrollment.courseId?.courseId || 'N/A'}

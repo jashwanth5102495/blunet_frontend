@@ -1,0 +1,57 @@
+.theme-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background 0.3s ease, color 0.3s ease;
+  padding: 8px 10px;
+  border-radius: 12px;
+}
+
+.theme-wrapper.light {
+  background: transparent;
+  color: #000;
+}
+
+.theme-wrapper.dark {
+  background: transparent;
+  color: #fff;
+}
+
+/* Switch capsule */
+.toggle {
+  width: 60px;
+  height: 30px;
+  border-radius: 50px;
+  border: 2px solid currentColor;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 3px;
+  transition: all 0.3s ease;
+}
+
+.theme-wrapper.dark .toggle {
+  background: #222;
+}
+
+/* Sliding circle */
+.thumb {
+  width: 22px;
+  height: 22px;
+  background: #000;
+  border-radius: 50%;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+/* Move circle to right in dark mode */
+.theme-wrapper.dark .thumb {
+  transform: translateX(28px);
+  background: #fff;
+}
+
+.label {
+  user-select: none;
+}

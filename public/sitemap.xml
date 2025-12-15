@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>http://localhost:5176/</loc></url>
+  <url><loc>http://localhost:5176/about</loc></url>
+  <url><loc>http://localhost:5176/career</loc></url>
+  <url><loc>http://localhost:5176/contact</loc></url>
+  <url><loc>http://localhost:5176/courses</loc></url>
+  <url><loc>http://localhost:5176/projects</loc></url>
+  <url><loc>http://localhost:5176/projects/enroll</loc></url>
+  <url><loc>http://localhost:5176/student-registration</loc></url>
+  <url><loc>http://localhost:5176/student-login</loc></url>
+  <url><loc>http://localhost:5176/student-portal</loc></url>
+  <url><loc>http://localhost:5176/networking-beginner</loc></url>
+  <url><loc>http://localhost:5176/networking-intermediate</loc></url>
+  <url><loc>http://localhost:5176/networking-advanced</loc></url>
+  <url><loc>http://localhost:5176/devops-beginner</loc></url>
+  <url><loc>http://localhost:5176/genai-beginner</loc></url>
+  <url><loc>http://localhost:5176/genai-intermediate</loc></url>
+  <url><loc>http://localhost:5176/genai-advanced</loc></url>
+  <url><loc>http://localhost:5176/cyber-security-beginner</loc></url>
+  <url><loc>http://localhost:5176/cyber-security-intermediate</loc></url>
+  <url><loc>http://localhost:5176/cyber-security-advanced</loc></url>
+</urlset>
