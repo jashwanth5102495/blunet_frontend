@@ -1,13 +1,13 @@
 // Build-time sitemap and robots generator
 // Usage:
-//   - Set environment variable SITE_URL to your production origin, e.g. https://example.com
+//   - Prefer setting environment variable SITE_URL to your production origin, e.g. https://example.com
 //   - Optionally set BASE_PATH (e.g. /repo-name/ for GitHub Pages) — default '/'
+//   - Fallbacks: VERCEL_URL, Netlify URL/DEPLOY_URL, public/CNAME
 //   - The script writes public/sitemap.xml and public/robots.txt before Vite build
 
 const fs = require('fs');
 const path = require('path');
 
-const SITE_URL = process.env.SITE_URL || 'https://example.com';
 const BASE_PATH = process.env.BASE_PATH || '/';
 
 function normalizeBase(base) {
@@ -17,8 +17,40 @@ function normalizeBase(base) {
   return base;
 }
 
+function normalizeOrigin(url) {
+  if (!url) return null;
+  return String(url).replace(/\s+/g, '').replace(/\/+$/, '');
+}
+
+function getOrigin() {
+  // 1) Explicit env vars
+  const envUrl = normalizeOrigin(process.env.SITE_URL || process.env.VITE_SITE_URL || process.env.PUBLIC_URL);
+  if (envUrl) return envUrl;
+
+  // 2) Vercel preview/prod URL
+  const vercelUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null;
+  const vercel = normalizeOrigin(vercelUrl);
+  if (vercel) return vercel;
+
+  // 3) Netlify URL/DEPLOY_URL
+  const netlify = normalizeOrigin(process.env.URL || process.env.DEPLOY_URL);
+  if (netlify) return netlify;
+
+  // 4) GitHub Pages custom domain via public/CNAME
+  try {
+    const cnamePath = path.join(__dirname, '..', 'public', 'CNAME');
+    if (fs.existsSync(cnamePath)) {
+      const domain = fs.readFileSync(cnamePath, 'utf8').trim();
+      if (domain) return normalizeOrigin(`https://${domain}`);
+    }
+  } catch (_) {}
+
+  // Last-resort fallback
+  return 'https://example.com';
+}
+
 const base = normalizeBase(BASE_PATH);
-const origin = SITE_URL.replace(/\/$/, '');
+const origin = getOrigin();
 
 // Static routes — add more as needed
 const routes = [
