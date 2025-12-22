@@ -222,6 +222,7 @@ const StudentPortal: React.FC = () => {
       'devops-intermediate': ['4', 'devops-intermediate', 'DevOps - Intermediate'],
       'mobile-core': ['5', 'mobile-core', 'Mobile Development - Core'],
       'networking-beginner': ['networking-beginner', 'Networking - Beginner', 'NETWORKING-BEGINNER', 'networking_beginner', 'Networking Beginner'],
+      'networking-intermediate': ['networking-intermediate', 'Networking - Intermediate', 'NETWORKING-INTERMEDIATE', 'networking_intermediate', 'Networking Intermediate'],
       // Reverse mappings for backend course IDs
       '1': ['ai-tools-mastery', 'AI-TOOLS-MASTERY', 'AI Tools Mastery'],
       'AI-TOOLS-MASTERY': ['ai-tools-mastery', '1', 'AI-TOOLS-MASTERY'],
@@ -234,7 +235,10 @@ const StudentPortal: React.FC = () => {
       'DEVOPS-BEGINNER': ['devops-beginner', 'DevOps - Beginner'],
       'Networking - Beginner': ['networking-beginner', 'NETWORKING-BEGINNER'],
       'NETWORKING-BEGINNER': ['networking-beginner', 'Networking - Beginner'],
-      'Networking Beginner': ['networking-beginner', 'Networking - Beginner', 'NETWORKING-BEGINNER']
+      'Networking Beginner': ['networking-beginner', 'Networking - Beginner', 'NETWORKING-BEGINNER'],
+      'Networking - Intermediate': ['networking-intermediate', 'NETWORKING-INTERMEDIATE'],
+      'NETWORKING-INTERMEDIATE': ['networking-intermediate', 'Networking - Intermediate'],
+      'Networking Intermediate': ['networking-intermediate', 'Networking - Intermediate', 'NETWORKING-INTERMEDIATE']
     };
     return mappings[courseId] || [courseId];
   };
@@ -2713,6 +2717,164 @@ const StudentPortal: React.FC = () => {
       dueDate: '2024-07-20',
       status: 'pending',
       description: 'Capture and analyze traffic; apply filters to inspect protocols and flows.'
+    },
+
+    // Networking - Intermediate Course Assignments (Course ID: 'networking-intermediate')
+    {
+      id: 'networking-intermediate-1',
+      title: 'Advanced Linux Network Isolation',
+      courseId: 'networking-intermediate',
+      courseName: 'Networking - Intermediate',
+      dueDate: '2024-08-10',
+      status: 'pending',
+      description: 'Hands-on with Linux network namespaces and isolation patterns.',
+      studyMaterials: [
+        'Linux Network Namespaces',
+        'Process Isolation vs Network Isolation',
+        'veth Pairs and Virtual Ethernet Devices',
+        'Linux Loopback Behavior in Isolated Environments',
+        'Namespace-Based Firewalling',
+        'Per-Namespace Routing Tables',
+        'DNS Handling Inside Network Namespaces',
+        'Isolating Applications Using Network Namespaces',
+        'Namespace Communication Models',
+        'Namespace Cleanup and Resource Management',
+        'Network Namespace Security Risks',
+        'Namespace Performance Considerations',
+        'Using Namespaces for Network Labs',
+        'Troubleshooting Namespace Connectivity',
+        'Real-World Use Cases of Network Namespaces'
+      ]
+    },
+    {
+      id: 'networking-intermediate-2',
+      title: 'Dynamic Firewall and Security Rules',
+      courseId: 'networking-intermediate',
+      courseName: 'Networking - Intermediate',
+      dueDate: '2024-08-17',
+      status: 'pending',
+      description: 'Advanced firewall concepts including conntrack, rule ordering, and monitoring.',
+      studyMaterials: [
+        'Stateful vs Stateless Firewalls in Linux',
+        'Connection Tracking (conntrack) Internals',
+        'Dynamic Firewall Rule Evaluation',
+        'Firewall Rule Ordering and Optimization',
+        'Rate Limiting Strategies in Firewalls',
+        'Temporary IP Blocking Mechanisms',
+        'Time-Based Firewall Rules',
+        'Geo-IP Based Firewall Filtering',
+        'Application-Aware Firewalling',
+        'Firewall Rule Performance Tuning',
+        'Detecting Firewall Rule Conflicts',
+        'Logging Strategies for Security Events',
+        'Firewall Hardening Best Practices',
+        'Automated Firewall Rule Updates',
+        'Real-Time Firewall Monitoring'
+      ]
+    },
+    {
+      id: 'networking-intermediate-3',
+      title: 'High Availability Networking',
+      courseId: 'networking-intermediate',
+      courseName: 'Networking - Intermediate',
+      dueDate: '2024-08-24',
+      status: 'pending',
+      description: 'Designing redundant, resilient networks with bonding and failover.',
+      studyMaterials: [
+        'Concepts of High Availability in Networks',
+        'Network Redundancy Design Principles',
+        'Linux Bonding Architecture',
+        'Failover Detection Mechanisms',
+        'Active-Passive Network Designs',
+        'Active-Active Network Designs',
+        'Link Monitoring and Health Checks',
+        'Switch Requirements for Aggregation',
+        'High Availability in Virtualized Environments',
+        'NIC Failover Scenarios',
+        'High Availability with Multiple Gateways',
+        'Split-Brain Scenarios in Networking',
+        'Network Downtime Analysis',
+        'Testing High Availability Setups',
+        'Enterprise High Availability Case Studies'
+      ]
+    },
+    {
+      id: 'networking-intermediate-4',
+      title: 'Enterprise Routing & Segmentation',
+      courseId: 'networking-intermediate',
+      courseName: 'Networking - Intermediate',
+      dueDate: '2024-08-31',
+      status: 'pending',
+      description: 'Policy-based routing, segmentation, and multi-gateway architectures.',
+      studyMaterials: [
+        'Fundamentals of Enterprise Routing',
+        'Static vs Dynamic Routing Comparison',
+        'Policy-Based Routing Concepts',
+        'Source-Based Routing',
+        'Destination-Based Routing',
+        'Traffic Segmentation Strategies',
+        'Inter-VLAN Routing Concepts',
+        'Routing Between Isolated Networks',
+        'Routing Failover Design',
+        'Multi-Gateway Network Architectures',
+        'Traffic Flow Analysis',
+        'Routing Loop Detection',
+        'Route Priority and Metrics',
+        'Enterprise Network Segmentation Models',
+        'Troubleshooting Routing Issues'
+      ]
+    },
+    {
+      id: 'networking-intermediate-5',
+      title: 'Secure Network Tunnels and VPNs',
+      courseId: 'networking-intermediate',
+      courseName: 'Networking - Intermediate',
+      dueDate: '2024-09-07',
+      status: 'pending',
+      description: 'Tunneling fundamentals, encryption, performance, and enterprise VPN design.',
+      studyMaterials: [
+        'Fundamentals of Network Tunneling',
+        'Encryption vs Encapsulation',
+        'Site-to-Site VPN Concepts',
+        'Remote Access VPN Models',
+        'Authentication Methods in VPNs',
+        'Key Exchange Mechanisms',
+        'Tunnel Interface Design',
+        'VPN Performance Optimization',
+        'Split Tunneling vs Full Tunneling',
+        'Secure Access for Remote Employees',
+        'VPN Failover Strategies',
+        'Tunnel Security Threats',
+        'VPN Logging and Auditing',
+        'VPN Compliance and Policies',
+        'Enterprise VPN Architecture Examples'
+      ]
+    },
+    {
+      id: 'networking-intermediate-6',
+      title: 'Monitoring, Logging, and Performance Tools',
+      courseId: 'networking-intermediate',
+      courseName: 'Networking - Intermediate',
+      dueDate: '2024-09-14',
+      status: 'pending',
+      description: 'Enterprise-grade network monitoring, logging, and performance analysis.',
+      studyMaterials: [
+        'Importance of Network Monitoring',
+        'Active vs Passive Monitoring',
+        'Performance Metrics and KPIs',
+        'Network Baseline Concepts',
+        'Bandwidth Utilization Analysis',
+        'Latency, Jitter, and Packet Loss',
+        'Log Collection Strategies',
+        'Centralized Logging Architecture',
+        'Log Retention and Compliance',
+        'Alerting and Notification Systems',
+        'Incident Detection Using Logs',
+        'Root Cause Analysis Techniques',
+        'Performance Bottleneck Identification',
+        'Capacity Planning Basics',
+        'Network Monitoring in Enterprise Environments'
+      ]
     },
 
     // Frontend Development - Intermediate Course Assignments (Course ID: 'frontend-intermediate')

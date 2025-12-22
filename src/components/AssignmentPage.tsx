@@ -26,6 +26,8 @@ const getCourseAndModuleForAssignment = (id: string, title?: string) => {
     courseId = 'devops-beginner';
   } else if (id?.startsWith('networking-beginner')) {
     courseId = 'networking-beginner';
+  } else if (id?.startsWith('networking-intermediate')) {
+    courseId = 'networking-intermediate';
   } else if (id?.startsWith('frontend-intermediate')) {
     courseId = 'frontend-intermediate';
   } else if (id?.startsWith('ai-tools')) {

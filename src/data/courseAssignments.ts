@@ -40,6 +40,15 @@ export function getAssignmentDefinitions(courseKey: string): AssignmentDef[] {
         { id: 'tools-and-troubleshooting', title: 'Ping, Traceroute, Netstat' },
         { id: 'nmap-basics', title: 'Nmap Scanning Basics' }
       ];
+    case 'networking-intermediate':
+      return [
+        { id: 'advanced-linux-network-isolation', title: 'Advanced Linux Network Isolation' },
+        { id: 'dynamic-firewall-and-security-rules', title: 'Dynamic Firewall and Security Rules' },
+        { id: 'high-availability-networking', title: 'High Availability Networking' },
+        { id: 'enterprise-routing-and-segmentation', title: 'Enterprise Routing & Segmentation' },
+        { id: 'secure-network-tunnels-and-vpns', title: 'Secure Network Tunnels and VPNs' },
+        { id: 'monitoring-logging-and-performance-tools', title: 'Monitoring, Logging, and Performance Tools' }
+      ];
     default:
       return [];
   }
@@ -55,8 +64,9 @@ export function normalizeCourseKey(input: any): string | null {
   if (s.includes('ai') && s.includes('tools')) return 'ai-tools-mastery';
   if (s.includes('devops') && s.includes('beginner')) return 'devops-beginner';
   if (s.includes('network') && s.includes('beginner')) return 'networking-beginner';
+  if (s.includes('network') && s.includes('intermediate')) return 'networking-intermediate';
   // Allow exact keys
-  if (s === 'frontend-beginner' || s === 'ai-tools-mastery' || s === 'devops-beginner' || s === 'networking-beginner') return s;
+  if (s === 'frontend-beginner' || s === 'ai-tools-mastery' || s === 'devops-beginner' || s === 'networking-beginner' || s === 'networking-intermediate') return s;
   return null;
 }
 
@@ -72,6 +82,8 @@ export function getCourseTitleFromKey(key: string | null | undefined): string | 
       return 'DevOps Fundamentals';
     case 'networking-beginner':
       return 'Networking - Beginner';
+    case 'networking-intermediate':
+      return 'Networking - Intermediate';
     default:
       return null;
   }
