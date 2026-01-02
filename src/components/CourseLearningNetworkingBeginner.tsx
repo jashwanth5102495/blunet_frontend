@@ -1,7 +1,6 @@
-﻿import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
-import Header from './Header';
 import { askLLM } from '../services/llm';
 import { Paperclip, Mic, Send } from 'lucide-react';
 
@@ -1419,14 +1418,14 @@ clock rate 64000</code></pre>
           </ul>
 
           <h3 class="text-lg font-semibold mb-2">How scanning fits into the security lifecycle</h3>
-          <p class="mb-3">Discovery â†’ Enumeration â†’ Analysis â†’ Remediation. Scanning is the discovery/enumeration phase: identify targets and what they expose; analysis and remediation follow.</p>
+          <p class="mb-3">Discovery &rarr; Enumeration &rarr; Analysis &rarr; Remediation. Scanning is the discovery/enumeration phase: identify targets and what they expose; analysis and remediation follow.</p>
 
           <h3 class="text-lg font-semibold mb-2">Advantages</h3>
           <ul class="list-disc pl-6 mb-3">
             <li>Fast visibility across many hosts.</li>
             <li>Can be automated and scheduled.</li>
             <li>Rich feature set (host discovery, port enumeration, version detection, OS fingerprinting, scripts).</li>
-            <li>Widely supported and documented â€” many integrations and GUIs (Zenmap).</li>
+            <li>Widely supported and documented — many integrations and GUIs (Zenmap).</li>
           </ul>
 
           <h3 class="text-lg font-semibold mb-2">Disadvantages / Limitations</h3>
@@ -1434,12 +1433,12 @@ clock rate 64000</code></pre>
             <li>Active scanning is noisy: it generates traffic that may be logged or trigger IDS/IPS.</li>
             <li>False positives/negatives: some services hide behind proxies/firewalls; states may change.</li>
             <li>Legal risk: scanning without permission can be illegal in many jurisdictions.</li>
-            <li>Incomplete picture: open port â‰  vulnerability â€” further analysis required.</li>
+            <li>Incomplete picture: open port ≠ vulnerability — further analysis required.</li>
             <li>Timing/impact: aggressive scans can affect production devices.</li>
           </ul>
 
           <h3 class="text-lg font-semibold mb-2">Ethical & Legal Considerations</h3>
-          <p class="mb-3">Perform scans only in labs, on owned infrastructure, or with explicit written permission (scope, time window, IP ranges). Maintain responsible disclosure if you find a vulnerability on a customerâ€™s network.</p>
+          <p class="mb-3">Perform scans only in labs, on owned infrastructure, or with explicit written permission (scope, time window, IP ranges). Maintain responsible disclosure if you find a vulnerability on a customer’s network.</p>
 
           <h3 class="text-lg font-semibold mb-2">Alternatives & Complementary Tools</h3>
           <ul class="list-disc pl-6 mb-3">
@@ -2918,7 +2917,7 @@ show intrusion-detection
                       </div>
                     ) : activeTopicId === 'intro-network-scanning' ? (
                         <div className="space-y-3">
-                          <h4 className="text-md font-semibold">Introduction â€” Safe Terminal Examples</h4>
+                          <h4 className="text-md font-semibold">Introduction — Safe Terminal Examples</h4>
                           <p className="text-sm">Run only in your lab network or on hosts you control.</p>
                           <ol className="list-decimal ml-5 space-y-2 text-sm">
                             <li>
@@ -2934,7 +2933,7 @@ show intrusion-detection
                               <pre className="p-3 rounded-lg border"><code>nmap -p 22,80,443 192.168.1.10</code></pre>
                             </li>
                           </ol>
-                          <p className="text-xs opacity-80">Note: open port â‰  vulnerability; follow with enumeration and analysis.</p>
+                          <p className="text-xs opacity-80">Note: open port ≠ vulnerability; follow with enumeration and analysis.</p>
                         </div>
                       ) : activeTopicId === 'port-scanning-host-discovery' ? (
                       <div className="prose dark:prose-invert max-w-none">
@@ -2943,30 +2942,30 @@ show intrusion-detection
                           <div>
                             <h4 className="text-md font-semibold">Host discovery flags</h4>
                             <ul className="list-disc pl-6">
-                              <li><code>-sn</code> â€” ping scan (no port scan), discovers hosts only.</li>
-                              <li><code>-Pn</code> â€” treat all hosts as online (skip host discovery).</li>
-                              <li><code>-PS</code> / <code>-PA</code> / <code>-PU</code> â€” TCP SYN / ACK / UDP probes to specified ports (e.g., <code>-PS22,443</code>).</li>
+                              <li><code>-sn</code> — ping scan (no port scan), discovers hosts only.</li>
+                              <li><code>-Pn</code> — treat all hosts as online (skip host discovery).</li>
+                              <li><code>-PS</code> / <code>-PA</code> / <code>-PU</code> — TCP SYN / ACK / UDP probes to specified ports (e.g., <code>-PS22,443</code>).</li>
                             </ul>
                           </div>
                           <div>
                             <h4 className="text-md font-semibold">Port selection</h4>
                             <ul className="list-disc pl-6">
-                              <li><code>-p 1-65535</code> â€” scan full range.</li>
-                              <li><code>-p 80,443,8080</code> â€” specific ports separated by commas.</li>
-                              <li><code>-p-</code> â€” shorthand for 1â€“65535.</li>
+                              <li><code>-p 1-65535</code> — scan full range.</li>
+                              <li><code>-p 80,443,8080</code> — specific ports separated by commas.</li>
+                              <li><code>-p-</code> — shorthand for 1–65535.</li>
                             </ul>
                           </div>
                         </div>
                         <div className="mt-4">
                           <h4 className="text-md font-semibold">Port scan timing</h4>
                           <ul className="list-disc pl-6">
-                            <li><code>-T0</code> through <code>-T5</code> â€” slow to aggressive; <code>-T4</code> common on LAN, <code>-T5</code> is noisy.</li>
+                            <li><code>-T0</code> through <code>-T5</code> — slow to aggressive; <code>-T4</code> common on LAN, <code>-T5</code> is noisy.</li>
                           </ul>
                         </div>
                       </div>
                     ) : activeTopicId === 'nmap-commands' ? (
                       <div className="prose dark:prose-invert max-w-none">
-                        <h3 className="text-lg font-semibold">Nmap Syntax â€” Extended & Categorized</h3>
+                        <h3 className="text-lg font-semibold">Nmap Syntax — Extended & Categorized</h3>
                         <div className="grid sm:grid-cols-2 gap-4">
                           <div>
                             <h4 className="text-md font-semibold">Basic invocation</h4>
@@ -3732,14 +3731,6 @@ const ChatPanel: React.FC<{ isDark: boolean; messages: ChatMessage[]; loading: b
       }
     };
   }, [messages]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const trimmed = text.trim();
-    if (!trimmed) return;
-    onSend(trimmed);
-    setText('');
-  };
 
   return (
     <aside className={`${isDark ? 'bg-gradient-to-br from-white/15 to-white/5 border-white/20' : 'bg-gradient-to-br from-white/70 to-white/40 border-gray-300/40'} backdrop-blur-2xl backdrop-saturate-150 w-full lg:w-[560px] xl:w-[640px] lg:sticky lg:top-4 lg:self-start h-[calc(100vh-160px)] min-h-[520px] rounded-2xl border p-4 flex flex-col shadow-lg ring-1 ${isDark ? 'ring-white/10' : 'ring-white/60'}`

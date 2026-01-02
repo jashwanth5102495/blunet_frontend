@@ -31,6 +31,8 @@ import CourseLearningDevOpsBeginner from './components/CourseLearningDevOpsBegin
 import CourseLearningDevOpsAdvanced from './components/CourseLearningDevOpsAdvanced';
 import CourseLearningNetworkingBeginner from './components/CourseLearningNetworkingBeginner';
 import CourseLearningNetworkingIntermediate from './components/CourseLearningNetworkingIntermediate';
+import CourseLearningCyberSecurityBeginner from './components/CourseLearningCyberSecurityBeginner';
+import CourseLearningCyberSecurityIntermediate from './components/CourseLearningCyberSecurityIntermediate';
 import CourseEnrollment from './components/CourseEnrollment';
 import AssignmentPage from './components/AssignmentPage';
 import AIStudyMaterial from './components/AIStudyMaterial';
@@ -289,6 +291,7 @@ function AppInner() {
           <Route path="/course-learning-devops-advanced/:courseId/:moduleId/:lessonId" element={<CourseLearningDevOpsAdvanced />} />
           <Route path="/course-learning-devops-advanced/*" element={<CourseLearningDevOpsAdvanced />} />
           <Route path="/ai-study-material" element={<AIStudyMaterialProtected />} />
+          <Route path="/ethical-hacker/module/:moduleId" element={<AIStudyMaterialProtected />} />
 
           <Route path="/learn/:studentSlug/frontend-development-beginner" element={<IntroHtmlProtected />} />
           
@@ -314,9 +317,13 @@ function AppInner() {
 
 
           <Route path="/cyber-security-beginner" element={<><Header hideDock={true} /><CourseIntro courseSlug="cyber-security-beginner" /></>} />
-          <Route path="/cyber-security-beginner/module/:slug" element={<><Header hideDock={true} /><ModuleComingSoon /></>} />
+          <Route path="/cyber-security-beginner/module/:slug" element={<><Header hideDock={true} /><CourseLearningCyberSecurityBeginner /></>} />
           <Route path="/cyber-security-intermediate" element={<><Header hideDock={true} /><CourseIntro courseSlug="cyber-security-intermediate" /></>} />
-          <Route path="/cyber-security-intermediate/module/:slug" element={<><Header hideDock={true} /><ModuleComingSoon /></>} />
+          <Route path="/cyber-security-intermediate/module/:slug" element={
+            <ProtectedCourseGate courseId="cyber-security-intermediate">
+              <><Header hideDock={true} /><CourseLearningCyberSecurityIntermediate /></>
+            </ProtectedCourseGate>
+          } />
           <Route path="/cyber-security-advanced" element={<><Header hideDock={true} /><CourseIntro courseSlug="cyber-security-advanced" /></>} />
           <Route path="/cyber-security-advanced/module/:slug" element={<><Header hideDock={true} /><ModuleComingSoon /></>} />
           

@@ -4,7 +4,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import Header from './Header';
 import VideoPlaceholder from './VideoPlaceholder';
 
-import { ArrowLeft, Play, Book, Code, CheckCircle, XCircle, Lightbulb, Clock, Award, Users, Star, Monitor, Send, Sun, Moon, RotateCcw, ChevronLeft, ChevronRight, HelpCircle } from 'lucide-react';
+import { ArrowLeft, Play, Book, Code, Lightbulb, Clock, Users, Monitor, RotateCcw, ChevronLeft, ChevronRight, Send, CheckCircle } from 'lucide-react';
 import teacherSticker from '../../video-explanations/teacher.png';
 import MagnetLines from './MagnetLines';
 import StarBorder from './StarBorder';
@@ -85,16 +85,20 @@ interface Lesson {
 
 interface Exercise {
   id: string;
-  question: string;
-  initialCode: string;
+  question?: string;
+  initialCode?: string;
   solution: string;
-  hint: string;
+  hint?: string;
+  title?: string;
+  description?: string;
+  startingCode?: string;
 }
 
 interface CourseModule {
   id: string;
   title: string;
   lessons: Lesson[];
+  description?: string;
 }
 
 const CourseLearning = () => {
@@ -106,15 +110,17 @@ const CourseLearning = () => {
   const [code, setCode] = useState('');
   const [output, setOutput] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState<'theory' | 'exercise'>('theory');
+  const [activeTab, setActiveTab] = useState<'theory' | 'exercise' | 'teacher' | 'html'>('theory');
   const [currentExerciseId, setCurrentExerciseId] = useState<string | null>(null);
   const [submittedExercises, setSubmittedExercises] = useState<Set<string>>(new Set());
-  // const [exerciseProgress, setExerciseProgress] = useState<{[key: string]: number}>({});
+  const [exerciseProgress, setExerciseProgress] = useState<{[key: string]: number}>({});
   const [showSubmissionModal, setShowSubmissionModal] = useState(false);
   const [submissionMessage, setSubmissionMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [isFlipping, setIsFlipping] = useState(false);
+  // const [showQuestionBox, setShowQuestionBox] = useState(false);
+  // const [htmlCode, setHtmlCode] = useState('');
   const [showFileExplorer, setShowFileExplorer] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const [isAudioFullscreen, setIsAudioFullscreen] = useState(false);
@@ -300,6 +306,7 @@ window.addEventListener('load', addInteractivity);`
 
   // Start a simple teacher voice line on Teacher tab click (for lessons without a dedicated script)
   const startTeacherAudio = () => {
+    if (!currentLesson) return;
     try {
       if (!('speechSynthesis' in window)) return;
       // Stop any ongoing speech before starting
@@ -343,7 +350,7 @@ window.addEventListener('load', addInteractivity);`
 
     // Normalize inline text color to inherit so content respects theme
     const withoutInlineColors = withoutEmojis
-      .replace(/color\s*:\s*(#[0-9a-fA-F]{3,6}|rgb\s*\([^\)]*\)|[a-zA-Z]+)\s*;?/gi, 'color: inherit;');
+      .replace(/color\s*:\s*(#[0-9a-fA-F]{3,6}|rgb\s*\([^)]*\)|[a-zA-Z]+)\s*;?/gi, 'color: inherit;');
 
     // Remove hard white backgrounds that clash with dark mode
     const withoutHardBackgrounds = withoutInlineColors
@@ -391,7 +398,7 @@ window.addEventListener('load', addInteractivity);`
     minHeight?: number;
     initialWidth?: number;
     initialHeight?: number;
-    contentRef?: React.RefObject<HTMLDivElement>;
+    contentRef?: React.RefObject<HTMLDivElement | null>;
   }> = ({ children, minWidth = 240, minHeight = 120, initialWidth, initialHeight, contentRef }) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [size, setSize] = useState<{ width: number; height: number }>({
@@ -428,8 +435,8 @@ window.addEventListener('load', addInteractivity);`
       window.addEventListener('mouseup', onUp);
     };
 
-    const startTouchDrag = (e: React.TouchEvent<HTMLDivElement>) => {
-      const touch = e.touches[0];
+    const startTouchDrag = () => {
+      // const touch = e.touches[0];
       const onMove = (ev: TouchEvent) => {
         const t = ev.touches[0];
         if (!containerRef.current || !t) return;
@@ -479,7 +486,7 @@ window.addEventListener('load', addInteractivity);`
     const [currentSegment, setCurrentSegment] = useState(0);
     const [typedText, setTypedText] = useState('');
     const whiteboardRef = useRef<HTMLDivElement | null>(null);
-    const [showQuestionBox, setShowQuestionBox] = useState(false);
+    // const [showQuestionBox, setShowQuestionBox] = useState(false);
     const [questionText, setQuestionText] = useState('');
     const [submittedMsg, setSubmittedMsg] = useState('');
     
@@ -8849,19 +8856,24 @@ app.listen(PORT, () => {
     }
   };
 
-  const startExercise = (exercise: Exercise) => {
+  /* const startExercise = (exercise: Exercise) => {
     setCurrentExerciseId(exercise.id);
-    setCode(exercise.initialCode.replace(/\\n/g, '\n'));
-    setHtmlCode(exercise.initialCode);
+    if (exercise.initialCode) {
+      setCode(exercise.initialCode.replace(/\\n/g, '\n'));
+      // setHtmlCode(exercise.initialCode);
+    } else {
+      setCode('');
+      // setHtmlCode('');
+    }
     setActiveTab('html');
-  };
+  }; */
 
   const validateExercise = (exerciseId: string, userCode: string): boolean => {
     const exercise = currentLesson?.exercises.find(ex => ex.id === exerciseId);
     if (!exercise) return false;
 
     // Basic validation - check if code contains key elements from solution
-    const solution = exercise.solution.toLowerCase();
+    // const solution = exercise.solution.toLowerCase();
     const userCodeLower = userCode.toLowerCase();
 
     // For HTML exercises, check for essential elements
@@ -9480,8 +9492,8 @@ app.listen(PORT, () => {
                     <Play className="h-3 w-3" />
                     <span>Run</span>
                   </button>
-                  {/* Submit exercise button commented out */}
-                  {/* {currentExerciseId && !submittedExercises.has(currentExerciseId) && (
+                  {/* Submit exercise button */}
+                  {currentExerciseId && !submittedExercises.has(currentExerciseId) && (
                     <button
                       onClick={submitExercise}
                       disabled={isSubmitting}
@@ -9490,14 +9502,14 @@ app.listen(PORT, () => {
                       <Send className="h-3 w-3" />
                       <span>{isSubmitting ? 'Submitting...' : 'Submit'}</span>
                     </button>
-                  )} */}
-                  {/* Completed exercise indicator commented out */}
-                  {/* {currentExerciseId && submittedExercises.has(currentExerciseId) && (
+                  )}
+                  {/* Completed exercise indicator */}
+                  {currentExerciseId && submittedExercises.has(currentExerciseId) && (
                     <div className="px-3 py-1.5 bg-green-600 text-white text-sm rounded-md flex items-center space-x-1">
                       <CheckCircle className="h-3 w-3" />
                       <span>Completed</span>
                     </div>
-                  )} */}
+                  )}
                 </div>
               </div>
             </div>
@@ -9589,10 +9601,3 @@ app.listen(PORT, () => {
 };
 
 export default CourseLearning;
-function setHtmlCode(initialCode: string) {
-  setCode(initialCode);
-}
-function setCode(initialCode: string) {
-  throw new Error('Function not implemented.');
-}
-

@@ -657,8 +657,6 @@ end</code></pre>
           <p class="mb-2">Mastering NSE is essential for advanced scanning operations.</p>
         </div>
         `,
-      ],
-      syntaxPages: [
         `
         <div>
           <h3 class="text-lg font-semibold mb-3">NSE Syntax Quick Reference</h3>
@@ -687,8 +685,7 @@ nmap --script-updatedb
 nmap --script-help=http-passwd</code></pre>
         </div>
         `,
-      ],
-      syntaxPages: [
+      
         `
         <div>
           <h3 class="text-lg font-semibold mb-3">🧾 Enumeration Syntax</h3>
@@ -6272,10 +6269,11 @@ const TerminalSimulation = () => {
           case 'clear':
             setHistory([]);
             break;
-          case 'ls':
+          case 'ls': {
             const files = fileSystem[cwd] || [];
             log(files.join('  '));
             break;
+          }
           case 'pwd':
             log(cwd === '~' ? '/root' : cwd.replace('~', '/root'));
             break;
@@ -6302,7 +6300,7 @@ const TerminalSimulation = () => {
           case 'cat':
              log(args[0] === 'readme.txt' ? 'Welcome to the lab environment.' : `cat: ${args[0]}: No such file or directory`);
              break;
-          case 'nmap':
+          case 'nmap': {
              if (!installed.has('nmap')) { log('bash: nmap: command not found'); break; }
              const target = args[args.length - 1] || 'localhost';
              log(`Starting Nmap 7.80 ( https://nmap.org ) at ${new Date().toISOString().split('T')[0]}`);
@@ -6321,7 +6319,8 @@ const TerminalSimulation = () => {
              }
              log(`\nNmap done: 1 IP address (1 host up) scanned in 1.52 seconds`);
              break;
-          case 'ping':
+          }
+          case 'ping': {
              if (!installed.has('iputils-ping') && !installed.has('ping')) { log('bash: ping: command not found'); break; }
              const dest = args[0] || 'google.com';
              log(`PING ${dest} (142.250.183.46) 56(84) bytes of data.`);
@@ -6331,6 +6330,7 @@ const TerminalSimulation = () => {
              log(`--- ${dest} ping statistics ---`);
              log('3 packets transmitted, 3 received, 0% packet loss, time 2003ms');
              break;
+          }
           case 'traceroute':
           case 'tracepath':
              log(`traceroute to ${args[0] || 'google.com'} (142.250.183.46), 30 hops max, 60 byte packets`);
@@ -6347,7 +6347,7 @@ const TerminalSimulation = () => {
              log('tcp        0      0 10.0.2.15:22            10.0.2.2:54321          ESTABLISHED');
              break;
           case 'dig':
-          case 'nslookup':
+          case 'nslookup': {
              const domain = args[0] || 'google.com';
              log(`; <<>> DiG 9.16.1-Ubuntu <<>> ${domain}`);
              log(';; global options: +cmd');
@@ -6358,6 +6358,7 @@ const TerminalSimulation = () => {
              log(`;; ANSWER SECTION:\n${domain}.\t\t300\tIN\tA\t142.250.183.46`);
              log(';; Query time: 12 msec');
              break;
+          }
           case 'apt':
             if (args[0] === 'update') {
               log('Hit:1 http://archive.ubuntu.com/ubuntu focal InRelease');
@@ -6450,7 +6451,7 @@ const TerminalSimulation = () => {
              log('0 packets dropped by kernel');
              break;
           case 'curl':
-          case 'wget':
+          case 'wget': {
              if (!installed.has('curl') && !installed.has('wget')) { log(`bash: ${base}: command not found`); break; }
              const url = args[0] || 'http://google.com';
              log(`Resolving ${url.replace('http://', '').replace('https://', '').split('/')[0]}... 142.250.183.46`);
@@ -6463,6 +6464,7 @@ const TerminalSimulation = () => {
              log('');
              log(`2023-10-27 10:00:00 (1.50 MB/s) - 'index.html' saved [15600]`);
              break;
+          }
           case 'ifconfig':
              if (!installed.has('net-tools')) { log('bash: ifconfig: command not found'); break; }
              log('eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500');

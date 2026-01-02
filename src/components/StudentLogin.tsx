@@ -8,6 +8,42 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
+interface GoogleLoginButtonProps {
+  onSuccess: (tokenResponse: any) => void;
+  onError: () => void;
+  isGoogleLoading: boolean;
+  googleClientId: string;
+}
+
+const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ onSuccess, onError, isGoogleLoading }) => {
+  const login = useGoogleLogin({
+    onSuccess,
+    onError,
+  });
+
+  return (
+    <button
+      type="button"
+      onClick={() => login()}
+      disabled={isGoogleLoading}
+      className="w-full flex items-center justify-center gap-3 px-4 py-3 
+               bg-white border border-gray-300 rounded-md 
+               text-gray-700 font-medium text-sm
+               hover:bg-gray-50 hover:border-gray-400 
+               transition-all duration-200
+               disabled:opacity-60 disabled:cursor-not-allowed
+               shadow-sm"
+    >
+      <img 
+        src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" 
+        alt="Google" 
+        className="w-5 h-5" 
+      />
+      <span>{isGoogleLoading ? 'Signing in...' : 'Continue with Google'}</span>
+    </button>
+  );
+};
+
 const StudentLogin = () => {
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
@@ -101,80 +137,75 @@ const StudentLogin = () => {
     }
   };
 
-  const googleLogin = googleClientId ? useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      try {
-        setIsGoogleLoading(true);
-        setError('');
-        // Get user info from Google using the access token
-        const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers: {
-            Authorization: `Bearer ${tokenResponse.access_token}`,
-          },
-        });
-        const userInfo = await userInfoResponse.json();
-        // Send the access token or user info to your backend
-        const resp = await fetch(`${BASE_URL}/api/students/google-login`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({ 
-            accessToken: tokenResponse.access_token,
-            userInfo: userInfo
-          })
-        });
-        const data = await resp.json().catch(async () => ({ raw: await resp.text() }));
-        if (!resp.ok || !data?.success) {
-          const msg = data?.message || data?.error || 'Google login failed.';
-          setError(msg);
-          toast.error(msg, {
-            duration: 4000,
-            position: 'top-center',
-          });
-          setIsGoogleLoading(false);
-          return;
-        }
-        const { student, token, needsSetup } = data.data;
-        const userData = { ...student, isAuthenticated: true, token };
-        localStorage.setItem('currentUser', JSON.stringify(userData));
-        if (token) localStorage.setItem('authToken', token);
-        const requiresSetup = needsSetup || student.setupRequired;
-        toast.success('Google login successful! 🎉', {
-          duration: 2000,
-          position: 'top-center',
-        });
-        if (requiresSetup) {
-          navigate('/student-setup');
-        } else {
-          navigate('/student-portal');
-        }
-      } catch (e) {
-        console.error('Google login error:', e);
-        const errorMsg = 'Unable to login with Google. Please try again.';
-        setError(errorMsg);
-        toast.error(errorMsg, {
+  const handleGoogleSuccess = async (tokenResponse: any) => {
+    try {
+      setIsGoogleLoading(true);
+      setError('');
+      // Get user info from Google using the access token
+      const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: {
+          Authorization: `Bearer ${tokenResponse.access_token}`,
+        },
+      });
+      const userInfo = await userInfoResponse.json();
+      // Send the access token or user info to your backend
+      const resp = await fetch(`${BASE_URL}/api/students/google-login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ 
+          accessToken: tokenResponse.access_token,
+          userInfo: userInfo
+        })
+      });
+      const data = await resp.json().catch(async () => ({ raw: await resp.text() }));
+      if (!resp.ok || !data?.success) {
+        const msg = data?.message || data?.error || 'Google login failed.';
+        setError(msg);
+        toast.error(msg, {
           duration: 4000,
           position: 'top-center',
         });
-      } finally {
         setIsGoogleLoading(false);
+        return;
       }
-    },
-    onError: () => {
-      console.log('Google Login Failed');
-      const errorMsg = 'Google login failed. Please try again.';
+      const { student, token, needsSetup } = data.data;
+      const userData = { ...student, isAuthenticated: true, token };
+      localStorage.setItem('currentUser', JSON.stringify(userData));
+      if (token) localStorage.setItem('authToken', token);
+      const requiresSetup = needsSetup || student.setupRequired;
+      toast.success('Google login successful! 🎉', {
+        duration: 2000,
+        position: 'top-center',
+      });
+      if (requiresSetup) {
+        navigate('/student-setup');
+      } else {
+        navigate('/student-portal');
+      }
+    } catch (e) {
+      console.error('Google login error:', e);
+      const errorMsg = 'Unable to login with Google. Please try again.';
       setError(errorMsg);
       toast.error(errorMsg, {
         duration: 4000,
         position: 'top-center',
       });
-    },
-  }) : () => {
-    const msg = 'Google login is not configured.';
-    setError(msg);
-    toast.error(msg, { duration: 3000, position: 'top-center' });
+    } finally {
+      setIsGoogleLoading(false);
+    }
+  };
+
+  const handleGoogleError = () => {
+    console.log('Google Login Failed');
+    const errorMsg = 'Google login failed. Please try again.';
+    setError(errorMsg);
+    toast.error(errorMsg, {
+      duration: 4000,
+      position: 'top-center',
+    });
   };
 
   return (
@@ -224,22 +255,27 @@ const StudentLogin = () => {
               </div>
 
               <div className="mb-4">
-                <button
-                  type="button"
-                  onClick={() => googleLogin()}
-                  disabled={isGoogleLoading || !googleClientId}
-                  className="w-full flex items-center justify-center gap-3 px-4 py-3 
-               bg-white border border-gray-300 rounded-md 
-               text-gray-700 font-medium text-sm
-               hover:bg-gray-50 hover:border-gray-400 
-               transition-all duration-200
-               disabled:opacity-60 disabled:cursor-not-allowed
-               shadow-sm"
-                >
-                  {/* Google icon from your SVG file */}
-                  <img src="/icons8-google.svg" alt="Google" className="w-5 h-5" />
-                  <span>{isGoogleLoading ? 'Signing in...' : (googleClientId ? 'Continue with Google' : 'Google login unavailable')}</span>
-                </button>
+                {googleClientId ? (
+                  <GoogleLoginButton
+                    onSuccess={handleGoogleSuccess}
+                    onError={handleGoogleError}
+                    isGoogleLoading={isGoogleLoading}
+                    googleClientId={googleClientId}
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    disabled
+                    className="w-full flex items-center justify-center gap-3 px-4 py-3 
+                   bg-white border border-gray-300 rounded-md 
+                   text-gray-700 font-medium text-sm
+                   disabled:opacity-60 disabled:cursor-not-allowed
+                   shadow-sm"
+                  >
+                    <img src="/icons8-google.svg" alt="Google" className="w-5 h-5" />
+                    <span>Google login unavailable</span>
+                  </button>
+                )}
               </div>
 
               <div className="flex items-center gap-3 mb-4">

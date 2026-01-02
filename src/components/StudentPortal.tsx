@@ -6,16 +6,12 @@ import Sidebar from './Sidebar';
 import MagicBento from './MagicBento';
 import { 
   HomeIcon,
-  AcademicCapIcon,
-  UserIcon,
   BookOpenIcon,
   ClipboardDocumentListIcon,
   GlobeAltIcon,
   Cog6ToothIcon,
   QuestionMarkCircleIcon,
   BellIcon,
-  CloudArrowUpIcon,
-  LinkIcon,
   XMarkIcon
 } from '@heroicons/react/24/outline';
 
@@ -47,6 +43,13 @@ interface Course {
   adminConfirmedBy?: string;
   adminConfirmedAt?: string;
   courseId?: string;
+  enrollmentConfirmationStatus?: string;
+  enrollmentStatus?: string;
+  status?: string;
+  confirmationStatus?: string;
+  paymentStatus?: string;
+  transactionId?: string;
+  paymentId?: string;
 }
 
 interface CourseProgress {
@@ -132,11 +135,7 @@ const StudentPortal: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
   
-  // Upload functionality state
-  const [selectedAssignmentId, setSelectedAssignmentId] = useState<string | null>(null);
-  const [uploadType, setUploadType] = useState<'file' | 'git'>('file');
-  const [gitUrl, setGitUrl] = useState('');
-  
+
   // Payment functionality state
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [paymentModalData, setPaymentModalData] = useState<PaymentModalData | null>(null);
@@ -146,8 +145,12 @@ const StudentPortal: React.FC = () => {
   const [enrolledCoursesData, setEnrolledCoursesData] = useState<Course[]>([]);
   const [courseProgress, setCourseProgress] = useState<{ [courseId: string]: CourseProgress }>({});
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
+
+  // Missing state variables
+  const [selectedStudyMaterials, setSelectedStudyMaterials] = useState<string[]>([]);
+  const [selectedTestQuestions, setSelectedTestQuestions] = useState<{ question: string; options: string[]; correctAnswer: number }[]>([]);
+  const [_overallCompletionPercentage, _setOverallCompletionPercentage] = useState(0);
+
   const [pwdCurrent, setPwdCurrent] = useState('');
   const [pwdNew, setPwdNew] = useState('');
   const [pwdConfirm, setPwdConfirm] = useState('');
@@ -191,9 +194,7 @@ const StudentPortal: React.FC = () => {
   const [selectedCourseForProjects, setSelectedCourseForProjects] = useState<string | null>(null);
 
   // Overall completion tracking state
-  const [overallCompletionPercentage, setOverallCompletionPercentage] = useState<number>(0);
-  const [selectedStudyMaterials, setSelectedStudyMaterials] = useState<string[]>([]);
-  const [selectedTestQuestions, setSelectedTestQuestions] = useState<Assignment['testQuestions']>([]);
+
   
   // Course details state
   const [selectedCourseForDetails, setSelectedCourseForDetails] = useState<Course | null>(null);
@@ -205,7 +206,7 @@ const StudentPortal: React.FC = () => {
   
   // Assignment tracking state
   const [assignmentStatuses, setAssignmentStatuses] = useState<{ [assignmentId: string]: Assignment['status'] }>({});
-  const [assignmentSubmissions, setAssignmentSubmissions] = useState<{ [assignmentId: string]: { type: 'file' | 'git', content: string, submittedAt: string } }>({});
+
   const [assignmentSummary, setAssignmentSummary] = useState<{ total: number; completed: number; pending: number } | null>(null);
   
   // Module submission tracking state
@@ -223,6 +224,8 @@ const StudentPortal: React.FC = () => {
       'mobile-core': ['5', 'mobile-core', 'Mobile Development - Core'],
       'networking-beginner': ['networking-beginner', 'Networking - Beginner', 'NETWORKING-BEGINNER', 'networking_beginner', 'Networking Beginner'],
       'networking-intermediate': ['networking-intermediate', 'Networking - Intermediate', 'NETWORKING-INTERMEDIATE', 'networking_intermediate', 'Networking Intermediate'],
+      'cyber-security-beginner': ['cyber-security-beginner', 'CYBER-SECURITY-BEGINNER', 'Cyber Security - Beginner', 'cybersecurity-beginner'],
+      'cyber-security-intermediate': ['cyber-security-intermediate', 'CYBER-SECURITY-INTERMEDIATE', 'Cyber Security - Intermediate', 'cybersecurity-intermediate'],
       // Reverse mappings for backend course IDs
       '1': ['ai-tools-mastery', 'AI-TOOLS-MASTERY', 'AI Tools Mastery'],
       'AI-TOOLS-MASTERY': ['ai-tools-mastery', '1', 'AI-TOOLS-MASTERY'],
@@ -238,7 +241,11 @@ const StudentPortal: React.FC = () => {
       'Networking Beginner': ['networking-beginner', 'Networking - Beginner', 'NETWORKING-BEGINNER'],
       'Networking - Intermediate': ['networking-intermediate', 'NETWORKING-INTERMEDIATE'],
       'NETWORKING-INTERMEDIATE': ['networking-intermediate', 'Networking - Intermediate'],
-      'Networking Intermediate': ['networking-intermediate', 'Networking - Intermediate', 'NETWORKING-INTERMEDIATE']
+      'Networking Intermediate': ['networking-intermediate', 'Networking - Intermediate', 'NETWORKING-INTERMEDIATE'],
+      'CYBER-SECURITY-BEGINNER': ['cyber-security-beginner', 'CYBER-SECURITY-BEGINNER', 'Cyber Security - Beginner'],
+      'Cyber Security - Beginner': ['cyber-security-beginner', 'CYBER-SECURITY-BEGINNER'],
+      'CYBER-SECURITY-INTERMEDIATE': ['cyber-security-intermediate', 'CYBER-SECURITY-INTERMEDIATE', 'Cyber Security - Intermediate'],
+      'Cyber Security - Intermediate': ['cyber-security-intermediate', 'CYBER-SECURITY-INTERMEDIATE']
     };
     return mappings[courseId] || [courseId];
   };
@@ -1984,9 +1991,13 @@ const StudentPortal: React.FC = () => {
     paymentStatus?: string;
     confirmationStatus?: string;
     transactionId?: string;
+    paymentId?: string;
     paymentMethod?: string;
     adminConfirmedBy?: string;
     adminConfirmedAt?: string;
+    enrollmentConfirmationStatus?: string;
+    enrollmentStatus?: string;
+    status?: string;
   }
 
   // Generate enrolled courses summary from backend data
@@ -2023,9 +2034,9 @@ const StudentPortal: React.FC = () => {
   console.log('Final enrolledCourses:', enrolledCourses);
 
   // Available courses for browsing (using allCourses data)
-  const _availableCourses = allCourses.filter(course => 
+  /* const _availableCourses = allCourses.filter(course => 
     !enrolledCourses.some(enrolledCourse => enrolledCourse.id === course.id)
-  );
+  ); */
 
   // Sample projects for Frontend Development - Beginner (8 progressive difficulty projects)
   const projects: Project[] = [
@@ -2933,6 +2944,116 @@ const StudentPortal: React.FC = () => {
       description: 'Focus: Unit testing (Jest), component testing (React Testing Library), mocking APIs, snapshot testing.'
     },
 
+    {
+      id: 'cyber-security-1',
+      title: 'Fundamentals of Cyber Security Governance & Risk',
+      courseId: 'cyber-security-beginner',
+      courseName: 'Cyber Security - Beginner',
+      dueDate: '2025-01-15',
+      status: 'pending',
+      description: 'Understand security governance frameworks, risk management, compliance, and policy foundations.'
+    },
+    {
+      id: 'cyber-security-2',
+      title: 'Secure Software Development & Web Vulnerabilities',
+      courseId: 'cyber-security-beginner',
+      courseName: 'Cyber Security - Beginner',
+      dueDate: '2025-01-22',
+      status: 'pending',
+      description: 'Learn secure SDLC, OWASP Top 10, input validation, authentication, and common web vulnerabilities.'
+    },
+    {
+      id: 'cyber-security-3',
+      title: 'Malware, Threat Intelligence & Incident Response',
+      courseId: 'cyber-security-beginner',
+      courseName: 'Cyber Security - Beginner',
+      dueDate: '2025-01-29',
+      status: 'pending',
+      description: 'Identify malware types, use threat intelligence sources, and practice basic incident response workflows.'
+    },
+    {
+      id: 'cyber-security-4',
+      title: 'Advanced Network Security & Defense Mechanisms',
+      courseId: 'cyber-security-beginner',
+      courseName: 'Cyber Security - Beginner',
+      dueDate: '2025-02-05',
+      status: 'pending',
+      description: 'Explore firewalls, IDS/IPS, segmentation, VPNs, and secure network architecture principles.'
+    },
+    {
+      id: 'cyber-security-5',
+      title: 'Ethical Hacking Tools, OSINT & Exploit Techniques',
+      courseId: 'cyber-security-beginner',
+      courseName: 'Cyber Security - Beginner',
+      dueDate: '2025-02-12',
+      status: 'pending',
+      description: 'Practice ethical hacking workflows, OSINT gathering, reconnaissance, and basic exploitation concepts.'
+    },
+    {
+      id: 'cyber-security-6',
+      title: 'Emerging Technologies & Cybersecurity Trends',
+      courseId: 'cyber-security-beginner',
+      courseName: 'Cyber Security - Beginner',
+      dueDate: '2025-02-19',
+      status: 'pending',
+      description: 'Review modern threats and defenses across AI, cloud, mobile, IoT, and evolving security landscapes.'
+    },
+
+    // Cyber Security - Intermediate Course Assignments (Course ID: 'cyber-security-intermediate')
+    {
+      id: 'cyber-security-intermediate-1',
+      title: 'Assignment 1: Network Security & Fundamentals',
+      courseId: 'cyber-security-intermediate',
+      courseName: 'Cyber Security - Intermediate',
+      dueDate: '2024-08-01',
+      status: 'pending',
+      description: 'Deep dive into network protocols and securing infrastructure. Analyze packet captures and identify security flaws.'
+    },
+    {
+      id: 'cyber-security-intermediate-2',
+      title: 'Assignment 2: Web & Application Security',
+      courseId: 'cyber-security-intermediate',
+      courseName: 'Cyber Security - Intermediate',
+      dueDate: '2024-08-08',
+      status: 'pending',
+      description: 'Analyzing and securing web applications against common vulnerabilities like SQL Injection and XSS.'
+    },
+    {
+      id: 'cyber-security-intermediate-3',
+      title: 'Assignment 3: Cryptography & Data Security',
+      courseId: 'cyber-security-intermediate',
+      courseName: 'Cyber Security - Intermediate',
+      dueDate: '2024-08-15',
+      status: 'pending',
+      description: 'Implementing encryption and protecting data at rest and in transit. Practice with symmetric and asymmetric encryption tools.'
+    },
+    {
+      id: 'cyber-security-intermediate-4',
+      title: 'Assignment 4: Malware & Threat Analysis',
+      courseId: 'cyber-security-intermediate',
+      courseName: 'Cyber Security - Intermediate',
+      dueDate: '2024-08-22',
+      status: 'pending',
+      description: 'Deep dive into malware types, analysis techniques, and threat mitigation strategies.'
+    },
+    {
+      id: 'cyber-security-intermediate-5',
+      title: 'Assignment 5: Cyber Attack & Defense Techniques',
+      courseId: 'cyber-security-intermediate',
+      courseName: 'Cyber Security - Intermediate',
+      dueDate: '2024-08-29',
+      status: 'pending',
+      description: 'Mastering attack methodologies and implementing robust defense strategies.'
+    },
+    {
+      id: 'cyber-security-intermediate-6',
+      title: 'Assignment 6: Security Tools, Scripting & Automation',
+      courseId: 'cyber-security-intermediate',
+      courseName: 'Cyber Security - Intermediate',
+      dueDate: '2024-09-05',
+      status: 'pending',
+      description: 'Mastering security automation, scripting, and tools for efficient defense.'
+    },
 
   ];
 
@@ -3079,8 +3200,9 @@ const StudentPortal: React.FC = () => {
           console.log('Could not fetch additional student data from backend, using localStorage data');
         }
 
+        const fullName = [studentData.firstName, studentData.lastName].filter(Boolean).join(' ').trim();
         setStudentProfile({
-          name: `${studentData.firstName} ${studentData.lastName}` || 'Student Name',
+          name: fullName || 'Student Name',
           email: studentData.email || 'student@example.com',
           enrolledCourses: purchasedCourses.length,
           phone: studentData.phone || 'Not provided',
@@ -3109,7 +3231,7 @@ const StudentPortal: React.FC = () => {
   // Update overall completion percentage when relevant data changes
   useEffect(() => {
     const newCompletionPercentage = calculateOverallCompletionPercentage();
-    setOverallCompletionPercentage(newCompletionPercentage);
+    _setOverallCompletionPercentage(newCompletionPercentage);
   }, [assignmentStatuses, courseProgress, purchasedCourses, enrolledCoursesData]);
 
   const handleContinueLearning = (courseId: string) => {
@@ -3161,7 +3283,17 @@ const StudentPortal: React.FC = () => {
       'networking-beginner': '/networking-beginner',
       'NETWORKING-BEGINNER': '/networking-beginner',
       'networking-intermediate': '/networking-intermediate',
-      'NETWORKING-INTERMEDIATE': '/networking-intermediate'
+      'NETWORKING-INTERMEDIATE': '/networking-intermediate',
+      // Cyber Security course intros
+      'cyber-security-beginner': '/cyber-security-beginner',
+      'CYBER-SECURITY-BEGINNER': '/cyber-security-beginner',
+      'cybersecurity-beginner': '/cyber-security-beginner',
+      'cyber-security-intermediate': '/cyber-security-intermediate',
+      'CYBER-SECURITY-INTERMEDIATE': '/cyber-security-intermediate',
+      'cybersecurity-intermediate': '/cyber-security-intermediate',
+      'cyber-security-advanced': '/cyber-security-advanced',
+      'CYBER-SECURITY-ADVANCED': '/cyber-security-advanced',
+      'cybersecurity-advanced': '/cyber-security-advanced'
     };
 
     // Navigate to the appropriate course learning page
@@ -3346,73 +3478,7 @@ const StudentPortal: React.FC = () => {
     }
   };
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      // Check if file is a zip file
-      if (file.type === 'application/zip' || file.name.endsWith('.zip')) {
-        setSelectedFile(file);
-      } else {
-        alert('Please select a ZIP file only.');
-        event.target.value = '';
-      }
-    }
-  };
 
-  const handleSubmitAssignment = async (assignmentId: string) => {
-    if (!selectedFile && !gitUrl.trim()) {
-      alert('Please select a file or enter a Git URL.');
-      return;
-    }
-
-    setIsUploading(true);
-    
-    try {
-      // Simulate upload process
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      const submissionData = {
-        type: uploadType,
-        content: uploadType === 'file' ? selectedFile?.name || '' : gitUrl,
-        submittedAt: new Date().toISOString()
-      };
-      
-      // Update assignment status to submitted
-      setAssignmentStatuses(prev => ({
-        ...prev,
-        [assignmentId]: 'submitted'
-      }));
-      
-      // Store submission details
-      setAssignmentSubmissions(prev => ({
-        ...prev,
-        [assignmentId]: submissionData
-      }));
-      
-      if (uploadType === 'file' && selectedFile) {
-        console.log('Uploading file:', selectedFile.name, 'for assignment:', assignmentId);
-        alert(`File "${selectedFile.name}" uploaded successfully for assignment!`);
-      } else if (uploadType === 'git' && gitUrl.trim()) {
-        console.log('Submitting Git URL:', gitUrl, 'for assignment:', assignmentId);
-        alert(`Git repository "${gitUrl}" submitted successfully for assignment!`);
-      }
-      
-      // Reset form
-      setSelectedFile(null);
-      setGitUrl('');
-      setSelectedAssignmentId(null);
-      
-      // Reset file input
-      const fileInput = document.getElementById('file-upload') as HTMLInputElement;
-      if (fileInput) fileInput.value = '';
-      
-    } catch (error) {
-      console.error('Upload error:', error);
-      alert('Upload failed. Please try again.');
-    } finally {
-      setIsUploading(false);
-    }
-  };
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -3528,17 +3594,17 @@ const StudentPortal: React.FC = () => {
                   (course.adminConfirmedBy && course.adminConfirmedAt) // Admin confirmed the payment
                 );
                 
+                const isRejected = (
+                  confirmationStatus === 'rejected' || 
+                  enrollmentStatus === 'payment_rejected' ||
+                  course.paymentStatus === 'failed'
+                );
+                
                 const isPending = (
                   confirmationStatus === 'waiting_for_confirmation' || 
                   enrollmentStatus === 'pending_payment' ||
                   course.paymentStatus === 'pending' ||
                   (!isAccessAllowed && !isRejected && course.transactionId) // Has transaction but not confirmed
-                );
-                
-                const isRejected = (
-                  confirmationStatus === 'rejected' || 
-                  enrollmentStatus === 'payment_rejected' ||
-                  course.paymentStatus === 'failed'
                 );
                 
                 const hasNoPayment = (
@@ -3832,7 +3898,7 @@ const StudentPortal: React.FC = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredCourses.map((course, index) => (
+              {filteredCourses.map((course) => (
                 <div 
                   key={course.id} 
                   className="bg-gray-900 rounded-lg overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/20 cursor-pointer"
@@ -4652,11 +4718,11 @@ const StudentPortal: React.FC = () => {
                         Choose Video File
                       </button>
                       {/* Progress requirement notification commented out */}
-                      {/* {overallCompletionPercentage < 80 && (
+                      {_overallCompletionPercentage < 80 && (
                         <p className="text-yellow-400 text-xs text-center mt-2">
-                          🔒 Unlocks at 80% completion ({overallCompletionPercentage}% current)
+                          🔒 Unlocks at 80% completion ({_overallCompletionPercentage}% current)
                         </p>
-                      )} */}
+                      )}
                     </MagicBento>
 
                     <MagicBento
@@ -4688,11 +4754,11 @@ const StudentPortal: React.FC = () => {
                             Choose Resume File
                           </button>
                           {/* Progress requirement notification commented out */}
-                          {/* {overallCompletionPercentage < 80 && (
+                          {_overallCompletionPercentage < 80 && (
                             <p className="text-yellow-400 text-xs text-center mt-2">
-                              🔒 Unlocks at 80% completion ({overallCompletionPercentage}% current)
+                              🔒 Unlocks at 80% completion ({_overallCompletionPercentage}% current)
                             </p>
-                          )} */}
+                          )}
                         </div>
 
                         <div>
@@ -5253,7 +5319,7 @@ const StudentPortal: React.FC = () => {
                     <button
                       onClick={() => {
                         const score = selectedTestQuestions?.reduce(
-                          (acc, question, index) => {
+                          (acc: number, question: any, index: number) => {
                             return acc + (currentTestAnswers[index] === question.correctAnswer ? 1 : 0);
                           },
                           0

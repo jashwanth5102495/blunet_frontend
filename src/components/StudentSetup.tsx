@@ -92,7 +92,9 @@ const StudentSetup: React.FC = () => {
           }
         }));
       }
-    } catch {}
+    } catch {
+      // ignore
+    }
   }, [navigate]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -193,7 +195,7 @@ const StudentSetup: React.FC = () => {
     }
 
     let user: any;
-    try { user = JSON.parse(stored); } catch {}
+    try { user = JSON.parse(stored); } catch { /* empty */ }
     const id = user?._id || user?.id;
     if (!id) {
       const errorMsg = 'Missing student id.';

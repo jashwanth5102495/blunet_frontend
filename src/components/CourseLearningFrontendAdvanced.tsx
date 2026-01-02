@@ -1235,7 +1235,7 @@ export default Modal;`
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    const exerciseId = \`\${currentModule.id}-\${currentLesson.id}\`;
+    const exerciseId = `${currentModule.id}-${currentLesson.id}`;
     setSubmittedExercises(prev => new Set([...prev, exerciseId]));
     setSubmissionMessage('Great work! Your solution has been submitted successfully.');
     setShowSubmissionModal(true);
@@ -1244,7 +1244,7 @@ export default Modal;`
 
   // Get current exercise
   const currentExercise = currentModule?.exercises.find(ex => 
-    ex.id === \`\${currentLesson?.id?.replace('-', '-')}-exercise\`
+    ex.id === `${currentLesson?.id?.replace('-', '-')}-exercise`
   );
 
   // Navigation helpers
@@ -1412,9 +1412,9 @@ export default Modal;`
                         
                         <button
                           onClick={handleSubmitExercise}
-                          disabled={isSubmitting || submittedExercises.has(\`\${currentModule.id}-\${currentLesson.id}\`)}
+                          disabled={isSubmitting || submittedExercises.has(`${currentModule.id}-${currentLesson.id}`)}
                           className={`flex items-center px-6 py-2 rounded-lg font-medium transition-colors ${
-                            submittedExercises.has(\`\${currentModule.id}-\${currentLesson.id}\`)
+                            submittedExercises.has(`${currentModule.id}-${currentLesson.id}`)
                               ? 'bg-green-600 text-white cursor-not-allowed'
                               : isSubmitting
                                 ? 'bg-purple-400 text-white cursor-not-allowed'
@@ -1426,7 +1426,7 @@ export default Modal;`
                               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                               Submitting...
                             </>
-                          ) : submittedExercises.has(\`\${currentModule.id}-\${currentLesson.id}\`) ? (
+                          ) : submittedExercises.has(`${currentModule.id}-${currentLesson.id}`) ? (
                             <>
                               <CheckCircle className="w-4 h-4 mr-2" />
                               Completed

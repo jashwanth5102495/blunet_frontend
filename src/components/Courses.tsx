@@ -904,8 +904,10 @@ const Courses = () => {
           'SQLMap Tool Basics',
           'Manual SQL Injection Testing',
           'Database Fingerprinting',
+          'Boolean-Based Blind SQL Injection',
+          'Time-Based Blind SQL Injection',
+          'Automating SQL Injection with SQLMap',
           'Bypassing Login Panels',
-          'Extracting Data via SQLi',
           'Preventing SQL Injection',
           'What is Bug Bounty Hunting?'
         ]},

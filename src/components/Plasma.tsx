@@ -200,8 +200,12 @@ const Plasma: React.FC<PlasmaProps> = ({
       }
       // Clean up GL resources
       try {
-        (mesh as any).delete && (mesh as any).delete();
-        (program as any).delete && (program as any).delete();
+        if ((mesh as any).delete) {
+          (mesh as any).delete();
+        }
+        if ((program as any).delete) {
+          (program as any).delete();
+        }
       } catch {}
     };
   }, [color, speed, direction, scale, opacity, mouseInteractive]);

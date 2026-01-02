@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import Header from './Header';
-import { ArrowLeft, Play, Book, Code, CheckCircle, XCircle, Lightbulb, Clock, Award, Users, Star, Monitor, Send, Sun, Moon, RotateCcw, Smartphone, Download, Upload, Shield, Activity, Cloud, FolderOpen, File, Cpu, Database, Zap } from 'lucide-react';
+import { Play, Book, CheckCircle, Clock, Send, File } from 'lucide-react';
 
 interface Lesson {
   id: string;
@@ -27,23 +27,23 @@ interface CourseModule {
 }
 
 const CourseLearningMobileAdvanced: React.FC = () => {
-  const { courseId, moduleId, lessonId } = useParams();
-  const navigate = useNavigate();
-  const { theme, toggleTheme } = useTheme();
+  const { _courseId, _moduleId, _lessonId } = useParams();
+  const _navigate = useNavigate();
+  const { _theme, _toggleTheme } = useTheme();
   const [currentModule, setCurrentModule] = useState<CourseModule | null>(null);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [code, setCode] = useState('');
   const [output, setOutput] = useState('');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, _setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState<'theory' | 'exercise'>('theory');
   const [currentExerciseId, setCurrentExerciseId] = useState<string | null>(null);
   const [submittedExercises, setSubmittedExercises] = useState<Set<string>>(new Set());
-  const [exerciseProgress, setExerciseProgress] = useState<{[key: string]: number}>({});
+  const [_exerciseProgress, _setExerciseProgress] = useState<{[key: string]: number}>({});
   const [showSubmissionModal, setShowSubmissionModal] = useState(false);
   const [submissionMessage, setSubmissionMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
-  const [isFlipping, setIsFlipping] = useState(false);
+  const [_showPreview, _setShowPreview] = useState(false);
+  const [_isFlipping, _setIsFlipping] = useState(false);
   const [showFileExplorer, setShowFileExplorer] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
@@ -1201,13 +1201,14 @@ export default OptimizedListScreen;`,
       setCurrentLesson(firstLesson);
       setCode(firstLesson.codeExample);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleRunCode = () => {
     try {
       // Simulate code execution
       setOutput('Code executed successfully!\n\nOutput:\nComponent rendered with advanced mobile features.');
-    } catch (error) {
+    } catch (error: any) {
       setOutput(`Error: ${error.message}`);
     }
   };
@@ -1241,11 +1242,213 @@ export default OptimizedListScreen;`,
       
       <div className="flex h-screen pt-16">
         {/* Sidebar */}
-        <div className={`${sidebarOpen ? 'w-80' : 'w-0'} transition-all duration-300 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 overflow-hidden`}>
+        <div className={`${sidebarOpen ? 'w-80' : 'w-0'} transition-all duration-300 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 overflow-hidden flex flex-col`}>
           <div className="p-4 border-b border-gray-200 dark:border-gray-700">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
               Mobile App Development - Advanced
             </h2>
           </div>
           
-          <div className="overflow-y-auto h-full pb-20">
+          <div className="overflow-y-auto flex-1 pb-20">
+            {courseModules.map((module) => (
+              <div key={module.id} className="border-b border-gray-100 dark:border-gray-700">
+                <div className="p-4 bg-gray-50 dark:bg-gray-800 font-medium text-gray-700 dark:text-gray-300">
+                  {module.title}
+                </div>
+                <div>
+                  {module.lessons.map((lesson) => (
+                    <button
+                      key={lesson.id}
+                      onClick={() => {
+                        setCurrentModule(module);
+                        setCurrentLesson(lesson);
+                        setCode(lesson.codeExample);
+                      }}
+                      className={`w-full text-left px-4 py-3 text-sm transition-colors ${
+                        currentLesson?.id === lesson.id
+                          ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 border-r-4 border-purple-600'
+                          : 'hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400'
+                      }`}
+                    >
+                      {lesson.title}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {/* Top Bar */}
+          <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex justify-between items-center">
+             <div>
+               <h1 className="text-xl font-bold text-gray-900 dark:text-white">{currentLesson.title}</h1>
+               <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400 mt-1">
+                 <span className="flex items-center"><Book className="w-4 h-4 mr-1" /> {currentModule.title}</span>
+                 <span className="flex items-center"><Clock className="w-4 h-4 mr-1" /> 45 min</span>
+               </div>
+             </div>
+             <div className="flex space-x-2">
+               {['theory', 'exercise'].map((tab) => (
+                 <button
+                   key={tab}
+                   onClick={() => setActiveTab(tab as any)}
+                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                     activeTab === tab
+                       ? 'bg-purple-600 text-white'
+                       : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                   }`}
+                 >
+                   {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                 </button>
+               ))}
+             </div>
+          </div>
+
+          <div className="flex-1 flex overflow-hidden">
+            {/* Left Panel: Content */}
+            <div className="flex-1 overflow-y-auto p-6">
+              {activeTab === 'theory' ? (
+                <div className="prose dark:prose-invert max-w-none">
+                  <div dangerouslySetInnerHTML={{ __html: currentLesson.content }} />
+                  <div className="mt-8 p-4 bg-gray-100 dark:bg-gray-900 rounded-lg">
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">Code Example</h3>
+                    <pre className="text-sm overflow-x-auto text-gray-800 dark:text-gray-200">
+                      <code>{currentLesson.codeExample}</code>
+                    </pre>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {currentLesson.exercises.map((exercise) => (
+                    <div key={exercise.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Exercise</h3>
+                      <p className="text-gray-600 dark:text-gray-300 mb-6">{exercise.question}</p>
+                      
+                      <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-lg p-4 mb-6">
+                        <h4 className="text-sm font-semibold text-blue-800 dark:text-blue-300 mb-1">Hint</h4>
+                        <p className="text-sm text-blue-600 dark:text-blue-400">{exercise.hint}</p>
+                      </div>
+
+                      <div className="flex justify-end">
+                        <button
+                          onClick={() => {
+                            setCurrentExerciseId(exercise.id);
+                            handleSubmitExercise();
+                          }}
+                          disabled={submittedExercises.has(exercise.id) || isSubmitting}
+                          className={`px-6 py-2 rounded-lg font-medium transition-colors flex items-center ${
+                            submittedExercises.has(exercise.id)
+                              ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                              : 'bg-purple-600 text-white hover:bg-purple-700'
+                          }`}
+                        >
+                          {submittedExercises.has(exercise.id) ? (
+                            <><CheckCircle className="w-4 h-4 mr-2" /> Completed</>
+                          ) : isSubmitting && currentExerciseId === exercise.id ? (
+                            <><div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2" /> Submitting...</>
+                          ) : (
+                            <><Send className="w-4 h-4 mr-2" /> Submit Solution</>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Right Panel: Code Editor & Files */}
+            <div className="w-96 bg-gray-50 dark:bg-gray-900 border-l border-gray-200 dark:border-gray-700 flex flex-col">
+              {/* File Explorer Header */}
+              <div className="p-2 border-b border-gray-200 dark:border-gray-700 flex space-x-2">
+                 <button 
+                   onClick={() => setShowFileExplorer(!showFileExplorer)}
+                   className={`flex-1 py-1 px-2 rounded text-xs font-medium ${showFileExplorer ? 'bg-white dark:bg-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                 >
+                   Files
+                 </button>
+                 <button 
+                   onClick={() => setShowFileExplorer(false)}
+                   className={`flex-1 py-1 px-2 rounded text-xs font-medium ${!showFileExplorer ? 'bg-white dark:bg-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                 >
+                   Editor
+                 </button>
+              </div>
+
+              {showFileExplorer ? (
+                <div className="flex-1 overflow-y-auto p-4">
+                  <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Project Files</h3>
+                  <div className="space-y-1">
+                    {Object.keys(fileContents).map(fileName => (
+                      <button
+                        key={fileName}
+                        onClick={() => handleFileClick(fileName)}
+                        className={`w-full flex items-center p-2 rounded-md text-sm ${
+                          selectedFile === fileName 
+                            ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300' 
+                            : 'hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+                        }`}
+                      >
+                        <File className="w-4 h-4 mr-2 opacity-70" />
+                        {fileName}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="flex-1 flex flex-col">
+                  <div className="flex-1 relative">
+                    <textarea
+                      value={code}
+                      onChange={(e) => setCode(e.target.value)}
+                      className="w-full h-full p-4 bg-gray-900 text-gray-100 font-mono text-xs resize-none focus:outline-none"
+                      placeholder="// Write your React Native code here..."
+                    />
+                  </div>
+                  <div className="p-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-xs font-medium text-gray-500">Console Output</span>
+                      <button
+                        onClick={handleRunCode}
+                        className="px-3 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700 flex items-center"
+                      >
+                        <Play className="w-3 h-3 mr-1" /> Run
+                      </button>
+                    </div>
+                    <div className="h-32 bg-gray-900 rounded-lg p-2 font-mono text-xs text-green-400 overflow-y-auto whitespace-pre-wrap">
+                      {output || '> Ready to execute...'}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Submission Modal */}
+      {showSubmissionModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-md w-full p-6 text-center transform transition-all scale-100">
+            <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Excellent Work!</h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-6">{submissionMessage}</p>
+            <button
+              onClick={() => setShowSubmissionModal(false)}
+              className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors"
+            >
+              Continue Learning
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default CourseLearningMobileAdvanced;

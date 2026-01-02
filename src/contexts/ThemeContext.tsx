@@ -11,7 +11,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const getInitialTheme = (): Theme => {
-    const stored = localStorage.getItem('theme');
+    const stored = localStorage.getItem('blunet_theme');
     if (stored === 'light' || stored === 'dark') return stored as Theme;
     // Default to dark if no stored preference
     return 'dark';
@@ -20,7 +20,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
 
   useEffect(() => {
-    localStorage.setItem('theme', theme);
+    localStorage.setItem('blunet_theme', theme);
     if (theme === 'dark') {
       document.documentElement.style.setProperty('--bg-primary', '#000000');
       document.documentElement.style.setProperty('--bg-secondary', '#111111');

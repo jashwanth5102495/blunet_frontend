@@ -168,6 +168,85 @@ This course covers practical configuration, troubleshooting, and performance ana
       { slug: 'module-4', title: 'Inference Optimization', desc: 'Quantization, KV-cache, speculative decoding.', bgImage: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Artificial_Intelligence_logo.svg' },
       { slug: 'module-5', title: 'LLMOps & Deployment', desc: 'Kubernetes, Ray, monitoring, scaling.', bgImage: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Artificial_Intelligence_logo.svg' }
     ]
+  },
+
+  // Cyber Security – Beginner
+  'cyber-security-beginner': {
+    title: 'Cyber Security - Beginner',
+    levelLabel: 'Beginner level',
+    tagline: 'Build a solid foundation in security concepts, tools, and defenses with hands-on modules.',
+    heroImg: 'https://images.unsplash.com/photo-1535223289827-42f1e9919769?q=80&w=1200&auto=format&fit=crop',
+    whatYouWillLearn: [
+      'Understand CIA triad, common threats, and security policies.',
+      'Use core security OS tools on Windows, Linux, Kali/Parrot.',
+      'Perform basic scanning with Nmap and analyze traffic with Wireshark.',
+      'Practice enumeration and firewall basics using Gobuster and rule sets.'
+    ],
+    modules: [
+      { 
+        slug: 'module-1', 
+        title: 'Security Fundamentals', 
+        desc: 'CIA triad, threat landscape, malware types, governance and policy basics.', 
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/5/55/Padlock-white.svg' 
+      },
+      { 
+        slug: 'module-2', 
+        title: 'Operating Systems for Security', 
+        desc: 'OS basics across Windows/Linux with security distros (Kali, Parrot) and tooling.', 
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/3/35/Tux.svg' 
+      },
+      { 
+        slug: 'module-3', 
+        title: 'Networking Tools', 
+        desc: 'Nmap scanning fundamentals and Wireshark capture/filtering for traffic analysis.', 
+        bgImage: 'https://nmap.org/images/nmap-logo-256x256.png' 
+      },
+      { 
+        slug: 'module-4', 
+        title: 'Enumeration & Firewalls', 
+        desc: 'Discovery with Gobuster and environment enumeration, firewall rule concepts and practice.', 
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Firewall_%28Font_Awesome%29.svg' 
+      }
+    ]
+  },
+
+  'cyber-security-intermediate': {
+    title: 'Cyber Security - Intermediate',
+    levelLabel: 'Intermediate level',
+    tagline: 'Deepen your offensive and defensive skills with advanced scanning, exploitation frameworks, and web application security.',
+    heroImg: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop',
+    whatYouWillLearn: [
+      'Master advanced network traffic analysis and defense.',
+      'Understand and exploit OWASP Top 10 web vulnerabilities.',
+      'Use Metasploit for exploitation and payload delivery.',
+      'Secure wireless networks and respond to incidents.'
+    ],
+    modules: [
+      {
+        slug: 'module-1',
+        title: 'Advanced Network Security',
+        desc: 'Traffic analysis, IDS/IPS evasion, and advanced firewall configuration.',
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/5/55/Padlock-white.svg'
+      },
+      {
+        slug: 'module-2',
+        title: 'Web Application Security',
+        desc: 'OWASP Top 10, SQL Injection, XSS, and CSRF attacks and defenses.',
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg'
+      },
+      {
+        slug: 'module-3',
+        title: 'Exploitation Frameworks',
+        desc: 'Introduction to Metasploit, payload generation, and post-exploitation.',
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg' // Placeholder
+      },
+      {
+        slug: 'module-4',
+        title: 'Wireless & Mobile Security',
+        desc: 'WiFi security protocols, cracking WPA/WPA2, and mobile app risks.',
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/3/35/Tux.svg'
+      }
+    ]
   }
 };
 

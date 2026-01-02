@@ -36,7 +36,6 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
   stackPosition = '20%',
   scaleEndPosition = '10%',
   baseScale = 0.85,
-  scaleDuration = 0.5,
   rotationAmount = 0,
   blurAmount = 0,
   useWindowScroll = false,
@@ -154,7 +153,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
         const lastTop = getElementOffset(lastCard);
         if (scrollTop > lastTop) {
           stackCompletedRef.current = true;
-          onStackComplete && onStackComplete();
+          if (onStackComplete) onStackComplete();
         }
       }
     }
@@ -172,7 +171,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     // Optional: initialize Lenis for smooth scrolling (window scroll only)
     if (useWindowScroll) {
       try {
-        lenisRef.current = new Lenis({ smooth: true });
+        lenisRef.current = new Lenis({});
         const raf = (time: number) => {
           lenisRef.current?.raf(time);
           animationFrameRef.current = requestAnimationFrame(raf);
