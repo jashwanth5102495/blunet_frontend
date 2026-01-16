@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { askLLM } from '../services/llm';
-import { Paperclip, Mic, Send } from 'lucide-react';
+import { Mic, Send } from 'lucide-react';
 
 // Module/Topic structure for Networking - Beginner
 interface TopicPage {
@@ -2615,16 +2615,27 @@ const CourseLearningNetworkingBeginner: React.FC = () => {
     }
   }, [isModule2, activeTab]);
 
-  // Chat state (mock LLM replies)
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  // Chat state
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
+    { role: 'assistant', content: 'Hello! I am your personal networking teacher. Ask me anything about networks, protocols, or the current lesson!' }
+  ]);
   const [chatLoading, setChatLoading] = useState(false);
-  // Replace mock generator with backend call
+  
+  // Send chat message with course context for better AI responses
   const sendChat = async (text: string) => {
-    const userMsg = { role: 'user', content: text } as ChatMessage;
+    const userMsg: ChatMessage = { role: 'user', content: text };
     setChatMessages(prev => [...prev, userMsg]);
     setChatLoading(true);
+    
     try {
-      const answer = await askLLM(text, [...chatMessages, userMsg]);
+      const answer = await askLLM(text, [...chatMessages, userMsg], {
+        courseContext: {
+          courseName: 'Networking Beginner',
+          moduleName: moduleData.title,
+          lessonTitle: activeTopic?.title,
+          lessonContent: activeTopic?.theoryPages?.[currentPageIndex]?.replace(/<[^>]*>/g, '').substring(0, 1500)
+        }
+      });
       setChatMessages(prev => [...prev, { role: 'assistant', content: answer }]);
     } catch (err) {
       setChatMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, I could not reach the assistant. Please try again.' }]);
@@ -3690,6 +3701,14 @@ const ChatPanel: React.FC<{ isDark: boolean; messages: ChatMessage[]; loading: b
   const [typedContent, setTypedContent] = React.useState('');
   const typingTimerRef = React.useRef<number | null>(null);
 
+  // Handle send - clear input immediately
+  const handleSend = () => {
+    if (text.trim() && !loading) {
+      onSend(text.trim());
+      setText(''); // Clear input immediately
+    }
+  };
+
   React.useEffect(() => {
     if (!messages.length) return;
     const lastIndex = messages.length - 1;
@@ -3746,7 +3765,7 @@ const ChatPanel: React.FC<{ isDark: boolean; messages: ChatMessage[]; loading: b
         </div>
 
         {/* Messages List */}
-        <div className={`flex-1 min-h-0 overflow-y-auto space-y-4 ${isDark ? "text-gray-200" : "text-gray-800"}`}>
+        <div className={`flex-1 min-h-0 overflow-y-auto space-y-4 py-4 ${isDark ? "text-gray-200" : "text-gray-800"}`}>
           {messages.map((msg, idx) => (
             <div key={idx} className={`flex ${msg.role === "assistant" ? "justify-start" : "justify-end"}`}>
               <div
@@ -3766,38 +3785,52 @@ const ChatPanel: React.FC<{ isDark: boolean; messages: ChatMessage[]; loading: b
               </div>
             </div>
           ))}
+          
+          {/* Loading indicator - thinking animation */}
+          {loading && (
+            <div className="flex justify-start">
+              <div className={`${isDark ? "bg-white/10 backdrop-blur-xl border border-white/20" : "bg-[#14A38F] border border-[#14A38F]"} rounded-2xl px-4 py-3 shadow-sm`}>
+                <div className="flex items-center gap-1">
+                  <span className={`text-sm ${isDark ? "text-white/70" : "text-white/90"}`}>Thinking</span>
+                  <div className="flex gap-1 ml-1">
+                    <span className={`w-2 h-2 rounded-full ${isDark ? "bg-white/60" : "bg-white/80"} animate-bounce`} style={{ animationDelay: '0ms' }}></span>
+                    <span className={`w-2 h-2 rounded-full ${isDark ? "bg-white/60" : "bg-white/80"} animate-bounce`} style={{ animationDelay: '150ms' }}></span>
+                    <span className={`w-2 h-2 rounded-full ${isDark ? "bg-white/60" : "bg-white/80"} animate-bounce`} style={{ animationDelay: '300ms' }}></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Input Area */}
         <div className="pt-4 border-t space-y-3">
           <div className={`flex items-center gap-2 ${isDark ? "bg-white/10 border-white/20" : "bg-white/60 border-gray-300/40"} backdrop-blur-xl rounded-xl border p-2 shadow-sm`}> 
-            <button className={`p-2 rounded ${isDark ? "hover:bg-white/15" : "hover:bg-white"}`} aria-label="Attach file">
-              <Paperclip className={`h-5 w-5 ${isDark ? "text-white/80" : "text-gray-700"}`} />
-            </button>
             <button className={`p-2 rounded ${isDark ? "hover:bg-white/15" : "hover:bg-white"}`} aria-label="Voice input">
               <Mic className={`h-5 w-5 ${isDark ? "text-white/80" : "text-gray-700"}`} />
             </button>
             <input
               type="text"
               className={`flex-1 bg-transparent outline-none ${isDark ? "text-white placeholder-white/60" : "text-gray-900 placeholder-gray-600"}`}
-              placeholder="Type your messages..."
+              placeholder="Type your message..."
               value={text}
               onChange={(e) => setText(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter" && text.trim()) {
-                  onSend(text.trim());
+                if (e.key === "Enter") {
+                  handleSend();
                 }
               }}
+              disabled={loading}
             />
             <button
               className={`flex items-center gap-2 px-4 py-2 rounded-md ${
                 isDark ? 'bg-white text-gray-900' : 'bg-[#14A38F] text-white'
               } disabled:opacity-50`}
-              onClick={() => text.trim() && onSend(text.trim())}
-              disabled={loading}
+              onClick={handleSend}
+              disabled={loading || !text.trim()}
             >
               <Send className="h-4 w-4" />
-              Send Message
+              {loading ? 'Sending...' : 'Send'}
             </button>
           </div>
         </div>

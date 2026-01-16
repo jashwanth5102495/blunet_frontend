@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import AdminPanel from './AdminPanel';
 import Header from './Header';
 
@@ -16,15 +16,67 @@ const SecureAdminPanel: React.FC = () => {
   const [loginAttempts, setLoginAttempts] = useState<LoginAttempt[]>([]);
   const [isBlocked, setIsBlocked] = useState(false);
   const [blockTimeRemaining, setBlockTimeRemaining] = useState(0);
+  
+  // Ref to store interval ID for proper cleanup
+  const blockTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
   // Security constants
-  const CORRECT_USER_ID = '8328246413';
-  const CORRECT_PASSWORD = '9441206407';
   const MAX_ATTEMPTS = 3;
   const BLOCK_DURATION = 15 * 60 * 1000; // 15 minutes in milliseconds
   const ATTEMPT_WINDOW = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+  // Check if user is currently blocked - defined before useEffect that uses it
+  const checkBlockStatus = useCallback((attempts: LoginAttempt[]) => {
+    // Clear any existing timer first
+    if (blockTimerRef.current) {
+      clearInterval(blockTimerRef.current);
+      blockTimerRef.current = null;
+    }
+
+    const now = Date.now();
+    const recentAttempts = attempts.filter(attempt => 
+      now - attempt.timestamp < ATTEMPT_WINDOW
+    );
+
+    if (recentAttempts.length >= MAX_ATTEMPTS) {
+      const lastAttempt = Math.max(...recentAttempts.map(a => a.timestamp));
+      const blockEndTime = lastAttempt + BLOCK_DURATION;
+      
+      if (now < blockEndTime) {
+        setIsBlocked(true);
+        setBlockTimeRemaining(Math.ceil((blockEndTime - now) / 1000));
+        
+        // Start countdown timer
+        blockTimerRef.current = setInterval(() => {
+          const remaining = Math.ceil((blockEndTime - Date.now()) / 1000);
+          if (remaining <= 0) {
+            setIsBlocked(false);
+            setBlockTimeRemaining(0);
+            if (blockTimerRef.current) {
+              clearInterval(blockTimerRef.current);
+              blockTimerRef.current = null;
+            }
+            // Clear old attempts
+            const filteredAttempts = attempts.filter(attempt => 
+              Date.now() - attempt.timestamp < ATTEMPT_WINDOW
+            );
+            setLoginAttempts(filteredAttempts);
+            localStorage.setItem('admin_login_attempts', JSON.stringify(filteredAttempts));
+          } else {
+            setBlockTimeRemaining(remaining);
+          }
+        }, 1000);
+      } else {
+        setIsBlocked(false);
+        setBlockTimeRemaining(0);
+      }
+    } else {
+      setIsBlocked(false);
+      setBlockTimeRemaining(0);
+    }
+  }, []);
 
   // Check authentication status on component mount
   useEffect(() => {
@@ -46,47 +98,24 @@ const SecureAdminPanel: React.FC = () => {
     // Check for existing login attempts and blocks
     const storedAttempts = localStorage.getItem('admin_login_attempts');
     if (storedAttempts) {
-      const attempts = JSON.parse(storedAttempts);
-      setLoginAttempts(attempts);
-      checkBlockStatus(attempts);
-    }
-  }, []);
-
-  // Check if user is currently blocked
-  const checkBlockStatus = (attempts: LoginAttempt[]) => {
-    const now = Date.now();
-    const recentAttempts = attempts.filter(attempt => 
-      now - attempt.timestamp < ATTEMPT_WINDOW
-    );
-
-    if (recentAttempts.length >= MAX_ATTEMPTS) {
-      const lastAttempt = Math.max(...recentAttempts.map(a => a.timestamp));
-      const blockEndTime = lastAttempt + BLOCK_DURATION;
-      
-      if (now < blockEndTime) {
-        setIsBlocked(true);
-        setBlockTimeRemaining(Math.ceil((blockEndTime - now) / 1000));
-        
-        // Start countdown timer
-        const timer = setInterval(() => {
-          const remaining = Math.ceil((blockEndTime - Date.now()) / 1000);
-          if (remaining <= 0) {
-            setIsBlocked(false);
-            setBlockTimeRemaining(0);
-            clearInterval(timer);
-            // Clear old attempts
-            const filteredAttempts = attempts.filter(attempt => 
-              Date.now() - attempt.timestamp < ATTEMPT_WINDOW
-            );
-            setLoginAttempts(filteredAttempts);
-            localStorage.setItem('admin_login_attempts', JSON.stringify(filteredAttempts));
-          } else {
-            setBlockTimeRemaining(remaining);
-          }
-        }, 1000);
+      try {
+        const attempts = JSON.parse(storedAttempts);
+        setLoginAttempts(attempts);
+        checkBlockStatus(attempts);
+      } catch (e) {
+        // Invalid JSON in localStorage, clear it
+        localStorage.removeItem('admin_login_attempts');
       }
     }
-  };
+
+    // Cleanup function to clear interval on unmount
+    return () => {
+      if (blockTimerRef.current) {
+        clearInterval(blockTimerRef.current);
+        blockTimerRef.current = null;
+      }
+    };
+  }, [checkBlockStatus]);
 
   // Input sanitization function
   const sanitizeInput = (input: string): string => {

@@ -6052,6 +6052,14 @@ const ChatPanel = ({ isDark, messages, loading, onSend }: ChatPanelProps) => {
   const [typedContent, setTypedContent] = React.useState('');
   const typingTimerRef = React.useRef<number | null>(null);
 
+  // Handle send - clear input immediately
+  const handleSend = () => {
+    if (text.trim() && !loading) {
+      onSend(text.trim());
+      setText(''); // Clear input immediately
+    }
+  };
+
   React.useEffect(() => {
     if (!messages.length) return;
     const lastIndex = messages.length - 1;
@@ -6094,14 +6102,6 @@ const ChatPanel = ({ isDark, messages, loading, onSend }: ChatPanelProps) => {
     };
   }, [messages]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const trimmed = text.trim();
-    if (!trimmed) return;
-    onSend(trimmed);
-    setText('');
-  };
-
   return (
     <aside className={`${isDark ? 'bg-gradient-to-br from-white/15 to-white/5 border-white/20' : 'bg-gradient-to-br from-white/70 to-white/40 border-gray-300/40'} backdrop-blur-2xl backdrop-saturate-150 w-full sticky top-0 self-start h-[calc(100vh-160px)] min-h-[520px] rounded-2xl border p-4 flex flex-col shadow-lg ring-1 ${isDark ? 'ring-white/10' : 'ring-white/60'}`
       }>
@@ -6116,7 +6116,7 @@ const ChatPanel = ({ isDark, messages, loading, onSend }: ChatPanelProps) => {
         </div>
 
         {/* Messages List */}
-        <div className={`flex-1 min-h-0 overflow-y-auto space-y-4 ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>
+        <div className={`flex-1 min-h-0 overflow-y-auto space-y-4 py-4 ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>
           {messages.map((msg, idx) => (
              <div key={idx} className={`flex ${msg.role === 'assistant' ? 'justify-start' : 'justify-end'}`}>
                <div
@@ -6136,20 +6136,31 @@ const ChatPanel = ({ isDark, messages, loading, onSend }: ChatPanelProps) => {
                </div>
              </div>
            ))}
-         </div>
-      <form onSubmit={handleSubmit} className="pt-4 border-t space-y-3">
+           
+          {/* Loading indicator - thinking animation */}
+          {loading && (
+            <div className="flex justify-start">
+              <div className={`${isDark ? "bg-white/10 backdrop-blur-xl border border-white/20" : "bg-[#14A38F] border border-[#14A38F]"} rounded-2xl px-4 py-3 shadow-sm`}>
+                <div className="flex items-center gap-1">
+                  <span className={`text-sm ${isDark ? "text-white/70" : "text-white/90"}`}>Thinking</span>
+                  <div className="flex gap-1 ml-1">
+                    <span className={`w-2 h-2 rounded-full ${isDark ? "bg-white/60" : "bg-white/80"} animate-bounce`} style={{ animationDelay: '0ms' }}></span>
+                    <span className={`w-2 h-2 rounded-full ${isDark ? "bg-white/60" : "bg-white/80"} animate-bounce`} style={{ animationDelay: '150ms' }}></span>
+                    <span className={`w-2 h-2 rounded-full ${isDark ? "bg-white/60" : "bg-white/80"} animate-bounce`} style={{ animationDelay: '300ms' }}></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+      {/* Input Area */}
+      <div className="pt-4 border-t space-y-3">
         <div
           className={`flex items-center gap-2 ${
             isDark ? 'bg-white/10 border-white/20' : 'bg-white/60 border-gray-300/40'
           } backdrop-blur-xl rounded-xl border p-2 shadow-sm`}
         >
-          <button
-            type="button"
-            className={`p-2 rounded ${isDark ? 'hover:bg-white/15' : 'hover:bg-white'}`}
-            aria-label="Attach file"
-          >
-            <Paperclip className={`h-5 w-5 ${isDark ? 'text-white/80' : 'text-gray-700'}`} />
-          </button>
           <button
             type="button"
             className={`p-2 rounded ${isDark ? 'hover:bg-white/15' : 'hover:bg-white'}`}
@@ -6162,22 +6173,29 @@ const ChatPanel = ({ isDark, messages, loading, onSend }: ChatPanelProps) => {
             className={`flex-1 bg-transparent outline-none ${
               isDark ? 'text-white placeholder-white/60' : 'text-gray-900 placeholder-gray-600'
             }`}
-            placeholder="Type your messages..."
+            placeholder="Type your message..."
             value={text}
             onChange={(e) => setText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleSend();
+              }
+            }}
+            disabled={loading}
           />
           <button
-            type="submit"
+            type="button"
             className={`flex items-center gap-2 px-4 py-2 rounded-md ${
               isDark ? 'bg-white text-gray-900' : 'bg-[#14A38F] text-white'
             } disabled:opacity-50`}
-            disabled={loading}
+            onClick={handleSend}
+            disabled={loading || !text.trim()}
           >
             <Send className="h-4 w-4" />
-            Send Message
+            {loading ? 'Sending...' : 'Send'}
           </button>
         </div>
-      </form>
+      </div>
     </aside>
   );
 }
@@ -6532,14 +6550,30 @@ export default function CourseLearningNetworkingIntermediate() {
   const [activeTopicId, setActiveTopicId] = useState<string>(currentModule.topics[0].id);
   const [activeTab, setActiveTab] = useState<'lesson' | 'syntax' | 'terminal' | 'guide'>('lesson');
   const [pageIndex, setPageIndex] = useState<number>(0);
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  
+  // Find active topic for context
+  const activeTopic = useMemo(() => currentModule.topics.find(t => t.id === activeTopicId) || currentModule.topics[0], [currentModule, activeTopicId]);
+  
+  // Chat state with initial greeting
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
+    { role: 'assistant', content: 'Hello! I am your personal networking teacher for intermediate topics. Ask me about advanced protocols, configurations, or troubleshooting!' }
+  ]);
   const [chatLoading, setChatLoading] = useState(false);
+  
+  // Send chat message with course context
   const sendChat = async (text: string) => {
     const userMsg: ChatMessage = { role: 'user', content: text };
     setChatMessages(prev => [...prev, userMsg]);
     setChatLoading(true);
     try {
-      const answer = await askLLM(text, [...chatMessages, userMsg]);
+      const answer = await askLLM(text, [...chatMessages, userMsg], {
+        courseContext: {
+          courseName: 'Networking Intermediate',
+          moduleName: currentModule.title,
+          lessonTitle: activeTopic?.title,
+          lessonContent: activeTopic?.theoryPages?.[pageIndex]?.replace(/<[^>]*>/g, '').substring(0, 1500)
+        }
+      });
       setChatMessages(prev => [...prev, { role: 'assistant', content: answer }]);
     } catch (err) {
       setChatMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, I could not reach the assistant. Please try again.' }]);
@@ -6580,8 +6614,6 @@ export default function CourseLearningNetworkingIntermediate() {
     setActiveTab(qpTab === 'syntax' || qpTab === 'terminal' || qpTab === 'guide' ? qpTab : 'lesson');
     setPageIndex(qpPage);
   }, [currentModule.id, searchParams]);
-
-  const activeTopic = useMemo(() => currentModule.topics.find((t) => t.id === activeTopicId) || currentModule.topics[0], [currentModule, activeTopicId]);
 
   // Prev/Next module handlers (disabled for now if not present)
   const prevModule = MODULES[moduleIndex - 1];
