@@ -2,6 +2,7 @@ import axios from 'axios';
 
 // Backend URL configuration
 const ENV_URL = import.meta.env.VITE_BACKEND_URL as string | undefined;
+console.log(ENV_URL);
 const DEFAULTS = ['http://localhost:5000'];
 const BASE_CANDIDATES = ENV_URL ? [ENV_URL, ...DEFAULTS.filter(u => u !== ENV_URL)] : DEFAULTS;
 
