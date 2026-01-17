@@ -11140,7 +11140,7 @@ const CourseLearningCyberSecurityIntermediate: React.FC = () => {
   if (!activeModule || !activeLesson) return <div>Loading...</div>;
 
   return (
-    <div className="flex bg-[#121212] text-white overflow-hidden font-sans" style={{ height: 'calc(100vh / 1.1)', zoom: '110%' }}>
+    <div className="flex bg-[#121212] text-white overflow-hidden font-sans" style={{ height: 'calc(100vh / 1.1)', zoom: '80%' }}>
       {/* Sidebar */}
       <Sidebar 
          activeTab={activeTab} 

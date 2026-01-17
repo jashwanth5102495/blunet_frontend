@@ -56,6 +56,10 @@ const CourseEnrollment: React.FC = () => {
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState<'waiting_for_confirmation' | 'confirmed' | 'rejected' | 'unknown'>('waiting_for_confirmation');
 
+  const handleBackToCourses = () => {
+    navigate('/student-portal', { state: { activeTab: 'browse-courses' } });
+  };
+
   const courses: Course[] = [
     {
       id: 'AI-TOOLS-MASTERY',
@@ -589,9 +593,9 @@ const CourseEnrollment: React.FC = () => {
       setCourse(foundCourse);
       setFinalPrice(foundCourse.price);
     } else {
-      navigate('/courses');
+      handleBackToCourses();
     }
-  }, [courseId, navigate]);
+  }, [courseId]);
 
   const applyReferralCode = async () => {
     if (!course || !referralCode.trim()) return;
@@ -801,7 +805,7 @@ const CourseEnrollment: React.FC = () => {
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-4">Course not found</h2>
             <button
-              onClick={() => navigate('/courses')}
+              onClick={handleBackToCourses}
               className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition-colors"
             >
               Back to Courses
@@ -819,7 +823,7 @@ const CourseEnrollment: React.FC = () => {
       <div className="container mx-auto px-4 py-8">
         {/* Back Button */}
         <button
-          onClick={() => navigate('/courses')}
+          onClick={handleBackToCourses}
           className="flex items-center gap-2 text-blue-400 hover:text-blue-300 mb-6 transition-colors"
         >
           <ArrowLeft size={20} />

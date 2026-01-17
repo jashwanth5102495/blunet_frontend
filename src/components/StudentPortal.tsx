@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { normalizeCourseKey, getCourseTitleFromKey } from '../data/courseAssignments';
 
 import Sidebar from './Sidebar';
@@ -133,6 +133,7 @@ interface PaymentModalData {
 
 const StudentPortal: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [studentProfile, setStudentProfile] = useState<StudentProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -3136,6 +3137,13 @@ const StudentPortal: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    const state = location.state as { activeTab?: string } | null;
+    if (state && state.activeTab) {
+      setActiveTab(state.activeTab);
+    }
+  }, [location.state]);
+
+  useEffect(() => {
     const currentUser = localStorage.getItem('currentUser');
     
     if (!currentUser) {
@@ -3341,14 +3349,14 @@ const StudentPortal: React.FC = () => {
     const course = allCourses.find(c => c.id === courseId);
     if (!course) return;
 
-    // Check if already purchased
     if (purchasedCourses.includes(courseId)) {
       alert('You have already purchased this course!');
       return;
     }
 
-    // Navigate to the enrollment page
-    navigate(`/course-enrollment/${courseId}`);
+    navigate(`/course-enrollment/${courseId}`, {
+      state: { from: 'student-portal-browse' }
+    });
   };
 
   const handleCourseDetails = (course: Course) => {
