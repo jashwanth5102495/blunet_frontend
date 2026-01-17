@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { 
-  BookOpen, 
-  Briefcase, 
-  Lightbulb, 
-  Star, 
-  Clock, 
-  Users, 
-  Award, 
+  BookOpen,
+  Briefcase,
+  Lightbulb,
+  Star,
+  Clock,
+  Users,
+  Award,
   TrendingUp,
   Code,
   Smartphone,
@@ -19,9 +19,7 @@ import {
   ArrowRight,
   CheckCircle,
   Target,
-  Zap,
-  Upload,
-  Send
+  Zap
 } from 'lucide-react';
 
 const Career = () => {
@@ -490,135 +488,155 @@ const Career = () => {
               <div className="text-center max-w-4xl mx-auto">
                 <h2 className="text-4xl font-bold mb-6">Internship Opportunities</h2>
                 <p className="text-xl text-gray-300 mb-8">
-                  Gain real-world experience and kickstart your career with our comprehensive internship programs.
+                  We are currently inviting applications for design internships at BluNet IT Services.
+                  Build your portfolio while working on real branding and web projects.
                 </p>
-                
-                <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 border border-gray-800 rounded-2xl p-12">
-                  <div className="mb-8">
-                    <h3 className="text-2xl font-bold mb-4">Join Our Internship Program</h3>
-                    <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-                      We offer exciting internship opportunities across various departments including Software Development, 
-                      AI Research, UI/UX Design, and more. Our internships provide hands-on experience, mentorship, 
-                      and the chance to work on real projects that make a difference.
-                    </p>
-                    
-                    <div className="grid md:grid-cols-3 gap-6 mb-8">
-                      <div className="text-center">
-                        <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center mx-auto mb-3">
-                          <Users className="w-6 h-6 text-white" />
-                        </div>
-                        <h4 className="font-semibold mb-2">Expert Mentorship</h4>
-                        <p className="text-sm text-gray-400">Learn from industry professionals</p>
+              </div>
+              
+              <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 border border-gray-800 rounded-2xl p-12">
+                <div className="mb-10 text-center max-w-3xl mx-auto">
+                  <h3 className="text-2xl font-bold mb-3">Current Internship Openings</h3>
+                  <p className="text-gray-300">
+                    We have two internship openings in our creative team: Graphic Designer and Web Designer.
+                    Last date to apply is <span className="text-yellow-300 font-semibold">22/01/2026</span>.
+                    Interested students can mail their resume to
+                    <span className="text-blue-400 font-semibold"> support@blunetitservices.in</span>.
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-8 mb-10">
+                  <div className="bg-gray-900/60 border border-gray-700 rounded-2xl p-8 hover:border-blue-500/60 transition-all duration-300">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="pr-4">
+                        <h3 className="text-xl font-bold text-white mb-1">Graphic Designer Intern</h3>
+                        <p className="text-sm text-gray-400">
+                          Help shape the visual identity of BluNet across social media, branding and marketing assets.
+                        </p>
                       </div>
-                      
-                      <div className="text-center">
-                        <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mx-auto mb-3">
-                          <Briefcase className="w-6 h-6 text-white" />
-                        </div>
-                        <h4 className="font-semibold mb-2">Real Projects</h4>
-                        <p className="text-sm text-gray-400">Work on live client projects</p>
-                      </div>
-                      
-                      <div className="text-center">
-                        <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mx-auto mb-3">
-                          <Award className="w-6 h-6 text-white" />
-                        </div>
-                        <h4 className="font-semibold mb-2">Career Growth</h4>
-                        <p className="text-sm text-gray-400">Potential for full-time offers</p>
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
+                        <Lightbulb className="w-6 h-6 text-white" />
                       </div>
                     </div>
-                  </div>
-                  
-                  <div className="border-t border-gray-700 pt-8">
-                    <h3 className="text-xl font-bold mb-6 text-center">Apply for Internship</h3>
-                    
-                    <div className="max-w-2xl mx-auto">
-                      <div className="border-2 border-dashed border-gray-600 rounded-xl p-8 text-center hover:border-blue-500 transition-colors duration-300">
-                        <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                           <Upload className="w-8 h-8 text-white" />
-                         </div>
-                        
-                        <h4 className="text-lg font-semibold mb-2">Upload Your Resume</h4>
-                        <p className="text-gray-400 mb-4">Drag and drop your resume here, or click to browse</p>
-                        
-                        <input
-                          type="file"
-                          accept=".pdf,.doc,.docx"
-                          className="hidden"
-                          id="resume-upload"
-                        />
-                        
-                        <label
-                          htmlFor="resume-upload"
-                          className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 cursor-pointer"
-                        >
-                          Choose File
-                        </label>
-                        
-                        <p className="text-xs text-gray-500 mt-3">Supported formats: PDF, DOC, DOCX (Max 5MB)</p>
-                      </div>
-                      
-                      <div className="mt-6 space-y-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">Full Name *</label>
-                          <input
-                            type="text"
-                            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-blue-500 focus:outline-none"
-                            placeholder="Enter your full name"
-                          />
-                        </div>
-                        
-                        <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">Email Address *</label>
-                          <input
-                            type="email"
-                            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-blue-500 focus:outline-none"
-                            placeholder="Enter your email address"
-                          />
-                        </div>
-                        
-                        <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">Phone Number *</label>
-                          <input
-                            type="tel"
-                            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-blue-500 focus:outline-none"
-                            placeholder="Enter your phone number"
-                          />
-                        </div>
-                        
-                        <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">Preferred Department</label>
-                          <select className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-blue-500 focus:outline-none">
-                            <option value="">Select Department</option>
-                            <option value="software-development">Software Development</option>
-                            <option value="ai-research">AI Research</option>
-                            <option value="ui-ux-design">UI/UX Design</option>
-                            <option value="data-science">Data Science</option>
-                            <option value="marketing">Digital Marketing</option>
-                            <option value="business-development">Business Development</option>
-                          </select>
-                        </div>
-                        
-                        <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">Cover Letter</label>
-                          <textarea
-                            rows={4}
-                            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-blue-500 focus:outline-none resize-none"
-                            placeholder="Tell us why you're interested in this internship..."
-                          ></textarea>
-                        </div>
-                        
-                        <motion.button
-                           className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 flex items-center justify-center"
-                           whileHover={{ scale: 1.02 }}
-                           whileTap={{ scale: 0.98 }}
-                         >
-                           Submit Application
-                           <Send className="w-4 h-4 ml-2" />
-                         </motion.button>
+
+                    <div className="mb-4 text-sm text-gray-300">
+                      <div className="flex items-center mb-2">
+                        <Clock className="w-4 h-4 text-blue-400 mr-2" />
+                        <span>Internship • Flexible timings</span>
                       </div>
                     </div>
+
+                    <div className="mb-4">
+                      <h4 className="text-sm font-semibold text-white mb-2">What you will do</h4>
+                      <ul className="space-y-1 text-sm text-gray-300">
+                        <li className="flex items-start">
+                          <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 mr-2" />
+                          <span>Design social media posts, banners and promotional creatives.</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 mr-2" />
+                          <span>Create graphics for web pages, presentations and internal branding.</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 mr-2" />
+                          <span>Collaborate with the marketing and web teams to maintain a consistent visual style.</span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h4 className="text-sm font-semibold text-white mb-2">Preferred skills</h4>
+                      <ul className="space-y-1 text-sm text-gray-300">
+                        <li className="flex items-start">
+                          <span className="w-1.5 h-1.5 rounded-full bg-green-400 mt-1.5 mr-2" />
+                          <span>Good knowledge of tools like Figma, Photoshop, Illustrator or similar.</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="w-1.5 h-1.5 rounded-full bg-green-400 mt-1.5 mr-2" />
+                          <span>Strong sense of color, typography and layout.</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="w-1.5 h-1.5 rounded-full bg-green-400 mt-1.5 mr-2" />
+                          <span>A small portfolio of design work or college projects.</span>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
+
+                  <div className="bg-gray-900/60 border border-gray-700 rounded-2xl p-8 hover:border-purple-500/60 transition-all duration-300">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="pr-4">
+                        <h3 className="text-xl font-bold text-white mb-1">Web Designer Intern</h3>
+                        <p className="text-sm text-gray-400">
+                          Design modern, responsive web pages and improve the user experience of our digital products.
+                        </p>
+                      </div>
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                        <Code className="w-6 h-6 text-white" />
+                      </div>
+                    </div>
+
+                    <div className="mb-4 text-sm text-gray-300">
+                      <div className="flex items-center mb-2">
+                        <Clock className="w-4 h-4 text-purple-400 mr-2" />
+                        <span>Internship • Project based</span>
+                      </div>
+                    </div>
+
+                    <div className="mb-4">
+                      <h4 className="text-sm font-semibold text-white mb-2">What you will do</h4>
+                      <ul className="space-y-1 text-sm text-gray-300">
+                        <li className="flex items-start">
+                          <span className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 mr-2" />
+                          <span>Design landing pages and UI layouts for BluNet products and campaigns.</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 mr-2" />
+                          <span>Work closely with developers to translate designs into responsive web experiences.</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 mr-2" />
+                          <span>Contribute ideas to improve usability and visual consistency across pages.</span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h4 className="text-sm font-semibold text-white mb-2">Preferred skills</h4>
+                      <ul className="space-y-1 text-sm text-gray-300">
+                        <li className="flex items-start">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 mr-2" />
+                          <span>Basic understanding of HTML, CSS and modern web layouts.</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 mr-2" />
+                          <span>Experience designing in tools like Figma, Adobe XD or similar.</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 mr-2" />
+                          <span>Attention to detail and an eye for clean, modern UI.</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-black/40 border border-blue-500/40 rounded-2xl p-6 text-center">
+                  <p className="text-sm text-gray-300">
+                    Last date to apply:
+                    <span className="text-yellow-300 font-semibold ml-1">22/01/2026</span>.
+                    Interested students can mail their resume to
+                    <a
+                      href="mailto:support@blunetitservices.in"
+                      className="text-blue-400 font-semibold ml-1"
+                    >
+                      support@blunetitservices.in
+                    </a>
+                    . Please mention
+                    <span className="text-gray-100 font-medium"> "Internship Application - Graphic Designer" </span>
+                    or
+                    <span className="text-gray-100 font-medium"> "Internship Application - Web Designer"</span>
+                    in the subject line.
+                  </p>
                 </div>
               </div>
             </motion.div>
