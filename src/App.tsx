@@ -58,22 +58,14 @@ function ProtectedLoginRoute({ children }: { children: ReactNode }) {
   return children;
 }
 
-// Gate that verifies purchase/access for a specific course via backend
 function ProtectedCourseGate({ courseId, children }: { courseId: string; children: ReactNode }) {
+  const currentUserRaw = localStorage.getItem('currentUser');
+  const currentUser = currentUserRaw ? JSON.parse(currentUserRaw) : null;
+  if (!currentUser?.isAuthenticated || !currentUser?.token) return <Navigate to="/student-login" replace />;
   const [allowed, setAllowed] = useState<boolean | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const currentUserRaw = localStorage.getItem('currentUser');
-    if (!currentUserRaw) {
-      setAllowed(false);
-      return;
-    }
-    const currentUser = JSON.parse(currentUserRaw);
-    if (!currentUser?.isAuthenticated || !currentUser?.token) {
-      setAllowed(false);
-      return;
-    }
     const checkAccess = async () => {
       try {
         const res = await fetch(`${BASE_URL}/api/courses/access/${courseId}`, {
@@ -317,7 +309,14 @@ function AppInner() {
 
 
           <Route path="/cyber-security-beginner" element={<><Header hideDock={true} /><CourseIntro courseSlug="cyber-security-beginner" /></>} />
-          <Route path="/cyber-security-beginner/module/:slug" element={<><Header hideDock={true} /><CourseLearningCyberSecurityBeginner /></>} />
+          <Route
+            path="/cyber-security-beginner/module/:slug"
+            element={
+              <ProtectedLoginRoute>
+                <><Header hideDock={true} /><CourseLearningCyberSecurityBeginner /></>
+              </ProtectedLoginRoute>
+            }
+          />
           <Route path="/cyber-security-intermediate" element={<><Header hideDock={true} /><CourseIntro courseSlug="cyber-security-intermediate" /></>} />
           <Route path="/cyber-security-intermediate/module/:slug" element={
             <ProtectedCourseGate courseId="cyber-security-intermediate">

@@ -229,9 +229,8 @@ const StudentPortal: React.FC = () => {
       'mobile-core': ['5', 'mobile-core', 'Mobile Development - Core'],
       'networking-beginner': ['networking-beginner', 'Networking - Beginner', 'NETWORKING-BEGINNER', 'networking_beginner', 'Networking Beginner'],
       'networking-intermediate': ['networking-intermediate', 'Networking - Intermediate', 'NETWORKING-INTERMEDIATE', 'networking_intermediate', 'Networking Intermediate'],
-      'cyber-security-beginner': ['cyber-security-beginner', 'CYBER-SECURITY-BEGINNER', 'Cyber Security - Beginner', 'cybersecurity-beginner'],
-      'cyber-security-intermediate': ['cyber-security-intermediate', 'CYBER-SECURITY-INTERMEDIATE', 'Cyber Security - Intermediate', 'cybersecurity-intermediate'],
-      // Reverse mappings for backend course IDs
+      'cyber-security-beginner': ['cyber-security-beginner', 'CYBER-SECURITY-BEGINNER', 'Cyber Security - Beginner', 'cybersecurity-beginner', 'CYBERSECURITY-BEGINNER'],
+      'cyber-security-intermediate': ['cyber-security-intermediate', 'CYBER-SECURITY-INTERMEDIATE', 'Cyber Security - Intermediate', 'cybersecurity-intermediate', 'CYBERSECURITY-INTERMEDIATE'],
       '1': ['ai-tools-mastery', 'AI-TOOLS-MASTERY', 'AI Tools Mastery'],
       'AI-TOOLS-MASTERY': ['ai-tools-mastery', '1', 'AI-TOOLS-MASTERY'],
       'AI Tools Mastery': ['ai-tools-mastery', '1', 'AI-TOOLS-MASTERY'],
@@ -250,7 +249,9 @@ const StudentPortal: React.FC = () => {
       'CYBER-SECURITY-BEGINNER': ['cyber-security-beginner', 'CYBER-SECURITY-BEGINNER', 'Cyber Security - Beginner'],
       'Cyber Security - Beginner': ['cyber-security-beginner', 'CYBER-SECURITY-BEGINNER'],
       'CYBER-SECURITY-INTERMEDIATE': ['cyber-security-intermediate', 'CYBER-SECURITY-INTERMEDIATE', 'Cyber Security - Intermediate'],
-      'Cyber Security - Intermediate': ['cyber-security-intermediate', 'CYBER-SECURITY-INTERMEDIATE']
+      'Cyber Security - Intermediate': ['cyber-security-intermediate', 'CYBER-SECURITY-INTERMEDIATE'],
+      'CYBERSECURITY-BEGINNER': ['cyber-security-beginner', 'CYBER-SECURITY-BEGINNER', 'Cyber Security - Beginner'],
+      'CYBERSECURITY-INTERMEDIATE': ['cyber-security-intermediate', 'CYBER-SECURITY-INTERMEDIATE', 'Cyber Security - Intermediate']
     };
     return mappings[courseId] || [courseId];
   };
@@ -3305,7 +3306,6 @@ const StudentPortal: React.FC = () => {
     // Navigate to course content/study material based on course ID
     console.log('Navigating to course:', courseId);
     
-    // Map course IDs to their respective learning routes
     const courseRoutes: { [key: string]: string } = {
       'frontend-beginner': '/course-learning/frontend-beginner/html-fundamentals/html-structure',
       'frontend-intermediate': '/frontend-development-intermediate',
@@ -3323,24 +3323,37 @@ const StudentPortal: React.FC = () => {
       'NETWORKING-BEGINNER': '/networking-beginner',
       'networking-intermediate': '/networking-intermediate',
       'NETWORKING-INTERMEDIATE': '/networking-intermediate',
-      // Cyber Security course intros
-      'cyber-security-beginner': '/cyber-security-beginner',
-      'CYBER-SECURITY-BEGINNER': '/cyber-security-beginner',
-      'cybersecurity-beginner': '/cyber-security-beginner',
-      'cyber-security-intermediate': '/cyber-security-intermediate',
-      'CYBER-SECURITY-INTERMEDIATE': '/cyber-security-intermediate',
-      'cybersecurity-intermediate': '/cyber-security-intermediate',
+      'cyber-security-beginner': '/cyber-security-beginner/module/module-1',
+      'CYBER-SECURITY-BEGINNER': '/cyber-security-beginner/module/module-1',
+      'cybersecurity-beginner': '/cyber-security-beginner/module/module-1',
+      'CYBERSECURITY-BEGINNER': '/cyber-security-beginner/module/module-1',
+      'cyber-security-intermediate': '/cyber-security-intermediate/module/module-1',
+      'CYBER-SECURITY-INTERMEDIATE': '/cyber-security-intermediate/module/module-1',
+      'cybersecurity-intermediate': '/cyber-security-intermediate/module/module-1',
+      'CYBERSECURITY-INTERMEDIATE': '/cyber-security-intermediate/module/module-1',
       'cyber-security-advanced': '/cyber-security-advanced',
       'CYBER-SECURITY-ADVANCED': '/cyber-security-advanced',
       'cybersecurity-advanced': '/cyber-security-advanced'
     };
 
-    // Navigate to the appropriate course learning page
-    const route = courseRoutes[courseId];
+    const mappingKeys = getCourseIdMapping(courseId);
+    let route: string | undefined;
+
+    for (const key of mappingKeys) {
+      const mappedRoute = courseRoutes[key];
+      if (mappedRoute) {
+        route = mappedRoute;
+        break;
+      }
+    }
+
+    if (!route) {
+      route = courseRoutes[courseId];
+    }
+
     if (route) {
       navigate(route);
     } else {
-      // Fallback to general course learning page
       navigate(`/course-learning/${courseId}/module-1/lesson-1`);
     }
   };

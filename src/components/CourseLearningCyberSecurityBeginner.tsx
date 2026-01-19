@@ -5783,20 +5783,19 @@ const CourseLearningCyberSecurityBeginner: React.FC = () => {
   if (!activeModule || !activeLesson) return <div>Loading...</div>;
 
   return (
-    <div className="flex bg-[#121212] text-white overflow-hidden font-sans" style={{ height: 'calc(100vh / 1.1)', zoom: '80%' }}>
-      {/* Sidebar */}
-      <Sidebar 
-         activeTab={activeTab} 
-         setActiveTab={setActiveTab}
-         activeModuleId={activeModuleId}
-         setActiveModuleId={setActiveModuleId}
-         activeLessonIndex={activeLessonIndex}
-         setActiveLessonIndex={setActiveLessonIndex}
-         completedLessons={completedLessons}
-      />
+    <div className="bg-[#121212] text-white overflow-hidden font-sans" style={{ height: '100vh' }}>
+      <div className="flex" style={{ zoom: '80%', height: '125vh' }}>
+        <Sidebar 
+          activeTab={activeTab} 
+          setActiveTab={setActiveTab}
+          activeModuleId={activeModuleId}
+          setActiveModuleId={setActiveModuleId}
+          activeLessonIndex={activeLessonIndex}
+          setActiveLessonIndex={setActiveLessonIndex}
+          completedLessons={completedLessons}
+        />
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-full overflow-hidden relative">
+        <div className="flex-1 flex flex-col h-full overflow-hidden relative">
          {/* Top Navigation Bar (Breadcrumbs & Tools) */}
          <div className="h-[50px] bg-[#1e1e1e] border-b border-[#333] flex items-center justify-between px-4 z-20">
             <div className="flex items-center gap-2 text-sm text-gray-400">
@@ -6017,13 +6016,24 @@ const CourseLearningCyberSecurityBeginner: React.FC = () => {
          </div>
       </div>
     </div>
+  </div>
   );
 };
 
 
 export default CourseLearningCyberSecurityBeginner;
 
-const FloatingDock: React.FC<{ isDark: boolean; onToggleTheme: () => void; onPrevModule: () => void; disabledPrev: boolean; onNextModule: () => void; disabledNext: boolean; onHome: () => void } > = ({ isDark, onToggleTheme, onPrevModule, disabledPrev, onNextModule, disabledNext, onHome }) => (
+type FloatingDockProps = {
+  isDark: boolean;
+  onToggleTheme: () => void;
+  onPrevModule: () => void;
+  disabledPrev: boolean;
+  onNextModule: () => void;
+  disabledNext: boolean;
+  onHome: () => void;
+};
+
+const FloatingDock = ({ isDark, onToggleTheme, onPrevModule, disabledPrev, onNextModule, disabledNext, onHome }: FloatingDockProps) => (
   <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-40 rounded-2xl shadow-lg border ${isDark ? 'bg-white/10 border-white/20' : 'bg-white/60 border-gray-300/40'} backdrop-blur-xl px-3 py-2 flex items-center gap-2`} aria-label="Quick actions dock">
     <button
       onClick={onHome}
@@ -6066,147 +6076,113 @@ const FloatingDock: React.FC<{ isDark: boolean; onToggleTheme: () => void; onPre
   </div>
 );
 
-const ChatPanel: React.FC<{ isDark: boolean; messages: ChatMessage[]; loading: boolean; onSend: (text: string) => void }> = ({ isDark, messages, loading, onSend }) => {
+type ChatPanelProps = {
+  isDark: boolean;
+  messages: ChatMessage[];
+  loading: boolean;
+  onSend: (text: string) => void;
+};
+
+function ChatPanel({ isDark, messages, loading, onSend }: ChatPanelProps) {
   const [text, setText] = React.useState('');
 
-  // Typing animation state for the latest assistant message
-  const [typingIndex, setTypingIndex] = React.useState<number | null>(null);
-  const [typedContent, setTypedContent] = React.useState('');
-  const typingTimerRef = React.useRef<number | null>(null);
-
-  // Handle send - clear input immediately
   const handleSend = () => {
     if (text.trim() && !loading) {
       onSend(text.trim());
-      setText(''); // Clear input immediately
+      setText('');
     }
   };
 
-  React.useEffect(() => {
-    if (!messages.length) return;
-    const lastIndex = messages.length - 1;
-    const last = messages[lastIndex];
-
-    // Start typing animation only for the newest assistant message
-    if (last.role === 'assistant') {
-      // If already animating this message, skip
-      if (typingIndex === lastIndex && typedContent.length === last.content.length) return;
-
-      // Clear any previous timer
-      if (typingTimerRef.current) {
-        window.clearInterval(typingTimerRef.current);
-        typingTimerRef.current = null;
-      }
-
-      setTypingIndex(lastIndex);
-      setTypedContent('');
-      let i = 0;
-      const full = last.content;
-      const speedMs = 18; // smooth typing speed
-      typingTimerRef.current = window.setInterval(() => {
-        i = Math.min(i + 1, full.length);
-        setTypedContent(full.slice(0, i));
-        if (i >= full.length) {
-          if (typingTimerRef.current) {
-            window.clearInterval(typingTimerRef.current);
-            typingTimerRef.current = null;
-          }
-        }
-      }, speedMs);
-    }
-
-    // Cleanup when messages change or component unmounts
-    return () => {
-      if (typingTimerRef.current) {
-        window.clearInterval(typingTimerRef.current);
-        typingTimerRef.current = null;
-      }
-    };
-  }, [messages]);
-
   return (
-    <aside className={`${isDark ? 'bg-gradient-to-br from-white/15 to-white/5 border-white/20' : 'bg-gradient-to-br from-white/70 to-white/40 border-gray-300/40'} backdrop-blur-2xl backdrop-saturate-150 w-full lg:sticky lg:top-4 lg:self-start h-[calc(100vh-240px)] min-h-[520px] rounded-2xl border p-4 flex flex-col shadow-lg ring-1 ${isDark ? 'ring-white/10' : 'ring-white/60'}`
-      }>
-        {/* Chat Header */}
-        <div className={`flex flex-col items-start gap-0.5 pb-3 border-b ${isDark ? 'border-white/20' : 'border-[#14A38F]/30'} ${isDark ? 'bg-white/10' : 'bg-white/60'} backdrop-blur-xl rounded-lg px-3 py-2`}>
-          <h3 className={`text-sm font-medium ${isDark ? 'text-white' : 'text-[#14A38F]'}`}>
-            Personal Teacher
-          </h3>
-          <span className={`text-xs ${isDark ? "text-gray-400" : "text-gray-500"}`}>
-            Ask me anything about the components
-          </span>
-        </div>
+    <aside
+      className={`${
+        isDark
+          ? 'bg-gradient-to-br from-white/15 to-white/5 border-white/20'
+          : 'bg-gradient-to-br from-white/70 to-white/40 border-gray-300/40'
+      } backdrop-blur-2xl backdrop-saturate-150 w-full lg:sticky lg:top-4 lg:self-start h-[calc(100vh-240px)] min-h-[520px] rounded-2xl border p-4 flex flex-col shadow-lg ring-1 ${
+        isDark ? 'ring-white/10' : 'ring-white/60'
+      }`}
+    >
+      <div
+        className={`flex flex-col items-start gap-0.5 pb-3 border-b ${
+          isDark ? 'border-white/20 bg-white/10' : 'border-[#14A38F]/30 bg-white/60'
+        } backdrop-blur-xl rounded-lg px-3 py-2`}
+      >
+        <h3 className={`text-sm font-medium ${isDark ? 'text-white' : 'text-[#14A38F]'}`}>Personal Teacher</h3>
+        <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Ask me anything about the components</span>
+      </div>
 
-        {/* Messages List */}
-        <div className={`flex-1 min-h-0 overflow-y-auto space-y-4 py-4 ${isDark ? "text-gray-200" : "text-gray-800"}`}>
-          {messages.map((msg, idx) => (
-            <div key={idx} className={`flex ${msg.role === "assistant" ? "justify-start" : "justify-end"}`}>
-              <div
-                className={`${
-                  msg.role === "assistant"
-                    ? isDark
-                      ? "bg-white/10 backdrop-blur-xl text-white border border-white/20"
-                      : "bg-[#14A38F] text-white border border-[#14A38F]"
-                    : isDark
-                    ? "bg-black/60 backdrop-blur-xl text-white border border-white/20"
-                    : "bg-blue-600/70 backdrop-blur-xl text-white border border-blue-300/40"
-                } max-w-[85%] rounded-2xl px-4 py-3 shadow-sm whitespace-pre-wrap break-words leading-relaxed text-[15px]`}
-              >
-                {msg.role === "assistant" && idx === typingIndex && typedContent.length > 0
-                  ? typedContent
-                  : msg.content}
-              </div>
-            </div>
-          ))}
-          
-          {/* Loading indicator - thinking animation */}
-          {loading && (
-            <div className="flex justify-start">
-              <div className={`${isDark ? "bg-white/10 backdrop-blur-xl border border-white/20" : "bg-[#14A38F] border border-[#14A38F]"} rounded-2xl px-4 py-3 shadow-sm`}>
-                <div className="flex items-center gap-1">
-                  <span className={`text-sm ${isDark ? "text-white/70" : "text-white/90"}`}>Thinking</span>
-                  <div className="flex gap-1 ml-1">
-                    <span className={`w-2 h-2 rounded-full ${isDark ? "bg-white/60" : "bg-white/80"} animate-bounce`} style={{ animationDelay: '0ms' }}></span>
-                    <span className={`w-2 h-2 rounded-full ${isDark ? "bg-white/60" : "bg-white/80"} animate-bounce`} style={{ animationDelay: '150ms' }}></span>
-                    <span className={`w-2 h-2 rounded-full ${isDark ? "bg-white/60" : "bg-white/80"} animate-bounce`} style={{ animationDelay: '300ms' }}></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Input Area */}
-        <div className="pt-4 border-t space-y-3">
-          <div className={`flex items-center gap-2 ${isDark ? "bg-white/10 border-white/20" : "bg-white/60 border-gray-300/40"} backdrop-blur-xl rounded-xl border p-2 shadow-sm`}> 
-            <button className={`p-2 rounded ${isDark ? "hover:bg-white/15" : "hover:bg-white"} shrink-0`} aria-label="Voice input">
-              <Mic className={`h-5 w-5 ${isDark ? "text-white/80" : "text-gray-700"}`} />
-            </button>
-            <input
-              type="text"
-              className={`flex-1 bg-transparent outline-none min-w-0 ${isDark ? "text-white placeholder-white/60" : "text-gray-900 placeholder-gray-600"}`}
-              placeholder="Type your message..."
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleSend();
-                }
-              }}
-              disabled={loading}
-            />
-            <button
-              className={`flex items-center gap-2 px-4 py-2 rounded-md ${
-                isDark ? 'bg-white text-gray-900' : 'bg-[#14A38F] text-white'
-              } disabled:opacity-50 shrink-0`}
-              onClick={handleSend}
-              disabled={loading || !text.trim()}
+      <div className={`flex-1 min-h-0 overflow-y-auto space-y-4 py-4 ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>
+        {messages.map((msg, idx) => (
+          <div key={idx} className={`flex ${msg.role === 'assistant' ? 'justify-start' : 'justify-end'}`}>
+            <div
+              className={`${
+                msg.role === 'assistant'
+                  ? isDark
+                    ? 'bg-white/10 backdrop-blur-xl text-white border border-white/20'
+                    : 'bg-[#14A38F] text-white border border-[#14A38F]'
+                  : isDark
+                  ? 'bg-black/60 backdrop-blur-xl text-white border border-white/20'
+                  : 'bg-blue-600/70 backdrop-blur-xl text-white border border-blue-300/40'
+              } max-w-[85%] rounded-2xl px-4 py-3 shadow-sm whitespace-pre-wrap break-words leading-relaxed text-[15px]`}
             >
-              <Send className="h-4 w-4" />
-              {loading ? 'Sending...' : 'Send'}
-            </button>
+              {msg.content}
+            </div>
           </div>
+        ))}
+
+        {loading && (
+          <div className="flex justify-start">
+            <div
+              className={`${
+                isDark ? 'bg-white/10 backdrop-blur-xl border border-white/20' : 'bg-[#14A38F] border border-[#14A38F]'
+              } rounded-2xl px-4 py-3 shadow-sm`}
+            >
+              <span className={`text-sm ${isDark ? 'text-white/70' : 'text-white/90'}`}>Thinking...</span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="pt-4 border-t space-y-3">
+        <div
+          className={`flex items-center gap-2 ${
+            isDark ? 'bg-white/10 border-white/20' : 'bg-white/60 border-gray-300/40'
+          } backdrop-blur-xl rounded-xl border p-2 shadow-sm`}
+        >
+          <button
+            className={`p-2 rounded ${isDark ? 'hover:bg-white/15' : 'hover:bg-white'} shrink-0`}
+            aria-label="Voice input (not implemented)"
+          >
+            <Mic className={`h-5 w-5 ${isDark ? 'text-white/80' : 'text-gray-700'}`} />
+          </button>
+          <input
+            type="text"
+            className={`flex-1 bg-transparent outline-none min-w-0 ${
+              isDark ? 'text-white placeholder-white/60' : 'text-gray-900 placeholder-gray-600'
+            }`}
+            placeholder="Type your message..."
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleSend();
+              }
+            }}
+            disabled={loading}
+          />
+          <button
+            className={`flex items-center gap-2 px-4 py-2 rounded-md ${
+              isDark ? 'bg-white text-gray-900' : 'bg-[#14A38F] text-white'
+            } disabled:opacity-50 shrink-0`}
+            onClick={handleSend}
+            disabled={loading || !text.trim()}
+          >
+            <Send className="h-4 w-4" />
+            {loading ? 'Sending...' : 'Send'}
+          </button>
         </div>
+      </div>
     </aside>
   );
 };
