@@ -281,8 +281,10 @@ const AdminPanel: React.FC = () => {
       if (courseId) form.append('courseId', courseId);
       form.append('certificate', file);
 
+      const token = sessionStorage.getItem('admin_auth_token') || '';
       const res = await fetch(`${BASE_URL}/api/certificates/upload`, {
         method: 'POST',
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
         body: form
       });
       const data = await res.json();
@@ -478,7 +480,10 @@ const AdminPanel: React.FC = () => {
             }
 
             try {
-              const resp = await fetch(`${BASE_URL}/api/progress/student/${student._id}/course/${courseKey}/summary`);
+              const token = sessionStorage.getItem('admin_auth_token') || '';
+              const resp = await fetch(`${BASE_URL}/api/progress/student/${student._id}/course/${courseKey}/summary`, {
+                headers: token ? { Authorization: `Bearer ${token}` } : {}
+              });
               if (resp.ok) {
                 const result = await resp.json();
                 const data = result?.data || {};
@@ -519,7 +524,10 @@ const AdminPanel: React.FC = () => {
   const fetchStudentSubmissions = async () => {
     setSubmissionsLoading(true);
     try {
-      const response = await fetch(`${BASE_URL}/api/students/admin/submissions`);
+      const token = sessionStorage.getItem('admin_auth_token') || '';
+      const response = await fetch(`${BASE_URL}/api/students/admin/submissions`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      });
       if (response.ok) {
         const result = await response.json();
         if (result.success) {
@@ -554,7 +562,10 @@ const AdminPanel: React.FC = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/projects`);
+      const token = sessionStorage.getItem('admin_auth_token') || '';
+      const response = await fetch(`${BASE_URL}/api/projects`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      });
       if (response.ok) {
         const result = await response.json();
         const data = result.data || result;
@@ -605,7 +616,10 @@ const AdminPanel: React.FC = () => {
 
   const fetchPayments = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/payments`);
+      const token = sessionStorage.getItem('admin_auth_token') || '';
+      const response = await fetch(`${BASE_URL}/api/payments`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      });
       if (response.ok) {
         const data = await response.json();
         console.log('Payments API response:', data); // Debug log
@@ -625,10 +639,12 @@ const AdminPanel: React.FC = () => {
         createdAt: new Date().toISOString()
       };
 
+      const token = sessionStorage.getItem('admin_auth_token') || '';
       const response = await fetch(`${BASE_URL}/api/projects`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
         },
         body: JSON.stringify(projectData),
       });
@@ -655,10 +671,12 @@ const AdminPanel: React.FC = () => {
 
   const updateProjectStatus = async (projectId: string, newStatus: string) => {
     try {
+      const token = sessionStorage.getItem('admin_auth_token') || '';
       const response = await fetch(`${BASE_URL}/api/projects/${projectId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
         },
         body: JSON.stringify({ status: newStatus, notes: statusNotes }),
       });
@@ -688,7 +706,10 @@ const AdminPanel: React.FC = () => {
   // Faculty Management Functions
   const fetchFaculty = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/faculty/all`);
+      const token = sessionStorage.getItem('admin_auth_token') || '';
+      const response = await fetch(`${BASE_URL}/api/faculty/all`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      });
       const data = await response.json();
       
       if (data.success) {
@@ -723,10 +744,12 @@ const AdminPanel: React.FC = () => {
     }
 
     try {
+      const token = sessionStorage.getItem('admin_auth_token') || '';
       const response = await fetch(`${BASE_URL}/api/faculty/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
         },
         body: JSON.stringify({
           name: newFaculty.name,
@@ -763,10 +786,12 @@ const AdminPanel: React.FC = () => {
   const handleDeleteFaculty = async (facultyId: string) => {
     if (confirm('Are you sure you want to delete this faculty member?')) {
       try {
+        const token = sessionStorage.getItem('admin_auth_token') || '';
         const response = await fetch(`${BASE_URL}/api/faculty/${facultyId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
         },
       });
 
@@ -794,8 +819,11 @@ const AdminPanel: React.FC = () => {
   const fetchReferredStudents = async (referralCode: string) => {
     try {
       // Fetch students who used this referral code from the backend
-      const response = await fetch(`${BASE_URL}/api/students/by-referral/${referralCode}`);
-
+      const token = sessionStorage.getItem('admin_auth_token') || '';
+      const response = await fetch(`${BASE_URL}/api/students/by-referral/${referralCode}`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      });
+      
       let result: any = null;
       let rawText = '';
       try {
@@ -855,9 +883,13 @@ const AdminPanel: React.FC = () => {
     setCredentialsLoading(true);
     setCredentialsError(null);
     try {
+      const token = sessionStorage.getItem('admin_auth_token') || '';
       const response = await fetch(`${BASE_URL}/api/students/admin/reset-password/${activeCredentialsStudent._id}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        }
       });
       const result = await response.json();
       if (!response.ok || !result.success) {
@@ -881,9 +913,13 @@ const AdminPanel: React.FC = () => {
     setCredentialsLoading(true);
     setCredentialsError(null);
     try {
+      const token = sessionStorage.getItem('admin_auth_token') || '';
       const response = await fetch(`${BASE_URL}/api/students/admin/reset-password/${student._id}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        }
       });
       const result = await response.json();
       if (!response.ok || !result.success) {
@@ -907,10 +943,12 @@ const AdminPanel: React.FC = () => {
 
     setIsDeleting(true);
     try {
+      const token = sessionStorage.getItem('admin_auth_token') || '';
       const response = await fetch(`${BASE_URL}/api/students/${studentToDelete._id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
         },
       });
 
@@ -1066,10 +1104,12 @@ const AdminPanel: React.FC = () => {
 
         console.log('Creating new payment with data:', paymentData);
         
+        const token = sessionStorage.getItem('admin_auth_token') || '';
         response = await fetch(`${BASE_URL}/api/payments`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            ...(token ? { Authorization: `Bearer ${token}` } : {})
           },
           body: JSON.stringify(paymentData)
         });
@@ -1083,6 +1123,7 @@ const AdminPanel: React.FC = () => {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
+              ...(token ? { Authorization: `Bearer ${token}` } : {})
             },
             body: JSON.stringify({
               confirmationStatus: change.newStatus,
@@ -1106,10 +1147,12 @@ const AdminPanel: React.FC = () => {
           adminEmail: 'support@blunetitservices.in'
         });
         
+        const token = sessionStorage.getItem('admin_auth_token') || '';
         response = await fetch(`${BASE_URL}/api/payments/${change.paymentId}/confirm`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            ...(token ? { Authorization: `Bearer ${token}` } : {})
           },
           body: JSON.stringify({
             confirmationStatus: change.newStatus,

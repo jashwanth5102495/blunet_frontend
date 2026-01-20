@@ -1202,7 +1202,13 @@ const Courses = () => {
   });
 
   const handleCourseClick = (courseId: string) => {
-    navigate('/student-registration');
+    if (courseId === 'CYBER-SECURITY-BEGINNER') {
+      navigate('/cyber-security-beginner');
+    } else if (courseId === 'FRONTEND-BEGINNER') {
+      navigate('/frontend-development-beginner');
+    } else {
+      navigate('/student-registration');
+    }
   };
 
   return (

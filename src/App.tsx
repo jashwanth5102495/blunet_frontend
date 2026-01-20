@@ -32,6 +32,7 @@ import CourseLearningDevOpsAdvanced from './components/CourseLearningDevOpsAdvan
 import CourseLearningNetworkingBeginner from './components/CourseLearningNetworkingBeginner';
 import CourseLearningNetworkingIntermediate from './components/CourseLearningNetworkingIntermediate';
 import CourseLearningCyberSecurityBeginner from './components/CourseLearningCyberSecurityBeginner';
+import CourseLearningFrontendBeginner from './components/CourseLearningFrontendBeginner';
 import CourseLearningCyberSecurityIntermediate from './components/CourseLearningCyberSecurityIntermediate';
 import CourseEnrollment from './components/CourseEnrollment';
 import AssignmentPage from './components/AssignmentPage';
@@ -295,6 +296,17 @@ function AppInner() {
           <Route path="/projects/enroll" element={<><Header /><ProjectEnrollment /></>} />
 
           <Route path="/courses" element={<><Header /><Courses /></>} />
+          
+          <Route path="/frontend-development-beginner" element={<><Header hideDock={true} /><CourseIntro courseSlug="frontend-development-beginner" /></>} />
+          <Route
+            path="/frontend-development-beginner/module/:slug"
+            element={
+              <ProtectedLoginRoute>
+                <><Header hideDock={true} /><CourseLearningFrontendBeginner /></>
+              </ProtectedLoginRoute>
+            }
+          />
+
           <Route path="/frontend-development-intermediate" element={<><Header hideDock={true} /><IntroductionPage /></>} />
           <Route path="/frontend-development-intermediate/module/:slug" element={<><Header hideDock={true} /><ModuleComingSoon /></>} />
           <Route path="/course-enrollment/:courseId" element={<CourseEnrollment />} />

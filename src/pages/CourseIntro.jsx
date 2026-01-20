@@ -15,7 +15,7 @@ export default function CourseIntro({ courseSlug }) {
   const isDark = theme === 'dark';
   const FALLBACK_SVG = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="%23bbbbbb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="3" ry="3"/><circle cx="8" cy="10" r="1"/><circle cx="12" cy="10" r="1"/><circle cx="16" cy="10" r="1"/><path d="M3 18h18"/></svg>';
 
-  const isCiscoStyle = courseSlug === 'cyber-security-beginner' || courseSlug === 'ethical-hacker' || courseSlug === 'cyber-security-intermediate';
+  const isCiscoStyle = courseSlug === 'cyber-security-beginner' || courseSlug === 'ethical-hacker' || courseSlug === 'cyber-security-intermediate' || courseSlug === 'frontend-development-beginner';
 
   if (!data && !isCiscoStyle) {
     return (
@@ -36,36 +36,73 @@ export default function CourseIntro({ courseSlug }) {
   if (isCiscoStyle) {
     // Dynamic content selection based on course slug
     const isIntermediate = courseSlug === 'cyber-security-intermediate';
+    const isFrontendBeginner = courseSlug === 'frontend-development-beginner';
     
-    const title = isIntermediate 
-      ? 'Cyber Security — Intermediate Level' 
-      : 'Cyber Security — Beginner Level';
-      
-    const duration = isIntermediate ? '80 Hours' : '70 Hours';
-    
-    const overview = isIntermediate
-      ? 'Deepen your offensive and defensive skills with advanced scanning, exploitation frameworks, and web application security. Master network traffic analysis and secure wireless environments.'
-      : 'Build practical offensive security skills to systematically uncover weaknesses before cybercriminals do. Learn scoping, reconnaissance, vulnerability analysis, and reporting with hands-on labs.';
-      
-    const prerequisites = isIntermediate
-      ? ['Completion of Cyber Security Beginner', 'Solid Networking Knowledge', 'Familiarity with Linux Command Line']
-      : ['Basic IT or networking knowledge', 'Familiarity with Linux/Windows basics', 'Willingness to follow an ethical code of conduct'];
-      
-    const skills = isIntermediate 
-      ? [
+    let title, duration, overview, prerequisites, skills;
+
+    if (isFrontendBeginner) {
+      title = 'Frontend Development — Beginner Level';
+      duration = '40 Hours';
+      overview = 'Master the building blocks of the web. Learn HTML to structure content, CSS to style and layout pages, and JavaScript to add interactivity. Build real-world projects to kickstart your developer journey.';
+      prerequisites = ['Basic computer literacy', 'No prior coding experience required', 'Desire to create visual interfaces'];
+      skills = [
+          { icon: Laptop, label: 'Web Development' },
+          { icon: Search, label: 'HTML5 & CSS3' },
+          { icon: Bug, label: 'JavaScript' },
+          { icon: User, label: 'UI/UX Basics' }
+      ];
+    } else if (isIntermediate) {
+      title = 'Cyber Security — Intermediate Level';
+      duration = '80 Hours';
+      overview = 'Deepen your offensive and defensive skills with advanced scanning, exploitation frameworks, and web application security. Master network traffic analysis and secure wireless environments.';
+      prerequisites = ['Completion of Cyber Security Beginner', 'Solid Networking Knowledge', 'Familiarity with Linux Command Line'];
+      skills = [
           { icon: Shield, label: 'Network Defense' },
           { icon: Search, label: 'Traffic Analysis' },
           { icon: Bug, label: 'Metasploit' },
           { icon: Lock, label: 'Web Security' }
-        ]
-      : [
+      ];
+    } else {
+      title = 'Cyber Security — Beginner Level';
+      duration = '70 Hours';
+      overview = 'Build practical offensive security skills to systematically uncover weaknesses before cybercriminals do. Learn scoping, reconnaissance, vulnerability analysis, and reporting with hands-on labs.';
+      prerequisites = ['Basic IT or networking knowledge', 'Familiarity with Linux/Windows basics', 'Willingness to follow an ethical code of conduct'];
+      skills = [
           { icon: Shield, label: 'Cybersecurity' },
           { icon: Search, label: 'Recon & Analysis' },
           { icon: Bug, label: 'Penetration Testing' },
           { icon: Lock, label: 'Vulnerability Assessment' }
-        ];
+      ];
+    }
 
-    const syllabusModules = isIntermediate 
+    const syllabusModules = isFrontendBeginner
+      ? [
+          {
+            id: 'module-1',
+            title: 'Module 1: HTML Fundamentals',
+            duration: '1 week',
+            topics: ['HTML Structure', 'Tags & Attributes', 'Semantic HTML', 'Forms & Inputs', 'SEO Basics']
+          },
+          {
+            id: 'module-2',
+            title: 'Module 2: CSS Styling',
+            duration: '2 weeks',
+            topics: ['Selectors & Colors', 'Box Model', 'Flexbox Layouts', 'Responsive Design', 'CSS Grid Basics']
+          },
+          {
+            id: 'module-3',
+            title: 'Module 3: JavaScript Basics',
+            duration: '3 weeks',
+            topics: ['Variables & Data Types', 'Functions & Logic', 'DOM Manipulation', 'Event Handling', 'Basic Algorithms']
+          },
+          {
+            id: 'module-4',
+            title: 'Module 4: Building Projects',
+            duration: '2 weeks',
+            topics: ['Project Setup', 'Portfolio Website', 'Landing Page', 'Interactive To-Do List', 'Deployment']
+          }
+        ]
+      : isIntermediate 
        ? [
           {
             id: 'module-1',

@@ -3307,7 +3307,9 @@ const StudentPortal: React.FC = () => {
     console.log('Navigating to course:', courseId);
     
     const courseRoutes: { [key: string]: string } = {
-      'frontend-beginner': '/course-learning/frontend-beginner/html-fundamentals/html-structure',
+      'frontend-beginner': '/frontend-development-beginner',
+      'FRONTEND-BEGINNER': '/frontend-development-beginner',
+      'Frontend Development - Beginner': '/frontend-development-beginner',
       'frontend-intermediate': '/frontend-development-intermediate',
       'FRONTEND-INTERMEDIATE': '/frontend-development-intermediate',
       'frontend-advanced': '/course-learning-advanced/frontend-advanced/advanced-react/performance-optimization',
