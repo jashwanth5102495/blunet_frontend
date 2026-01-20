@@ -12,10 +12,11 @@ interface Lesson {
   content: string; // HTML content
   duration?: string;
   videoUrl?: string; // URL for the lesson video
+  videoSlides?: { title: string; url: string }[]; // Array of videos for slideshow
   syntax?: { title: string; content: string }[];
   terminalCommands?: string[];
   liveCode?: string; // Default code for the live editor
-  language?: 'html' | 'python';
+  language?: 'html' | 'python' | 'java';
 }
 
 interface Module {
@@ -61,8 +62,13 @@ const courseData: Module[] = [
       { 
         title: 'Introduction to HTML', 
         duration: '5 min', 
+        videoSlides: [
+          { title: 'Part 1: HTML Basics', url: '/htmlpart1.mp4' },
+          { title: 'Part 2: Advanced Structure', url: '/htmlpart2.mp4' }
+        ],
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">Introduction to HTML</h2>
+          
           <p class="text-gray-300 mb-4">HTML (HyperText Markup Language) is the core building block of the World Wide Web. It is the first language that anyone must learn when starting web development. HTML provides the basic structure of a website and defines how content such as text, images, videos, links, and forms appear in a web browser. Unlike programming languages, HTML does not contain logic or calculations. Instead, it uses predefined tags to organize and describe content in a meaningful way.</p>
           
           <p class="text-gray-300 mb-4">HTML works on the principle of markup, meaning that content is enclosed within tags that describe its purpose. For example, a heading is wrapped inside heading tags, a paragraph inside paragraph tags, and a video inside video tags. When a browser loads an HTML file, it reads these tags and visually displays the content according to their meaning. This is how raw code is transformed into a visually structured web page.</p>
@@ -102,7 +108,7 @@ const courseData: Module[] = [
           },
           { 
             title: 'HTML Video Tag Syntax', 
-            content: `<video width="640" height="360" controls> 
+            content: `<video width="640" height="360" controls preload="metadata"> 
     <source src="video.mp4" type="video/mp4"> 
 </video>` 
           }
@@ -133,7 +139,7 @@ const courseData: Module[] = [
     </p> 
 
     <!-- Using a sample video since the relative path won't work in this context -->
-    <video width="640" height="360" controls> 
+    <video width="640" height="360" controls preload="metadata"> 
         <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4"> 
         Your browser does not support the video tag. 
     </video> 
@@ -143,7 +149,8 @@ const courseData: Module[] = [
       },
       { 
         title: 'HTML Headings (h1-h6)', 
-        duration: '5 min', 
+        duration: '10 min', 
+        videoUrl: '/HTML%20Headings%20(h1-h6).mp4',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">What Are HTML Headings?</h2>
           <p class="text-gray-300 mb-4">HTML headings are used to define titles and subtitles on a web page. They help organize content into clear sections, making the page easier to read for users and easier to understand for browsers and search engines. Headings are one of the most important elements in HTML because they provide a logical structure to the content.</p>
@@ -228,7 +235,8 @@ const courseData: Module[] = [
       },
       { 
         title: 'HTML Paragraphs and Text Formatting', 
-        duration: '5 min', 
+        duration: '12 min', 
+        videoUrl: '/HTML%20Paragraphs%20and%20Text%20Formatting.mp4',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">HTML Paragraphs</h2>
           <p class="text-gray-300 mb-4">HTML paragraphs are used to display blocks of text on a web page. The <code>&lt;p&gt;</code> tag defines a paragraph and is one of the most commonly used HTML elements. Paragraphs help divide content into readable sections, making information easier to understand for users. When the browser encounters a <code>&lt;p&gt;</code> tag, it automatically adds space before and after the paragraph, improving readability without requiring additional styling.</p>
@@ -311,7 +319,8 @@ const courseData: Module[] = [
       },
       { 
         title: 'HTML Links and Navigation', 
-        duration: '5 min', 
+        duration: '15 min', 
+        videoUrl: '/links.mp4',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">What Are HTML Links?</h2>
           <p class="text-gray-300 mb-4">HTML links, also known as hyperlinks, are used to connect one web page to another. Links are one of the most powerful features of the web because they allow users to navigate between pages, websites, documents, and different sections of the same page. The entire concept of the World Wide Web is built around hyperlinks.</p>
@@ -405,7 +414,8 @@ const courseData: Module[] = [
       },
       { 
         title: 'HTML Lists (Ordered, Unordered, Description)', 
-        duration: '5 min', 
+        duration: '10 min', 
+        videoUrl: '/list.mp4',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">Introduction to HTML Lists</h2>
           <p class="text-gray-300 mb-4">HTML lists are used to group related items together in a structured and readable format. Lists are commonly used in websites to display menus, instructions, features, steps, and collections of data. By using lists, content becomes easier to scan and understand, especially when presenting multiple points or sequences.</p>
@@ -504,7 +514,8 @@ const courseData: Module[] = [
       },
       { 
         title: 'HTML Images and Media', 
-        duration: '5 min', 
+        duration: '12 min', 
+        videoUrl: '/images.mp4',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">Introduction to HTML Images and Media</h2>
           <p class="text-gray-300 mb-4">Images and media play a vital role in modern web pages by making content more engaging, informative, and visually appealing. HTML allows developers to embed images, audio, and video directly into web pages using dedicated tags. In learning platforms and study materials, media elements help explain concepts more clearly and improve user engagement.</p>
@@ -584,7 +595,8 @@ const courseData: Module[] = [
       },
       { 
         title: 'HTML Tables', 
-        duration: '5 min', 
+        duration: '15 min', 
+        videoUrl: '/tables.mp4',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">Introduction to HTML Tables</h2>
           <p class="text-gray-300 mb-4">HTML tables are used to display data in rows and columns, making information easier to read, compare, and analyze. Tables are commonly used for presenting structured data such as schedules, price lists, student records, reports, and comparison charts. In online study materials, tables are especially useful for organizing facts, summaries, and reference information in a clear and compact format.</p>
@@ -684,7 +696,8 @@ const courseData: Module[] = [
       },
       { 
         title: 'HTML Forms and Input Elements', 
-        duration: '5 min', 
+        duration: '20 min', 
+        videoUrl: '/forms.mp4',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">Introduction to HTML Forms</h2>
           <p class="text-gray-300 mb-4">HTML forms are used to collect user input and send that data to a server for processing. Forms are one of the most important components of interactive websites. Almost every website uses forms in some way, such as login pages, registration forms, search bars, feedback forms, and contact forms.</p>
@@ -796,6 +809,7 @@ const courseData: Module[] = [
       { 
         title: 'Introduction to CSS', 
         duration: '5 min', 
+        videoUrl: '/what%20is%20css.mp4',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">What is CSS?</h2>
           <p class="text-gray-300 mb-4">CSS stands for Cascading Style Sheets. It is the language used to style and design HTML content. While HTML is responsible for the structure of a webpage, CSS controls how that structure looks. This includes colors, fonts, spacing, alignment, layouts, backgrounds, borders, and responsiveness.</p>
@@ -905,6 +919,7 @@ border`
       { 
         title: 'Inline CSS', 
         duration: '5 min', 
+        videoUrl: '/inline%20css.mp4',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">What is Inline CSS?</h2>
           <p class="text-gray-300 mb-4">Inline CSS is a method of applying CSS styles directly inside an HTML element using the <code>style</code> attribute. This approach allows developers to apply styles to a specific element without affecting other elements on the page. Inline CSS is written within the opening tag of an HTML element and consists of CSS property–value pairs.</p>
@@ -977,6 +992,7 @@ border`
       { 
         title: 'Internal CSS', 
         duration: '5 min', 
+        videoUrl: '/internal%20css.mp4',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">What is Internal CSS?</h2>
           <p class="text-gray-300 mb-4">Internal CSS is a method of applying styles to a web page by placing CSS rules inside the <code>&lt;style&gt;</code> tag within the <code>&lt;head&gt;</code> section of an HTML document. Internal CSS allows developers to style multiple elements on a single page using a centralized set of CSS rules, without creating an external stylesheet.</p>
@@ -1067,6 +1083,7 @@ border`
       { 
         title: 'External CSS', 
         duration: '5 min', 
+        videoUrl: '/external%20css.mp4',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">What is External CSS?</h2>
           <p class="text-gray-300 mb-4">External CSS is a method of styling web pages by writing all CSS rules in a separate <code>.css</code> file and linking that file to one or more HTML documents. This is the most professional and industry-standard approach to styling websites because it allows complete separation of content (HTML) and design (CSS).</p>
@@ -1240,6 +1257,7 @@ border`
       { 
         title: 'CSS Colors and Typography', 
         duration: '5 min', 
+        videoUrl: '/Typography.mp4',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">Introduction to CSS Colors and Typography</h2>
           <p class="text-gray-300 mb-4">CSS allows you to control the appearance of text and colors on a webpage, which plays a critical role in readability, branding, and user experience. Using colors effectively can draw attention to key elements, create visual hierarchy, and enhance aesthetics. Typography, including font selection, size, weight, and style, ensures that content is legible and visually consistent.</p>
@@ -1352,7 +1370,8 @@ border`
     lessons: [
       { 
         title: 'CSS Box Model and Layout', 
-        duration: '5 min', 
+        duration: '15 min', 
+        videoUrl: '/box%20done.mp4',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">The CSS Box Model</h2>
           <p class="text-gray-300 mb-4">The CSS Box Model is a fundamental concept in web design that defines how every HTML element is rendered on a webpage. Every element on a page is essentially a rectangular box consisting of four parts: content, padding, border, and margin. Understanding the box model is essential for controlling spacing, sizing, and layout in CSS.</p>
@@ -1556,7 +1575,8 @@ border`
     lessons: [
       { 
         title: 'Introduction to JavaScript', 
-        duration: '5 min', 
+        duration: '15 min', 
+        videoUrl: '/javas.mp4',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">Introduction to JavaScript</h2>
           <p class="text-gray-300 mb-4">JavaScript (JS) is a high-level, interpreted programming language that adds interactivity and dynamic behavior to web pages. Unlike HTML and CSS, which control structure and styling, JavaScript allows web pages to respond to user actions, modify content in real-time, and communicate with servers.</p>
@@ -1629,7 +1649,8 @@ console.log(message); // Output to console`
       },
       { 
         title: 'JavaScript Variables and Data Types', 
-        duration: '5 min', 
+        duration: '15 min', 
+        videoUrl: '/var.mp4',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">Introduction to JavaScript Variables and Data Types</h2>
           <p class="text-gray-300 mb-4">In JavaScript, variables are containers used to store data values, which can be later accessed or modified. A variable is essentially a name that references a value in memory. JavaScript provides different ways to declare variables: <code>var</code>, <code>let</code>, and <code>const</code>. Choosing the right type of declaration is important for scope, mutability, and code maintainability.</p>
@@ -1732,7 +1753,8 @@ let person = {name: "Alice", age: 30}; // Object`
       },
       { 
         title: 'JavaScript Functions', 
-        duration: '5 min', 
+        duration: '15 min', 
+        videoUrl: '/fundd.mp4',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">Introduction to JavaScript Functions</h2>
           <p class="text-gray-300 mb-4">Functions in JavaScript are blocks of reusable code designed to perform a specific task. They help reduce code repetition, improve readability, and make programs modular. Functions can accept input parameters, perform operations, and optionally return a result.</p>
@@ -1821,7 +1843,8 @@ console.log(message);`
       },
       { 
         title: 'DOM Manipulation', 
-        duration: '5 min', 
+        duration: '15 min', 
+        videoUrl: '/DOMM.mp4',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">Introduction to DOM Manipulation</h2>
           <p class="text-gray-300 mb-4">The Document Object Model (DOM) is a structured representation of an HTML document. Every element, attribute, and piece of text in an HTML page becomes a node in this structure. JavaScript can interact with the DOM to read, modify, or remove elements, making web pages dynamic and interactive.</p>
@@ -1917,7 +1940,8 @@ document.body.appendChild(newDiv);`
       },
       { 
         title: 'JavaScript Events', 
-        duration: '5 min', 
+        duration: '15 min', 
+        videoUrl: '/finalevents.mp4',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">Introduction to JavaScript Events</h2>
           <p class="text-gray-300 mb-4">In JavaScript, events are actions or occurrences that happen in the browser, which the code can detect and respond to. Events can be triggered by the user (like clicks, typing, or mouse movement), by the browser (like page load), or programmatically.</p>
@@ -3203,6 +3227,7 @@ function render() {
       { 
         title: 'Introduction to Python', 
         duration: '5 min', 
+        videoUrl: '/pyinto.mp4',
         language: 'python',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">Introduction to Python</h2>
@@ -3286,6 +3311,7 @@ for i in range(1, 6):
       { 
         title: 'Python Data Types and Operations', 
         duration: '5 min', 
+        videoUrl: '/datatypes.mp4',
         language: 'python',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">Python Data Types and Operations</h2>
@@ -3394,6 +3420,7 @@ print("Age:", person["age"])`
       { 
         title: 'Python Control Flow (If Statements and Loops)', 
         duration: '5 min', 
+        videoUrl: '/python-control-flow.mp4',
         language: 'python',
         content: `
           <h2 class="text-2xl font-bold text-white mb-4">Python Control Flow (If Statements and Loops)</h2>
@@ -3497,6 +3524,182 @@ for i in range(10):
     print(i)`
       }
     ]
+  },
+  {
+    id: 'module-7',
+    title: 'Module 7: Java Programming',
+    duration: '20 min',
+    description: 'Introduction to Java Control Statements.',
+    lessons: [
+      {
+        title: 'Java Control Statements',
+        duration: '20 min',
+        videoUrl: '/try2.mp4',
+        language: 'java',
+        content: `
+          <h2 class="text-2xl font-bold text-white mb-4">Java Control Statements</h2>
+          <p class="text-gray-300 mb-4">In Java, control statements are used to control the flow of execution of a program. By default, Java executes statements one after another in a sequential manner. However, real-world programs require decision making, repetition, and conditional branching. Control statements allow the programmer to decide which block of code should execute, how many times it should execute, or when it should stop executing.</p>
+          
+          <p class="text-gray-300 mb-4">Java control statements are essential for implementing logic such as validating input, repeating tasks, handling multiple conditions, and exiting loops when required. They improve the flexibility, readability, and efficiency of programs.</p>
+
+          <p class="text-gray-300 mb-4">Java provides three major categories of control statements:</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+              <li><strong>Decision-making statements</strong></li>
+              <li><strong>Looping statements</strong></li>
+              <li><strong>Jump statements</strong></li>
+          </ul>
+          <p class="text-gray-300 mb-4">Each category serves a specific purpose in controlling program behavior and execution flow.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Types of Java Control Statements</h3>
+          
+          <h4 class="text-lg font-bold text-white mb-2 mt-4">1. Decision-Making Statements</h4>
+          <p class="text-gray-300 mb-4">Used to execute code based on conditions. These statements evaluate a condition and decide which block of code should run.</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+              <li><code>if</code></li>
+              <li><code>if-else</code></li>
+              <li><code>else-if ladder</code></li>
+              <li><code>switch</code></li>
+          </ul>
+
+          <h4 class="text-lg font-bold text-white mb-2 mt-4">2. Looping Statements</h4>
+          <p class="text-gray-300 mb-4">Used to execute a block of code repeatedly. Loops are useful when the same task must be performed multiple times until a condition is satisfied.</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+              <li><code>for</code></li>
+              <li><code>while</code></li>
+              <li><code>do-while</code></li>
+          </ul>
+
+          <h4 class="text-lg font-bold text-white mb-2 mt-4">3. Jump Statements</h4>
+          <p class="text-gray-300 mb-4">Used to transfer control from one part of the program to another. These statements help in terminating loops, skipping iterations, or returning values from methods.</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+              <li><code>break</code></li>
+              <li><code>continue</code></li>
+              <li><code>return</code></li>
+          </ul>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Detailed Explanation</h3>
+
+          <h4 class="text-lg font-bold text-white mb-2 mt-4">Decision-Making Statements</h4>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+              <li><strong>if Statement:</strong> Executes a block of code only if the condition is true.</li>
+              <li><strong>if-else Statement:</strong> Executes one block if the condition is true, otherwise executes another block.</li>
+              <li><strong>else-if Ladder:</strong> Used when multiple conditions need to be checked.</li>
+              <li><strong>switch Statement:</strong> Used when multiple fixed values are compared against a variable.</li>
+          </ul>
+
+          <h4 class="text-lg font-bold text-white mb-2 mt-4">Looping Statements</h4>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+              <li><strong>for Loop:</strong> Used when the number of iterations is known in advance.</li>
+              <li><strong>while Loop:</strong> Executes as long as the condition remains true.</li>
+              <li><strong>do-while Loop:</strong> Executes at least once, even if the condition is false.</li>
+          </ul>
+
+          <h4 class="text-lg font-bold text-white mb-2 mt-4">Jump Statements</h4>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+              <li><strong>break:</strong> Terminates a loop or switch statement.</li>
+              <li><strong>continue:</strong> Skips the current iteration and continues with the next one.</li>
+              <li><strong>return:</strong> Exits from a method and optionally returns a value.</li>
+          </ul>
+        `,
+        syntax: [
+          {
+            title: 'if Statement',
+            content: `if (condition) { 
+    // code to execute 
+}`
+          },
+          {
+            title: 'if-else Statement',
+            content: `if (condition) { 
+    // true block 
+} else { 
+    // false block 
+}`
+          },
+          {
+            title: 'else-if Ladder',
+            content: `if (condition1) { 
+    // block 1 
+} else if (condition2) { 
+    // block 2 
+} else { 
+    // default block 
+}`
+          },
+          {
+            title: 'switch Statement',
+            content: `switch (expression) { 
+    case value1: 
+        // code 
+        break; 
+    case value2: 
+        // code 
+        break; 
+    default: 
+        // code 
+}`
+          },
+          {
+            title: 'for Loop',
+            content: `for (initialization; condition; increment) { 
+    // code 
+}`
+          },
+          {
+            title: 'while Loop',
+            content: `while (condition) { 
+    // code 
+}`
+          },
+          {
+            title: 'do-while Loop',
+            content: `do { 
+    // code 
+} while (condition);`
+          },
+          {
+            title: 'Jump Statements',
+            content: `break;      // Terminates a loop or switch
+continue;   // Skips current iteration
+return value; // Exits method`
+          }
+        ],
+        liveCode: `public class ControlStatementsDemo { 
+    public static void main(String[] args) { 
+
+        int number = 10; 
+
+        // Decision Statement 
+        if (number > 0) { 
+            System.out.println("Number is positive"); 
+        } else { 
+            System.out.println("Number is negative"); 
+        } 
+
+        // Loop Statement 
+        for (int i = 1; i <= 5; i++) { 
+            if (i == 3) { 
+                continue; 
+            } 
+            System.out.println("Value: " + i); 
+        } 
+
+        // Switch Statement 
+        int day = 2; 
+        switch (day) { 
+            case 1: 
+                System.out.println("Monday"); 
+                break; 
+            case 2: 
+                System.out.println("Tuesday"); 
+                break; 
+            default: 
+                System.out.println("Invalid day"); 
+        } 
+    } 
+}`
+      }
+    ]
   }
 ];
 
@@ -3524,19 +3727,15 @@ const Sidebar = ({
 
   // Auto-expand the active module when it changes
   useEffect(() => {
-    setExpandedModules(prev => {
-      const newSet = new Set(prev);
-      newSet.add(activeModuleId);
-      return newSet;
-    });
+    setExpandedModules(new Set([activeModuleId]));
   }, [activeModuleId]);
 
   const toggleModule = (id: string) => {
     setExpandedModules(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(id)) {
-        newSet.delete(id);
-      } else {
+      const newSet = new Set<string>(); // Start with empty set for accordion behavior
+      // If the clicked module was NOT already open, add it (opening it).
+      // If it WAS open, we do nothing (leaving set empty), effectively closing it.
+      if (!prev.has(id)) {
         newSet.add(id);
       }
       return newSet;
@@ -3650,8 +3849,13 @@ const Sidebar = ({
                     </div>
                   </div>
 
-                  {isExpanded && (
-                    <div className="bg-[#121212] py-2">
+                  <div
+                    className={`grid transition-all duration-300 ease-in-out ${
+                      isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                    }`}
+                  >
+                    <div className="overflow-hidden bg-[#121212]">
+                      <div className="py-2">
                       {module.lessons.map((lesson, idx) => {
                         const lessonKey = `${module.id}-${idx}`;
                         const isCompleted = completedLessons.has(lessonKey);
@@ -3705,8 +3909,9 @@ const Sidebar = ({
                           </div>
                         );
                       })}
+                      </div>
                     </div>
-                  )}
+                  </div>
                 </div>
               );
             })}
@@ -3856,6 +4061,7 @@ const CourseLearningFrontendBeginner: React.FC = () => {
   
   // Content Tab State
   const [activeContentTab, setActiveContentTab] = useState<'lesson' | 'syntax' | 'live-code'>('lesson');
+  const [currentVideoSlide, setCurrentVideoSlide] = useState(0);
 
   // Live Code State
   const [liveCode, setLiveCode] = useState(`<!DOCTYPE html>
@@ -3889,6 +4095,7 @@ const CourseLearningFrontendBeginner: React.FC = () => {
 
   // Update live code when lesson changes
   useEffect(() => {
+    setCurrentVideoSlide(0);
     if (activeLesson?.liveCode) {
       setLiveCode(activeLesson.liveCode);
     } else {
@@ -4092,9 +4299,7 @@ const CourseLearningFrontendBeginner: React.FC = () => {
                    <div className="max-w-4xl mx-auto">
                       <div className="flex items-center gap-2 mb-4">
                          <span className="bg-[#00bceb] text-black text-xs font-bold px-2 py-1 rounded">BEGINNER</span>
-                         <span className="bg-white/20 backdrop-blur-md text-white text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
-                            <CheckCircle className="w-3 h-3" /> UPDATED 2024
-                         </span>
+                         {/* Removed UPDATED 2024 badge */}
                       </div>
                       <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
                          {activeLesson.title}
@@ -4132,15 +4337,71 @@ const CourseLearningFrontendBeginner: React.FC = () => {
              <div className="p-8 lg:p-16 max-w-5xl mx-auto min-h-[500px]">
                 {activeContentTab === 'lesson' && (
                    <div className="animate-fadeIn">
-                      {activeLesson.videoUrl && (
+                      {activeLesson.videoSlides && activeLesson.videoSlides.length > 0 && (
+                        <div className="mb-8">
+                           <div className="flex justify-between items-center mb-2">
+                              <h3 className="text-xl font-bold text-white">{activeLesson.videoSlides[currentVideoSlide].title}</h3>
+                              <span className="text-sm text-gray-400">
+                                 Video {currentVideoSlide + 1} of {activeLesson.videoSlides.length}
+                              </span>
+                           </div>
+                           <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-lg border border-[#333] mb-4 relative">
+                              {activeLesson.videoSlides[currentVideoSlide].url.endsWith('.mp4') ? (
+                                <video 
+                                   key={activeLesson.videoSlides[currentVideoSlide].url}
+                                   src={activeLesson.videoSlides[currentVideoSlide].url} 
+                                   controls 
+                                   preload="metadata"
+                                   className="w-full h-full"
+                                />
+                              ) : (
+                                <iframe 
+                                   key={activeLesson.videoSlides[currentVideoSlide].url}
+                                   src={activeLesson.videoSlides[currentVideoSlide].url} 
+                                   title={activeLesson.videoSlides[currentVideoSlide].title}
+                                   className="w-full h-full"
+                                   allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                   allowFullScreen
+                                />
+                              )}
+                           </div>
+                           <div className="flex justify-between">
+                              <button 
+                                 onClick={() => setCurrentVideoSlide(prev => Math.max(0, prev - 1))}
+                                 disabled={currentVideoSlide === 0}
+                                 className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${currentVideoSlide === 0 ? 'bg-gray-800 text-gray-500 cursor-not-allowed' : 'bg-[#00bceb] hover:bg-[#00a0c9] text-black font-medium'}`}
+                              >
+                                 <ArrowLeft size={16} /> Previous
+                              </button>
+                              <button 
+                                 onClick={() => setCurrentVideoSlide(prev => Math.min(activeLesson.videoSlides!.length - 1, prev + 1))}
+                                 disabled={currentVideoSlide === activeLesson.videoSlides.length - 1}
+                                 className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${currentVideoSlide === activeLesson.videoSlides.length - 1 ? 'bg-gray-800 text-gray-500 cursor-not-allowed' : 'bg-[#00bceb] hover:bg-[#00a0c9] text-black font-medium'}`}
+                              >
+                                 Next <ArrowRight size={16} />
+                              </button>
+                           </div>
+                        </div>
+                      )}
+
+                      {activeLesson.videoUrl && !activeLesson.videoSlides && (
                         <div className="mb-8 aspect-video bg-black rounded-xl overflow-hidden shadow-lg border border-[#333]">
-                           <iframe 
-                              src={activeLesson.videoUrl} 
-                              title={activeLesson.title}
-                              className="w-full h-full"
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                              allowFullScreen
-                           />
+                           {activeLesson.videoUrl.endsWith('.mp4') ? (
+                             <video 
+                                src={activeLesson.videoUrl} 
+                                controls 
+                                preload="metadata"
+                                className="w-full h-full"
+                             />
+                           ) : (
+                             <iframe 
+                                 src={activeLesson.videoUrl} 
+                                 title={activeLesson.title}
+                                 className="w-full h-full"
+                                 allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                 allowFullScreen
+                              />
+                           )}
                         </div>
                       )}
                       <div 

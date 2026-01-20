@@ -210,45 +210,6 @@ This course covers practical configuration, troubleshooting, and performance ana
     ]
   },
 
-  'frontend-development-beginner': {
-    title: 'Frontend Development - Beginner',
-    levelLabel: 'Beginner level',
-    tagline: 'Start your journey into web development with HTML, CSS, and JavaScript.',
-    heroImg: '/img/fb.png',
-    whatYouWillLearn: [
-      'Master the structure of web pages with HTML5.',
-      'Style your websites beautifully using CSS3.',
-      'Add interactivity and logic with JavaScript.',
-      'Build responsive and mobile-friendly designs.'
-    ],
-    modules: [
-      {
-        slug: 'module-1',
-        title: 'HTML Fundamentals',
-        desc: 'Learn the building blocks of the web: tags, attributes, semantic structure, and forms.',
-        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg'
-      },
-      {
-        slug: 'module-2',
-        title: 'CSS Styling',
-        desc: 'Master layout, typography, colors, and modern techniques like Flexbox and Grid.',
-        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg'
-      },
-      {
-        slug: 'module-3',
-        title: 'JavaScript Basics',
-        desc: 'Understand variables, data types, functions, loops, and DOM manipulation.',
-        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg'
-      },
-      {
-        slug: 'module-4',
-        title: 'Building Projects',
-        desc: 'Apply your skills to build real-world projects like a portfolio or landing page.',
-        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg'
-      }
-    ]
-  },
-
   'cyber-security-intermediate': {
     title: 'Cyber Security - Intermediate',
     levelLabel: 'Intermediate level',
