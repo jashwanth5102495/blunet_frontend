@@ -214,7 +214,7 @@ This course covers practical configuration, troubleshooting, and performance ana
     title: 'Frontend Development - Beginner',
     levelLabel: 'Beginner level',
     tagline: 'Start your journey into web development with HTML, CSS, and JavaScript.',
-    heroImg: 'https://images.unsplash.com/photo-1593720213428-28a5b9e94613?q=80&w=1200&auto=format&fit=crop',
+    heroImg: '/img/fb.png',
     whatYouWillLearn: [
       'Master the structure of web pages with HTML5.',
       'Style your websites beautifully using CSS3.',

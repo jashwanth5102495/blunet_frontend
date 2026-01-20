@@ -39,9 +39,11 @@ export default function CourseIntro({ courseSlug }) {
     const isFrontendBeginner = courseSlug === 'frontend-development-beginner';
     
     let title, duration, overview, prerequisites, skills;
+    let tagline = 'Learn practical offensive security to uncover threats and strengthen defenses.';
 
     if (isFrontendBeginner) {
       title = 'Frontend Development — Beginner Level';
+      tagline = data?.tagline || 'Start your journey into web development with HTML, CSS, and JavaScript.';
       duration = '40 Hours';
       overview = 'Master the building blocks of the web. Learn HTML to structure content, CSS to style and layout pages, and JavaScript to add interactivity. Build real-world projects to kickstart your developer journey.';
       prerequisites = ['Basic computer literacy', 'No prior coding experience required', 'Desire to create visual interfaces'];
@@ -391,7 +393,7 @@ export default function CourseIntro({ courseSlug }) {
                 <span className={`px-2.5 py-1 rounded-full border ${isDark ? 'bg-gray-900 text-gray-300 border-gray-800' : 'bg-gray-100 text-gray-700 border-gray-200'}`}>Course</span>
               </div>
               <h1 className="text-3xl md:text-4xl font-bold">{title}</h1>
-              <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>Learn practical offensive security to uncover threats and strengthen defenses.</p>
+              <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>{tagline}</p>
               <div className="flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 text-sm"><Clock className="w-4 h-4" />{duration}</span>
                 <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm ${isDark ? 'bg-gray-900 text-gray-300 border-gray-800' : 'bg-gray-100 text-gray-700 border-gray-200'}`}>{isIntermediate ? 'Intermediate' : 'Beginner'}</span>
@@ -405,7 +407,7 @@ export default function CourseIntro({ courseSlug }) {
             <div className="lg:sticky lg:top-20">
               <div className={`rounded-xl overflow-hidden border shadow-sm ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
                 <SafeImage
-                  srcs={['/cy.webp', data?.heroImg, 'https://images.unsplash.com/photo-1557200134-90327ee9fafa?w=1200&fit=crop&crop=center', FALLBACK_SVG].filter(Boolean)}
+                  srcs={[data?.heroImg, '/cy.webp', 'https://images.unsplash.com/photo-1557200134-90327ee9fafa?w=1200&fit=crop&crop=center', FALLBACK_SVG].filter(Boolean)}
                   alt="Course banner"
                   className="w-full h-[300px] md:h-[340px] object-cover"
                 />

@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { askLLM, ChatMessage } from '../services/llm';
-import { Paperclip, Mic, Send, BookOpen, FileText, Search, CheckCircle, ChevronDown, ChevronRight, PlayCircle, Terminal, Code, ArrowLeft, ArrowRight, Copy, Check, Menu, X, Video, Lock, Book } from 'lucide-react';
+import { Paperclip, Mic, Send, BookOpen, FileText, Search, CheckCircle, ChevronDown, ChevronRight, ChevronLeft, Home, PlayCircle, Terminal, Code, ArrowLeft, ArrowRight, Copy, Check, Menu, X, Video, Lock, Book } from 'lucide-react';
 import { clsx } from 'clsx';
 
 // --- Types ---
@@ -2762,6 +2762,180 @@ sessionStorage.clear();`
     </script> 
 </body> 
 </html>` 
+      },
+      {
+        title: 'Project: Interactive To-Do List',
+        duration: '30 min',
+        content: `
+          <h2 class="text-2xl font-bold text-white mb-4">Project: Interactive To-Do List</h2>
+          <p class="text-gray-300 mb-4">In this project, we will combine everything we've learned in this module: DOM manipulation, Event Handling, and LocalStorage. You will build a fully functional To-Do List application that persists data even after the page is refreshed.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Project Requirements</h3>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+              <li><strong>Add Tasks:</strong> Users should be able to type a task and add it to the list.</li>
+              <li><strong>Mark as Done:</strong> Clicking a task should toggle its completion status (e.g., strikethrough).</li>
+              <li><strong>Delete Tasks:</strong> Each task should have a delete button to remove it.</li>
+              <li><strong>Data Persistence:</strong> The list should be saved in LocalStorage so it remains available after a page reload.</li>
+          </ul>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Step-by-Step Guide</h3>
+          <ol class="list-decimal pl-6 text-gray-300 space-y-2 mb-4">
+              <li><strong>HTML Structure:</strong> Create an input field, an "Add" button, and an empty <code>&lt;ul&gt;</code> for the list.</li>
+              <li><strong>CSS Styling:</strong> Style the list items, completed state, and buttons for a clean UI.</li>
+              <li><strong>JavaScript Logic:</strong>
+                  <ul class="list-disc pl-6 mt-1">
+                      <li>Select DOM elements using <code>querySelector</code>.</li>
+                      <li>Add an event listener to the "Add" button.</li>
+                      <li>Create a function to render the list from an array of task objects.</li>
+                      <li>Implement <code>localStorage.setItem</code> to save the array and <code>localStorage.getItem</code> to load it on startup.</li>
+                  </ul>
+              </li>
+          </ol>
+        `,
+        syntax: [
+          {
+            title: 'Project Structure & Logic',
+            content: `// 1. Data Structure
+let tasks = [
+  { id: 1, text: "Buy groceries", completed: false },
+  { id: 2, text: "Learn JavaScript", completed: true }
+];
+
+// 2. Save to Storage
+function save() {
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+// 3. Load from Storage
+function load() {
+  const stored = localStorage.getItem('tasks');
+  if (stored) {
+    tasks = JSON.parse(stored);
+  }
+}
+
+// 4. Render Loop
+function render() {
+  listElement.innerHTML = '';
+  tasks.forEach(task => {
+    // Create li, add text, buttons, etc.
+  });
+}`
+          }
+        ],
+        liveCode: `<!DOCTYPE html>
+<html>
+<head>
+  <title>To-Do List Project</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #1e1e1e; color: #fff; padding: 20px; display: flex; justify-content: center; }
+    .container { width: 100%; max-width: 400px; background: #2d2d2d; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+    h2 { text-align: center; color: #61dafb; margin-top: 0; }
+    
+    .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
+    input { flex: 1; padding: 10px; border-radius: 4px; border: 1px solid #444; background: #1e1e1e; color: #fff; }
+    button#add { background: #61dafb; color: #000; font-weight: bold; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+    button#add:hover { background: #4fa8d1; }
+
+    ul { list-style: none; padding: 0; margin: 0; }
+    li { background: #3e3e42; margin-bottom: 8px; padding: 10px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
+    li.completed span { text-decoration: line-through; color: #888; }
+    
+    .actions { display: flex; gap: 5px; }
+    .btn-sm { border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8em; }
+    .check-btn { background: #4caf50; color: white; }
+    .delete-btn { background: #f44336; color: white; }
+    .btn-sm:hover { opacity: 0.8; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>My Tasks</h2>
+  <div class="input-group">
+    <input type="text" id="taskInput" placeholder="Add a new task...">
+    <button id="add">Add</button>
+  </div>
+  <ul id="taskList"></ul>
+</div>
+
+<script>
+  // DOM Elements
+  const input = document.getElementById('taskInput');
+  const addBtn = document.getElementById('add');
+  const list = document.getElementById('taskList');
+
+  // State
+  let tasks = [];
+
+  // Load from Storage
+  const stored = localStorage.getItem('myTasks');
+  if (stored) {
+    tasks = JSON.parse(stored);
+    render();
+  }
+
+  // Add Task Event
+  addBtn.addEventListener('click', addTask);
+  input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') addTask();
+  });
+
+  function addTask() {
+    const text = input.value.trim();
+    if (!text) return;
+
+    const newTask = {
+      id: Date.now(),
+      text: text,
+      completed: false
+    };
+
+    tasks.push(newTask);
+    saveAndRender();
+    input.value = '';
+    input.focus();
+  }
+
+  function toggleTask(id) {
+    tasks = tasks.map(t => {
+      if (t.id === id) {
+        return { ...t, completed: !t.completed };
+      }
+      return t;
+    });
+    saveAndRender();
+  }
+
+  function deleteTask(id) {
+    tasks = tasks.filter(t => t.id !== id);
+    saveAndRender();
+  }
+
+  function saveAndRender() {
+    localStorage.setItem('myTasks', JSON.stringify(tasks));
+    render();
+  }
+
+  function render() {
+    list.innerHTML = '';
+    tasks.forEach(task => {
+      const li = document.createElement('li');
+      if (task.completed) li.classList.add('completed');
+
+      li.innerHTML = 
+        '<span>' + task.text + '</span>' +
+        '<div class="actions">' +
+          '<button class="btn-sm check-btn" onclick="toggleTask(' + task.id + ')">✓</button>' +
+          '<button class="btn-sm delete-btn" onclick="deleteTask(' + task.id + ')">✕</button>' +
+        '</div>';
+      list.appendChild(li);
+    });
+  }
+</script>
+
+</body>
+</html>`
       }
     ]
   },
@@ -3557,58 +3731,6 @@ const Sidebar = ({
   );
 };
 
-type FloatingDockProps = {
-  isDark: boolean;
-  onToggleTheme: () => void;
-  onPrevModule: () => void;
-  disabledPrev: boolean;
-  onNextModule: () => void;
-  disabledNext: boolean;
-  onHome: () => void;
-};
-
-const FloatingDock = ({ isDark, onToggleTheme, onPrevModule, disabledPrev, onNextModule, disabledNext, onHome }: FloatingDockProps) => (
-  <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-40 rounded-2xl shadow-lg border ${isDark ? 'bg-white/10 border-white/20' : 'bg-white/60 border-gray-300/40'} backdrop-blur-xl px-3 py-2 flex items-center gap-2`} aria-label="Quick actions dock">
-    <button
-      onClick={onHome}
-      className={`px-3 py-2 rounded-lg text-sm font-medium ${isDark ? 'bg-white/10 text-white hover:bg-white/15' : 'bg-gray-100 text-gray-900 hover:bg-gray-200'}`}
-      aria-label="Go to Student Portal"
-      title="Student Portal"
-    >
-      <span className="inline-flex items-center gap-1">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 10.5L12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 19.5v-9z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M9 21V12h6v9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-        Home
-      </span>
-    </button>
-    <div className="mx-1 h-6 w-px bg-gray-300/60 dark:bg-white/20" aria-hidden />
-    <button
-      onClick={onToggleTheme}
-      className={`px-3 py-2 rounded-lg text-sm font-medium ${isDark ? 'bg-white/10 text-white hover:bg-white/15' : 'bg-gray-100 text-gray-900 hover:bg-gray-200'}`}
-      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-    >
-      {isDark ? 'Light Mode' : 'Dark Mode'}
-    </button>
-    <button
-      onClick={onPrevModule}
-      disabled={disabledPrev}
-      className={`px-3 py-2 rounded-lg text-sm font-medium ${disabledPrev ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : (isDark ? 'bg-black text-white hover:bg-gray-900' : 'bg-blue-600 text-white hover:bg-blue-500')}`}
-      aria-label="Go to previous module"
-    >
-      Previous Module
-    </button>
-    <button
-      onClick={onNextModule}
-      disabled={disabledNext}
-      className={`px-3 py-2 rounded-lg text-sm font-medium ${disabledNext ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : (isDark ? 'bg-black text-white hover:bg-gray-900' : 'bg-blue-600 text-white hover:bg-blue-500')}`}
-      aria-label="Go to next module"
-    >
-      Next Module
-    </button>
-  </div>
-);
 
 type ChatPanelProps = {
   isDark: boolean;
@@ -3863,6 +3985,36 @@ const CourseLearningFrontendBeginner: React.FC = () => {
     setTimeout(() => setCopiedIndex(null), 2000);
   };
 
+  // Navigation Handlers
+  const handlePrev = () => {
+    if (activeLessonIndex > 0) {
+       setActiveLessonIndex(activeLessonIndex - 1);
+    } else {
+       const currentModuleIndex = courseData.findIndex(m => m.id === activeModuleId);
+       if (currentModuleIndex > 0) {
+          const prevModule = courseData[currentModuleIndex - 1];
+          setActiveModuleId(prevModule.id);
+          setActiveLessonIndex(prevModule.lessons.length - 1);
+       }
+    }
+  };
+
+  const handleNext = () => {
+    if (activeLessonIndex < (activeModule?.lessons.length || 0) - 1) {
+       setActiveLessonIndex(activeLessonIndex + 1);
+    } else {
+       const currentModuleIndex = courseData.findIndex(m => m.id === activeModuleId);
+       if (currentModuleIndex < courseData.length - 1) {
+          const nextModule = courseData[currentModuleIndex + 1];
+          setActiveModuleId(nextModule.id);
+          setActiveLessonIndex(0);
+       }
+    }
+  };
+
+  const isPrevDisabled = activeLessonIndex === 0 && activeModuleId === courseData[0].id;
+  const isNextDisabled = activeLessonIndex === (activeModule?.lessons.length || 0) - 1 && activeModuleId === courseData[courseData.length - 1].id;
+
   if (!activeModule || !activeLesson) return <div>Loading...</div>;
 
   return (
@@ -3887,6 +4039,33 @@ const CourseLearningFrontendBeginner: React.FC = () => {
                <span className="text-white truncate max-w-[300px]">{activeLesson.title}</span>
             </div>
             <div className="flex items-center gap-4">
+               {/* Navigation Controls */}
+               <div className="flex items-center gap-1 bg-[#333] rounded-lg p-1 mr-2">
+                  <button 
+                     onClick={handlePrev}
+                     disabled={isPrevDisabled}
+                     className="p-1.5 text-gray-400 hover:text-white hover:bg-[#444] rounded disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                     title="Previous Lesson"
+                  >
+                     <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <button 
+                     onClick={() => navigate('/student-portal')}
+                     className="p-1.5 text-gray-400 hover:text-white hover:bg-[#444] rounded transition-colors"
+                     title="Student Portal"
+                  >
+                     <Home className="w-4 h-4" />
+                  </button>
+                  <button 
+                     onClick={handleNext}
+                     disabled={isNextDisabled}
+                     className="p-1.5 text-gray-400 hover:text-white hover:bg-[#444] rounded disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                     title="Next Lesson"
+                  >
+                     <ChevronRight className="w-4 h-4" />
+                  </button>
+               </div>
+
                <button onClick={toggleTheme} className="text-gray-400 hover:text-white" title="Toggle Theme">
                   {isDark ? '☀' : '☾'}
                </button>
@@ -4109,38 +4288,7 @@ const CourseLearningFrontendBeginner: React.FC = () => {
         </div>
       </div>
 
-      {/* Floating Dock Navigation */}
-      <FloatingDock 
-         isDark={isDark} 
-         onToggleTheme={toggleTheme}
-         onPrevModule={() => {
-            if (activeLessonIndex > 0) {
-               setActiveLessonIndex(activeLessonIndex - 1);
-            } else {
-               const currentModuleIndex = courseData.findIndex(m => m.id === activeModuleId);
-               if (currentModuleIndex > 0) {
-                  const prevModule = courseData[currentModuleIndex - 1];
-                  setActiveModuleId(prevModule.id);
-                  setActiveLessonIndex(prevModule.lessons.length - 1);
-               }
-            }
-         }}
-         disabledPrev={activeLessonIndex === 0 && activeModuleId === courseData[0].id}
-         onNextModule={() => {
-            if (activeLessonIndex < activeModule.lessons.length - 1) {
-               setActiveLessonIndex(activeLessonIndex + 1);
-            } else {
-               const currentModuleIndex = courseData.findIndex(m => m.id === activeModuleId);
-               if (currentModuleIndex < courseData.length - 1) {
-                  const nextModule = courseData[currentModuleIndex + 1];
-                  setActiveModuleId(nextModule.id);
-                  setActiveLessonIndex(0);
-               }
-            }
-         }}
-         disabledNext={activeLessonIndex === activeModule.lessons.length - 1 && activeModuleId === courseData[courseData.length - 1].id}
-         onHome={() => navigate('/')}
-      />
+
     </div>
   );
 };
