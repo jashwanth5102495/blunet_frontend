@@ -1,5 +1,23 @@
 // Shared course introduction data for multiple courses
 export const courseIntros = {
+  'frontend-development-beginner': {
+    title: 'Frontend Development - Beginner',
+    levelLabel: 'Beginner level',
+    tagline: 'Master the fundamentals of web development with HTML, CSS, and JavaScript.',
+    heroImg: 'https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=400&h=250&fit=crop&crop=center',
+    whatYouWillLearn: [
+      'Understand the building blocks of the web: HTML5.',
+      'Style your pages with CSS3 and responsive design.',
+      'Add interactivity with JavaScript.',
+      'Build your first portfolio website.'
+    ],
+    modules: [
+      { slug: 'module-1', title: 'HTML Fundamentals', desc: 'HTML Structure, Semantic HTML, Forms and Input, HTML5 Features', bgImage: 'https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg' },
+      { slug: 'module-2', title: 'CSS Styling', desc: 'CSS Selectors, Box Model, Flexbox, Grid Layout, Responsive Design', bgImage: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg' },
+      { slug: 'module-3', title: 'JavaScript Basics', desc: 'Variables, Data Types, Functions, DOM Manipulation, Event Handling', bgImage: 'https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg' }
+    ]
+  },
+
   'frontend-development-intermediate': {
     title: 'Frontend Development – Intermediate',
     levelLabel: 'Intermediate level',
