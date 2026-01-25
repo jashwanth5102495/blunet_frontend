@@ -4,6 +4,7 @@ import { normalizeCourseKey, getCourseTitleFromKey } from '../data/courseAssignm
 
 import Sidebar from './Sidebar';
 import MagicBento from './MagicBento';
+import StudentReviews from './StudentReviews';
 import { 
   HomeIcon,
   BookOpenIcon,
@@ -985,7 +986,7 @@ const StudentPortal: React.FC = () => {
       instructor: 'Alex Thompson',
       modules: [
         {
-          title: 'DevOps Fundamentals',
+          title: 'DevOps – Beginner',
           duration: '2 weeks',
           topics: ['DevOps culture', 'Version control', 'Linux basics', 'Command line']
         },
@@ -3112,7 +3113,7 @@ const StudentPortal: React.FC = () => {
     {
       id: '3',
       courseId: 'DEVOPS-BEGINNER',
-      courseName: 'DevOps Fundamentals',
+      courseName: 'DevOps – Beginner',
       instructor: 'Rohan Sharma',
       purchaseDate: '2024-03-10',
       amount: 9999,
@@ -3173,7 +3174,16 @@ const StudentPortal: React.FC = () => {
             console.log('Backend response:', result);
             if (result.success && result.data) {
               // Backend now returns full course details with enrollment info
-              const enrolledCoursesData = result.data || [];
+              let enrolledCoursesData = result.data || [];
+
+              // Fix course titles from backend
+              enrolledCoursesData = enrolledCoursesData.map((course: any) => {
+                if (course.title === 'DevOps Fundamentals') {
+                  return { ...course, title: 'DevOps – Beginner' };
+                }
+                return course;
+              });
+
               // Set purchased courses (just the IDs for compatibility)
               const courseIds = enrolledCoursesData.map((course: any) => course.courseId || course.id);
               setPurchasedCourses(courseIds);
@@ -3313,8 +3323,8 @@ const StudentPortal: React.FC = () => {
       'frontend-intermediate': '/frontend-development-intermediate',
       'FRONTEND-INTERMEDIATE': '/frontend-development-intermediate',
       'frontend-advanced': '/course-learning-advanced/frontend-advanced/advanced-react/performance-optimization',
-      'devops-beginner': '/course-learning-devops-beginner/devops-beginner/devops-fundamentals/intro-devops',
-      'DEVOPS-BEGINNER': '/course-learning-devops-beginner/devops-beginner/devops-fundamentals/intro-devops',
+      'devops-beginner': '/devops-beginner',
+      'DEVOPS-BEGINNER': '/devops-beginner',
       'devops-advanced': '/course-learning-devops-advanced/devops-advanced/kubernetes/cluster-management',
       'DEVOPS-ADVANCED': '/course-learning-devops-advanced/devops-advanced/kubernetes/cluster-management',
       'mobile-advanced': '/course-learning-mobile-advanced/mobile-advanced/react-native/navigation',
@@ -4899,6 +4909,11 @@ const StudentPortal: React.FC = () => {
                   ) : (
                     <p className="text-gray-500 text-sm">You have explored all available courses.</p>
                   )}
+                </div>
+
+                <div className="bg-gray-900 rounded-2xl border border-gray-800 p-6 overflow-hidden">
+                   <h3 className="text-white text-2xl font-bold mb-4">Student Reviews</h3>
+                   <StudentReviews />
                 </div>
               </div>
             </React.Fragment>

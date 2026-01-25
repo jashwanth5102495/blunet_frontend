@@ -10864,150 +10864,190 @@ aws s3 ls
         `
       },
       {
-        title: 'Container Orchestration: Kubernetes',
+        title: 'DevOps End-to-End Workflow',
         content: `
-          <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why Container Orchestration?</h2>
+          <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Introduction</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
-            While Docker is great for running individual containers, managing hundreds or thousands of containers manually is impossible.
-            <strong>Container Orchestration</strong> automates the deployment, scaling, and management of containerized applications.
+            The DevOps workflow connects all stages of software development and IT operations into a continuous, automated pipeline. The goal is to deliver applications faster, reliably, and with higher quality.
+          </p>
+          <p class="mb-6 text-gray-700 dark:text-gray-300">
+            A complete DevOps workflow combines Version control (Git), Continuous Integration (CI), Continuous Delivery/Deployment (CD), Infrastructure as Code (Terraform), Configuration management (Ansible/Chef/Puppet), and Monitoring.
           </p>
 
-          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">What is Kubernetes (K8s)?</h3>
-          <p class="mb-4 text-gray-700 dark:text-gray-300">
-            Kubernetes (K8s) is an open-source system for automating deployment, scaling, and management of containerized applications. It was originally designed by Google.
-          </p>
-
-          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Kubernetes Architecture</h3>
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Stages of the DevOps Workflow</h3>
           <div class="space-y-4 mb-6">
             <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-              <h4 class="font-bold text-blue-600 dark:text-blue-400 mb-1">Master Node (Control Plane)</h4>
+              <h4 class="font-bold text-blue-600 dark:text-blue-400 mb-1">1. Code & Version Control</h4>
               <ul class="list-disc pl-5 text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                <li><strong>API Server:</strong> The entry point for all REST commands.</li>
-                <li><strong>Scheduler:</strong> Decides which node a new pod should run on.</li>
-                <li><strong>Controller Manager:</strong> Maintains the desired state of the cluster.</li>
-                <li><strong>etcd:</strong> Key-value store for cluster data.</li>
+                <li>Developers write code and push to a version control system (e.g., Git)</li>
+                <li>Branching and pull requests ensure collaboration and code review</li>
               </ul>
             </div>
             <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-              <h4 class="font-bold text-blue-600 dark:text-blue-400 mb-1">Worker Node</h4>
+              <h4 class="font-bold text-blue-600 dark:text-blue-400 mb-1">2. Build & Continuous Integration</h4>
               <ul class="list-disc pl-5 text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                <li><strong>Kubelet:</strong> Agent that ensures containers are running in a Pod.</li>
-                <li><strong>Kube-proxy:</strong> Handles network rules and forwarding.</li>
-                <li><strong>Container Runtime:</strong> Software that runs containers (e.g., Docker, containerd).</li>
+                <li>CI tools (Jenkins, GitHub Actions) automatically build the code</li>
+                <li>Unit tests and static code analysis run automatically</li>
+              </ul>
+            </div>
+            <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+              <h4 class="font-bold text-blue-600 dark:text-blue-400 mb-1">3. Infrastructure Provisioning</h4>
+              <ul class="list-disc pl-5 text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                <li>Terraform or similar tools automate infrastructure deployment</li>
+                <li>Creates servers, databases, networks, and storage consistently</li>
+              </ul>
+            </div>
+            <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+              <h4 class="font-bold text-blue-600 dark:text-blue-400 mb-1">4. Configuration Management</h4>
+              <ul class="list-disc pl-5 text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                <li>Tools like Ansible ensure servers are configured correctly</li>
+                <li>Software installation and environment configuration are automated</li>
+              </ul>
+            </div>
+            <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+              <h4 class="font-bold text-blue-600 dark:text-blue-400 mb-1">5. Continuous Deployment / Delivery</h4>
+              <ul class="list-disc pl-5 text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                <li>CI/CD pipeline deploys the application to staging or production</li>
+                <li>Can include automated integration and acceptance tests</li>
+              </ul>
+            </div>
+            <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+              <h4 class="font-bold text-blue-600 dark:text-blue-400 mb-1">6. Monitoring & Feedback</h4>
+              <ul class="list-disc pl-5 text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                <li>CloudWatch, Prometheus, or ELK monitor infrastructure and app health</li>
+                <li>Alerts trigger automatic scaling or incident resolution</li>
               </ul>
             </div>
           </div>
 
-          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Key Concepts</h3>
-          <ul class="list-disc pl-5 mb-6 text-gray-700 dark:text-gray-300 space-y-2">
-            <li><strong>Pod:</strong> The smallest deployable unit. Usually contains one container (sometimes more).</li>
-            <li><strong>Deployment:</strong> Manages Pods. Ensures the desired number of replicas are running. Handles updates and rollbacks.</li>
-            <li><strong>Service:</strong> Exposes a set of Pods as a network service. Provides a stable IP address and load balancing.</li>
-          </ul>
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Real-World Workflow Example</h3>
+          <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border-l-4 border-blue-500">
+            <p class="mb-2 text-gray-700 dark:text-gray-300 font-bold">Scenario: Deploying a web application</p>
+            <ol class="list-decimal pl-5 text-gray-700 dark:text-gray-300 space-y-1">
+              <li>Developer pushes new feature to GitHub</li>
+              <li>Jenkins CI pipeline triggers: Runs unit tests & builds artifacts</li>
+              <li>Terraform provisions staging infrastructure</li>
+              <li>Ansible configures servers</li>
+              <li>Application is deployed automatically (CD)</li>
+              <li>Monitoring collects metrics (CPU, memory) → Alerts trigger if CPU > 80%</li>
+            </ol>
+            <p class="mt-4 font-bold text-green-600 dark:text-green-400">✅ Result: Automated, repeatable, and monitored deployments with minimal human intervention</p>
+          </div>
 
-          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Why Use Kubernetes?</h3>
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Key Benefits</h3>
           <ul class="list-disc pl-5 mb-6 text-gray-700 dark:text-gray-300 space-y-1">
-            <li><strong>Self-healing:</strong> Restarts failed containers automatically.</li>
-            <li><strong>Auto-scaling:</strong> Scales applications up or down based on demand.</li>
-            <li><strong>Load Balancing:</strong> Distributes traffic across multiple containers.</li>
+            <li><strong>Faster delivery:</strong> Changes reach production in minutes or hours</li>
+            <li><strong>Reliability:</strong> Automation reduces human errors</li>
+            <li><strong>Scalability:</strong> Easy to replicate environments across dev, test, prod</li>
+            <li><strong>Transparency:</strong> Teams can track changes, deployments, and system health</li>
           </ul>
         `,
-        duration: '30 min',
+        duration: '25 min',
         syntax: [
           {
-            title: 'Deployment Manifest (deployment.yaml)',
-            content: `apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nginx-deployment
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: nginx
-  template:
-    metadata:
-      labels:
-        app: nginx
-    spec:
-      containers:
-      - name: nginx
-        image: nginx:1.14.2
-        ports:
-        - containerPort: 80
-
-# Creates 3 replicas of Nginx`
+            title: 'Step 1: Git Commit & Push',
+            content: `git add .
+git commit -m "Added new feature for web app"
+git push origin main`
           },
           {
-            title: 'Service Manifest (service.yaml)',
-            content: `apiVersion: v1
-kind: Service
-metadata:
-  name: nginx-service
-spec:
-  selector:
-    app: nginx
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: LoadBalancer
+            title: 'Step 2: CI/CD Trigger (Jenkins Example)',
+            content: `// Jenkinsfile snippet:
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh 'npm install'
+                sh 'npm test'
+            }
+        }
+        stage('Terraform Init & Apply') {
+            steps {
+                sh 'terraform init'
+                sh 'terraform apply -auto-approve'
+            }
+        }
+        stage('Deploy App') {
+            steps {
+                sh 'scp -i MyKey.pem app.zip ec2-user@<EC2_IP>:/home/ec2-user/'
+                sh 'ssh -i MyKey.pem ec2-user@<EC2_IP> "unzip app.zip -d /var/www/html/"'
+            }
+        }
+    }
+}`
+          },
+          {
+            title: 'Step 3: Monitor Infrastructure',
+            content: `# Check EC2 CPU usage
+aws cloudwatch get-metric-statistics \\
+--metric-name CPUUtilization \\
+--namespace AWS/EC2 \\
+--start-time 2026-01-24T00:00:00Z \\
+--end-time 2026-01-24T23:59:59Z \\
+--period 300 \\
+--statistics Average \\
+--dimensions Name=InstanceId,Value=i-0123456789abcdef0`
+          },
+          {
+            title: 'Step 4: Trigger Auto Scaling (Optional)',
+            content: `aws autoscaling update-auto-scaling-group \\
+--auto-scaling-group-name web-asg \\
+--desired-capacity 3
 
-# Exposes Nginx deployment to the internet`
+# Automatically adds EC2 instances if load increases`
           }
         ],
         terminalCommands: [
-          'minikube start',
-          'kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4',
-          'kubectl get deployments',
-          'kubectl get pods',
-          'kubectl expose deployment hello-node --type=LoadBalancer --port=8080',
-          'kubectl get services'
+          'git add .',
+          'git commit -m "Deploy new version"',
+          'git push origin main',
+          'terraform init',
+          'terraform apply -auto-approve',
+          'aws cloudwatch get-metric-statistics',
+          'aws autoscaling update-auto-scaling-group'
         ],
         terminalGuide: `
           <h2 class="text-xl font-semibold mb-4 text-white">🎯 Objective</h2>
-          <p class="mb-6 text-gray-300">Practice basic Kubernetes commands using a simulated Minikube environment.</p>
+          <p class="mb-6 text-gray-300">Simulate a complete DevOps end-to-end workflow from code commit to scaling.</p>
 
           <div class="space-y-6">
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 1: Start Cluster</h3>
-              <p class="text-sm text-gray-400 mb-2">Start the local Kubernetes cluster (Minikube).</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">minikube start</code>
+              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 1: Code & Version Control</h3>
+              <p class="text-sm text-gray-400 mb-2">Commit and push your changes to trigger the pipeline.</p>
+              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">git add .</code>
+              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">git commit -m "Deploy new version"</code>
+              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">git push origin main</code>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 2: Create Deployment</h3>
-              <p class="text-sm text-gray-400 mb-2">Deploy an application image to the cluster.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4</code>
+              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 2: Infrastructure Provisioning</h3>
+              <p class="text-sm text-gray-400 mb-2">Pipeline automatically runs Terraform to update infrastructure.</p>
+              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">terraform init</code>
+              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">terraform apply -auto-approve</code>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 3: Verify Pods</h3>
-              <p class="text-sm text-gray-400 mb-2">Check if the deployment created the pods successfully.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">kubectl get deployments</code>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">kubectl get pods</code>
+              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 3: Deploy Application</h3>
+              <p class="text-sm text-gray-400 mb-2">Deploy the built artifact to the provisioned servers.</p>
+              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">scp -i MyKey.pem app.zip ...</code>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 4: Expose Service</h3>
-              <p class="text-sm text-gray-400 mb-2">Create a Service to expose the deployment to external traffic.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">kubectl expose deployment hello-node --type=LoadBalancer --port=8080</code>
-            </div>
-
-            <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 5: View Service</h3>
-              <p class="text-sm text-gray-400 mb-2">Get the external IP (or local URL) to access the app.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">kubectl get services</code>
+              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 4: Monitor & Scale</h3>
+              <p class="text-sm text-gray-400 mb-2">Check metrics and scale up if needed.</p>
+              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">aws cloudwatch get-metric-statistics ...</code>
+              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">aws autoscaling update-auto-scaling-group ...</code>
             </div>
           </div>
 
           <div class="mt-6 p-4 rounded-xl bg-gradient-to-br from-[#00bceb]/10 to-blue-600/10 border border-[#00bceb]/20">
             <h2 class="text-xl font-bold mb-3 text-[#00bceb]">✅ What You Learned in Topic 8.2</h2>
             <ul class="list-disc pl-5 text-gray-300 space-y-1">
-              <li>Kubernetes architecture (Master/Worker)</li>
-              <li>Creating Deployments and Pods</li>
-              <li>Exposing applications using Services</li>
-              <li>Basic <code>kubectl</code> commands</li>
+              <li>Complete DevOps end-to-end workflow</li>
+              <li>Integrating Git, CI/CD, Terraform, and monitoring</li>
+              <li>Hands-on commands for automated deployment and scaling</li>
+              <li>Real-world understanding of continuous feedback loops</li>
             </ul>
           </div>
         `

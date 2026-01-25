@@ -15,7 +15,7 @@ export default function CourseIntro({ courseSlug }) {
   const isDark = theme === 'dark';
   const FALLBACK_SVG = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="%23bbbbbb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="3" ry="3"/><circle cx="8" cy="10" r="1"/><circle cx="12" cy="10" r="1"/><circle cx="16" cy="10" r="1"/><path d="M3 18h18"/></svg>';
 
-  const isCiscoStyle = courseSlug === 'cyber-security-beginner' || courseSlug === 'ethical-hacker' || courseSlug === 'cyber-security-intermediate' || courseSlug === 'frontend-development-beginner';
+  const isCiscoStyle = courseSlug === 'cyber-security-beginner' || courseSlug === 'ethical-hacker' || courseSlug === 'cyber-security-intermediate' || courseSlug === 'frontend-development-beginner' || courseSlug === 'devops-beginner';
 
   if (!data && !isCiscoStyle) {
     return (
@@ -37,6 +37,7 @@ export default function CourseIntro({ courseSlug }) {
     // Dynamic content selection based on course slug
     const isIntermediate = courseSlug === 'cyber-security-intermediate';
     const isFrontendBeginner = courseSlug === 'frontend-development-beginner';
+    const isDevOpsBeginner = courseSlug === 'devops-beginner';
     
     let title, duration, overview, prerequisites, skills;
     let tagline = 'Learn practical offensive security to uncover threats and strengthen defenses.';
@@ -63,6 +64,18 @@ export default function CourseIntro({ courseSlug }) {
           { icon: Search, label: 'Traffic Analysis' },
           { icon: Bug, label: 'Metasploit' },
           { icon: Lock, label: 'Web Security' }
+      ];
+    } else if (isDevOpsBeginner) {
+      title = 'DevOps – Beginner';
+      tagline = data?.tagline || 'Start your DevOps journey with essential tools and practices.';
+      duration = '8 weeks';
+      overview = 'Learn the fundamentals of DevOps with Docker, CI/CD, and cloud deployment basics. Master version control, automation, and containerization.';
+      prerequisites = ['Basic computer skills', 'Understanding of software development'];
+      skills = [
+          { icon: Cloud, label: 'DevOps Culture' },
+          { icon: ClipboardList, label: 'Git & Version Control' },
+          { icon: Laptop, label: 'Linux Basics' },
+          { icon: ShieldCheck, label: 'CI/CD Pipelines' }
       ];
     } else {
       title = 'Cyber Security — Beginner Level';
@@ -104,8 +117,116 @@ export default function CourseIntro({ courseSlug }) {
             topics: ['Project Setup', 'Portfolio Website', 'Landing Page', 'Interactive To-Do List', 'Deployment']
           }
         ]
+      : isDevOpsBeginner
+      ? [
+          {
+            id: 'module-1',
+            title: 'Module 1: DevOps Introduction & Environment Setup',
+            duration: '1 week',
+            topics: [
+              'Orientation & DevOps Culture',
+              'DevOps Lifecycle & Toolchain Overview',
+              'Setting up Lab Environment (Git, Docker, Jenkins, VS Code)'
+            ]
+          },
+          {
+            id: 'module-2',
+            title: 'Module 2: Linux for DevOps',
+            duration: '1 week',
+            topics: [
+              'Linux File System & Core Commands',
+              'Permissions & Process Management',
+              'Networking Commands',
+              'Shell Scripting Basics'
+            ]
+          },
+          {
+            id: 'module-3',
+            title: 'Module 3: Version Control & Collaboration',
+            duration: '1 week',
+            topics: [
+              'Why Version Control? (The Real Problem)',
+              'Git Basics (Hands-On Oriented)',
+              'Git Workflow Explained',
+              'Working with Remote Repositories',
+              'Branching (Beginner Level)',
+              'Git Best Practices',
+              'Git in Team Environments',
+              'Hands-On: Git Collaboration'
+            ]
+          },
+          {
+            id: 'module-4',
+            title: 'Module 4: Build Tools & CI Basics',
+            duration: '1 week',
+            topics: [
+              'What is a Build Tool?',
+              'Build Automation Concepts',
+              'Introduction to Maven',
+              'Maven Build Lifecycle',
+              'Introduction to MSBuild',
+              'Build Pipelines Explained',
+              'Introduction to CI (Continuous Integration)',
+              'Hands-On: Build Apps & Jenkins'
+            ]
+          },
+          {
+            id: 'module-5',
+            title: 'Module 5: Containers & Docker',
+            duration: '1 week',
+            topics: [
+              'Docker Architecture & Images',
+              'Running Containers',
+              'Dockerfile Basics',
+              'Containerizing a Simple App'
+            ]
+          },
+          {
+            id: 'module-6',
+            title: 'Module 6: Cloud Basics for DevOps',
+            duration: '1 week',
+            topics: [
+              'Introduction to AWS',
+              'EC2 Compute Basics',
+              'S3 Storage Basics',
+              'Deploying App on AWS'
+            ]
+          },
+          {
+            id: 'module-7',
+            title: 'Module 7: Infrastructure as Code & Automation',
+            duration: '1 week',
+            topics: [
+              'Terraform Overview',
+              'Terraform Architecture',
+              'Writing Basic Terraform Config',
+              'Automating Infrastructure Provisioning'
+            ]
+          },
+          {
+            id: 'module-8',
+            title: 'Module 8: Beginner Monitoring & DevOps Workflow',
+            duration: '1 week',
+            topics: [
+              'Logs vs Monitoring',
+              'End-to-End DevOps Workflow',
+              'Best Practices',
+              'Career Roadmap'
+            ]
+          },
+          {
+            id: 'module-9',
+            title: 'Module 9: Beginner Capstone Project',
+            duration: '1 week',
+            topics: [
+              'Build a Complete DevOps Pipeline',
+              'Code -> Build -> CI -> Docker -> Cloud Deployment',
+              'Final Project Presentation'
+            ]
+          }
+        ]
       : isIntermediate 
-       ? [
+      ? [
           {
             id: 'module-1',
             title: 'Module 1: Viruses & Malware Engineering',

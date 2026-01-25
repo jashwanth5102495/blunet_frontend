@@ -7,11 +7,12 @@ import Hero from './components/Hero';
 import ServicesSection from './components/ServicesSection';
 import TradingSection from './components/TradingSection';
 import TechnologiesCarousel from './components/TechnologiesCarousel';
+import HappyClients from './components/HappyClients';
+import StudentReviews from './components/StudentReviews';
 import IntroductionPage from './pages/IntroductionPage.jsx';
 import ModuleComingSoon from './pages/ModuleComingSoon.jsx';
 import CourseIntro from './pages/CourseIntro.jsx';
 import FrontendProjectPage from './components/FrontendProjectPage';
-import DevOpsBeginnerIntroductionPage from './pages/DevOpsBeginnerIntroductionPage.jsx'
 import ProjectsCatalog from './components/ProjectsCatalog';
 import ProjectEnrollment from './components/ProjectEnrollment';
 
@@ -282,9 +283,12 @@ function AppInner() {
                 <TradingSection />
               </section>
 
+              <HappyClients />
+
               <section id="contact">
                 <TechnologiesCarousel />
               </section>
+
               <Footer />
             </>
           } />
@@ -329,8 +333,8 @@ function AppInner() {
           <Route path="/learn/:studentSlug/frontend-development-beginner" element={<IntroHtmlProtected />} />
           
 
-          <Route path="/devops-beginner" element={<><Header hideDock={true} /><DevOpsBeginnerIntroductionPage /></>} />
-          <Route path="/devops-beginner/module/:slug" element={<><Header hideDock={true} /><ModuleComingSoon /></>} />
+          <Route path="/devops-beginner" element={<><Header hideDock={true} /><CourseIntro courseSlug="devops-beginner" /></>} />
+          <Route path="/devops-beginner/module/:slug" element={<><Header hideDock={true} /><CourseLearningDevOpsBeginner /></>} />
 
 
           <Route path="/networking-beginner" element={<><Header hideDock={true} /><CourseIntro courseSlug="networking-beginner" /></>} />

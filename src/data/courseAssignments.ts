@@ -89,7 +89,7 @@ export function getCourseTitleFromKey(key: string | null | undefined): string | 
     case 'ai-tools-mastery':
       return 'A.I Tools Mastery';
     case 'devops-beginner':
-      return 'DevOps Fundamentals';
+      return 'DevOps – Beginner';
     case 'networking-beginner':
       return 'Networking - Beginner';
     case 'networking-intermediate':

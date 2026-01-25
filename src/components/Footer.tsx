@@ -82,10 +82,9 @@ const Footer = () => {
                 <div>
                   <p className="text-gray-400 text-sm">Office</p>
                   <p className="text-white">
-                    Hyderabad, Telangana<br />
-                    India<br />
-                    Austin, Texas<br />
-                    USA
+                    Hyderabad, Telangana, India<br />
+                    Bengaluru, Karnataka, India<br />
+                    Austin, Texas, USA
                   </p>
                 </div>
               </div>

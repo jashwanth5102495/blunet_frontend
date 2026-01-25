@@ -243,7 +243,7 @@ const Courses = () => {
       instructor: 'David Wilson',
       modules: [
         {
-          title: 'DevOps Fundamentals',
+          title: 'DevOps – Beginner',
           duration: '2 weeks',
           topics: ['DevOps Culture', 'Version Control with Git', 'Linux Basics', 'Command Line']
         },

@@ -26,153 +26,113 @@ export default function DevOpsBeginnerIntroductionPage() {
       bgImage: 'https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png',
       topics: [
         'Why Linux for DevOps',
-        'File & directory commands',
-        'Permissions & ownership',
-        'Services & processes',
-        'Networking commands',
-        'Package management',
-        'Users & groups',
-        'systemctl & journalctl'
+        'File System Hierarchy & Navigation',
+        'Users, Groups & Sudo',
+        'Permissions & Ownership',
+        'Package Management (apt/yum)',
+        'Processes & Monitoring',
+        'Networking & Firewalls'
       ]
     },
     {
       slug: 'module-3',
-      title: 'Module 3 — Version Control with Git & GitHub',
-      desc: 'Master Git fundamentals, workflows, branching, merging, conflicts, and GitHub collaboration.',
+      title: 'Module 3 — Version Control & Collaboration',
+      desc: 'Master Git fundamentals, workflows, branching, merging, best practices, and GitHub collaboration.',
       bgImage: 'https://upload.wikimedia.org/wikipedia/commons/3/3f/Git_icon.svg',
       topics: [
-        'What is Version Control?',
-        'Git architecture & workflow',
-        'Install & setup',
-        'Git lifecycle',
-        'Common commands',
-        'Branching & merging',
-        'Merge conflicts',
-        'GitHub repositories & PRs',
-        'SSH key auth'
+        'Why Version Control?',
+        'Git Basics (Hands-On)',
+        'Git Workflow Explained',
+        'Remote Repositories (GitHub)',
+        'Branching & Merging',
+        'Git Best Practices',
+        'Collaboration & Pull Requests'
       ]
     },
     {
       slug: 'module-4',
-      title: 'Module 4 — AWS EC2 and Cloud Basics',
-      desc: 'Deploy in the cloud: EC2 instances, networking, security, storage, and hosting.',
-      bgImage: 'https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg',
+      title: 'Module 4 — Build Tools & CI Basics',
+      desc: 'Understand build automation with Maven/MSBuild and continuous integration with Jenkins.',
+      bgImage: 'https://upload.wikimedia.org/wikipedia/commons/e/e9/Jenkins_logo.svg',
       topics: [
-        'Cloud & AWS overview',
-        'Regions, AZs, instances',
-        'Create/manage EC2',
-        'SSH connections',
-        'Security Groups & key pairs',
-        'Elastic IPs',
-        'Install Apache/Nginx/Tomcat',
-        'Host a static site',
-        'EBS & snapshots'
+        'Build Automation Concepts',
+        'Maven (Java) & MSBuild (.NET)',
+        'Build Lifecycles',
+        'Introduction to CI',
+        'Jenkins Basics',
+        'Creating Jenkins Jobs',
+        'Automating Builds'
       ]
     },
     {
       slug: 'module-5',
-      title: 'Module 5 — Web Servers Overview',
-      desc: 'Basics of Apache HTTPD, Tomcat, and Nginx for hosting and reverse proxying.',
-      bgImage: '/img/devops/devops-lifecycle.svg',
+      title: 'Module 5 — Containers & Docker',
+      desc: 'Learn containerization concepts, Docker architecture, images, Dockerfiles, and pipelines.',
+      bgImage: 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Docker_%28container_engine%29_logo.svg',
       topics: [
-        'Apache HTTPD: install & configure',
-        'Virtual Hosts & multi-site hosting',
-        'Logs & monitoring',
-        'Tomcat: WAR deployment',
-        'Tomcat configuration',
-        'HTTPD ↔ Tomcat integration',
-        'Nginx: install & configure',
-        'Reverse proxy & load balancing',
-        'Static site with Nginx'
+        'Containers vs Virtual Machines',
+        'Docker Architecture',
+        'Docker Images & Containers',
+        'Dockerfile Basics',
+        'Container Best Practices',
+        'Docker in DevOps Pipelines'
       ]
     },
     {
       slug: 'module-6',
-      title: 'Module 6 — Containerization with Docker',
-      desc: 'Use Docker for consistent environments, images, volumes, networking, and compose.',
-      bgImage: 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Docker_%28container_engine%29_logo.svg',
+      title: 'Module 6 — Cloud Basics for DevOps',
+      desc: 'Introduction to Cloud Computing, AWS basics, security, and deploying apps to the cloud.',
+      bgImage: 'https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg',
       topics: [
-        'Why Docker',
-        'Architecture & components',
-        'Install Docker on Linux',
-        'Core commands (run/ps/stop/rm/images/exec)',
-        'Images & Dockerfiles',
-        'Volumes & networking',
-        'Docker Compose basics',
-        'Host a web app in Docker'
+        'Cloud Service Models (IaaS, PaaS, SaaS)',
+        'Introduction to AWS',
+        'Compute (EC2) & Storage (S3)',
+        'Cloud Security Basics',
+        'DevOps in Cloud',
+        'Cost Awareness'
       ]
     },
     {
       slug: 'module-7',
-      title: 'Module 7 — Continuous Integration with Jenkins',
-      desc: 'Automate builds and pipelines with Jenkins, plugins, notifications, and Docker flows.',
-      bgImage: 'https://upload.wikimedia.org/wikipedia/commons/e/e9/Jenkins_logo.svg',
+      title: 'Module 7 — Infrastructure as Code & Automation',
+      desc: 'Automate infrastructure provisioning with Terraform and integrate with CI pipelines.',
+      bgImage: 'https://upload.wikimedia.org/wikipedia/commons/3/35/Terraform_Logo.svg',
       topics: [
-        'Jenkins introduction',
-        'Master/agent architecture',
-        'Install Jenkins on Linux',
-        'Dashboard overview',
-        'Jobs & configuration',
-        'GitHub integration',
-        'Pipelines (scripted & declarative)',
-        'Plugins & email notifications',
-        'Automate Docker build & deploy'
+        'Infrastructure as Code (IaC) Concepts',
+        'Terraform Overview & Architecture',
+        'Terraform Workflow (Init, Plan, Apply)',
+        'Terraform with Cloud',
+        'Automation in DevOps',
+        'Terraform Best Practices'
       ]
     },
     {
       slug: 'module-8',
-      title: 'Module 8 — Build Automation with MSBuild',
-      desc: 'Automate .NET builds using MSBuild projects, targets, and CI integration.',
-      bgImage: 'https://commons.wikimedia.org/wiki/Special:FilePath/MSBuild_logo_(2024).svg',
+      title: 'Module 8 — Beginner Monitoring & DevOps Workflow',
+      desc: 'End-to-end DevOps workflow, monitoring importance, logs basics, and DevOps career roadmap.',
+      bgImage: 'https://cdn-icons-png.flaticon.com/512/2920/2920349.png',
       topics: [
-        'Build automation overview',
-        'What is MSBuild',
-        'Install & configure',
-        'Projects & targets',
-        'Automate .NET builds',
-        'Integrate MSBuild with Jenkins'
+        'Why Monitoring Matters',
+        'DevOps End-to-End Workflow',
+        'Logs vs Monitoring Basics',
+        'DevOps Best Practices',
+        'DevOps Career Roadmap',
+        'Mini Project: Code to Deploy'
       ]
     },
     {
       slug: 'module-9',
-      title: 'Module 9 — Configuration Management with Ansible',
-      desc: 'Provision and configure servers at scale with Ansible playbooks and roles.',
-      bgImage: 'https://upload.wikimedia.org/wikipedia/commons/2/24/Ansible_logo.svg',
+      title: 'Module 9 — Beginner Capstone Project',
+      desc: 'Build a complete DevOps pipeline: GitHub, Maven/MSBuild, Jenkins, Docker, and Cloud deployment.',
+      bgImage: 'https://cdn-icons-png.flaticon.com/512/1087/1087815.png',
       topics: [
-        'Intro to configuration management',
-        'Why Ansible',
-        'Architecture & inventory',
-        'Install Ansible',
-        'Write & run playbooks',
-        'Modules & variables',
-        'Deploy web servers with Ansible',
-        'Roles & reuse'
-      ]
-    },
-    {
-      slug: 'module-10',
-      title: 'Module 10 — CI/CD Pipeline (End-to-End)',
-      desc: 'Combine Git + Jenkins + Docker + AWS + Ansible for automated delivery.',
-      bgImage: 'https://commons.wikimedia.org/wiki/Special:FilePath/Devops-toolchain.svg',
-      topics: [
-        'What is a CI/CD pipeline?',
-        'Build a pipeline (Git → Jenkins → Docker → EC2)',
-        'Push → Build → Test → Deploy automation',
-        'Integrate Ansible in deployment',
-        'Monitoring & logging overview'
-      ]
-    },
-    {
-      slug: 'module-11',
-      title: 'Module 11 — DevOps Best Practices & Next Steps',
-      desc: 'Adopt IaC, security, culture, and plan the next tools to learn.',
-      bgImage: 'https://commons.wikimedia.org/wiki/Special:FilePath/Thumbs_up_icon.svg',
-      topics: [
-        'Infrastructure as Code (IaC) overview',
-        'DevOps culture & collaboration',
-        'Security in DevOps',
-        'Common interview questions',
-        'Recommended tools: Terraform, Kubernetes, Prometheus, Grafana'
+        'Capstone Overview & Requirements',
+        'Setup & Planning',
+        'Implementation: Code & Build',
+        'Implementation: Containerization',
+        'Implementation: CI/CD Pipeline',
+        'Implementation: Deployment',
+        'Final Review & Submission'
       ]
     }
   ];
@@ -197,7 +157,7 @@ export default function DevOpsBeginnerIntroductionPage() {
             </p>
             <div className="mt-6 flex gap-3 flex-wrap">
               <span className="inline-flex items-center rounded-full border border-gray-300 bg-gray-100 px-3 py-1 text-sm text-gray-800">Beginner level</span>
-              <span className="inline-flex items-center rounded-full border border-gray-300 bg-gray-100 px-3 py-1 text-sm text-gray-800">11 modules</span>
+              <span className="inline-flex items-center rounded-full border border-gray-300 bg-gray-100 px-3 py-1 text-sm text-gray-800">9 modules</span>
               <span className="inline-flex items-center rounded-full border border-gray-300 bg-gray-100 px-3 py-1 text-sm text-gray-800">Hands-on labs</span>
             </div>
             <div className="mt-8 flex gap-4">

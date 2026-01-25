@@ -100,9 +100,80 @@ This course covers practical configuration, troubleshooting, and performance ana
       },
       {
         slug: 'module-5',
-        title: 'Monitoring, Logging & Performance',
-        desc: 'SNMP, Nagios, Zabbix, syslog, bandwidth tools, MTR & traceroute.',
-        bgImage: 'https://cdn-icons-png.flaticon.com/512/1827/1827504.png'
+        title: 'Monitoring & Logging',
+        desc: 'Syslog, SNMP, Zabbix/Nagios basics, log analysis with ELK intro.',
+        bgImage: 'https://cdn-icons-png.flaticon.com/512/2920/2920349.png'
+      }
+    ]
+  },
+
+  'devops-beginner': {
+    title: 'DevOps - Beginner',
+    levelLabel: 'Beginner level',
+    tagline: 'Master the culture, tools, and workflows of DevOps. From Linux and Git to Docker, Jenkins, and AWS.',
+    heroImg: 'https://images.unsplash.com/photo-1667372393119-c81c0cda0a29?auto=format&w=1200',
+    whatYouWillLearn: [
+      'Understand DevOps culture, lifecycle, and end-to-end workflows.',
+      'Master Linux command line, permissions, and package management.',
+      'Version control with Git & GitHub for team collaboration.',
+      'Build automation with Maven/MSBuild and CI with Jenkins.',
+      'Containerize applications using Docker and best practices.',
+      'Deploy to AWS Cloud and manage infrastructure with Terraform.'
+    ],
+    modules: [
+      { 
+        slug: 'module-1', 
+        title: 'DevOps Introduction & Environment Setup', 
+        desc: 'Orientation, DevOps culture, lifecycle, toolchain overview, and setting up your lab environment (Git, Docker, Jenkins, VS Code).', 
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/0/05/Devops-toolchain.svg' 
+      },
+      { 
+        slug: 'module-2', 
+        title: 'Linux for DevOps', 
+        desc: 'Linux file system, permissions, users, processes, networking, packages, and services (systemctl) essential for DevOps.', 
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png' 
+      },
+      { 
+        slug: 'module-3', 
+        title: 'Version Control & Collaboration', 
+        desc: 'Why version control matters, Git basics, workflow, branching, merging, best practices, and GitHub collaboration.', 
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/3/3f/Git_icon.svg' 
+      },
+      { 
+        slug: 'module-4', 
+        title: 'Build Tools & CI Basics', 
+        desc: 'Build automation concepts, Maven, MSBuild, and Introduction to Continuous Integration with Jenkins.', 
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/e/e9/Jenkins_logo.svg' 
+      },
+      { 
+        slug: 'module-5', 
+        title: 'Containers & Docker', 
+        desc: 'Docker architecture, images, containers, Dockerfile basics, and containerizing applications.', 
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Docker_%28container_engine%29_logo.svg' 
+      },
+      { 
+        slug: 'module-6', 
+        title: 'Cloud Basics for DevOps', 
+        desc: 'Cloud computing basics, AWS introduction, compute, storage, networking, and cloud security.', 
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg' 
+      },
+      { 
+        slug: 'module-7', 
+        title: 'Infrastructure as Code & Automation', 
+        desc: 'Infrastructure as Code concepts, Terraform overview, architecture, workflow, and automation in DevOps.', 
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/3/35/Terraform_Logo.svg' 
+      },
+      { 
+        slug: 'module-8', 
+        title: 'Beginner Monitoring & DevOps Workflow', 
+        desc: 'End-to-end DevOps workflow, monitoring importance, logs basics, and DevOps career roadmap.', 
+        bgImage: 'https://cdn-icons-png.flaticon.com/512/2920/2920349.png' 
+      },
+      { 
+        slug: 'module-9', 
+        title: 'Beginner Capstone Project', 
+        desc: 'Build a complete DevOps pipeline: Code -> Build -> CI -> Docker -> Cloud Deployment.', 
+        bgImage: 'https://cdn-icons-png.flaticon.com/512/1087/1087815.png' 
       }
     ]
   },
@@ -263,6 +334,77 @@ This course covers practical configuration, troubleshooting, and performance ana
         title: 'Wireless & Mobile Security',
         desc: 'WiFi security protocols, cracking WPA/WPA2, and mobile app risks.',
         bgImage: 'https://upload.wikimedia.org/wikipedia/commons/3/35/Tux.svg'
+      }
+    ]
+  },
+
+  'devops-beginner': {
+    title: 'DevOps - Beginner',
+    levelLabel: 'Beginner level',
+    tagline: 'Master the culture, tools, and workflows of DevOps. From Linux and Git to Docker, Jenkins, and AWS.',
+    heroImg: 'https://images.unsplash.com/photo-1667372393119-c81c0cda0a29?auto=format&w=1200',
+    whatYouWillLearn: [
+      'Understand DevOps culture, lifecycle, and end-to-end workflows.',
+      'Master Linux command line, permissions, and package management.',
+      'Version control with Git & GitHub for team collaboration.',
+      'Build automation with Maven/MSBuild and CI with Jenkins.',
+      'Containerize applications using Docker and best practices.',
+      'Deploy to AWS Cloud and manage infrastructure with Terraform.'
+    ],
+    modules: [
+      { 
+        slug: 'module-1', 
+        title: 'DevOps Introduction & Environment Setup', 
+        desc: 'Orientation, DevOps culture, lifecycle, toolchain overview, and setting up your lab environment (Git, Docker, Jenkins, VS Code).', 
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/0/05/Devops-toolchain.svg' 
+      },
+      { 
+        slug: 'module-2', 
+        title: 'Linux for DevOps', 
+        desc: 'Linux file system, core commands, permissions, process management, and networking commands essential for DevOps.', 
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png' 
+      },
+      { 
+        slug: 'module-3', 
+        title: 'Version Control & Collaboration', 
+        desc: 'Git basics, workflow, branching, merging, and collaboration with GitHub.', 
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/3/3f/Git_icon.svg' 
+      },
+      { 
+        slug: 'module-4', 
+        title: 'Build Tools & CI Basics', 
+        desc: 'Build automation with Maven/MSBuild and Introduction to Continuous Integration with Jenkins.', 
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/e/e9/Jenkins_logo.svg' 
+      },
+      { 
+        slug: 'module-5', 
+        title: 'Containers & Docker', 
+        desc: 'Docker architecture, images, containers, Dockerfile, and containerizing applications.', 
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Docker_%28container_engine%29_logo.svg' 
+      },
+      { 
+        slug: 'module-6', 
+        title: 'Cloud Basics for DevOps', 
+        desc: 'Introduction to AWS, compute, storage, networking, and deploying applications on the cloud.', 
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg' 
+      },
+      { 
+        slug: 'module-7', 
+        title: 'Infrastructure as Code & Automation', 
+        desc: 'Terraform overview, architecture, workflow, and automating infrastructure provisioning.', 
+        bgImage: 'https://upload.wikimedia.org/wikipedia/commons/3/35/Terraform_Logo.svg' 
+      },
+      { 
+        slug: 'module-8', 
+        title: 'Beginner Monitoring & DevOps Workflow', 
+        desc: 'End-to-end DevOps workflow, logs vs monitoring, best practices, and career roadmap.', 
+        bgImage: 'https://cdn-icons-png.flaticon.com/512/2920/2920349.png' 
+      },
+      { 
+        slug: 'module-9', 
+        title: 'Beginner Capstone Project', 
+        desc: 'Build a complete DevOps pipeline: Code -> Build -> CI -> Docker -> Cloud Deployment.', 
+        bgImage: 'https://cdn-icons-png.flaticon.com/512/1087/1087815.png' 
       }
     ]
   }
