@@ -283,7 +283,7 @@ function AppInner() {
                 <TradingSection />
               </section>
 
-              <HappyClients />
+              {/* <HappyClients /> */}
 
               <section id="contact">
                 <TechnologiesCarousel />
