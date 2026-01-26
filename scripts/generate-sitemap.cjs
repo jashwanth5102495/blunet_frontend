@@ -27,16 +27,8 @@ function getOrigin() {
   const envUrl = normalizeOrigin(process.env.SITE_URL || process.env.VITE_SITE_URL || process.env.PUBLIC_URL);
   if (envUrl) return envUrl;
 
-  // 2) Vercel preview/prod URL
-  const vercelUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null;
-  const vercel = normalizeOrigin(vercelUrl);
-  if (vercel) return vercel;
-
-  // 3) Netlify URL/DEPLOY_URL
-  const netlify = normalizeOrigin(process.env.URL || process.env.DEPLOY_URL);
-  if (netlify) return netlify;
-
-  // 4) GitHub Pages custom domain via public/CNAME
+  // 2) GitHub Pages / Custom Domain via public/CNAME
+  // Prioritize this over Vercel/Netlify default URLs to ensure sitemap uses the custom domain
   try {
     const cnamePath = path.join(__dirname, '..', 'public', 'CNAME');
     if (fs.existsSync(cnamePath)) {
@@ -44,6 +36,15 @@ function getOrigin() {
       if (domain) return normalizeOrigin(`https://${domain}`);
     }
   } catch (_) {}
+
+  // 3) Vercel preview/prod URL
+  const vercelUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null;
+  const vercel = normalizeOrigin(vercelUrl);
+  if (vercel) return vercel;
+
+  // 4) Netlify URL/DEPLOY_URL
+  const netlify = normalizeOrigin(process.env.URL || process.env.DEPLOY_URL);
+  if (netlify) return netlify;
 
   // Last-resort fallback
   return 'https://example.com';

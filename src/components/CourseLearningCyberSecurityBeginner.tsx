@@ -79,6 +79,19 @@ const courseData: Module[] = [
           <h2 class="text-xl font-semibold mb-3 text-white">Types of Cyber Security</h2>
           
           <div class="space-y-4 mb-6">
+            <div class="p-4 rounded-lg border border-green-500/20 bg-green-500/5 mb-6">
+              <h3 class="text-lg font-semibold mb-2 text-green-400">Lab Environment Setup (Ubuntu VM)</h3>
+              <p class="mb-2 text-gray-300">To practice cyber security tools safely, we recommend setting up a virtual machine:</p>
+              <ol class="list-decimal pl-6 text-gray-300 space-y-2 text-sm">
+                <li>Download Ubuntu Desktop from the official site: <a href="https://ubuntu.com/download/desktop" target="_blank" class="text-blue-400 hover:underline">https://ubuntu.com/download/desktop</a></li>
+                <li>Install a virtualization software (VirtualBox or VMware).</li>
+                <li>Create a new Virtual Machine and mount the downloaded Ubuntu ISO.</li>
+                <li>Follow the installation instructions to set up your Linux environment.</li>
+                <li>Once installed, open the <strong>Terminal</strong> to start practicing commands.</li>
+              </ol>
+              <p class="mt-2 text-xs text-gray-400">Note: For advanced users, <strong>Kali Linux</strong> is also a great choice for Cyber Security.</p>
+            </div>
+
             <div>
               <h3 class="text-lg font-semibold mb-1 text-blue-400">1. Network Security</h3>
               <p class="mb-1 text-gray-300">Protects computer networks from intruders.</p>

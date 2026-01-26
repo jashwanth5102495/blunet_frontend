@@ -767,6 +767,19 @@ const courseData: Module[] = [
 
           <div class="space-y-6">
             <div>
+              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 0: Set Up Ubuntu Virtual Machine (Prerequisite)</h3>
+              <p class="text-sm text-gray-400 mb-2">To use the Linux terminal for DevOps, set up an Ubuntu VM first:</p>
+              <ol class="list-decimal pl-6 text-sm text-gray-400 mb-2 space-y-1">
+                <li>Download Ubuntu Desktop from the official site: <a href="https://ubuntu.com/download/desktop" target="_blank" class="text-blue-400 hover:underline">https://ubuntu.com/download/desktop</a></li>
+                <li>Install a virtual machine tool (e.g., VirtualBox, VMware)</li>
+                <li>Create a new VM and attach the Ubuntu ISO file</li>
+                <li>Follow the Ubuntu installation wizard</li>
+                <li>Launch the VM and open the terminal</li>
+              </ol>
+              <p class="text-xs text-gray-500 italic">Complete this step before proceeding with DevOps terminal commands.</p>
+            </div>
+
+            <div>
               <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 1: Verify Terminal Access</h3>
               <p class="text-sm text-gray-400 mb-2">Ensure your terminal is working correctly.</p>
               <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">echo "DevOps terminal ready"</code>
