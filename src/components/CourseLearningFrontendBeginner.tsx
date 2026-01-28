@@ -3887,12 +3887,59 @@ type ChatPanelProps = {
 function ChatPanel({ isDark, messages, loading, onSend }: ChatPanelProps) {
   const [text, setText] = React.useState('');
 
+  // Typing animation state for the latest assistant message
+  const [typingIndex, setTypingIndex] = React.useState<number | null>(null);
+  const [typedContent, setTypedContent] = React.useState('');
+  const typingTimerRef = React.useRef<number | null>(null);
+
   const handleSend = () => {
     if (text.trim() && !loading) {
       onSend(text.trim());
       setText('');
     }
   };
+
+  React.useEffect(() => {
+    if (!messages.length) return;
+    const lastIndex = messages.length - 1;
+    const last = messages[lastIndex];
+
+    // Start typing animation only for the newest assistant message
+    if (last.role === 'assistant') {
+      // If already animating this message, skip
+      if (typingIndex === lastIndex && typedContent.length === last.content.length) return;
+
+      // Clear any previous timer
+      if (typingTimerRef.current) {
+        window.clearInterval(typingTimerRef.current);
+        typingTimerRef.current = null;
+      }
+
+      setTypingIndex(lastIndex);
+      setTypedContent('');
+      let i = 0;
+      const full = last.content;
+      const speedMs = 18; // smooth typing speed
+      typingTimerRef.current = window.setInterval(() => {
+        i = Math.min(i + 1, full.length);
+        setTypedContent(full.slice(0, i));
+        if (i >= full.length) {
+          if (typingTimerRef.current) {
+            window.clearInterval(typingTimerRef.current);
+            typingTimerRef.current = null;
+          }
+        }
+      }, speedMs);
+    }
+
+    // Cleanup when messages change or component unmounts
+    return () => {
+      if (typingTimerRef.current) {
+        window.clearInterval(typingTimerRef.current);
+        typingTimerRef.current = null;
+      }
+    };
+  }, [messages]);
 
   return (
     <aside
