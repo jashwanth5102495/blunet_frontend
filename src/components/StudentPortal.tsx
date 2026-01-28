@@ -16,7 +16,8 @@ import {
   XMarkIcon,
   Squares2X2Icon,
   CalendarDaysIcon,
-  ChatBubbleLeftRightIcon
+  ChatBubbleLeftRightIcon,
+  ChatBubbleOvalLeftEllipsisIcon
 } from '@heroicons/react/24/outline';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
@@ -3129,7 +3130,6 @@ const StudentPortal: React.FC = () => {
     { id: 'browse-courses', label: 'Browse Courses', icon: GlobeAltIcon },
     { id: 'settings', label: 'Settings', icon: Cog6ToothIcon },
     { id: 'history', label: 'History', icon: ClipboardDocumentListIcon },
-    { id: 'support', label: 'Support', icon: QuestionMarkCircleIcon },
   ];
 
   // Maintain active tab locally; no BubbleMenu hashes
@@ -4700,7 +4700,7 @@ const StudentPortal: React.FC = () => {
 
                   <div className="bg-gray-900 rounded-2xl border border-gray-800 p-6">
                     <h3 className="text-white text-lg font-semibold mb-4">Quick Access</h3>
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 gap-4">
                       <button
                         onClick={() => setActiveTab('browse-courses')}
                         className="group flex flex-col items-center justify-center rounded-2xl px-4 py-5 bg-white/5 border border-white/10 backdrop-blur-lg text-white text-xs font-medium shadow-sm hover:bg-white/10 hover:-translate-y-0.5 transition-all"
@@ -4718,15 +4718,6 @@ const StudentPortal: React.FC = () => {
                           <CalendarDaysIcon className="h-5 w-5" />
                         </div>
                         <span className="text-center leading-snug">View Schedules</span>
-                      </button>
-                      <button
-                        onClick={() => setActiveTab('support')}
-                        className="group flex flex-col items-center justify-center rounded-2xl px-4 py-5 bg-white/5 border border-white/10 backdrop-blur-lg text-white text-xs font-medium shadow-sm hover:bg-white/10 hover:-translate-y-0.5 transition-all"
-                      >
-                        <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
-                          <ChatBubbleLeftRightIcon className="h-5 w-5" />
-                        </div>
-                        <span className="text-center leading-snug">Chat Support</span>
                       </button>
                     </div>
                   </div>
@@ -5687,6 +5678,21 @@ const StudentPortal: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* WhatsApp Floating Action Button */}
+      <a
+        href="https://wa.me/9347564390"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-50 p-4 bg-green-500 hover:bg-green-600 rounded-full shadow-lg transition-all hover:scale-110 flex items-center justify-center group"
+        title="Chat on WhatsApp"
+        aria-label="Chat on WhatsApp"
+      >
+        <ChatBubbleOvalLeftEllipsisIcon className="w-8 h-8 text-white" />
+        <span className="absolute right-full mr-3 bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap border border-gray-700">
+          for any support
+        </span>
+      </a>
     </div>
   );
 };

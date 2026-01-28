@@ -65,8 +65,8 @@ const Footer = () => {
                     <a href="mailto:support@blunetitservices.in" className="text-white hover:text-blue-400 transition-colors block">
                       support@blunetitservices.in
                     </a>
-                    <a href="mailto:support@blunetitservices.in" className="text-white hover:text-blue-400 transition-colors block">
-                      support@blunetitservices.in
+                    <a href="mailto:blunetitservices@gmail.com" className="text-white hover:text-blue-400 transition-colors block">
+                      blunetitservices@gmail.com
                     </a>
                   </div>
                 </div>
