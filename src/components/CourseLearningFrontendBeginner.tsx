@@ -28,29 +28,7 @@ interface Module {
   videoLinks?: { label: string; url: string }[];
 }
 
-interface Resource {
-  type: 'video' | 'document';
-  title: string;
-  duration: string;
-  description: string;
-}
-
 // --- Data ---
-
-const resources: Resource[] = [
-  {
-    type: 'video',
-    title: 'Frontend Overview',
-    duration: '15 min',
-    description: 'Introduction to Frontend Development'
-  },
-  {
-    type: 'document',
-    title: 'Course Handbook',
-    duration: '20 min read',
-    description: 'Guide to course structure and requirements'
-  }
-];
 
 const courseData: Module[] = [
   {
@@ -3706,16 +3684,12 @@ return value; // Exits method`
 // --- Components ---
 
 const Sidebar = ({
-  activeTab,
-  setActiveTab,
   activeModuleId,
   setActiveModuleId,
   activeLessonIndex,
   setActiveLessonIndex,
   completedLessons
 }: {
-  activeTab: 'outline' | 'resources';
-  setActiveTab: (tab: 'outline' | 'resources') => void;
   activeModuleId: string;
   setActiveModuleId: (id: string) => void;
   activeLessonIndex: number;
@@ -3749,32 +3723,14 @@ const Sidebar = ({
 
   return (
     <div className="w-[350px] bg-[#1e1e1e] border-r border-[#333] flex flex-col h-full">
-      {/* Tabs */}
-      <div className="flex border-b border-[#333]">
-        <button
-          onClick={() => setActiveTab('outline')}
-          className={`flex-1 py-4 text-sm font-medium transition-colors border-b-2 ${activeTab === 'outline'
-            ? 'border-[#00bceb] text-white bg-[#252526]'
-            : 'border-transparent text-gray-400 hover:text-gray-200 hover:bg-[#2d2d2d]'
-            }`}
-        >
+      {/* Header */}
+      <div className="flex border-b border-[#333] bg-[#252526]">
+        <div className="flex-1 py-4 text-sm font-medium text-white text-center border-b-2 border-[#00bceb]">
           <div className="flex items-center justify-center gap-2">
             <BookOpen className="w-4 h-4" />
             Course Outline
           </div>
-        </button>
-        <button
-          onClick={() => setActiveTab('resources')}
-          className={`flex-1 py-4 text-sm font-medium transition-colors border-b-2 ${activeTab === 'resources'
-            ? 'border-[#00bceb] text-white bg-[#252526]'
-            : 'border-transparent text-gray-400 hover:text-gray-200 hover:bg-[#2d2d2d]'
-            }`}
-        >
-          <div className="flex items-center justify-center gap-2">
-            <FileText className="w-4 h-4" />
-            Resources
-          </div>
-        </button>
+        </div>
       </div>
 
       {/* Search */}
@@ -3793,7 +3749,6 @@ const Sidebar = ({
 
       {/* Content List */}
       <div className="flex-1 overflow-y-auto custom-scrollbar">
-        {activeTab === 'outline' ? (
           <div className="pb-4">
             <div className="px-4 py-4 flex items-center justify-between hover:bg-[#2d2d2d] cursor-pointer transition-colors border-b border-[#333]">
               <div>
@@ -3916,21 +3871,6 @@ const Sidebar = ({
               );
             })}
           </div>
-        ) : (
-          <div className="p-4">
-            {resources.map((res, idx) => (
-              <div key={idx} className="mb-4 p-3 bg-[#2d2d2d] rounded hover:bg-[#333] transition-colors cursor-pointer border border-[#333]">
-                <div className="flex items-center gap-2 mb-2">
-                  {res.type === 'video' ? <PlayCircle className="w-4 h-4 text-[#00bceb]" /> : <FileText className="w-4 h-4 text-orange-400" />}
-                  <span className="text-xs font-medium text-gray-400 uppercase">{res.type}</span>
-                </div>
-                <h4 className="text-sm font-medium text-white mb-1">{res.title}</h4>
-                <p className="text-xs text-gray-400 mb-2">{res.description}</p>
-                <span className="text-xs text-gray-500">{res.duration}</span>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );
@@ -3987,7 +3927,9 @@ function ChatPanel({ isDark, messages, loading, onSend }: ChatPanelProps) {
                   : 'bg-blue-600/70 backdrop-blur-xl text-white border border-blue-300/40'
               } max-w-[85%] rounded-2xl px-4 py-3 shadow-sm whitespace-pre-wrap break-words leading-relaxed text-[15px]`}
             >
-              {msg.content}
+              {msg.role === 'assistant' && idx === typingIndex && typedContent.length > 0
+                ? typedContent
+                : msg.content}
             </div>
           </div>
         ))}
@@ -4054,7 +3996,6 @@ const CourseLearningFrontendBeginner: React.FC = () => {
   const isDark = theme === 'dark';
 
   // State
-  const [activeTab, setActiveTab] = useState<'outline' | 'resources'>('outline');
   const [activeModuleId, setActiveModuleId] = useState<string>('module-1');
   const [activeLessonIndex, setActiveLessonIndex] = useState(0);
   const [completedLessons, setCompletedLessons] = useState<Set<string>>(new Set(['module-1-0']));
@@ -4228,8 +4169,6 @@ const CourseLearningFrontendBeginner: React.FC = () => {
     <div className="bg-[#121212] text-white overflow-hidden font-sans h-screen">
       <div className="flex h-full">
         <Sidebar 
-          activeTab={activeTab} 
-          setActiveTab={setActiveTab}
           activeModuleId={activeModuleId}
           setActiveModuleId={setActiveModuleId}
           activeLessonIndex={activeLessonIndex}
