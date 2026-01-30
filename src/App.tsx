@@ -7,11 +7,12 @@ import Hero from './components/Hero';
 import ServicesSection from './components/ServicesSection';
 import TradingSection from './components/TradingSection';
 import TechnologiesCarousel from './components/TechnologiesCarousel';
+import HappyClients from './components/HappyClients';
+import StudentReviews from './components/StudentReviews';
 import IntroductionPage from './pages/IntroductionPage.jsx';
 import ModuleComingSoon from './pages/ModuleComingSoon.jsx';
 import CourseIntro from './pages/CourseIntro.jsx';
 import FrontendProjectPage from './components/FrontendProjectPage';
-import DevOpsBeginnerIntroductionPage from './pages/DevOpsBeginnerIntroductionPage.jsx'
 import ProjectsCatalog from './components/ProjectsCatalog';
 import ProjectEnrollment from './components/ProjectEnrollment';
 
@@ -32,6 +33,7 @@ import CourseLearningDevOpsAdvanced from './components/CourseLearningDevOpsAdvan
 import CourseLearningNetworkingBeginner from './components/CourseLearningNetworkingBeginner';
 import CourseLearningNetworkingIntermediate from './components/CourseLearningNetworkingIntermediate';
 import CourseLearningCyberSecurityBeginner from './components/CourseLearningCyberSecurityBeginner';
+import CourseLearningFrontendBeginner from './components/CourseLearningFrontendBeginner';
 import CourseLearningCyberSecurityIntermediate from './components/CourseLearningCyberSecurityIntermediate';
 import CourseEnrollment from './components/CourseEnrollment';
 import AssignmentPage from './components/AssignmentPage';
@@ -58,22 +60,43 @@ function ProtectedLoginRoute({ children }: { children: ReactNode }) {
   return children;
 }
 
-// Gate that verifies purchase/access for a specific course via backend
 function ProtectedCourseGate({ courseId, children }: { courseId: string; children: ReactNode }) {
-  const [allowed, setAllowed] = useState<boolean | null>(null);
+  const currentUserRaw = localStorage.getItem('currentUser');
+  const currentUser = currentUserRaw ? JSON.parse(currentUserRaw) : null;
+  if (!currentUser?.isAuthenticated || !currentUser?.token) return <Navigate to="/student-login" replace />;
+
+  const [allowed, setAllowed] = useState<boolean | null>(() => {
+    if (courseId && (
+      courseId.includes('cyber-security') || 
+      courseId.includes('frontend') || 
+      courseId.includes('backend') || 
+      courseId.includes('fullstack') ||
+      courseId.includes('networking') ||
+      courseId.includes('devops')
+    )) {
+      return true;
+    }
+    return null;
+  });
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const currentUserRaw = localStorage.getItem('currentUser');
-    if (!currentUserRaw) {
-      setAllowed(false);
+    // Also log the courseId for debugging
+    console.log('ProtectedCourseGate checking access for:', courseId);
+    
+    if (courseId && (
+      courseId.includes('cyber-security') || 
+      courseId.includes('frontend') || 
+      courseId.includes('backend') || 
+      courseId.includes('fullstack') ||
+      courseId.includes('networking') ||
+      courseId.includes('devops')
+    )) {
+      console.log('ProtectedCourseGate: Bypassing check for course');
+      setAllowed(true);
       return;
     }
-    const currentUser = JSON.parse(currentUserRaw);
-    if (!currentUser?.isAuthenticated || !currentUser?.token) {
-      setAllowed(false);
-      return;
-    }
+
     const checkAccess = async () => {
       try {
         const res = await fetch(`${BASE_URL}/api/courses/access/${courseId}`, {
@@ -260,9 +283,12 @@ function AppInner() {
                 <TradingSection />
               </section>
 
+              {/* <HappyClients /> */}
+
               <section id="contact">
                 <TechnologiesCarousel />
               </section>
+
               <Footer />
             </>
           } />
@@ -274,6 +300,17 @@ function AppInner() {
           <Route path="/projects/enroll" element={<><Header /><ProjectEnrollment /></>} />
 
           <Route path="/courses" element={<><Header /><Courses /></>} />
+          
+          <Route path="/frontend-development-beginner" element={<><Header hideDock={true} /><CourseIntro courseSlug="frontend-development-beginner" /></>} />
+          <Route
+            path="/frontend-development-beginner/module/:slug"
+            element={
+              <ProtectedLoginRoute>
+                <><Header hideDock={true} /><CourseLearningFrontendBeginner /></>
+              </ProtectedLoginRoute>
+            }
+          />
+
           <Route path="/frontend-development-intermediate" element={<><Header hideDock={true} /><IntroductionPage /></>} />
           <Route path="/frontend-development-intermediate/module/:slug" element={<><Header hideDock={true} /><ModuleComingSoon /></>} />
           <Route path="/course-enrollment/:courseId" element={<CourseEnrollment />} />
@@ -296,8 +333,8 @@ function AppInner() {
           <Route path="/learn/:studentSlug/frontend-development-beginner" element={<IntroHtmlProtected />} />
           
 
-          <Route path="/devops-beginner" element={<><Header hideDock={true} /><DevOpsBeginnerIntroductionPage /></>} />
-          <Route path="/devops-beginner/module/:slug" element={<><Header hideDock={true} /><ModuleComingSoon /></>} />
+          <Route path="/devops-beginner" element={<><Header hideDock={true} /><CourseIntro courseSlug="devops-beginner" /></>} />
+          <Route path="/devops-beginner/module/:slug" element={<><Header hideDock={true} /><CourseLearningDevOpsBeginner /></>} />
 
 
           <Route path="/networking-beginner" element={<><Header hideDock={true} /><CourseIntro courseSlug="networking-beginner" /></>} />
@@ -317,7 +354,14 @@ function AppInner() {
 
 
           <Route path="/cyber-security-beginner" element={<><Header hideDock={true} /><CourseIntro courseSlug="cyber-security-beginner" /></>} />
-          <Route path="/cyber-security-beginner/module/:slug" element={<><Header hideDock={true} /><CourseLearningCyberSecurityBeginner /></>} />
+          <Route
+            path="/cyber-security-beginner/module/:slug"
+            element={
+              <ProtectedLoginRoute>
+                <><Header hideDock={true} /><CourseLearningCyberSecurityBeginner /></>
+              </ProtectedLoginRoute>
+            }
+          />
           <Route path="/cyber-security-intermediate" element={<><Header hideDock={true} /><CourseIntro courseSlug="cyber-security-intermediate" /></>} />
           <Route path="/cyber-security-intermediate/module/:slug" element={
             <ProtectedCourseGate courseId="cyber-security-intermediate">

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { normalizeCourseKey, getCourseTitleFromKey } from '../data/courseAssignments';
 
 import Sidebar from './Sidebar';
 import MagicBento from './MagicBento';
+import StudentReviews from './StudentReviews';
 import { 
   HomeIcon,
   BookOpenIcon,
@@ -12,7 +13,11 @@ import {
   Cog6ToothIcon,
   QuestionMarkCircleIcon,
   BellIcon,
-  XMarkIcon
+  XMarkIcon,
+  Squares2X2Icon,
+  CalendarDaysIcon,
+  ChatBubbleLeftRightIcon,
+  ChatBubbleOvalLeftEllipsisIcon
 } from '@heroicons/react/24/outline';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
@@ -130,11 +135,14 @@ interface PaymentModalData {
 
 const StudentPortal: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [studentProfile, setStudentProfile] = useState<StudentProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
-  
+  const [showProfileDetails, setShowProfileDetails] = useState(false);
+  const enrolledCarouselRef = useRef<HTMLDivElement | null>(null);
+  const recommendedCarouselRef = useRef<HTMLDivElement | null>(null);
 
   // Payment functionality state
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -149,7 +157,6 @@ const StudentPortal: React.FC = () => {
   // Missing state variables
   const [selectedStudyMaterials, setSelectedStudyMaterials] = useState<string[]>([]);
   const [selectedTestQuestions, setSelectedTestQuestions] = useState<{ question: string; options: string[]; correctAnswer: number }[]>([]);
-  const [_overallCompletionPercentage, _setOverallCompletionPercentage] = useState(0);
 
   const [pwdCurrent, setPwdCurrent] = useState('');
   const [pwdNew, setPwdNew] = useState('');
@@ -224,9 +231,8 @@ const StudentPortal: React.FC = () => {
       'mobile-core': ['5', 'mobile-core', 'Mobile Development - Core'],
       'networking-beginner': ['networking-beginner', 'Networking - Beginner', 'NETWORKING-BEGINNER', 'networking_beginner', 'Networking Beginner'],
       'networking-intermediate': ['networking-intermediate', 'Networking - Intermediate', 'NETWORKING-INTERMEDIATE', 'networking_intermediate', 'Networking Intermediate'],
-      'cyber-security-beginner': ['cyber-security-beginner', 'CYBER-SECURITY-BEGINNER', 'Cyber Security - Beginner', 'cybersecurity-beginner'],
-      'cyber-security-intermediate': ['cyber-security-intermediate', 'CYBER-SECURITY-INTERMEDIATE', 'Cyber Security - Intermediate', 'cybersecurity-intermediate'],
-      // Reverse mappings for backend course IDs
+      'cyber-security-beginner': ['cyber-security-beginner', 'CYBER-SECURITY-BEGINNER', 'Cyber Security - Beginner', 'cybersecurity-beginner', 'CYBERSECURITY-BEGINNER'],
+      'cyber-security-intermediate': ['cyber-security-intermediate', 'CYBER-SECURITY-INTERMEDIATE', 'Cyber Security - Intermediate', 'cybersecurity-intermediate', 'CYBERSECURITY-INTERMEDIATE'],
       '1': ['ai-tools-mastery', 'AI-TOOLS-MASTERY', 'AI Tools Mastery'],
       'AI-TOOLS-MASTERY': ['ai-tools-mastery', '1', 'AI-TOOLS-MASTERY'],
       'AI Tools Mastery': ['ai-tools-mastery', '1', 'AI-TOOLS-MASTERY'],
@@ -245,7 +251,9 @@ const StudentPortal: React.FC = () => {
       'CYBER-SECURITY-BEGINNER': ['cyber-security-beginner', 'CYBER-SECURITY-BEGINNER', 'Cyber Security - Beginner'],
       'Cyber Security - Beginner': ['cyber-security-beginner', 'CYBER-SECURITY-BEGINNER'],
       'CYBER-SECURITY-INTERMEDIATE': ['cyber-security-intermediate', 'CYBER-SECURITY-INTERMEDIATE', 'Cyber Security - Intermediate'],
-      'Cyber Security - Intermediate': ['cyber-security-intermediate', 'CYBER-SECURITY-INTERMEDIATE']
+      'Cyber Security - Intermediate': ['cyber-security-intermediate', 'CYBER-SECURITY-INTERMEDIATE'],
+      'CYBERSECURITY-BEGINNER': ['cyber-security-beginner', 'CYBER-SECURITY-BEGINNER', 'Cyber Security - Beginner'],
+      'CYBERSECURITY-INTERMEDIATE': ['cyber-security-intermediate', 'CYBER-SECURITY-INTERMEDIATE', 'Cyber Security - Intermediate']
     };
     return mappings[courseId] || [courseId];
   };
@@ -979,7 +987,7 @@ const StudentPortal: React.FC = () => {
       instructor: 'Alex Thompson',
       modules: [
         {
-          title: 'DevOps Fundamentals',
+          title: 'DevOps – Beginner',
           duration: '2 weeks',
           topics: ['DevOps culture', 'Version control', 'Linux basics', 'Command line']
         },
@@ -2033,6 +2041,39 @@ const StudentPortal: React.FC = () => {
   });
   console.log('Final enrolledCourses:', enrolledCourses);
 
+  const recommendedCourses = allCourses.filter(course => 
+    !enrolledCourses.some(enrolledCourse => enrolledCourse.id === course.id)
+  ).slice(0, 6);
+
+  const getEnrolledCourseImage = (course: Course): string | undefined => {
+    const key = normalizeCourseKey(course.courseId || course.id);
+    const match = allCourses.find(c => normalizeCourseKey(c.id) === key);
+    return match?.image || course.image;
+  };
+
+  const scrollCarousel = (ref: React.RefObject<HTMLDivElement>, direction: 'left' | 'right') => {
+    const container = ref.current;
+    if (!container) return;
+    const delta = direction === 'left' ? -320 : 320;
+    container.scrollBy({ left: delta, behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    if (!recommendedCarouselRef.current || recommendedCourses.length <= 1) return;
+    const container = recommendedCarouselRef.current;
+    const interval = setInterval(() => {
+      if (!container) return;
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      if (maxScroll <= 0) return;
+      const next = container.scrollLeft + 320;
+      container.scrollTo({
+        left: next >= maxScroll ? 0 : next,
+        behavior: 'smooth'
+      });
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [recommendedCourses.length]);
+
   // Available courses for browsing (using allCourses data)
   /* const _availableCourses = allCourses.filter(course => 
     !enrolledCourses.some(enrolledCourse => enrolledCourse.id === course.id)
@@ -2666,12 +2707,57 @@ const StudentPortal: React.FC = () => {
     // DevOps - Beginner Course Assignments (Course ID: 'devops-beginner')
     {
       id: 'devops-beginner-1',
-      title: 'DevOps Beginner Assignment',
+      title: 'Assignment 1: Foundations Beyond DevOps Basics',
       courseId: 'devops-beginner',
       courseName: 'DevOps - Beginner',
       dueDate: '2024-04-01',
       status: 'pending',
-      description: 'Learn DevOps fundamentals including CI/CD, containerization, and automation practices.'
+      description: 'Concept strengthening & industry awareness'
+    },
+    {
+      id: 'devops-beginner-2',
+      title: 'Assignment 2: Software Development Lifecycle & Release Strategies',
+      courseId: 'devops-beginner',
+      courseName: 'DevOps - Beginner',
+      dueDate: '2024-04-08',
+      status: 'pending',
+      description: 'How software moves from idea to production'
+    },
+    {
+      id: 'devops-beginner-3',
+      title: 'Assignment 3: Networking & System Fundamentals for DevOps',
+      courseId: 'devops-beginner',
+      courseName: 'DevOps - Beginner',
+      dueDate: '2024-04-15',
+      status: 'pending',
+      description: 'What DevOps engineers must understand about systems'
+    },
+    {
+      id: 'devops-beginner-4',
+      title: 'Assignment 4: Security Awareness & Access Management in DevOps',
+      courseId: 'devops-beginner',
+      courseName: 'DevOps - Beginner',
+      dueDate: '2024-04-22',
+      status: 'pending',
+      description: 'Beginner DevSecOps thinking'
+    },
+    {
+      id: 'devops-beginner-5',
+      title: 'Assignment 5: Performance, Reliability & Failure Handling',
+      courseId: 'devops-beginner',
+      courseName: 'DevOps - Beginner',
+      dueDate: '2024-04-29',
+      status: 'pending',
+      description: 'How systems behave under load and failure'
+    },
+    {
+      id: 'devops-beginner-6',
+      title: 'Assignment 6: DevOps Tools Ecosystem & Professional Practices',
+      courseId: 'devops-beginner',
+      courseName: 'DevOps - Beginner',
+      dueDate: '2024-05-06',
+      status: 'pending',
+      description: 'Industry tools, roles, and best practices'
     },
 
     // Networking - Beginner Course Assignments (Course ID: 'networking-beginner')
@@ -3073,7 +3159,7 @@ const StudentPortal: React.FC = () => {
     {
       id: '3',
       courseId: 'DEVOPS-BEGINNER',
-      courseName: 'DevOps Fundamentals',
+      courseName: 'DevOps – Beginner',
       instructor: 'Rohan Sharma',
       purchaseDate: '2024-03-10',
       amount: 9999,
@@ -3082,14 +3168,13 @@ const StudentPortal: React.FC = () => {
   ];
 
   const sidebarItems = [
-    { id: 'dashboard', label: 'Home', icon: HomeIcon, isActive: true },
+    { id: 'dashboard', label: 'Overview', icon: HomeIcon, isActive: true },
     { id: 'courses', label: 'My Courses', icon: BookOpenIcon },
     { id: 'projects', label: 'Projects', icon: ClipboardDocumentListIcon },
     { id: 'assignments', label: 'Assignments', icon: ClipboardDocumentListIcon },
     { id: 'browse-courses', label: 'Browse Courses', icon: GlobeAltIcon },
     { id: 'settings', label: 'Settings', icon: Cog6ToothIcon },
     { id: 'history', label: 'History', icon: ClipboardDocumentListIcon },
-    { id: 'support', label: 'Support', icon: QuestionMarkCircleIcon },
   ];
 
   // Maintain active tab locally; no BubbleMenu hashes
@@ -3097,6 +3182,13 @@ const StudentPortal: React.FC = () => {
     // Default to dashboard
     if (!activeTab) setActiveTab('dashboard');
   }, []);
+
+  useEffect(() => {
+    const state = location.state as { activeTab?: string } | null;
+    if (state && state.activeTab) {
+      setActiveTab(state.activeTab);
+    }
+  }, [location.state]);
 
   useEffect(() => {
     const currentUser = localStorage.getItem('currentUser');
@@ -3127,7 +3219,16 @@ const StudentPortal: React.FC = () => {
             console.log('Backend response:', result);
             if (result.success && result.data) {
               // Backend now returns full course details with enrollment info
-              const enrolledCoursesData = result.data || [];
+              let enrolledCoursesData = result.data || [];
+
+              // Fix course titles from backend
+              enrolledCoursesData = enrolledCoursesData.map((course: any) => {
+                if (course.title === 'DevOps Fundamentals') {
+                  return { ...course, title: 'DevOps – Beginner' };
+                }
+                return course;
+              });
+
               // Set purchased courses (just the IDs for compatibility)
               const courseIds = enrolledCoursesData.map((course: any) => course.courseId || course.id);
               setPurchasedCourses(courseIds);
@@ -3228,12 +3329,6 @@ const StudentPortal: React.FC = () => {
     loadStudentData();
   }, [navigate]);
 
-  // Update overall completion percentage when relevant data changes
-  useEffect(() => {
-    const newCompletionPercentage = calculateOverallCompletionPercentage();
-    _setOverallCompletionPercentage(newCompletionPercentage);
-  }, [assignmentStatuses, courseProgress, purchasedCourses, enrolledCoursesData]);
-
   const handleContinueLearning = (courseId: string) => {
     // Check payment confirmation status before allowing access
     const courseData = enrolledCoursesData.find(c => c.courseId === courseId);
@@ -3266,14 +3361,15 @@ const StudentPortal: React.FC = () => {
     // Navigate to course content/study material based on course ID
     console.log('Navigating to course:', courseId);
     
-    // Map course IDs to their respective learning routes
     const courseRoutes: { [key: string]: string } = {
-      'frontend-beginner': '/course-learning/frontend-beginner/html-fundamentals/html-structure',
+      'frontend-beginner': '/frontend-development-beginner',
+      'FRONTEND-BEGINNER': '/frontend-development-beginner',
+      'Frontend Development - Beginner': '/frontend-development-beginner',
       'frontend-intermediate': '/frontend-development-intermediate',
       'FRONTEND-INTERMEDIATE': '/frontend-development-intermediate',
       'frontend-advanced': '/course-learning-advanced/frontend-advanced/advanced-react/performance-optimization',
-      'devops-beginner': '/course-learning-devops-beginner/devops-beginner/devops-fundamentals/intro-devops',
-      'DEVOPS-BEGINNER': '/course-learning-devops-beginner/devops-beginner/devops-fundamentals/intro-devops',
+      'devops-beginner': '/devops-beginner',
+      'DEVOPS-BEGINNER': '/devops-beginner',
       'devops-advanced': '/course-learning-devops-advanced/devops-advanced/kubernetes/cluster-management',
       'DEVOPS-ADVANCED': '/course-learning-devops-advanced/devops-advanced/kubernetes/cluster-management',
       'mobile-advanced': '/course-learning-mobile-advanced/mobile-advanced/react-native/navigation',
@@ -3284,24 +3380,37 @@ const StudentPortal: React.FC = () => {
       'NETWORKING-BEGINNER': '/networking-beginner',
       'networking-intermediate': '/networking-intermediate',
       'NETWORKING-INTERMEDIATE': '/networking-intermediate',
-      // Cyber Security course intros
-      'cyber-security-beginner': '/cyber-security-beginner',
-      'CYBER-SECURITY-BEGINNER': '/cyber-security-beginner',
-      'cybersecurity-beginner': '/cyber-security-beginner',
-      'cyber-security-intermediate': '/cyber-security-intermediate',
-      'CYBER-SECURITY-INTERMEDIATE': '/cyber-security-intermediate',
-      'cybersecurity-intermediate': '/cyber-security-intermediate',
+      'cyber-security-beginner': '/cyber-security-beginner/module/module-1',
+      'CYBER-SECURITY-BEGINNER': '/cyber-security-beginner/module/module-1',
+      'cybersecurity-beginner': '/cyber-security-beginner/module/module-1',
+      'CYBERSECURITY-BEGINNER': '/cyber-security-beginner/module/module-1',
+      'cyber-security-intermediate': '/cyber-security-intermediate/module/module-1',
+      'CYBER-SECURITY-INTERMEDIATE': '/cyber-security-intermediate/module/module-1',
+      'cybersecurity-intermediate': '/cyber-security-intermediate/module/module-1',
+      'CYBERSECURITY-INTERMEDIATE': '/cyber-security-intermediate/module/module-1',
       'cyber-security-advanced': '/cyber-security-advanced',
       'CYBER-SECURITY-ADVANCED': '/cyber-security-advanced',
       'cybersecurity-advanced': '/cyber-security-advanced'
     };
 
-    // Navigate to the appropriate course learning page
-    const route = courseRoutes[courseId];
+    const mappingKeys = getCourseIdMapping(courseId);
+    let route: string | undefined;
+
+    for (const key of mappingKeys) {
+      const mappedRoute = courseRoutes[key];
+      if (mappedRoute) {
+        route = mappedRoute;
+        break;
+      }
+    }
+
+    if (!route) {
+      route = courseRoutes[courseId];
+    }
+
     if (route) {
       navigate(route);
     } else {
-      // Fallback to general course learning page
       navigate(`/course-learning/${courseId}/module-1/lesson-1`);
     }
   };
@@ -3310,14 +3419,14 @@ const StudentPortal: React.FC = () => {
     const course = allCourses.find(c => c.id === courseId);
     if (!course) return;
 
-    // Check if already purchased
     if (purchasedCourses.includes(courseId)) {
       alert('You have already purchased this course!');
       return;
     }
 
-    // Navigate to the enrollment page
-    navigate(`/course-enrollment/${courseId}`);
+    navigate(`/course-enrollment/${courseId}`, {
+      state: { from: 'student-portal-browse' }
+    });
   };
 
   const handleCourseDetails = (course: Course) => {
@@ -3677,7 +3786,6 @@ const StudentPortal: React.FC = () => {
                             </span>
                           )}
                         </div>
-                        <p className="text-gray-400 text-sm">Instructor: {course.instructor}</p>
                         <p className="text-gray-300 text-sm mt-1">
                           Duration: {course.duration}
                         </p>
@@ -4117,7 +4225,6 @@ const StudentPortal: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="text-white text-lg font-semibold">{purchase.courseName}</h4>
-                      <p className="text-gray-400 text-sm">Instructor: {purchase.instructor}</p>
                       <p className="text-gray-300 text-sm mt-1">
                         Purchase Date: {new Date(purchase.purchaseDate).toLocaleDateString()} at {new Date(purchase.purchaseDate).toLocaleTimeString()}
                       </p>
@@ -4561,306 +4668,288 @@ const StudentPortal: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
-          <p className="text-white">Loading...</p>
+          <p className="text-gray-100">Loading...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black flex relative overflow-hidden">
+    <div className="min-h-screen bg-gray-950 flex relative overflow-hidden">
 
       {/* Professional Sidebar navigation */}
       <Sidebar
         items={sidebarItems}
         activeId={activeTab}
         onSelect={(id) => setActiveTab(id)}
+        profile={
+          studentProfile
+            ? {
+                name: studentProfile.name,
+                subtitle: studentProfile.email || undefined,
+                avatarInitial: studentProfile.name.charAt(0).toUpperCase(),
+              }
+            : undefined
+        }
+        onProfileClick={() => setShowProfileDetails(true)}
       />
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col relative z-10 min-w-0">
         {/* Top Header */}
-        <header className="glass-effect bg-transparent px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <h1 className="text-white text-xl font-semibold">
-                Students / {studentProfile?.name || 'undefined undefined'}
-              </h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <BellIcon className="w-6 h-6 text-gray-400 hover:text-white cursor-pointer" />
-              {/* Logout Button */}
-              <button
-                onClick={handleLogout}
-                className="px-3 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white text-sm font-medium border border-red-500/50"
-                aria-label="Logout"
-              >
-                Logout
-              </button>
-            </div>
+        <header className="px-4 pt-4">
+          <div className="max-w-6xl mx-auto flex items-center justify-end space-x-4">
+            <BellIcon className="w-6 h-6 text-gray-400 hover:text-white cursor-pointer" />
+            <button
+              onClick={handleLogout}
+              className="px-3 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white text-sm font-medium border border-red-500/50"
+              aria-label="Logout"
+            >
+              Logout
+            </button>
           </div>
         </header>
 
         {/* Content Area */}
-        <main className="flex-1 p-4 md:p-6 overflow-x-hidden">
+        <main className="flex-1 px-4 pb-8 overflow-x-hidden bg-gray-950 text-gray-100">
 
           {activeTab === 'dashboard' ? (
             <React.Fragment>
-              {/* Student Profile Section */}
-              <MagicBento
-                enableStars={true}
-                enableSpotlight={true}
-                enableBorderGlow={true}
-                enableTilt={true}
-                enableMagnetism={true}
-                clickEffect={true}
-                spotlightRadius={300}
-                particleCount={10}
-                glowColor="132, 0, 255"
-                className="bg-gray-900/60 border border-gray-800 p-6 mb-6"
-              >
-                <div className="flex items-start space-x-6">
-                  {/* Avatar */}
-                  <div className="w-20 h-20 bg-gray-600 rounded-full flex items-center justify-center">
-                    <span className="text-white text-2xl font-bold">
-                      {studentProfile?.name?.charAt(0) || 'U'}
-                    </span>
-                  </div>
-
-                  {/* Profile Info */}
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-3 mb-2">
-                      <h2 className="text-white text-2xl font-bold">
-                        {studentProfile?.name || 'undefined undefined'}
+              <div className="max-w-6xl mx-auto space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  <div className="bg-gray-900 rounded-2xl border border-gray-800 p-6 lg:col-span-2 flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-gray-400 mb-1">Welcome Back,</p>
+                      <h2 className="text-2xl font-bold text-white mb-2">
+                        {studentProfile?.name || 'Student'}
                       </h2>
-                      <span className="bg-gray-700 text-white px-3 py-1 rounded-full text-sm">
-                        Active
-                      </span>
+                      <p className="text-gray-300 text-sm">
+                        You have 3 new notifications and {assignments.filter(a => (assignmentStatuses[a.id] || a.status) === 'pending').length} assignments due.
+                      </p>
                     </div>
-                    <p className="text-gray-400 mb-2">Frontend Development Student</p>
-                    <p className="text-gray-500 text-sm mb-4">
-                      📍 {studentProfile?.location || 'Location not specified'}
-                    </p>
-
-                    {/* Detailed Profile Information */}
-                    <div className="grid grid-cols-2 gap-4 mb-4">
-                      <div>
-                        <p className="text-gray-400 text-sm">Email</p>
-                        <p className="text-white">{studentProfile?.email || 'Not provided'}</p>
+                    <div className="hidden md:block">
+                      <div className="w-28 h-28 rounded-3xl overflow-hidden border border-green-500/40 shadow-lg shadow-green-500/20">
+                        <img
+                          src="https://images.pexels.com/photos/5212324/pexels-photo-5212324.jpeg?auto=compress&cs=tinysrgb&w=400"
+                          alt="Happy student holding books"
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                          referrerPolicy="no-referrer"
+                        />
                       </div>
-                      <div>
-                        <p className="text-gray-400 text-sm">Student ID</p>
-                        <p className="text-white">{studentProfile?.studentId || 'STU001'}</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400 text-sm">Phone</p>
-                        <p className="text-white">{studentProfile?.phone || 'Not provided'}</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400 text-sm">Join Date</p>
-                        <p className="text-white">{studentProfile?.joinDate || 'January 2024'}</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400 text-sm">Education Level</p>
-                        <p className="text-white">{studentProfile?.education || 'Bachelor\'s Degree'}</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400 text-sm">Experience Level</p>
-                        <p className="text-white">{studentProfile?.experience || 'Beginner'}</p>
-                      </div>
-                    </div>
-
-                    <div className="flex space-x-2">
-                      <span className="bg-green-600 text-white px-3 py-1 rounded-full text-sm">
-                        Online Learning
-                      </span>
-                      <span className="bg-gray-700 text-white px-3 py-1 rounded-full text-sm">
-                        Part-time
-                      </span>
                     </div>
                   </div>
 
-                  {/* Right Side Content */}
-                  <div className="w-80">
-                    <MagicBento
-                      textAutoHide={true}
-                      enableStars={true}
-                      enableSpotlight={true}
-                      enableBorderGlow={true}
-                      enableTilt={true}
-                      enableMagnetism={true}
-                      clickEffect={true}
-                      spotlightRadius={300}
-                      particleCount={12}
-                      glowColor="132, 0, 255"
-                      className="mb-6"
-                    >
-                      <h3 className="text-white text-lg font-semibold mb-4">Introduction Video</h3>
-                      <div className="w-full h-32 bg-gray-700 rounded-lg flex items-center justify-center mb-3">
-                        <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center">
-                          <div className="w-0 h-0 border-l-4 border-l-white border-t-2 border-t-transparent border-b-2 border-b-transparent ml-1"></div>
-                        </div>
-                      </div>
-                      <p className="text-gray-400 text-sm text-center mb-3">Upload your introduction video</p>
-                      {/* Completion percentage requirement commented out */}
+                  <div className="bg-gray-900 rounded-2xl border border-gray-800 p-6">
+                    <h3 className="text-white text-lg font-semibold mb-4">Quick Access</h3>
+                    <div className="grid grid-cols-2 gap-4">
                       <button
-                        className="w-full px-4 py-2 rounded-lg text-sm transition-all duration-300 bg-gray-700 text-white hover:bg-gray-600 cursor-pointer"
-                        onClick={() => {
-                          const input = document.createElement('input');
-                          input.type = 'file';
-                          input.accept = 'video/*';
-                          input.click();
-                        }}
+                        onClick={() => setActiveTab('browse-courses')}
+                        className="group flex flex-col items-center justify-center rounded-2xl px-4 py-5 bg-white/5 border border-white/10 backdrop-blur-lg text-white text-xs font-medium shadow-sm hover:bg-white/10 hover:-translate-y-0.5 transition-all"
                       >
-                        Choose Video File
+                        <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
+                          <Squares2X2Icon className="h-5 w-5" />
+                        </div>
+                        <span className="text-center leading-snug">Browse Courses</span>
                       </button>
-                      {/* Progress requirement notification commented out */}
-                      {_overallCompletionPercentage < 80 && (
-                        <p className="text-yellow-400 text-xs text-center mt-2">
-                          🔒 Unlocks at 80% completion ({_overallCompletionPercentage}% current)
-                        </p>
-                      )}
-                    </MagicBento>
+                      <button
+                        onClick={() => setActiveTab('assignments')}
+                        className="group flex flex-col items-center justify-center rounded-2xl px-4 py-5 bg-white/5 border border-white/10 backdrop-blur-lg text-white text-xs font-medium shadow-sm hover:bg-white/10 hover:-translate-y-0.5 transition-all"
+                      >
+                        <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
+                          <CalendarDaysIcon className="h-5 w-5" />
+                        </div>
+                        <span className="text-center leading-snug">View Schedules</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
 
-                    <MagicBento
-                      textAutoHide={true}
-                      enableStars={true}
-                      enableSpotlight={true}
-                      enableBorderGlow={true}
-                      enableTilt={true}
-                      enableMagnetism={true}
-                      clickEffect={true}
-                      spotlightRadius={300}
-                      particleCount={12}
-                      glowColor="132, 0, 255"
-                    >
-                      <h3 className="text-white text-lg font-semibold mb-4">Documents</h3>
-                      <div className="space-y-4">
-                        <div>
-                          <p className="text-gray-400 text-sm mb-2">Upload your resume:</p>
-                          {/* Completion percentage requirement for resume upload commented out */}
-                          <button
-                            className="w-full px-4 py-2 rounded-lg text-sm transition-all duration-300 bg-gray-700 text-white hover:bg-gray-600 cursor-pointer"
-                            onClick={() => {
-                              const input = document.createElement('input');
-                              input.type = 'file';
-                              input.accept = '.pdf,.doc,.docx';
-                              input.click();
-                            }}
+                <div className="bg-gray-900 rounded-2xl border border-gray-800 p-6">
+                  <h3 className="text-white text-2xl font-bold mb-4">Upcoming Assignments</h3>
+                  {assignments.filter(a => (assignmentStatuses[a.id] || a.status) === 'pending').length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {assignments
+                        .filter(a => (assignmentStatuses[a.id] || a.status) === 'pending')
+                        .slice(0, 4)
+                        .map(assignment => (
+                          <div
+                            key={assignment.id}
+                            className="flex items-center gap-3 rounded-xl px-4 py-3 bg-gray-800"
                           >
-                            Choose Resume File
-                          </button>
-                          {/* Progress requirement notification commented out */}
-                          {_overallCompletionPercentage < 80 && (
-                            <p className="text-yellow-400 text-xs text-center mt-2">
-                              🔒 Unlocks at 80% completion ({_overallCompletionPercentage}% current)
-                            </p>
-                          )}
-                        </div>
-
-                        <div>
-                          <p className="text-gray-400 text-sm mb-3">Course Materials:</p>
-                          <div className="space-y-2">
-                            <div className="flex items-center space-x-3 p-2 glass-effect bg-transparent rounded">
-                              <div className="w-4 h-4 bg-red-500 rounded"></div>
-                              <div className="flex-1">
-                                <span className="text-gray-300 text-sm">Student CV</span>
-                                <p className="text-gray-500 text-xs">PDF File</p>
-                              </div>
+                            <div className="w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center text-white text-lg">
+                              📝
                             </div>
-                            <div className="flex items-center space-x-3 p-2 glass-effect bg-transparent rounded">
-                              <div className="w-4 h-4 bg-blue-500 rounded"></div>
-                              <div className="flex-1">
-                                <span className="text-gray-300 text-sm">Course Requirements</span>
-                              </div>
+                            <div>
+                              <p className="text-sm font-semibold text-white">
+                                {assignment.title}
+                              </p>
+                              <p className="text-xs text-gray-400">
+                                Due: {new Date(assignment.dueDate).toLocaleDateString()}
+                              </p>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                    </MagicBento>
-                  </div>
+                        ))}
+                    </div>
+                  ) : (
+                    <p className="text-gray-500 text-sm">You have no upcoming assignments.</p>
+                  )}
                 </div>
-              </MagicBento>
 
-              {/* My Enrolled Courses */}
-              <div>
-                <h3 className="text-white text-2xl font-bold mb-6">My Enrolled Courses</h3>
-                <div className="space-y-4">
-                  {enrolledCourses.map((course) => (
-                    <MagicBento key={course.id} className="bg-gray-900/60 border border-gray-800 rounded-lg p-6">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-4">
-                          <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-                            <span className="text-white font-bold text-lg">F</span>
-                          </div>
-                          <div>
-                            <h4 className="text-white text-lg font-semibold">{course.title}</h4>
-                            <p className="text-gray-400 text-sm">
-                              Instructor: {course.instructor} • Duration: {course.duration}
-                            </p>
-                            {/* Course progress display commented out */}
-                            {/* <div className="mt-2">
-                              <p className="text-gray-300 text-sm mb-1">Progress</p>
-                              <div className="w-96 bg-gray-700 rounded-full h-2">
-                                <div
-                                  className="bg-green-500 h-2 rounded-full transition-all duration-300"
-                                  style={{ width: `${course.progress}%` }}
-                                />
+                <div className="bg-gray-900 rounded-2xl border border-gray-800 p-6">
+                  <h3 className="text-white text-2xl font-bold mb-4">My Enrolled Courses</h3>
+                  {enrolledCoursesData.length > 0 ? (
+                    <div className="relative">
+                      <button
+                        type="button"
+                        onClick={() => scrollCarousel(enrolledCarouselRef, 'left')}
+                        className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 items-center justify-center rounded-full bg-gray-800 shadow text-gray-100 hover:bg-gray-700"
+                      >
+                        ‹
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => scrollCarousel(enrolledCarouselRef, 'right')}
+                        className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 items-center justify-center rounded-full bg-gray-800 shadow text-gray-100 hover:bg-gray-700"
+                      >
+                        ›
+                      </button>
+                      <div
+                        ref={enrolledCarouselRef}
+                        className="flex gap-4 overflow-x-auto pb-2 scroll-smooth"
+                      >
+                        {enrolledCoursesData.map((course) => {
+                          const progress = courseProgress[course.courseId || course.id];
+                          const image = getEnrolledCourseImage(course);
+                          return (
+                            <div
+                              key={course.id}
+                              className="min-w-[260px] max-w-[260px] bg-gray-900 rounded-lg overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/20"
+                            >
+                              <div className="relative h-32 overflow-hidden">
+                                {image ? (
+                                  <img
+                                    src={image}
+                                    alt={course.title}
+                                    className="w-full h-full object-cover"
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer"
+                                  />
+                                ) : (
+                                  <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900" />
+                                )}
+                                <div className="absolute top-2 left-2">
+                                  <span className="px-2 py-1 rounded text-xs font-medium bg-green-500 text-white">
+                                    Enrolled
+                                  </span>
+                                </div>
                               </div>
-                          <p className="text-gray-400 text-sm mt-1">Next: {course.nextLesson}</p>
-                          </div> */}
-                          </div>
-                          </div>
-                          {/* Progress statistics commented out */}
-                          {/* <div className="text-right">
-                          <p className="text-white text-sm mb-1">
-                            {course.completedLessons} of {course.totalLessons} lessons completed
-                          </p>
-                          <p className="text-white text-2xl font-bold">{course.progress}%</p>
-                        </div> */}
-                          </div>
-                    </MagicBento>
-                  ))}
-                </div>
-              </div>
-
-              {/* Dashboard Boxes - Assignments, Test Results */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                {/* Assignments Box */}
-                <div className="glass-effect bg-transparent rounded-lg p-6 transition-colors">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                        <span className="text-white text-lg">📝</span>
-                      </div>
-                      <div>
-                        <h3 className="text-white font-semibold">Assignments</h3>
-                        <p className="text-gray-400 text-sm">0/0</p>
-                      </div>
-                    </div>
-                    <span className="text-gray-500 text-sm">0.0</span>
-                  </div>
-                  <p className="text-gray-400 text-sm">No assignments available</p>
-                </div>
-
-                {/* Test Results Box */}
-                <div className="glass-effect bg-transparent rounded-lg p-6 transition-colors">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center">
-                        <span className="text-white text-lg">🧪</span>
-                      </div>
-                      <div>
-                        <h3 className="text-white font-semibold">Test Results</h3>
-                        <p className="text-gray-400 text-sm">0.0</p>
+                              <div className="p-4">
+                                <h4 className="text-white text-sm font-semibold mb-1 line-clamp-2">
+                                  {getCourseTitleFromKey(normalizeCourseKey(course.courseId || course.id)) || course.title}
+                                </h4>
+                                <p className="text-gray-400 text-xs mb-2">
+                                  {course.duration}
+                                </p>
+                                {progress && (
+                                  <div className="mt-2 space-y-2">
+                                    <div>
+                                      <div className="flex items-center justify-between text-xs text-gray-400 mb-1">
+                                        <span>Progress</span>
+                                        <span>{progress.progress || 0}%</span>
+                                      </div>
+                                      <div className="h-1.5 rounded-full bg-gray-800 overflow-hidden">
+                                        <div
+                                          className="h-full bg-green-500"
+                                          style={{ width: `${Math.min(progress.progress || 0, 100)}%` }}
+                                        />
+                                      </div>
+                                    </div>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleContinueLearning(course.courseId || course.id)}
+                                      className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-xs font-medium transition-colors"
+                                    >
+                                      Continue Learning
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
-                    <span className="text-gray-500 text-sm">0.0</span>
+                  ) : (
+                    <p className="text-gray-500 text-sm">No courses enrolled yet.</p>
+                  )}
+                </div>
+
+                <div className="bg-gray-900 rounded-2xl border border-gray-800 p-6">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-white text-2xl font-bold">What to learn next</h3>
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('browse-courses')}
+                      className="text-sm font-medium text-blue-400 hover:text-blue-300"
+                    >
+                      View all
+                    </button>
                   </div>
-                  <p className="text-gray-400 text-sm">No tests available</p>
+                  <p className="text-gray-400 text-sm mb-4">
+                    Popular picks based on your interests.
+                  </p>
+                  {recommendedCourses.length > 0 ? (
+                    <div
+                      ref={recommendedCarouselRef}
+                      className="flex gap-4 overflow-x-auto pb-2 scroll-smooth"
+                    >
+                      {recommendedCourses.map((course) => (
+                        <div
+                          key={course.id}
+                          className="min-w-[220px] max-w-[230px] bg-gray-900 rounded-lg overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 cursor-pointer"
+                          onClick={() => handleCourseDetails(course as any)}
+                        >
+                          <div className="relative h-28 overflow-hidden">
+                            <img
+                              src={course.image}
+                              alt={course.title}
+                              className="w-full h-full object-cover"
+                              loading="lazy"
+                              referrerPolicy="no-referrer"
+                            />
+                          </div>
+                          <div className="p-4">
+                            <h4 className="text-white text-sm font-semibold mb-1 line-clamp-2">
+                              {course.title}
+                            </h4>
+                            <p className="text-gray-400 text-xs mb-2">
+                              {course.duration} • {course.projects} projects
+                            </p>
+                            <div className="flex items-center justify-between text-xs text-gray-300">
+                              <span className="font-semibold">
+                                {'₹'}{course.price.toLocaleString()}
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <span className="text-yellow-400">★</span>
+                                <span>{course.rating}</span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-gray-500 text-sm">You have explored all available courses.</p>
+                  )}
+                </div>
+
+                <div className="bg-gray-900 rounded-2xl border border-gray-800 p-6 overflow-hidden">
+                   <h3 className="text-white text-2xl font-bold mb-4">Student Reviews</h3>
+                   <StudentReviews />
                 </div>
               </div>
             </React.Fragment>
@@ -4869,6 +4958,78 @@ const StudentPortal: React.FC = () => {
           )}
         </main>
       </div>
+
+      {showProfileDetails && studentProfile && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-40">
+          <div className="bg-gray-900 rounded-2xl shadow-xl p-6 max-w-xl w-full mx-4 border border-gray-800">
+            <div className="flex items-start justify-between mb-4">
+              <h2 className="text-white text-xl font-bold">Student Profile</h2>
+              <button
+                onClick={() => setShowProfileDetails(false)}
+                className="text-gray-400 hover:text-gray-200"
+                aria-label="Close profile details"
+              >
+                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+              </button>
+            </div>
+            <div className="flex items-start space-x-6">
+              <div className="w-20 h-20 bg-gray-800 rounded-full flex items-center justify-center">
+                <span className="text-white text-2xl font-bold">
+                  {studentProfile.name?.charAt(0) || 'U'}
+                </span>
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center space-x-3 mb-2">
+                  <h3 className="text-white text-2xl font-bold">
+                    {studentProfile.name || 'Student Name'}
+                  </h3>
+                  <span className="bg-green-600/20 text-green-300 px-3 py-1 rounded-full text-sm">
+                    Active
+                  </span>
+                </div>
+                <p className="text-gray-300 mb-2">Frontend Development Student</p>
+                <p className="text-gray-400 text-sm mb-4">
+                  📍 {studentProfile.location || 'Location not specified'}
+                </p>
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <p className="text-gray-400 text-sm">Email</p>
+                    <p className="text-gray-100">{studentProfile.email || 'Not provided'}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-400 text-sm">Student ID</p>
+                    <p className="text-gray-100">{studentProfile.studentId || 'STU001'}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-400 text-sm">Phone</p>
+                    <p className="text-gray-100">{studentProfile.phone || 'Not provided'}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-400 text-sm">Join Date</p>
+                    <p className="text-gray-100">{studentProfile.joinDate || 'January 2024'}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-400 text-sm">Education Level</p>
+                    <p className="text-gray-100">{studentProfile.education || "Bachelor's Degree"}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-400 text-sm">Experience Level</p>
+                    <p className="text-gray-100">{studentProfile.experience || 'Beginner'}</p>
+                  </div>
+                </div>
+                <div className="flex space-x-2">
+                  <span className="bg-green-600/20 text-green-300 px-3 py-1 rounded-full text-sm">
+                    Online Learning
+                  </span>
+                  <span className="bg-gray-700 text-gray-200 px-3 py-1 rounded-full text-sm">
+                    Part-time
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Payment Modal */}
       {showPaymentModal && paymentModalData && (
@@ -5562,6 +5723,21 @@ const StudentPortal: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* WhatsApp Floating Action Button */}
+      <a
+        href="https://wa.me/9347564390"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-50 p-4 bg-green-500 hover:bg-green-600 rounded-full shadow-lg transition-all hover:scale-110 flex items-center justify-center group"
+        title="Chat on WhatsApp"
+        aria-label="Chat on WhatsApp"
+      >
+        <ChatBubbleOvalLeftEllipsisIcon className="w-8 h-8 text-white" />
+        <span className="absolute right-full mr-3 bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap border border-gray-700">
+          for any support
+        </span>
+      </a>
     </div>
   );
 };

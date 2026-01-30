@@ -243,7 +243,7 @@ const Courses = () => {
       instructor: 'David Wilson',
       modules: [
         {
-          title: 'DevOps Fundamentals',
+          title: 'DevOps – Beginner',
           duration: '2 weeks',
           topics: ['DevOps Culture', 'Version Control with Git', 'Linux Basics', 'Command Line']
         },
@@ -1202,7 +1202,13 @@ const Courses = () => {
   });
 
   const handleCourseClick = (courseId: string) => {
-    navigate('/student-registration');
+    if (courseId === 'CYBER-SECURITY-BEGINNER') {
+      navigate('/cyber-security-beginner');
+    } else if (courseId === 'FRONTEND-BEGINNER') {
+      navigate('/frontend-development-beginner');
+    } else {
+      navigate('/student-registration');
+    }
   };
 
   return (

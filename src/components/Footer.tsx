@@ -65,8 +65,8 @@ const Footer = () => {
                     <a href="mailto:support@blunetitservices.in" className="text-white hover:text-blue-400 transition-colors block">
                       support@blunetitservices.in
                     </a>
-                    <a href="mailto:support@blunetitservices.in" className="text-white hover:text-blue-400 transition-colors block">
-                      support@blunetitservices.in
+                    <a href="mailto:blunetitservices@gmail.com" className="text-white hover:text-blue-400 transition-colors block">
+                      blunetitservices@gmail.com
                     </a>
                   </div>
                 </div>
@@ -82,10 +82,9 @@ const Footer = () => {
                 <div>
                   <p className="text-gray-400 text-sm">Office</p>
                   <p className="text-white">
-                    Hyderabad, Telangana<br />
-                    India<br />
-                    Austin, Texas<br />
-                    USA
+                    Hyderabad, Telangana, India<br />
+                    Bengaluru, Karnataka, India<br />
+                    Austin, Texas, USA
                   </p>
                 </div>
               </div>

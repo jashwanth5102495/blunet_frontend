@@ -4,7 +4,6 @@ import FaultyTerminal from './FaultyTerminal';
 import LetterGlitch from './LetterGlitch';
 import LightRays from './LightRays';
 import Waves from '../Waves';
-import DotGrid from '../DotGrid';
 
 interface RotatingBackgroundsProps {
   interval?: number; // in milliseconds
@@ -114,12 +113,6 @@ const RotatingBackgrounds: React.FC<RotatingBackgroundsProps> = ({
           xGap={14}
           yGap={40}
         />
-      )
-    },
-    {
-      name: 'Dot Grid',
-      component: (
-        <DotGrid dotSize={8} gap={22} baseColor="#6b7280" activeColor="#93c5fd" proximity={120} />
       )
     }
   ];

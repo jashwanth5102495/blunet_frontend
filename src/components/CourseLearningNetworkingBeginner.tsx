@@ -1095,7 +1095,15 @@ const MODULES: ModuleData[] = [
 
           <div class="mt-3 p-3 rounded-lg border">
             <h4 class="text-md font-semibold mb-2">Terminal</h4>
-            <p class="mb-1">See network interfaces: <code>ipconfig</code></p>
+            <div class="mb-3 p-2 rounded bg-blue-500/10 border border-blue-500/20">
+              <h5 class="text-sm font-semibold mb-1 text-blue-400">Lab Setup: Ubuntu VM</h5>
+              <p class="text-xs mb-1">To practice networking commands in a Linux environment:</p>
+              <ol class="list-decimal pl-4 text-xs mb-1 space-y-1">
+                <li>Download Ubuntu: <a href="https://ubuntu.com/download/desktop" target="_blank" class="text-blue-400 hover:underline">https://ubuntu.com/download/desktop</a></li>
+                <li>Set it up on a Virtual Machine (VirtualBox/VMware).</li>
+              </ol>
+            </div>
+            <p class="mb-1">See network interfaces: <code>ipconfig</code> (Windows) / <code>ifconfig</code> (Linux)</p>
             <p class="mb-1">Check local network routing: <code>route print</code></p>
             <p class="mb-1">Find devices in LAN: <code>arp -a</code></p>
           </div>
