@@ -86,8 +86,7 @@ export async function askLLM(
           history,
           systemPrompt,
           courseContext
-        }, 
-        { timeout }
+        }
       );
       
       console.log('🤖 [LLM] Response received:', resp.status, resp.data?.success);
