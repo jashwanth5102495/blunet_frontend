@@ -2707,12 +2707,57 @@ const StudentPortal: React.FC = () => {
     // DevOps - Beginner Course Assignments (Course ID: 'devops-beginner')
     {
       id: 'devops-beginner-1',
-      title: 'DevOps Beginner Assignment',
+      title: 'Assignment 1: Foundations Beyond DevOps Basics',
       courseId: 'devops-beginner',
       courseName: 'DevOps - Beginner',
       dueDate: '2024-04-01',
       status: 'pending',
-      description: 'Learn DevOps fundamentals including CI/CD, containerization, and automation practices.'
+      description: 'Concept strengthening & industry awareness'
+    },
+    {
+      id: 'devops-beginner-2',
+      title: 'Assignment 2: Software Development Lifecycle & Release Strategies',
+      courseId: 'devops-beginner',
+      courseName: 'DevOps - Beginner',
+      dueDate: '2024-04-08',
+      status: 'pending',
+      description: 'How software moves from idea to production'
+    },
+    {
+      id: 'devops-beginner-3',
+      title: 'Assignment 3: Networking & System Fundamentals for DevOps',
+      courseId: 'devops-beginner',
+      courseName: 'DevOps - Beginner',
+      dueDate: '2024-04-15',
+      status: 'pending',
+      description: 'What DevOps engineers must understand about systems'
+    },
+    {
+      id: 'devops-beginner-4',
+      title: 'Assignment 4: Security Awareness & Access Management in DevOps',
+      courseId: 'devops-beginner',
+      courseName: 'DevOps - Beginner',
+      dueDate: '2024-04-22',
+      status: 'pending',
+      description: 'Beginner DevSecOps thinking'
+    },
+    {
+      id: 'devops-beginner-5',
+      title: 'Assignment 5: Performance, Reliability & Failure Handling',
+      courseId: 'devops-beginner',
+      courseName: 'DevOps - Beginner',
+      dueDate: '2024-04-29',
+      status: 'pending',
+      description: 'How systems behave under load and failure'
+    },
+    {
+      id: 'devops-beginner-6',
+      title: 'Assignment 6: DevOps Tools Ecosystem & Professional Practices',
+      courseId: 'devops-beginner',
+      courseName: 'DevOps - Beginner',
+      dueDate: '2024-05-06',
+      status: 'pending',
+      description: 'Industry tools, roles, and best practices'
     },
 
     // Networking - Beginner Course Assignments (Course ID: 'networking-beginner')
