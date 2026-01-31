@@ -71,21 +71,35 @@ export async function askLLM(
   // Increased timeout to 120 seconds for slower machines running local LLMs
   const { systemPrompt, courseContext, timeout = 120000 } = options;
   
+  // Validate question before making request
+  if (!question || typeof question !== 'string' || question.trim() === '') {
+    throw new Error('Question cannot be empty');
+  }
+  
+  const trimmedQuestion = question.trim();
   let lastErr: Error | null = null;
   
   console.log('🤖 [LLM] Starting askLLM request (timeout:', timeout, 'ms)');
   console.log('🤖 [LLM] BASE_CANDIDATES:', BASE_CANDIDATES);
+  console.log('🤖 [LLM] Question:', trimmedQuestion.substring(0, 50) + '...');
   
   for (const base of BASE_CANDIDATES) {
     try {
       console.log(`🤖 [LLM] Trying: ${base}/api/llm/chat`);
+      console.log('🤖 [LLM] Request body:', { question: trimmedQuestion.substring(0, 50), historyLength: history?.length });
       const resp = await axios.post(
         `${base}/api/llm/chat`, 
         { 
-          question, 
+          question: trimmedQuestion, 
           history,
           systemPrompt,
           courseContext
+        },
+        {
+          timeout,
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }
       );
       
