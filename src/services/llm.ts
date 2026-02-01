@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-// Backend URL configuration
-const ENV_URL = import.meta.env.VITE_BACKEND_URL as string | undefined;
-console.log(ENV_URL);
-const DEFAULTS = ['http://localhost:5000'];
-const BASE_CANDIDATES = ENV_URL ? [ENV_URL, ...DEFAULTS.filter(u => u !== ENV_URL)] : DEFAULTS;
+// Backend URL configuration - use VITE_BACKEND_URL in production, fallback to localhost only in development
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL as string || 'http://localhost:5000';
+console.log('🌐 Backend URL:', BACKEND_URL);
 
 /**
  * Chat message interface for conversation history
@@ -77,56 +75,48 @@ export async function askLLM(
   }
   
   const trimmedQuestion = question.trim();
-  let lastErr: Error | null = null;
   
   console.log('🤖 [LLM] Starting askLLM request (timeout:', timeout, 'ms)');
-  console.log('🤖 [LLM] BASE_CANDIDATES:', BASE_CANDIDATES);
+  console.log('🤖 [LLM] Backend URL:', BACKEND_URL);
   console.log('🤖 [LLM] Question:', trimmedQuestion.substring(0, 50) + '...');
   
-  for (const base of BASE_CANDIDATES) {
-    try {
-      console.log(`🤖 [LLM] Trying: ${base}/api/llm/chat`);
-      console.log('🤖 [LLM] Request body:', { question: trimmedQuestion.substring(0, 50), historyLength: history?.length });
-      const resp = await axios.post(
-        `${base}/api/llm/chat`, 
-        { 
-          question: trimmedQuestion, 
-          history,
-          systemPrompt,
-          courseContext
-        },
-        {
-          timeout,
-          headers: {
-            'Content-Type': 'application/json'
-          }
+  try {
+    console.log(`🤖 [LLM] Sending to: ${BACKEND_URL}/api/llm/chat`);
+    console.log('🤖 [LLM] Request body:', { question: trimmedQuestion.substring(0, 50), historyLength: history?.length });
+    
+    const resp = await axios.post(
+      `${BACKEND_URL}/api/llm/chat`, 
+      { 
+        question: trimmedQuestion, 
+        history,
+        systemPrompt,
+        courseContext
+      },
+      {
+        timeout,
+        headers: {
+          'Content-Type': 'application/json'
         }
-      );
-      
-      console.log('🤖 [LLM] Response received:', resp.status, resp.data?.success);
-      
-      if (resp.data?.success) {
-        console.log('🤖 [LLM] SUCCESS! Answer length:', resp.data.answer?.length);
-        return resp.data.answer as string;
       }
-      
-      // Non-success response from backend
-      console.log('🤖 [LLM] Backend returned success=false:', resp.data?.message);
-      lastErr = new Error(resp.data?.message || 'LLM backend error');
-    } catch (err: unknown) {
-      // Network, CORS, or timeout error; try next candidate
-      console.log(`🤖 [LLM] Error with ${base}:`, err);
-      lastErr = err instanceof Error ? err : new Error('Unknown error');
-      continue;
+    );
+    
+    console.log('🤖 [LLM] Response received:', resp.status, resp.data?.success);
+    
+    if (resp.data?.success) {
+      console.log('🤖 [LLM] SUCCESS! Answer length:', resp.data.answer?.length);
+      return resp.data.answer as string;
     }
+    
+    // Non-success response from backend
+    console.log('🤖 [LLM] Backend returned success=false:', resp.data?.message);
+    throw new Error(resp.data?.message || 'LLM backend error');
+  } catch (err: unknown) {
+    console.log(`🤖 [LLM] Error:`, err);
+    const error = err as Error & { response?: { data?: { message?: string } } };
+    const message = error?.response?.data?.message || error?.message || 'AI tutor is temporarily unavailable';
+    console.log('🤖 [LLM] Final error:', message);
+    throw new Error(message);
   }
-  
-  // All candidates failed
-  const message = (lastErr as Error & { response?: { data?: { message?: string } } })?.response?.data?.message 
-    || lastErr?.message 
-    || 'AI tutor is temporarily unavailable';
-  console.log('🤖 [LLM] All candidates failed. Final error:', message);
-  throw new Error(message);
 }
 
 /**
@@ -141,17 +131,15 @@ export async function checkLLMHealth(): Promise<{
   availableModels?: string[];
   error?: string;
 }> {
-  for (const base of BASE_CANDIDATES) {
-    try {
-      const resp = await axios.get(`${base}/api/llm/health`, { timeout: 5000 });
-      if (resp.data?.success) {
-        return resp.data;
-      }
-    } catch {
-      continue;
+  try {
+    const resp = await axios.get(`${BACKEND_URL}/api/llm/health`, { timeout: 5000 });
+    if (resp.data?.success) {
+      return resp.data;
     }
+    return { success: false, error: 'LLM service unavailable' };
+  } catch {
+    return { success: false, error: 'LLM service unavailable' };
   }
-  return { success: false, error: 'LLM service unavailable' };
 }
 
 /**
