@@ -66,8 +66,8 @@ export async function askLLM(
   history: ChatMessage[] = [],
   options: AskLLMOptions = {}
 ): Promise<string> {
-  // Increased timeout to 120 seconds for slower machines running local LLMs
-  const { systemPrompt, courseContext, timeout = 120000 } = options;
+  // 5 minute timeout to match backend timeout
+  const { systemPrompt, courseContext, timeout = 300000 } = options;
   
   // Validate question before making request
   if (!question || typeof question !== 'string' || question.trim() === '') {
