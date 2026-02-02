@@ -6664,7 +6664,7 @@ plt.show()
 # - Always label axes, title, and legend
 # - Use consistent colors and formatting for multiple charts
 # - Highlight key points using markers or color`
-      }
+      },
       {
         title: 'Histograms and Box Plots',
         duration: '25 min',
