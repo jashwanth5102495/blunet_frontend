@@ -6,7 +6,7 @@ import EtheralShadow from '../components/ui/etheral-shadow';
 import { getIntroBySlug } from '../data/courseIntroData';
 import AnimatedBackdrop from '../components/ui/animated-backdrop';
 import CourseDock from '../components/ui/CourseDock';
-import { Clock, Award, Shield, Bug, Search, Lock, ClipboardList, Mail, Wifi, Laptop, Cloud, Magnet, FileCheck, ShieldCheck, User, Sun, Moon } from 'lucide-react';
+import { Clock, Award, Shield, Bug, Search, Lock, ClipboardList, Mail, Wifi, Laptop, Cloud, Magnet, FileCheck, ShieldCheck, User, Sun, Moon, Database, BarChart, PieChart, LineChart, Binary, FileSpreadsheet, Table, Sigma, Brain } from 'lucide-react';
 
 export default function CourseIntro({ courseSlug }) {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ export default function CourseIntro({ courseSlug }) {
   const isDark = theme === 'dark';
   const FALLBACK_SVG = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="%23bbbbbb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="3" ry="3"/><circle cx="8" cy="10" r="1"/><circle cx="12" cy="10" r="1"/><circle cx="16" cy="10" r="1"/><path d="M3 18h18"/></svg>';
 
-  const isCiscoStyle = courseSlug === 'cyber-security-beginner' || courseSlug === 'ethical-hacker' || courseSlug === 'cyber-security-intermediate' || courseSlug === 'frontend-development-beginner' || courseSlug === 'devops-beginner';
+  const isCiscoStyle = courseSlug === 'cyber-security-beginner' || courseSlug === 'ethical-hacker' || courseSlug === 'cyber-security-intermediate' || courseSlug === 'frontend-development-beginner' || courseSlug === 'devops-beginner' || courseSlug === 'data-science-beginner';
 
   if (!data && !isCiscoStyle) {
     return (
@@ -29,7 +29,7 @@ export default function CourseIntro({ courseSlug }) {
     );
   }
 
-  const firstModuleSlug = data.modules?.[0]?.slug || 'module-1';
+  const firstModuleSlug = data?.modules?.[0]?.slug || 'module-1';
   // Special styling boost for Networking - Intermediate page
   const isNetworkingIntermediate = courseSlug === 'networking-intermediate';
 
@@ -38,6 +38,7 @@ export default function CourseIntro({ courseSlug }) {
     const isIntermediate = courseSlug === 'cyber-security-intermediate';
     const isFrontendBeginner = courseSlug === 'frontend-development-beginner';
     const isDevOpsBeginner = courseSlug === 'devops-beginner';
+    const isDataScienceBeginner = courseSlug === 'data-science-beginner';
     
     let title, duration, overview, prerequisites, skills;
     let tagline = 'Learn practical offensive security to uncover threats and strengthen defenses.';
@@ -77,6 +78,18 @@ export default function CourseIntro({ courseSlug }) {
           { icon: Laptop, label: 'Linux Basics' },
           { icon: ShieldCheck, label: 'CI/CD Pipelines' }
       ];
+    } else if (isDataScienceBeginner) {
+      title = 'Data Science — Beginner Level';
+      tagline = 'Start your journey into Data Science with Python, Pandas, and Visualization.';
+      duration = '8 weeks';
+      overview = 'Master the foundations of Data Science. Learn Python programming, data manipulation with Pandas and NumPy, and create stunning visualizations with Matplotlib and Seaborn.';
+      prerequisites = ['Basic Math', 'No prior coding experience required'];
+      skills = [
+          { icon: Laptop, label: 'Python Programming' },
+          { icon: Search, label: 'Data Analysis' },
+          { icon: Bug, label: 'Data Visualization' },
+          { icon: User, label: 'Statistics' }
+      ];
     } else {
       title = 'Cyber Security — Beginner Level';
       duration = '70 Hours';
@@ -90,7 +103,138 @@ export default function CourseIntro({ courseSlug }) {
       ];
     }
 
-    const syllabusModules = isFrontendBeginner
+    const syllabusModules = isDataScienceBeginner
+      ? [
+          {
+            id: 'module-1',
+            title: 'Module 1: Introduction to Data Science',
+            duration: '1 week',
+            topics: [
+              'What is Data Science?',
+              'Evolution of Data Science',
+              'Data Science vs Data Analytics vs AI vs ML',
+              'Real-World Applications of Data Science',
+              'Roles in Data Science (Analyst, Scientist, Engineer)',
+              'Data Science Lifecycle',
+              'Types of Data (Structured, Semi-Structured, Unstructured)',
+              'Data Science Tools Overview',
+              'Career Path & Industry Expectations'
+            ]
+          },
+          {
+            id: 'module-2',
+            title: 'Module 2: Programming Fundamentals with Python',
+            duration: '1 week',
+            topics: [
+              'Introduction to Python',
+              'Python Installation & Environment Setup',
+              'Variables and Data Types',
+              'Operators and Expressions',
+              'Conditional Statements',
+              'Loops (for, while)',
+              'Functions in Python',
+              'Python Modules and Packages',
+              'Input and Output Operations'
+            ]
+          },
+          {
+            id: 'module-3',
+            title: 'Module 3: Data Structures and Core Python for Data Science',
+            duration: '1 week',
+            topics: [
+              'Lists and List Operations',
+              'Tuples and Tuple Operations',
+              'Sets and Set Operations',
+              'Dictionaries and Key-Value Pairs',
+              'String Manipulation',
+              'Type Casting and Type Checking',
+              'Exception Handling Basics',
+              'File Handling Basics',
+              'Python Coding Best Practices'
+            ]
+          },
+          {
+            id: 'module-4',
+            title: 'Module 4: Python Libraries for Data Science',
+            duration: '1 week',
+            topics: [
+              'Introduction to NumPy',
+              'NumPy Arrays and Mathematical Operations',
+              'Introduction to Pandas',
+              'Pandas Series and DataFrames',
+              'Reading and Writing Data (CSV, Excel)',
+              'Data Indexing and Filtering',
+              'Data Cleaning Using Pandas',
+              'Handling Missing and Duplicate Data',
+              'Data Transformation Techniques'
+            ]
+          },
+          {
+            id: 'module-5',
+            title: 'Module 5: Data Collection and Data Preprocessing',
+            duration: '1 week',
+            topics: [
+              'Understanding Data Sources',
+              'Data Collection Methods',
+              'Importing Data from Different Sources',
+              'Understanding Dataset Structure',
+              'Data Quality Issues',
+              'Handling Missing Values',
+              'Encoding Categorical Data',
+              'Feature Selection Basics',
+              'Data Preprocessing Pipeline'
+            ]
+          },
+          {
+            id: 'module-6',
+            title: 'Module 6: Exploratory Data Analysis (EDA)',
+            duration: '1 week',
+            topics: [
+              'Introduction to Exploratory Data Analysis',
+              'Descriptive Statistics',
+              'Data Distribution Analysis',
+              'Data Aggregation and Grouping',
+              'Outlier Detection',
+              'Correlation and Relationships',
+              'EDA Using Pandas',
+              'Extracting Insights from Data',
+              'EDA Case Study'
+            ]
+          },
+          {
+            id: 'module-7',
+            title: 'Module 7: Data Visualization Techniques',
+            duration: '1 week',
+            topics: [
+              'Importance of Data Visualization',
+              'Introduction to Matplotlib',
+              'Line Charts and Bar Charts',
+              'Histograms and Box Plots',
+              'Scatter and Bubble Charts',
+              'Introduction to Seaborn',
+              'Visualizing Relationships',
+              'Dashboard-Style Visualizations (Basic)',
+              'Visualization Best Practices'
+            ]
+          },
+          {
+            id: 'module-8',
+            title: 'Module 8: Introduction to Machine Learning',
+            duration: '1 week',
+            topics: [
+              'Basics of Machine Learning',
+              'Types of Machine Learning',
+              'Supervised Learning Concepts',
+              'Unsupervised Learning Concepts',
+              'Common Machine Learning Terminology',
+              'Data Splitting (Train & Test)',
+              'Introduction to Simple ML Algorithms',
+              'Model Evaluation Basics',
+              'Beginner-Level ML Use Cases'
+            ]
+          }
+        ]
+      : isFrontendBeginner
       ? [
           {
             id: 'module-1',
@@ -488,6 +632,32 @@ export default function CourseIntro({ courseSlug }) {
         ]
       }
     ];
+
+    const achievementIcons = isDataScienceBeginner ? [
+      Database,
+      BarChart,
+      PieChart,
+      LineChart,
+      Binary,
+      FileSpreadsheet,
+      Table,
+      Sigma,
+      Laptop,
+      Search,
+      Brain
+    ] : [
+      User,
+      ClipboardList,
+      Bug,
+      Search,
+      Mail,
+      Wifi,
+      Laptop,
+      Cloud,
+      Magnet,
+      FileCheck,
+      ShieldCheck
+    ];
     return (
       <main className={`min-h-screen ${isDark ? 'bg-black text-white' : 'bg-white text-gray-900'}`}>
         <nav className={`sticky top-0 z-40 border-b ${isDark ? 'bg-black border-gray-800' : 'bg-white border-gray-200'}`}>
@@ -598,19 +768,7 @@ export default function CourseIntro({ courseSlug }) {
                 <h3 className="text-lg font-semibold">Achievements</h3>
                 <p className={`text-sm mb-4 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Badges you can earn in this course.</p>
                 <div className="grid grid-cols-5 gap-3">
-                  {[
-                    User,
-                    ClipboardList,
-                    Bug,
-                    Search,
-                    Mail,
-                    Wifi,
-                    Laptop,
-                    Cloud,
-                    Magnet,
-                    FileCheck,
-                    ShieldCheck
-                  ].map((IconComp, idx) => (
+                  {achievementIcons.map((IconComp, idx) => (
                     <div key={idx} className="flex items-center justify-center w-16 h-16 rounded-full border-2 border-green-400">
                       <IconComp className="w-6 h-6 text-green-600" />
                     </div>

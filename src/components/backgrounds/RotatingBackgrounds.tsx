@@ -1,9 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import Threads from './Threads';
-import FaultyTerminal from './FaultyTerminal';
-import LetterGlitch from './LetterGlitch';
-import LightRays from './LightRays';
-import Waves from '../Waves';
+import React, { useState, useEffect, Suspense, lazy, useMemo } from 'react';
+
+// Lazy load background components
+const Threads = lazy(() => import('./Threads'));
+const FaultyTerminal = lazy(() => import('./FaultyTerminal'));
+const LetterGlitch = lazy(() => import('./LetterGlitch'));
+const LightRays = lazy(() => import('./LightRays'));
+const Waves = lazy(() => import('../Waves'));
+
+// Error Boundary Component
+class BackgroundErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(error: any, errorInfo: any) {
+    console.error("Background Component Error:", error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return <div className="absolute inset-0 bg-black" />; // Fallback to black background
+    }
+    return this.props.children;
+  }
+}
 
 interface RotatingBackgroundsProps {
   interval?: number; // in milliseconds
@@ -15,7 +37,7 @@ const RotatingBackgrounds: React.FC<RotatingBackgroundsProps> = ({
   const [currentBackground, setCurrentBackground] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const backgrounds = [
+  const backgrounds = useMemo(() => [
     {
       name: 'Threads',
       component: (
@@ -115,7 +137,7 @@ const RotatingBackgrounds: React.FC<RotatingBackgroundsProps> = ({
         />
       )
     }
-  ];
+  ], []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -152,10 +174,14 @@ const RotatingBackgrounds: React.FC<RotatingBackgroundsProps> = ({
           transition: 'opacity 0.3s ease-in-out',
         }}
       >
-        {backgrounds[currentBackground].component}
+        <BackgroundErrorBoundary>
+          <Suspense fallback={<div className="absolute inset-0 bg-black" />}>
+            {backgrounds[currentBackground].component}
+          </Suspense>
+        </BackgroundErrorBoundary>
       </div>
 
-      {/* Background indicator (optional - can be removed) */}
+      {/* Background indicator */}
       <div
         style={{
           position: 'absolute',
@@ -178,26 +204,22 @@ const RotatingBackgrounds: React.FC<RotatingBackgroundsProps> = ({
       <div
         style={{
           position: 'absolute',
-          bottom: '10px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex',
-          gap: '4px',
+          bottom: '0',
+          left: '0',
+          height: '4px',
+          background: 'rgba(255, 255, 255, 0.3)',
+          width: '100%',
           zIndex: 10,
         }}
       >
-        {backgrounds.map((_, index) => (
-          <div
-            key={index}
-            style={{
-              width: '8px',
-              height: '8px',
-              borderRadius: '50%',
-              background: index === currentBackground ? '#61dca3' : 'rgba(255, 255, 255, 0.3)',
-              transition: 'background 0.3s ease',
-            }}
-          />
-        ))}
+        <div 
+          style={{
+            height: '100%',
+            background: '#00ffff',
+            width: '0%', // This would need an animation loop to actually show progress
+            transition: `width ${interval}ms linear`
+          }}
+        />
       </div>
     </div>
   );

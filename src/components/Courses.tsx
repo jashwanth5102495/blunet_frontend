@@ -1094,7 +1094,7 @@ const Courses = () => {
       instructor: 'Elena Novikova'
     },
     {
-      id: 'DATA-SCIENCE-BEGINNER',
+      id: 'data-science-beginner',
       title: 'Data Science - Beginner',
       category: 'data-science',
       level: 'beginner',
@@ -1158,6 +1158,44 @@ const Courses = () => {
       students: 1320,
       maxStudents: 20000,
       instructor: 'Sara Cohen'
+    },
+    {
+      id: 'data-science-beginner',
+      title: 'Data Science - Beginner',
+      category: 'data-science',
+      level: 'beginner',
+      description: 'Start your journey into Data Science. Learn Python, Data Manipulation, Visualization, and Basic Statistics.',
+      technologies: ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn'],
+      price: 1200,
+      duration: '8 weeks',
+      projects: 2,
+      modules: [
+        {
+          title: 'Introduction to Data Science & Python',
+          duration: '2 weeks',
+          topics: ['What is Data Science?', 'Python Basics', 'Data Structures']
+        },
+        {
+          title: 'Data Manipulation',
+          duration: '3 weeks',
+          topics: ['NumPy Arrays', 'Pandas DataFrames', 'Data Cleaning']
+        },
+        {
+          title: 'Data Visualization',
+          duration: '2 weeks',
+          topics: ['Matplotlib', 'Seaborn', 'Interactive Plots']
+        },
+        {
+          title: 'Statistics Basics',
+          duration: '1 week',
+          topics: ['Descriptive Statistics', 'Probability', 'Hypothesis Testing']
+        }
+      ],
+      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=400&h=250&q=60',
+      rating: 4.8,
+      students: 0,
+      maxStudents: 5000,
+      instructor: 'Dr. Sarah Johnson'
     }
   ];
 
@@ -1206,6 +1244,8 @@ const Courses = () => {
       navigate('/cyber-security-beginner');
     } else if (courseId === 'FRONTEND-BEGINNER') {
       navigate('/frontend-development-beginner');
+    } else if (courseId === 'data-science-beginner' || courseId === 'DATA-SCIENCE-BEGINNER') {
+      navigate('/data-science-beginner');
     } else {
       navigate('/student-registration');
     }
