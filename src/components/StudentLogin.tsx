@@ -242,17 +242,7 @@ const StudentLogin = () => {
                 </p>
               </div>
 
-              {/* Scheduled Maintenance Notice */}
-              <div className="mb-6 rounded-lg border border-yellow-300 bg-yellow-50 text-yellow-900 p-4">
-                <h4 className="font-semibold text-sm">Notice: Scheduled Maintenance</h4>
-                <p className="mt-2 text-xs">
-                  Our servers are currently undergoing maintenance as we work to update our systems and enhance the overall user experience.
-                </p>
-                <p className="mt-2 text-xs">
-                  During this time, the student login page will be temporarily unavailable. For project submissions or any questions, kindly reach out to us via email. Students may submit their project Git repository URL through email as well.
-                </p>
-                <p className="mt-2 text-xs">We appreciate your patience and understanding as we work to improve our platform.</p>
-              </div>
+              {/* Scheduled Maintenance Notice Removed */}
 
               <div className="mb-4">
                 {googleClientId ? (

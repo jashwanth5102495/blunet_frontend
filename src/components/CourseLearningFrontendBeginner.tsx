@@ -390,6 +390,36 @@ const courseData: Module[] = [
 </body> 
 </html>`
       },
+      {
+        title: 'Topic 4.5',
+        duration: '10 min',
+        content: '<h2 class="text-2xl font-bold text-white mb-4">Topic 4.5</h2><p class="text-gray-300 mb-4">Content for Topic 4.5 coming soon.</p>'
+      },
+      {
+        title: 'Topic 4.6',
+        duration: '10 min',
+        content: '<h2 class="text-2xl font-bold text-white mb-4">Topic 4.6</h2><p class="text-gray-300 mb-4">Content for Topic 4.6 coming soon.</p>'
+      },
+      {
+        title: 'Topic 4.7',
+        duration: '10 min',
+        content: '<h2 class="text-2xl font-bold text-white mb-4">Topic 4.7</h2><p class="text-gray-300 mb-4">Content for Topic 4.7 coming soon.</p>'
+      },
+      {
+        title: 'Topic 4.8',
+        duration: '10 min',
+        content: '<h2 class="text-2xl font-bold text-white mb-4">Topic 4.8</h2><p class="text-gray-300 mb-4">Content for Topic 4.8 coming soon.</p>'
+      },
+      {
+        title: 'Topic 4.9',
+        duration: '10 min',
+        content: '<h2 class="text-2xl font-bold text-white mb-4">Topic 4.9</h2><p class="text-gray-300 mb-4">Content for Topic 4.9 coming soon.</p>'
+      },
+      {
+        title: 'Topic 4.10',
+        duration: '10 min',
+        content: '<h2 class="text-2xl font-bold text-white mb-4">Topic 4.10</h2><p class="text-gray-300 mb-4">Content for Topic 4.10 coming soon.</p>'
+      },
       { 
         title: 'HTML Lists (Ordered, Unordered, Description)', 
         duration: '10 min', 
@@ -4180,6 +4210,15 @@ const CourseLearningFrontendBeginner: React.FC = () => {
     setTimeout(() => setCopiedIndex(null), 2000);
   };
 
+  const markLessonComplete = () => {
+    const lessonKey = `${activeModuleId}-${activeLessonIndex}`;
+    setCompletedLessons(prev => {
+      const newSet = new Set(prev);
+      newSet.add(lessonKey);
+      return newSet;
+    });
+  };
+
   // Navigation Handlers
   const handlePrev = () => {
     if (activeLessonIndex > 0) {
@@ -4195,6 +4234,7 @@ const CourseLearningFrontendBeginner: React.FC = () => {
   };
 
   const handleNext = () => {
+    markLessonComplete();
     if (activeLessonIndex < (activeModule?.lessons.length || 0) - 1) {
        setActiveLessonIndex(activeLessonIndex + 1);
     } else {
@@ -4339,6 +4379,7 @@ const CourseLearningFrontendBeginner: React.FC = () => {
                                    controls 
                                    preload="metadata"
                                    className="w-full h-full"
+                                   onEnded={markLessonComplete}
                                 />
                               ) : (
                                 <iframe 
@@ -4378,6 +4419,7 @@ const CourseLearningFrontendBeginner: React.FC = () => {
                                 controls 
                                 preload="metadata"
                                 className="w-full h-full"
+                                onEnded={markLessonComplete}
                              />
                            ) : (
                              <iframe 

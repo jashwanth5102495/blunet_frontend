@@ -54,12 +54,6 @@ const resources: Resource[] = [
     title: 'Cyber Security Overview',
     duration: '15 min',
     description: 'Introduction to the world of Cyber Security'
-  },
-  {
-    type: 'document',
-    title: 'Course Handbook',
-    duration: '20 min read',
-    description: 'Guide to course structure and requirements'
   }
 ];
 

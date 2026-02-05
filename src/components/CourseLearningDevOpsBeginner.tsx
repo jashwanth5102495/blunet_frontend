@@ -41,12 +41,6 @@ const resources: Resource[] = [
     title: 'DevOps Overview',
     duration: '15 min',
     description: 'Introduction to the world of DevOps'
-  },
-  {
-    type: 'document',
-    title: 'Course Handbook',
-    duration: '20 min read',
-    description: 'Guide to course structure and requirements'
   }
 ];
 
@@ -12428,6 +12422,11 @@ const Sidebar = ({
           </div>
         ) : (
           <div className="p-4">
+            <div className="mb-6 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+              <p className="text-blue-400 text-sm font-medium">
+                this is latest version v3.03 and videos are in development
+              </p>
+            </div>
             {resources.map((res, idx) => (
               <div key={idx} className="mb-4 p-3 bg-[#2d2d2d] rounded hover:bg-[#333] transition-colors cursor-pointer border border-[#333]">
                 <div className="flex items-center gap-2 mb-2">
