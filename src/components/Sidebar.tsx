@@ -1,5 +1,6 @@
 import React from 'react';
 import type { ComponentType } from 'react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 type SidebarItem = {
   id: string;
@@ -19,12 +20,34 @@ type SidebarProps = {
   onSelect: (id: string) => void;
   profile?: SidebarProfile;
   onProfileClick?: () => void;
+  mobileOpen?: boolean;
+  onMobileClose?: () => void;
 };
 
-export default function Sidebar({ items, activeId, onSelect, profile, onProfileClick }: SidebarProps) {
+export default function Sidebar({ items, activeId, onSelect, profile, onProfileClick, mobileOpen, onMobileClose }: SidebarProps) {
   return (
-    <aside className="hidden md:flex md:w-64 lg:w-72 xl:w-80 flex-shrink-0 flex-col bg-neutral-900 text-gray-200 border-r border-neutral-900 rounded-r-3xl overflow-hidden z-20">
-      <div className="px-6 pt-6 pb-4">
+    <>
+      {/* Mobile Overlay */}
+      {mobileOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-30 md:hidden"
+          onClick={onMobileClose}
+        />
+      )}
+
+      <aside className={`
+        fixed inset-y-0 left-0 z-40 w-64 flex flex-col bg-neutral-900 text-gray-200 border-r border-neutral-900 transition-transform duration-300 ease-in-out
+        md:translate-x-0 md:static md:w-64 lg:w-72 xl:w-80 md:rounded-r-3xl md:overflow-hidden md:z-20
+        ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}
+      `}>
+        {/* Mobile Header with Close Button */}
+        <div className="md:hidden flex justify-end p-4">
+          <button onClick={onMobileClose} className="text-gray-400 hover:text-white">
+            <XMarkIcon className="w-6 h-6" />
+          </button>
+        </div>
+
+        <div className="px-6 pt-6 pb-4">
         <button
           type="button"
           onClick={onProfileClick}
@@ -82,5 +105,6 @@ export default function Sidebar({ items, activeId, onSelect, profile, onProfileC
         </ul>
       </nav>
     </aside>
+    </>
   );
 }

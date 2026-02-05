@@ -17,7 +17,8 @@ import {
   Squares2X2Icon,
   CalendarDaysIcon,
   ChatBubbleLeftRightIcon,
-  ChatBubbleOvalLeftEllipsisIcon
+  ChatBubbleOvalLeftEllipsisIcon,
+  Bars3Icon
 } from '@heroicons/react/24/outline';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
@@ -137,6 +138,7 @@ const StudentPortal: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [studentProfile, setStudentProfile] = useState<StudentProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -4861,7 +4863,10 @@ const StudentPortal: React.FC = () => {
       <Sidebar
         items={sidebarItems}
         activeId={activeTab}
-        onSelect={(id) => setActiveTab(id)}
+        onSelect={(id) => {
+          setActiveTab(id);
+          setIsSidebarOpen(false);
+        }}
         profile={
           studentProfile
             ? {
@@ -4872,21 +4877,36 @@ const StudentPortal: React.FC = () => {
             : undefined
         }
         onProfileClick={() => setShowProfileDetails(true)}
+        mobileOpen={isSidebarOpen}
+        onMobileClose={() => setIsSidebarOpen(false)}
       />
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col relative z-10 min-w-0">
         {/* Top Header */}
         <header className="px-4 pt-4">
-          <div className="max-w-6xl mx-auto flex items-center justify-end space-x-4">
-            <BellIcon className="w-6 h-6 text-gray-400 hover:text-white cursor-pointer" />
-            <button
-              onClick={handleLogout}
-              className="px-3 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white text-sm font-medium border border-red-500/50"
-              aria-label="Logout"
-            >
-              Logout
-            </button>
+          <div className="max-w-6xl mx-auto flex items-center justify-between md:justify-end space-x-4">
+            {/* Hamburger for mobile */}
+            <div className="md:hidden">
+              <button
+                onClick={() => setIsSidebarOpen(true)}
+                className="p-2 text-gray-400 hover:text-white rounded-md hover:bg-white/10"
+                aria-label="Open menu"
+              >
+                <Bars3Icon className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <BellIcon className="w-6 h-6 text-gray-400 hover:text-white cursor-pointer" />
+              <button
+                onClick={handleLogout}
+                className="px-3 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white text-sm font-medium border border-red-500/50"
+                aria-label="Logout"
+              >
+                Logout
+              </button>
+            </div>
           </div>
         </header>
 
