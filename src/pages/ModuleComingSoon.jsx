@@ -2482,8 +2482,7 @@ root.render(React.createElement(App));`,
         'React introduction and why React',
         'Installing Node.js and verifying',
         'Create React App vs Vite',
-        'React project structure overview',
-        'Official docs and resources'
+        'React project structure overview'
       ],
       'module-1': [
         'Deep dive into semantic HTML5',

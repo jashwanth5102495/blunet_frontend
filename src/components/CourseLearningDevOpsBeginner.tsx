@@ -15,6 +15,7 @@ interface Lesson {
   syntax?: { title: string; content: string }[];
   terminalCommands?: string[];
   terminalGuide?: string; // HTML content for terminal instructions
+  videoUrl?: string;
 }
 
 interface Module {
@@ -53,6 +54,7 @@ const courseData: Module[] = [
     lessons: [
       {
         title: 'What is DevOps?',
+        videoUrl: '/Devops vid/what is devops.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. Why DevOps Exists (The Real Problem)</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">Before DevOps, software delivery was slow, manual, and unreliable.</p>
@@ -219,7 +221,7 @@ const courseData: Module[] = [
         ],
         terminalCommands: ['whoami', 'uname -a', 'mkdir -p ~/devops/module1/topic1', 'cd ~/devops/module1/topic1', 'nano app.txt', 'cat app.txt', 'mkdir manual_deploy', 'cp app.txt manual_deploy/', 'ls manual_deploy', 'rm -rf manual_deploy'],
         terminalGuide: `
-          <h2 class="text-xl font-semibold mb-4 text-white">🎯 Objective</h2>
+          <h2 className="text-xl font-semibold mb-4 text-white">🎯 Objective</h2>
           <p class="mb-6 text-gray-300">Introduce terminal usage and automation mindset from Day 1.</p>
 
           <div class="space-y-6">
@@ -270,6 +272,7 @@ const courseData: Module[] = [
       },
       {
         title: 'DevOps Lifecycle (Hands-On Automation Flow)',
+        videoUrl: '/Devops vid/DevOps Lifecycle.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. What is the DevOps Lifecycle? (Practical Meaning)</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">The DevOps lifecycle represents the real working flow of how software is continuously built, tested, deployed, and improved using automation.</p>
@@ -581,6 +584,7 @@ const courseData: Module[] = [
       },
       {
         title: 'DevOps Tools Overview & Environment Setup',
+        videoUrl: '/Devops vid/DevOps Tools Overview & Environment Setup.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. Why DevOps Needs Tools (Practical Reason)</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">DevOps is about automation, and automation is impossible without tools.</p>
@@ -823,6 +827,7 @@ Linux    - Control</pre>
       },
       {
         title: 'DevOps Lifecycle (End-to-End Practical Flow)',
+        videoUrl: '/Devops vid/DevOps Lifecycle (End-to-End Practical Flow).mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">What is the DevOps Lifecycle?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">The DevOps lifecycle is a continuous process that defines how an application moves from idea → code → build → test → deploy → operate → monitor → improve. Unlike traditional models, DevOps does not stop after deployment. It keeps running in a loop to continuously improve software quality, speed, and reliability.</p>
@@ -1029,6 +1034,7 @@ Monitor | Logs & metrics | Prometheus`
       },
       {
         title: 'DevOps Tools Overview (Beginner-Level Practical Understanding)',
+        videoUrl: '/Devops vid/DevOps Tools Overview (Beginner-Level Practical Understanding).mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why DevOps Tools Are Needed</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">DevOps is not a single tool; it is a combination of practices supported by tools. Each DevOps tool automates a specific stage of the DevOps lifecycle. Without tools, DevOps cannot be implemented practically because manual processes are slow, error-prone, and not scalable.</p>
@@ -2036,54 +2042,54 @@ tail file.txt | View last 10 lines`
           'ls -R'
         ],
         terminalGuide: `
-          <h2 class="text-xl font-semibold mb-4 text-white">🎯 Objective</h2>
-          <p class="mb-6 text-gray-300">Master Linux file navigation and organization structure.</p>
+          <h2 className="text-xl font-semibold mb-4 text-white">🎯 Objective</h2>
+          <p className="mb-6 text-gray-300">Master Linux file navigation and organization structure.</p>
 
-          <div class="space-y-6">
+          <div className="space-y-6">
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 1: Navigate to Home</h3>
-              <p class="text-sm text-gray-400 mb-2">Go to your home directory and check path.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">cd ~</code>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">pwd</code>
+              <h3 className="text-lg font-medium text-[#00bceb] mb-2">Step 1: Navigate to Home</h3>
+              <p className="text-sm text-gray-400 mb-2">Go to your home directory and check path.</p>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">cd ~</code>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">pwd</code>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 2: Create Project Structure</h3>
-              <p class="text-sm text-gray-400 mb-2">Create nested directories using <code class="text-white">-p</code> flag.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">mkdir -p devops/module2/topic4</code>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">cd devops/module2/topic4</code>
+              <h3 className="text-lg font-medium text-[#00bceb] mb-2">Step 2: Create Project Structure</h3>
+              <p className="text-sm text-gray-400 mb-2">Create nested directories using <code className="text-white">-p</code> flag.</p>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">mkdir -p devops/module2/topic4</code>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">cd devops/module2/topic4</code>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 3: Create Files</h3>
-              <p class="text-sm text-gray-400 mb-2">Create dummy application files.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">touch app.txt config.yml log.txt</code>
+              <h3 className="text-lg font-medium text-[#00bceb] mb-2">Step 3: Create Files</h3>
+              <p className="text-sm text-gray-400 mb-2">Create dummy application files.</p>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">touch app.txt config.yml log.txt</code>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 4: List Files</h3>
-              <p class="text-sm text-gray-400 mb-2">View the files you created.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">ls -l</code>
+              <h3 className="text-lg font-medium text-[#00bceb] mb-2">Step 4: List Files</h3>
+              <p className="text-sm text-gray-400 mb-2">View the files you created.</p>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">ls -l</code>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 5: Create Subdirectories</h3>
-              <p class="text-sm text-gray-400 mb-2">Create folders for organizing files.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">mkdir scripts build deploy</code>
+              <h3 className="text-lg font-medium text-[#00bceb] mb-2">Step 5: Create Subdirectories</h3>
+              <p className="text-sm text-gray-400 mb-2">Create folders for organizing files.</p>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">mkdir scripts build deploy</code>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 6: Move Files into Folders</h3>
-              <p class="text-sm text-gray-400 mb-2">Organize the files into their respective directories.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">mv app.txt build/</code>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">mv config.yml scripts/</code>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">mv log.txt deploy/</code>
+              <h3 className="text-lg font-medium text-[#00bceb] mb-2">Step 6: Move Files into Folders</h3>
+              <p className="text-sm text-gray-400 mb-2">Organize the files into their respective directories.</p>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">mv app.txt build/</code>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">mv config.yml scripts/</code>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">mv log.txt deploy/</code>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 7: Verify Structure</h3>
-              <p class="text-sm text-gray-400 mb-2">Check the final directory structure (using recursive list).</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">ls -R</code>
+              <h3 className="text-lg font-medium text-[#00bceb] mb-2">Step 7: Verify Structure</h3>
+              <p className="text-sm text-gray-400 mb-2">Check the final directory structure (using recursive list).</p>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">ls -R</code>
             </div>
           </div>
         `
@@ -12775,6 +12781,20 @@ const CourseLearningDevOpsBeginner: React.FC = () => {
                     <div className="min-h-[500px]">
                        {activeContentTab === 'lesson' && (
                           <div className="animate-fadeIn">
+                             {/* Video Player */}
+                             {activeLesson.videoUrl && (
+                                <div className="mb-8 aspect-video bg-black rounded-xl overflow-hidden shadow-lg border border-[#333]">
+                                   <video 
+                                      key={activeLesson.videoUrl}
+                                      src={activeLesson.videoUrl} 
+                                      controls 
+                                      preload="metadata"
+                                      className="w-full h-full"
+                                      onEnded={() => setCompletedLessons(prev => new Set(prev).add(`${activeModuleId}-${activeLessonIndex}`))}
+                                   />
+                                </div>
+                             )}
+
                              <div 
                                className={`prose ${isDark ? 'prose-invert' : ''} prose-lg max-w-none prose-headings:text-[#00bceb] prose-a:text-blue-400 prose-code:text-[#00bceb] prose-pre:bg-[#1e1e1e] prose-pre:border prose-pre:border-[#333]`}
                                dangerouslySetInnerHTML={{ __html: activeLesson.content }} 
