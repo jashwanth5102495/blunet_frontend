@@ -1383,6 +1383,7 @@ S | Sharing (Knowledge)`
     lessons: [
       {
         title: 'Linux Basics for DevOps Engineers',
+        videoUrl: '/Devops vid/module 2/2.1 Linux Basics for DevOps Engineers.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why Linux is Important for DevOps</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">Most DevOps tools such as Docker, Kubernetes, Jenkins, Git servers, cloud VMs run on Linux. DevOps engineers manage servers through the terminal, not GUI. Understanding Linux basics allows you to install tools, troubleshoot issues, automate tasks, and manage production servers confidently.</p>
@@ -1535,6 +1536,7 @@ less file.txt | View large files`
       },
       {
         title: 'Linux File Permissions & Ownership (Hands-On & Real-World)',
+        videoUrl: '/Devops vid/module 2/2.2 Linux File Permissions & Ownership (Hands-On & Real-World).mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why File Permissions Matter in DevOps</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">In real-world DevOps environments, applications run as specific users, CI/CD tools access files automatically, and containers need controlled access. If permissions are incorrect, Jenkins might fail to read build files, Docker containers might fail to start, or applications could crash due to "Access Denied" errors. Linux permissions ensure security and controlled access.</p>
@@ -1915,6 +1917,7 @@ Check privileges | sudo -l`
       },
       {
         title: 'Linux File System & Navigation (Hands-On Practical)',
+        videoUrl: '/Devops vid/module 2/2.4 Linux File System & Navigation (Hands-On Practical).mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why File System Knowledge is Critical</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">DevOps engineers spend most of their time navigating servers, editing config files, and managing application directories. Understanding the Linux file system is mandatory because:</p>
@@ -2096,6 +2099,7 @@ tail file.txt | View last 10 lines`
       },
       {
         title: 'Linux Processes & Monitoring (Hands-On Practical)',
+        videoUrl: '/Devops vid/module 2/2.5 Linux Processes & Monitoring (Hands-On Practical).mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why Process Management is Important</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">DevOps engineers need to monitor running processes, kill stuck processes, and check resource usage to ensure smooth CI/CD pipelines and production environments. Unmanaged processes can consume memory, crash applications, or freeze pipelines.</p>
@@ -2243,6 +2247,7 @@ uptime | Load average`
       },
       {
         title: 'Linux Networking & Firewall Basics (Hands-On Practical)',
+        videoUrl: '/Devops vid/module 2/2.6 Linux Networking & Firewall Basics (Hands-On Practical).mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why Networking is Important for DevOps</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">Networking is the backbone of DevOps. Without understanding network commands and firewall rules, pipelines, Docker containers, and cloud deployments will fail.</p>
@@ -2396,6 +2401,7 @@ sudo ufw enable | Enable Firewall`
       },
       {
         title: 'Linux Package Management (Hands-On Practical)',
+        videoUrl: '/Devops vid/module 2/2.7 Linux Package Management.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why Package Management Matters</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">In DevOps, installing, updating, and removing software is a daily task. You cannot manually compile every tool. Package managers automate this process, handling dependencies and security updates.</p>
@@ -2536,12 +2542,14 @@ sudo apt clean | Clear local cache`
       },
       {
         title: 'Users & groups',
+        videoUrl: '/Devops vid/module 2/2.3 Users & Groups (Linux Access Management for DevOps).mp4',
         content: '<h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">User Management</h2><p class="mb-4 text-gray-700 dark:text-gray-300">Managing user accounts and groups is crucial for system security. Commands: <code>useradd</code>, <code>usermod</code>, <code>groupadd</code>, <code>passwd</code>.</p>',
         duration: '15 min',
         terminalCommands: ['sudo useradd newuser', 'sudo passwd newuser']
       },
       {
         title: 'systemctl & journalctl (Service Management & Logs for DevOps)',
+        videoUrl: '/Devops vid/module 2/2.9 systemctl & journalctl (Service Management & Logs for DevOps).mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">What is systemctl?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
