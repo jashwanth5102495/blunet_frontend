@@ -1377,6 +1377,269 @@ border`
     description: 'Advanced CSS concepts.',
     lessons: [
       { 
+        title: 'CSS Flexbox Complete Layout Control',
+        duration: '15 min',
+        content: `
+          <h2 class="text-2xl font-bold text-white mb-4">CSS Flexbox: Complete Layout Control</h2>
+          
+          <p class="text-gray-300 mb-4">Flexbox (Flexible Box Layout) is a CSS layout system used to arrange elements in a row or column with powerful control over alignment, spacing, and positioning. It was designed to solve layout problems that older techniques like floats and manual positioning could not handle properly.</p>
+          
+          <p class="text-gray-300 mb-4">Flexbox makes layouts flexible, responsive, and much easier to align both horizontally and vertically. It is used in almost all modern frontend applications for building navigation bars, dashboards, card layouts, and centered sections.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Flexbox Has Two Main Parts</h3>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li><strong>Flex Container</strong> – The parent element that controls the layout behavior of its children. It is enabled using <code>display: flex;</code>.</li>
+            <li><strong>Flex Items</strong> – The child elements inside the container. Once Flexbox is enabled on the container, these items automatically follow Flexbox rules.</li>
+          </ul>
+          
+          <p class="text-gray-300 mb-4">Example:</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>&lt;div class="container"&gt;
+  &lt;div class="item"&gt;&lt;/div&gt;
+  &lt;div class="item"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          <p class="text-gray-300 mb-4">Here, the <code>div</code> with class <code>container</code> is the flex container, and the inner <code>div</code> elements with class <code>item</code> are flex items.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Default Flex Direction</h3>
+          <p class="text-gray-300 mb-4">By default, Flexbox arranges items horizontally in a row:</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>flex-direction: row;</code></pre>
+          <p class="text-gray-300 mb-4">This means items are placed from left to right.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Main Axis and Cross Axis</h3>
+          <p class="text-gray-300 mb-4">When <code>flex-direction: row;</code> is used:</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li><strong>Main axis</strong> – Horizontal (left to right).</li>
+            <li><strong>Cross axis</strong> – Vertical (top to bottom).</li>
+          </ul>
+          <p class="text-gray-300 mb-4">Flexbox alignment properties such as <code>justify-content</code> and <code>align-items</code> work based on these axes.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Important Flexbox Properties (Container)</h3>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li><strong>Enable Flexbox:</strong> <code>display: flex;</code></li>
+            <li><strong>Change Direction:</strong> <code>flex-direction: row;</code> or <code>flex-direction: column;</code></li>
+            <li><strong>Horizontal Alignment (Main Axis):</strong> <code>justify-content: center;</code>, with options:
+              <ul class="list-disc pl-6 mt-2 space-y-1">
+                <li><code>flex-start</code> – Align items to the start.</li>
+                <li><code>center</code> – Center items.</li>
+                <li><code>flex-end</code> – Align items to the end.</li>
+                <li><code>space-between</code> – Equal space between items.</li>
+                <li><code>space-around</code> – Equal space around items.</li>
+              </ul>
+            </li>
+            <li><strong>Vertical Alignment (Cross Axis):</strong> <code>align-items: center;</code>, with options:
+              <ul class="list-disc pl-6 mt-2 space-y-1">
+                <li><code>flex-start</code> – Align items to the top.</li>
+                <li><code>center</code> – Center items vertically.</li>
+                <li><code>flex-end</code> – Align items to the bottom.</li>
+                <li><code>stretch</code> – Stretch items to fill the container.</li>
+              </ul>
+            </li>
+          </ul>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Why Flexbox is Important</h3>
+          <p class="text-gray-300 mb-4">Flexbox is used heavily in modern frontend development for:</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>Navigation bars</li>
+            <li>Dashboards and sidebars</li>
+            <li>Card layouts</li>
+            <li>Centering elements both horizontally and vertically</li>
+            <li>Responsive layouts that adapt to screen size</li>
+          </ul>
+          <p class="text-gray-300 mb-4">Every professional frontend developer uses Flexbox daily to build clean, responsive, and maintainable layouts.</p>
+        `,
+        syntax: [
+          {
+            title: 'Basic Flexbox Syntax',
+            content: `.container {
+  display: flex;
+}`
+          },
+          {
+            title: 'Direction',
+            content: `.container {
+  display: flex;
+  flex-direction: row;
+}`
+          },
+          {
+            title: 'Horizontal Alignment',
+            content: `.container {
+  display: flex;
+  justify-content: center;
+}`
+          },
+          {
+            title: 'Vertical Alignment',
+            content: `.container {
+  display: flex;
+  align-items: center;
+}`
+          },
+          {
+            title: 'Center Both Horizontally and Vertically',
+            content: `.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}`
+          }
+        ],
+        liveCode: `<!DOCTYPE html>
+<html>
+<head>
+  <title>Flexbox Example</title>
+
+  <style>
+    /* Flex container */
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 300px;
+      background-color: lightgray;
+    }
+
+    /* Flex item */
+    .box {
+      width: 150px;
+      height: 150px;
+      background-color: steelblue;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+    }
+  </style>
+
+</head>
+<body>
+
+  <div class="container">
+    <div class="box">Centered Box</div>
+  </div>
+
+</body>
+</html>`
+      },
+      {
+        title: 'CSS Grid Complete Layout System',
+        duration: '15 min',
+        content: `
+          <h2 class="text-2xl font-bold text-white mb-4">CSS Grid: Complete Layout System</h2>
+          
+          <p class="text-gray-300 mb-4">CSS Grid is a powerful two-dimensional layout system in CSS. It allows you to design layouts using rows, columns, and grid areas with precise control. Unlike Flexbox, which is mainly one-dimensional, Grid works in both horizontal and vertical directions, making it ideal for full-page layouts.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Grid Container and Grid Items</h3>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li><strong>Grid Container</strong> – The parent element that defines the grid. You enable it using <code>display: grid;</code>.</li>
+            <li><strong>Grid Items</strong> – The child elements inside the grid container. They automatically follow grid rules for placement and sizing.</li>
+          </ul>
+          
+          <p class="text-gray-300 mb-4">Example:</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>&lt;div class="container"&gt;
+  &lt;div class="item"&gt;&lt;/div&gt;
+  &lt;div class="item"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          <p class="text-gray-300 mb-4">Here, the <code>container</code> is the grid container, and each <code>item</code> inside it is a grid item.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Why CSS Grid is Powerful</h3>
+          <p class="text-gray-300 mb-4">CSS Grid allows you to:</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>Create complex layouts easily using rows and columns.</li>
+            <li>Define exact column widths and row heights.</li>
+            <li>Overlap elements if needed.</li>
+            <li>Create responsive designs that adapt to any screen size.</li>
+          </ul>
+          <p class="text-gray-300 mb-4">It is widely used in dashboards, admin panels, full website layouts, and image galleries.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Important Grid Properties</h3>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li><strong>Define Columns:</strong> <code>grid-template-columns: 200px 200px 200px;</code></li>
+            <li><strong>Dynamic Columns:</strong> <code>grid-template-columns: repeat(3, 1fr);</code></li>
+            <li><strong>Define Rows:</strong> <code>grid-template-rows: 100px 200px;</code></li>
+            <li><strong>Gap Between Items:</strong> <code>gap: 20px;</code> adds space between rows and columns.</li>
+            <li><strong>Grid Area Placement:</strong> <code>grid-column: 1 / 3;</code> and <code>grid-row: 1 / 2;</code> let an item span multiple columns or rows.</li>
+          </ul>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Fraction Unit (fr)</h3>
+          <p class="text-gray-300 mb-4">The <code>fr</code> unit represents a fraction of the available space in the grid container.</p>
+          <p class="text-gray-300 mb-4">Example:</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>grid-template-columns: 1fr 1fr 1fr;</code></pre>
+          <p class="text-gray-300 mb-4">This creates three equal columns, each taking one-third of the available width.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Grid vs Flexbox</h3>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li><strong>Flexbox</strong> – Best for one-dimensional layouts (a single row or column), such as navigation bars and simple alignments.</li>
+            <li><strong>Grid</strong> – Best for two-dimensional layouts (rows and columns together), such as full page structures and complex sections.</li>
+          </ul>
+          <p class="text-gray-300 mb-4">In real projects, Flexbox and Grid are often used together to build professional, responsive layouts.</p>
+        `,
+        syntax: [
+          {
+            title: 'Basic Grid Container',
+            content: `.container {
+  display: grid;
+}`
+          },
+          {
+            title: 'Define 3 Equal Columns',
+            content: `.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}`
+          },
+          {
+            title: 'Add Gap',
+            content: `.container {
+  gap: 20px;
+}`
+          },
+          {
+            title: 'Span Across Columns',
+            content: `.item {
+  grid-column: 1 / 3;
+}`
+          }
+        ],
+        liveCode: `<!DOCTYPE html>
+<html>
+<head>
+  <title>CSS Grid Example</title>
+
+  <style>
+    .container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 20px;
+      background-color: lightgray;
+    }
+
+    .box {
+      background-color: steelblue;
+      color: white;
+      padding: 40px;
+      text-align: center;
+      font-size: 18px;
+    }
+  </style>
+
+</head>
+<body>
+
+  <div class="container">
+    <div class="box">Box 1</div>
+    <div class="box">Box 2</div>
+    <div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+    <div class="box">Box 5</div>
+    <div class="box">Box 6</div>
+  </div>
+
+</body>
+</html>`
+      },
+      { 
         title: 'CSS Box Model and Layout', 
         duration: '15 min', 
         videoUrl: '/box%20done.mp4',
@@ -1466,109 +1729,491 @@ border`
 </html>`
       },
       { 
-        title: 'Responsive Design Basics', 
-        duration: '5 min', 
+        title: 'Responsive Design Professional Techniques', 
+        duration: '15 min', 
         content: `
-          <h2 class="text-2xl font-bold text-white mb-4">Responsive Design Basics</h2>
-          <p class="text-gray-300 mb-4">Responsive web design ensures that a website adapts seamlessly to different screen sizes and devices, including desktops, tablets, and smartphones. With the variety of devices today, creating flexible layouts is essential for a good user experience. CSS provides tools like media queries, flexible grids, and relative units to make pages responsive.</p>
+          <h2 class="text-2xl font-bold text-white mb-4">Responsive Design Professional Techniques</h2>
           
-          <p class="text-gray-300 mb-4">Responsive design is not just about shrinking elements to fit smaller screens. It’s about maintaining readability, usability, and visual hierarchy across devices. Proper implementation improves engagement, accessibility, and SEO performance.</p>
+          <p class="text-gray-300 mb-4">Responsive Design is the technique of making a website automatically adapt to different screen sizes. A responsive website looks good and remains usable on mobile phones, tablets, laptops, and large desktop monitors.</p>
+          
+          <p class="text-gray-300 mb-4">Responsive design ensures a better user experience across all devices. Without it, layouts can break on mobile, text becomes unreadable, and pages become difficult to use. Modern professional frontend development always applies responsive design.</p>
 
-          <p class="text-gray-300 mb-4">Key principles include fluid layouts, scalable images, and flexible typography. By mastering responsive design basics, developers can create websites that look professional and function perfectly on any device.</p>
-
-          <h3 class="text-xl font-bold text-white mb-2 mt-6">Types/Concepts of Responsive Design</h3>
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Why Responsive Design is Critical</h3>
+          <p class="text-gray-300 mb-4">Today, most users access websites from mobile devices. If a website is not responsive:</p>
           <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
-              <li><strong>Fluid Layouts</strong> – Uses percentage widths instead of fixed pixels to allow elements to scale naturally.</li>
-              <li><strong>Flexible Images</strong> – Images resize based on the container size to prevent overflow or distortion.</li>
-              <li><strong>Media Queries</strong> – CSS rules that apply only under certain conditions (e.g., screen width).</li>
-              <li><strong>Viewport Meta Tag</strong> – Ensures mobile browsers render the page correctly with proper scaling.</li>
+              <li>Layouts break on small screens.</li>
+              <li>Text becomes too small or requires horizontal scrolling.</li>
+              <li>Buttons and links are hard to tap.</li>
+          </ul>
+          <p class="text-gray-300 mb-4">A professional frontend must work flawlessly on all screen sizes.</p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Core Components of Responsive Design</h3>
+          <p class="text-gray-300 mb-4">Responsive design is built using a combination of:</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+              <li>Flexible layouts.</li>
+              <li>Flexible images.</li>
+              <li>Media queries.</li>
+              <li>Responsive units (%, vw, vh, rem, em).</li>
           </ul>
 
-          <h3 class="text-xl font-bold text-white mb-2 mt-6">Additional Notes</h3>
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">What are Media Queries?</h3>
+          <p class="text-gray-300 mb-4">Media queries allow CSS to apply specific styles based on screen size or device characteristics.</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>@media (max-width: 768px) {
+  body {
+    background-color: red;
+  }
+}</code></pre>
+          <p class="text-gray-300 mb-4">In this example, the styles inside the media query apply only when the screen width is less than or equal to 768px.</p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Common Breakpoints (Industry Standard)</h3>
           <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
-              <li>Use relative units (%, em, rem) instead of absolute units (px) for flexible layouts.</li>
-              <li>Test designs on multiple devices or browser developer tools.</li>
-              <li>Combine responsive grids with CSS Flexbox or Grid for professional layouts.</li>
+              <li><strong>Mobile:</strong> 0px – 480px</li>
+              <li><strong>Tablet:</strong> 481px – 768px</li>
+              <li><strong>Laptop:</strong> 769px – 1024px</li>
+              <li><strong>Desktop:</strong> 1025px and above</li>
           </ul>
+          <p class="text-gray-300 mb-4">These breakpoints are commonly used in professional frontend development to adjust layouts per device type.</p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Responsive Units</h3>
+          <p class="text-gray-300 mb-4">Instead of fixed pixel-based sizes like <code>width: 500px;</code>, responsive designs use flexible units such as:</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+              <li><strong>%</strong> – Percentage of the parent element.</li>
+              <li><strong>vw</strong> – Viewport width (1vw = 1% of viewport width).</li>
+              <li><strong>vh</strong> – Viewport height (1vh = 1% of viewport height).</li>
+              <li><strong>rem</strong> – Based on the root font size.</li>
+              <li><strong>em</strong> – Based on the font size of the current element.</li>
+          </ul>
+          <p class="text-gray-300 mb-4">A common pattern is <code>width: 100%;</code> with <code>max-width: 1200px;</code> so content scales but does not grow too wide on large screens.</p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Mobile First Approach (Professional Standard)</h3>
+          <p class="text-gray-300 mb-4">In a mobile-first approach, developers design for mobile as the default and then use media queries to enhance the layout for larger screens. This approach improves performance and scalability.</p>
+          <p class="text-gray-300 mb-4">Workflow:</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+              <li>Write base styles optimized for mobile.</li>
+              <li>Add media queries for tablets, laptops, and desktops.</li>
+          </ul>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Responsive Flexbox Layout Example</h3>
+          <p class="text-gray-300 mb-4">Below is a simple responsive layout that changes from a horizontal layout on desktop to a vertical layout on smaller screens.</p>
+          <p class="text-gray-300 mb-4">On desktop, the boxes appear in a row. On mobile and tablet (width ≤ 768px), the layout changes to a column.</p>
         `,
         syntax: [
           { 
-            title: 'Media Query Syntax', 
+            title: 'Basic Media Query', 
             content: `@media (max-width: 768px) { 
-    selector { 
-        property: value; 
-    } 
+  selector { 
+    property: value; 
+  } 
 }` 
           },
           { 
-            title: 'Viewport Meta Tag', 
-            content: `<meta name="viewport" content="width=device-width, initial-scale=1.0">` 
+            title: 'Multiple Breakpoints', 
+            content: `@media (max-width: 768px) { 
+  /* tablet */ 
+} 
+
+@media (max-width: 480px) { 
+  /* mobile */ 
+}` 
           },
           { 
-            title: 'Example: Flexible Image', 
-            content: `img { 
-    max-width: 100%; 
-    height: auto; 
+            title: 'Responsive Width Example', 
+            content: `.container { 
+  width: 100%; 
+  max-width: 1200px; 
+}` 
+          },
+          { 
+            title: 'Responsive Flexbox Example', 
+            content: `.container { 
+  display: flex; 
+} 
+
+@media (max-width: 768px) { 
+  .container { 
+    flex-direction: column; 
+  } 
 }` 
           }
         ],
         liveCode: `<!DOCTYPE html> 
 <html> 
 <head> 
-    <title>Responsive Design Example</title> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <style> 
-        body { 
-            font-family: Arial, sans-serif; 
-            margin: 0; 
-            padding: 0; 
-        } 
+  <title>Responsive Design Example</title> 
 
-        .container { 
-            width: 80%; 
-            margin: auto; 
-            background-color: #ecf0f1; 
-            padding: 20px; 
-        } 
+  <style> 
+    .container { 
+      display: flex; 
+      gap: 20px; 
+      padding: 20px; 
+    } 
 
-        img { 
-            max-width: 100%; 
-            height: auto; 
-        } 
+    .box { 
+      flex: 1; 
+      padding: 40px; 
+      background-color: steelblue; 
+      color: white; 
+      text-align: center; 
+      font-size: 18px; 
+    } 
 
-        h1 { 
-            color: #2c3e50; 
-            text-align: center; 
-        } 
+    /* Responsive for mobile */ 
+    @media (max-width: 768px) { 
+      .container { 
+        flex-direction: column; 
+      } 
+    } 
+  </style> 
 
-        p { 
-            color: #34495e; 
-            font-size: 16px; 
-        } 
-
-        /* Responsive Layout for small screens */ 
-        @media (max-width: 600px) { 
-            .container { 
-                width: 95%; 
-                padding: 10px; 
-            } 
-
-            p { 
-                font-size: 14px; 
-            } 
-        } 
-    </style> 
 </head> 
 <body> 
 
-    <div class="container"> 
-        <h1>Responsive Design Basics</h1> 
-        <img src="https://via.placeholder.com/600x300" alt="Responsive Example"> 
-        <p> 
-            This container and image resize according to the screen width. 
-            Text and elements adjust to maintain readability and layout. 
-        </p> 
-    </div> 
+  <div class="container"> 
+    <div class="box">Box 1</div> 
+    <div class="box">Box 2</div> 
+    <div class="box">Box 3</div> 
+  </div> 
+
+</body> 
+</html>`
+      },
+      {
+        title: 'CSS Architecture and Maintainable Styling',
+        duration: '15 min',
+        content: `
+          <h2 class="text-2xl font-bold text-white mb-4">CSS Architecture and Maintainable Styling</h2>
+          
+          <p class="text-gray-300 mb-4">CSS Architecture is the structured way of organizing CSS code so that it is maintainable, scalable, reusable, and easy to debug. Without a proper architecture, CSS quickly becomes messy and hard to manage in large projects.</p>
+          
+          <p class="text-gray-300 mb-4">Professional applications always use a structured CSS architecture to keep styling predictable and easy to extend.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Problem Without CSS Architecture</h3>
+          <p class="text-gray-300 mb-4">A bad CSS example:</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>div {
+  color: red;
+}</code></pre>
+          <p class="text-gray-300 mb-4">This affects <strong>all</strong> <code>div</code> elements, is hard to control, and causes conflicts. This style is not scalable.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Solution: Structured CSS Architecture</h3>
+          <p class="text-gray-300 mb-4">Professional developers avoid targeting generic tags directly and instead use:</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>Class-based styling.</li>
+            <li>Modular CSS.</li>
+            <li>Naming conventions.</li>
+            <li>Separation of concerns between layout and components.</li>
+          </ul>
+          <p class="text-gray-300 mb-4">Example:</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>.button {
+  color: white;
+}</code></pre>
+          <p class="text-gray-300 mb-4">This only affects elements with the <code>button</code> class and is much safer in large codebases.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Most Popular CSS Architecture Method: BEM</h3>
+          <p class="text-gray-300 mb-4">BEM (Block Element Modifier) is an industry-standard naming convention for CSS classes.</p>
+          <p class="text-gray-300 mb-4">Structure format:</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>block__element--modifier</code></pre>
+          <p class="text-gray-300 mb-4">Example:</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>.card {}
+.card__title {}
+.card__button {}
+.card__button--primary {}</code></pre>
+          <p class="text-gray-300 mb-2"><strong>Explanation:</strong></p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li><strong>Block</strong> – Standalone component (e.g., <code>.card</code>, <code>.button</code>).</li>
+            <li><strong>Element</strong> – Part of the block (e.g., <code>.card__title</code>, <code>.card__button</code>).</li>
+            <li><strong>Modifier</strong> – Variation of a block or element (e.g., <code>.button--primary</code>, <code>.button--secondary</code>).</li>
+          </ul>
+          <p class="text-gray-300 mb-4">Example variations:</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>.button {}
+.button--primary {}
+.button--secondary {}</code></pre>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Benefits of BEM</h3>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>No naming conflicts.</li>
+            <li>Easy to scale as the project grows.</li>
+            <li>Easy to maintain and refactor.</li>
+            <li>Easy for new developers to understand.</li>
+          </ul>
+          <p class="text-gray-300 mb-4">BEM is used widely in large applications and enterprise frontends.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">CSS File Organization (Professional Structure)</h3>
+          <p class="text-gray-300 mb-4">A common CSS project structure:</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>css/
+  ├── base.css
+  ├── layout.css
+  ├── components.css
+  ├── utilities.css
+  ├── main.css</code></pre>
+          <p class="text-gray-300 mb-2">Purpose of each file:</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li><strong>base.css</strong> – Global styles (resets, typography).</li>
+            <li><strong>layout.css</strong> – Layout structure (header, footer, grid).</li>
+            <li><strong>components.css</strong> – Reusable components (buttons, cards, modals).</li>
+            <li><strong>utilities.css</strong> – Helper classes (margin, padding, text utilities).</li>
+            <li><strong>main.css</strong> – Imports all other CSS files.</li>
+          </ul>
+          <p class="text-gray-300 mb-4">Example of <code>main.css</code>:</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>@import "base.css";
+@import "layout.css";
+@import "components.css";</code></pre>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Benefits of Proper CSS Architecture</h3>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>Clean, well-structured code.</li>
+            <li>Easier debugging and refactoring.</li>
+            <li>Scalable projects that grow without chaos.</li>
+            <li>Professional workflow used in production frontend systems.</li>
+          </ul>
+          <p class="text-gray-300 mb-4">CSS architecture is mandatory for scalable frontend development, especially in React apps, dashboards, SaaS products, and other large systems.</p>
+        `,
+        syntax: [
+          {
+            title: 'Class-based Styling',
+            content: `.button {
+  background-color: blue;
+}`
+          },
+          {
+            title: 'BEM Naming',
+            content: `.card {}
+.card__title {}
+.card__button {}
+.card__button--active {}`
+          },
+          {
+            title: 'Modular CSS Import',
+            content: `@import "components.css";`
+          },
+          {
+            title: 'Component Styling',
+            content: `.navbar {
+  display: flex;
+}`
+          }
+        ],
+        liveCode: `<!DOCTYPE html> 
+<html> 
+<head> 
+  <title>CSS Architecture Example</title> 
+
+  <style> 
+
+    /* Block */ 
+    .card { 
+      width: 300px; 
+      padding: 20px; 
+      background-color: lightgray; 
+      border-radius: 10px; 
+    } 
+
+    /* Element */ 
+    .card__title { 
+      font-size: 22px; 
+      margin-bottom: 10px; 
+    } 
+
+    /* Element */ 
+    .card__button { 
+      padding: 10px; 
+      background-color: steelblue; 
+      color: white; 
+      border: none; 
+      cursor: pointer; 
+    } 
+
+    /* Modifier */ 
+    .card__button--active { 
+      background-color: green; 
+    } 
+
+  </style> 
+
+</head> 
+<body> 
+
+  <div class="card"> 
+
+    <div class="card__title">Product Card</div> 
+
+    <button class="card__button card__button--active"> 
+      Buy Now 
+    </button> 
+
+  </div> 
+
+</body> 
+</html>`
+      },
+      {
+        title: 'SCSS for Scalable Styling',
+        duration: '15 min',
+        content: `
+          <h2 class="text-2xl font-bold text-white mb-4">SCSS for Scalable Styling</h2>
+          
+          <p class="text-gray-300 mb-4">SCSS (Sassy CSS) is an advanced version of CSS that adds programming-like features such as variables, nesting, functions, mixins, and reusable code. It makes CSS more powerful, clean, and scalable.</p>
+          <p class="text-gray-300 mb-4">SCSS is widely used in professional frontend development in frameworks like React, Angular, and enterprise dashboards.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Why SCSS is Needed</h3>
+          <p class="text-gray-300 mb-4">In normal CSS, you often repeat the same values in many places:</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>.button {
+  background-color: blue;
+}
+
+.card {
+  background-color: blue;
+}</code></pre>
+          <p class="text-gray-300 mb-4">If the brand color changes, you must update it in many locations. This is error-prone and not scalable.</p>
+          <p class="text-gray-300 mb-4">SCSS solves this using <strong>variables</strong>, so you change the value in one place and it updates everywhere.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">SCSS Variables</h3>
+          <p class="text-gray-300 mb-4">Variables allow you to store reusable values (colors, sizes, fonts) and use them across your styles.</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>$primary-color: blue;
+
+.button {
+  background-color: $primary-color;
+}</code></pre>
+          <p class="text-gray-300 mb-4">Change <code>$primary-color</code> once, and all elements using it are updated automatically.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">SCSS Nesting</h3>
+          <p class="text-gray-300 mb-4">SCSS allows nested selectors to mirror HTML structure which keeps styles cleaner and grouped by component.</p>
+          <p class="text-gray-300 mb-4">Normal CSS:</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>.card {}
+.card h1 {}
+.card button {}</code></pre>
+          <p class="text-gray-300 mb-4">SCSS version:</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>.card {
+  h1 {
+    color: red;
+  }
+
+  button {
+    /* button styles */
+  }
+}</code></pre>
+          <p class="text-gray-300 mb-4">This is cleaner, more readable, and easier to maintain.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">SCSS Mixins (Reusable Code)</h3>
+          <p class="text-gray-300 mb-4">Mixins allow you to define reusable chunks of styling and include them wherever needed.</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>@mixin center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  @include center;
+}</code></pre>
+          <p class="text-gray-300 mb-4">This avoids repeating the same flexbox centering code in multiple places.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">SCSS Compilation</h3>
+          <p class="text-gray-300 mb-4">Browsers do not understand SCSS directly. SCSS is compiled (or built) into normal CSS.</p>
+          <p class="text-gray-300 mb-4">Example flow:</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>style.scss → style.css</code></pre>
+          <p class="text-gray-300 mb-4">You write SCSS, a build tool compiles it, and the browser reads the final CSS file.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Professional SCSS Folder Structure</h3>
+          <p class="text-gray-300 mb-4">A common SCSS project structure:</p>
+          <pre class="bg-gray-900 text-gray-100 p-4 rounded mb-4 overflow-x-auto"><code>scss/
+  ├── base/
+  ├── components/
+  ├── layout/
+  ├── utilities/
+  ├── main.scss</code></pre>
+          <p class="text-gray-300 mb-4">This keeps styles modular and easier to scale in large projects.</p>
+          
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Benefits of SCSS</h3>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>Cleaner and more organized styling.</li>
+            <li>Reusable styling with variables and mixins.</li>
+            <li>Easier maintenance and refactoring.</li>
+            <li>Professional structure used in real-world frontend systems.</li>
+            <li>Faster development for large teams and enterprise applications.</li>
+          </ul>
+        `,
+        syntax: [
+          {
+            title: 'Variable',
+            content: `$color: blue;`
+          },
+          {
+            title: 'Nesting',
+            content: `.card {
+  h1 {
+    color: red;
+  }
+}`
+          },
+          {
+            title: 'Mixin',
+            content: `@mixin center {
+  display: flex;
+}`
+          },
+          {
+            title: 'Include Mixin',
+            content: `.container {
+  @include center;
+}`
+          },
+          {
+            title: 'Import SCSS File',
+            content: `@import "components";`
+          }
+        ],
+        liveCode: `<!DOCTYPE html> 
+<html> 
+<head> 
+  <title>SCSS Example</title> 
+
+  <!-- SCSS File (style.scss) --> 
+  <!-- 
+  $primary-color: steelblue; 
+  $text-color: white; 
+
+  @mixin center { 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+  } 
+
+  .card { 
+    width: 300px; 
+    height: 200px; 
+    background-color: $primary-color; 
+
+    @include center; 
+
+    .card-text { 
+      color: $text-color; 
+      font-size: 20px; 
+    } 
+  } 
+  --> 
+
+  <style> 
+    /* Compiled CSS Output (style.css) */ 
+    .card { 
+      width: 300px; 
+      height: 200px; 
+      background-color: steelblue; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+    } 
+
+    .card .card-text { 
+      color: white; 
+      font-size: 20px; 
+    } 
+  </style> 
+
+</head> 
+<body> 
+
+  <div class="card"> 
+    <div class="card-text">SCSS Styled Card</div> 
+  </div> 
 
 </body> 
 </html>`

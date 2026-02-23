@@ -15,7 +15,14 @@ export default function CourseIntro({ courseSlug }) {
   const isDark = theme === 'dark';
   const FALLBACK_SVG = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="%23bbbbbb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="3" ry="3"/><circle cx="8" cy="10" r="1"/><circle cx="12" cy="10" r="1"/><circle cx="16" cy="10" r="1"/><path d="M3 18h18"/></svg>';
 
-  const isCiscoStyle = courseSlug === 'cyber-security-beginner' || courseSlug === 'ethical-hacker' || courseSlug === 'cyber-security-intermediate' || courseSlug === 'frontend-development-beginner' || courseSlug === 'devops-beginner' || courseSlug === 'data-science-beginner';
+  const isCiscoStyle =
+    courseSlug === 'cyber-security-beginner' ||
+    courseSlug === 'ethical-hacker' ||
+    courseSlug === 'cyber-security-intermediate' ||
+    courseSlug === 'frontend-development-beginner' ||
+    courseSlug === 'frontend-development-intermediate' ||
+    courseSlug === 'devops-beginner' ||
+    courseSlug === 'data-science-beginner';
 
   if (!data && !isCiscoStyle) {
     return (
@@ -34,9 +41,9 @@ export default function CourseIntro({ courseSlug }) {
   const isNetworkingIntermediate = courseSlug === 'networking-intermediate';
 
   if (isCiscoStyle) {
-    // Dynamic content selection based on course slug
-    const isIntermediate = courseSlug === 'cyber-security-intermediate';
+    const isIntermediate = courseSlug === 'cyber-security-intermediate' || courseSlug === 'frontend-development-intermediate';
     const isFrontendBeginner = courseSlug === 'frontend-development-beginner';
+    const isFrontendIntermediate = courseSlug === 'frontend-development-intermediate';
     const isDevOpsBeginner = courseSlug === 'devops-beginner';
     const isDataScienceBeginner = courseSlug === 'data-science-beginner';
     
@@ -54,6 +61,23 @@ export default function CourseIntro({ courseSlug }) {
           { icon: Search, label: 'HTML5 & CSS3' },
           { icon: Bug, label: 'JavaScript' },
           { icon: User, label: 'UI/UX Basics' }
+      ];
+    } else if (isFrontendIntermediate) {
+      title = 'Frontend Development — Intermediate Level';
+      tagline = data?.tagline || 'Build modern, responsive UIs and connect them to real backends.';
+      duration = '8 weeks';
+      overview =
+        'Take your frontend skills to the next level. Learn modern React patterns, state management, and responsive layouts while integrating real backends using Django, REST APIs, and MongoDB.';
+      prerequisites = [
+        'Comfortable with HTML, CSS, and JavaScript basics',
+        'Experience building simple frontend projects',
+        'Basic understanding of Git and the command line'
+      ];
+      skills = [
+        { icon: Laptop, label: 'React Components' },
+        { icon: Search, label: 'Responsive UI Design' },
+        { icon: Cloud, label: 'API Integration' },
+        { icon: ShieldCheck, label: 'Production Deployment' }
       ];
     } else if (isIntermediate) {
       title = 'Cyber Security — Intermediate Level';
@@ -259,6 +283,64 @@ export default function CourseIntro({ courseSlug }) {
             title: 'Module 4: Building Projects',
             duration: '2 weeks',
             topics: ['Project Setup', 'Portfolio Website', 'Landing Page', 'Interactive To-Do List', 'Deployment']
+          }
+        ]
+      : isFrontendIntermediate
+      ? [
+          {
+            id: 'intro-react',
+            title: 'Module 0: Intro React — Getting Started',
+            duration: '1 week',
+            topics: [
+              'Set up Node.js, npm, and a React development environment',
+              'Understand why React and when to use it',
+              'Create your first React app',
+              'Explore project structure and essential tooling'
+            ]
+          },
+          {
+            id: 'module-1',
+            title: 'Module 1: Advanced HTML, CSS & Tailwind',
+            duration: '2 weeks',
+            topics: [
+              'Modern semantic HTML5 patterns',
+              'Responsive layouts with Flexbox and Grid',
+              'Utility-first styling with Tailwind CSS',
+              'Designing reusable layout components'
+            ]
+          },
+          {
+            id: 'module-2',
+            title: 'Module 2: JavaScript & React Essentials',
+            duration: '2 weeks',
+            topics: [
+              'ES6+ features used in React projects',
+              'Components, props, and state',
+              'Handling events and forms',
+              'Basic routing and navigation patterns'
+            ]
+          },
+          {
+            id: 'module-3',
+            title: 'Module 3: Backend Integration with Django & MongoDB',
+            duration: '2 weeks',
+            topics: [
+              'REST API fundamentals',
+              'Calling APIs from React using fetch/axios',
+              'Authentication tokens and protected routes',
+              'Working with data from Django and MongoDB'
+            ]
+          },
+          {
+            id: 'module-4',
+            title: 'Module 4: Full-Stack Application & Deployment',
+            duration: '2 weeks',
+            topics: [
+              'Structuring a full-stack project',
+              'Environment variables and configuration',
+              'Preparing a React app for production',
+              'Deploying to a cloud platform'
+            ]
           }
         ]
       : isDevOpsBeginner
@@ -659,8 +741,8 @@ export default function CourseIntro({ courseSlug }) {
       ShieldCheck
     ];
     return (
-      <main className={`min-h-screen ${isDark ? 'bg-black text-white' : 'bg-white text-gray-900'}`}>
-        <nav className={`sticky top-0 z-40 border-b ${isDark ? 'bg-black border-gray-800' : 'bg-white border-gray-200'}`}>
+      <main className={`min-h-screen ${isDark ? 'bg-black text-white' : 'bg-slate-50 text-slate-900'}`}>
+        <nav className={`sticky top-0 z-40 border-b ${isDark ? 'bg-black border-gray-800' : 'bg-slate-50 border-slate-200'}`}>
           <div className="max-w-screen-2xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-7 h-7 rounded-md bg-blue-600" />
@@ -681,30 +763,30 @@ export default function CourseIntro({ courseSlug }) {
           <div className="grid lg:grid-cols-2 gap-8 items-start">
             <div className="space-y-4">
               <div className="flex items-center gap-2 text-sm">
-                <span className={`px-2.5 py-1 rounded-full border ${isDark ? 'bg-gray-900 text-gray-300 border-gray-800' : 'bg-gray-100 text-gray-700 border-gray-200'}`}>Course</span>
+                <span className={`px-2.5 py-1 rounded-full border ${isDark ? 'bg-gray-900 text-gray-300 border-gray-800' : 'bg-slate-100 text-slate-700 border-slate-200'}`}>Course</span>
               </div>
               <h1 className="text-3xl md:text-4xl font-bold">{title}</h1>
-              <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>{tagline}</p>
+              <p className={isDark ? 'text-gray-400' : 'text-slate-600'}>{tagline}</p>
               <div className="flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 text-sm"><Clock className="w-4 h-4" />{duration}</span>
-                <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm ${isDark ? 'bg-gray-900 text-gray-300 border-gray-800' : 'bg-gray-100 text-gray-700 border-gray-200'}`}>{isIntermediate ? 'Intermediate' : 'Beginner'}</span>
-                <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm ${isDark ? 'bg-gray-900 text-gray-300 border-gray-800' : 'bg-gray-100 text-gray-700 border-gray-200'}`}>Self-paced</span>
+                <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm ${isDark ? 'bg-gray-900 text-gray-300 border-gray-800' : 'bg-slate-100 text-slate-700 border-slate-200'}`}>{isIntermediate ? 'Intermediate' : 'Beginner'}</span>
+                <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm ${isDark ? 'bg-gray-900 text-gray-300 border-gray-800' : 'bg-slate-100 text-slate-700 border-slate-200'}`}>Self-paced</span>
               </div>
               <div className="flex items-center gap-3 pt-1">
-                <button onClick={() => navigate(`/${courseSlug}/module/${firstModuleSlug}`)} className="px-5 py-2.5 rounded-md bg-blue-600 text-white hover:bg-blue-700">Start Learning</button>
-                <button onClick={() => document.getElementById('overview')?.scrollIntoView({ behavior: 'smooth' })} className={`px-5 py-2.5 rounded-md border ${isDark ? 'border-gray-700 bg-black text-white hover:bg-gray-900' : 'border-gray-300 bg-white text-gray-800 hover:bg-gray-50'}`}>Course Overview</button>
+                <button onClick={() => navigate(`/${courseSlug}/module/${firstModuleSlug}`)} className="px-5 py-2.5 rounded-md bg-blue-600 text-white shadow-sm hover:bg-blue-700">Start Learning</button>
+                <button onClick={() => document.getElementById('overview')?.scrollIntoView({ behavior: 'smooth' })} className={`px-5 py-2.5 rounded-md border ${isDark ? 'border-gray-700 bg-black text-white hover:bg-gray-900' : 'border-slate-300 bg-white text-slate-900 hover:bg-slate-50'}`}>Course Overview</button>
               </div>
             </div>
             <div className="lg:sticky lg:top-20">
-              <div className={`rounded-xl overflow-hidden border shadow-sm ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
+              <div className={`rounded-xl overflow-hidden border shadow-sm ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-slate-200'}`}>
                 <SafeImage
                   srcs={[data?.heroImg, '/cy.webp', 'https://images.unsplash.com/photo-1557200134-90327ee9fafa?w=1200&fit=crop&crop=center', FALLBACK_SVG].filter(Boolean)}
                   alt="Course banner"
                   className="w-full h-[300px] md:h-[340px] object-cover"
                 />
-                <div className={`grid grid-cols-4 gap-4 p-4 text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                <div className={`grid grid-cols-4 gap-4 p-4 text-sm ${isDark ? 'text-gray-300' : 'text-slate-700'}`}>
                   <div className="flex flex-col items-center gap-2">
-                    <Clock className={`w-4 h-4 ${isDark ? 'text-gray-400' : 'text-gray-700'}`} />
+                    <Clock className={`w-4 h-4 ${isDark ? 'text-gray-400' : 'text-slate-700'}`} />
                     <span className="text-xs">{duration}</span>
                   </div>
                   <div className="flex flex-col items-center gap-2">
@@ -725,13 +807,13 @@ export default function CourseIntro({ courseSlug }) {
         <section id="overview" className="max-w-screen-2xl mx-auto px-6 md:px-10 pb-6">
           <div className="grid lg:grid-cols-2 gap-6">
             <div className="space-y-6">
-              <div className={`rounded-xl border shadow-sm p-6 ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
+              <div className={`rounded-xl border shadow-sm p-6 ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-slate-200'}`}>
                 <h2 className="text-xl font-semibold mb-3">Overview</h2>
-                <p className={isDark ? 'text-gray-300' : 'text-gray-700'}>{overview}</p>
+                <p className={isDark ? 'text-gray-300' : 'text-slate-700'}>{overview}</p>
               </div>
-              <div className={`rounded-xl border shadow-sm p-6 ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
+              <div className={`rounded-xl border shadow-sm p-6 ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-slate-200'}`}>
                 <h2 className="text-xl font-semibold mb-3">What You’ll Learn</h2>
-                <ul className={`space-y-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                <ul className={`space-y-2 ${isDark ? 'text-gray-300' : 'text-slate-700'}`}>
                   {Array.isArray(data.whatYouWillLearn) ? data.whatYouWillLearn.map((item) => (
                     <li key={item} className="flex items-start gap-2">
                       <span className="mt-1 w-2 h-2 rounded-full bg-blue-600" />
@@ -740,9 +822,9 @@ export default function CourseIntro({ courseSlug }) {
                   )) : null}
                 </ul>
               </div>
-              <div className={`rounded-xl border shadow-sm p-6 ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
+              <div className={`rounded-xl border shadow-sm p-6 ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-slate-200'}`}>
                 <h2 className="text-xl font-semibold mb-3">Prerequisites</h2>
-                <ul className={`space-y-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                <ul className={`space-y-2 ${isDark ? 'text-gray-300' : 'text-slate-700'}`}>
                   {prerequisites.map((p) => (
                     <li key={p} className="flex items-start gap-2">
                       <span className="mt-1 w-2 h-2 rounded-full bg-blue-600" />
@@ -753,20 +835,20 @@ export default function CourseIntro({ courseSlug }) {
               </div>
             </div>
             <aside className="space-y-6">
-              <div className={`w-full rounded-xl border shadow-sm p-6 ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
+              <div className={`w-full rounded-xl border shadow-sm p-6 ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-slate-200'}`}>
                 <h3 className="text-lg font-semibold mb-3">Skills Covered</h3>
                 <div className="grid grid-cols-2 gap-3">
                   {skills.map(({ icon: Icon, label }) => (
-                    <div key={label} className={`flex items-center gap-2 px-3 py-2 rounded-lg border ${isDark ? 'border-gray-800 text-gray-300' : 'border-gray-200 text-gray-700'}`}>
+                    <div key={label} className={`flex items-center gap-2 px-3 py-2 rounded-lg border ${isDark ? 'border-gray-800 text-gray-300' : 'border-slate-200 text-slate-700'}`}>
                       <Icon className="w-4 h-4 text-blue-600" />
                       <span className="text-sm">{label}</span>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className={`w-full rounded-xl border shadow-sm p-6 ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
+              <div className={`w-full rounded-xl border shadow-sm p-6 ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-slate-200'}`}>
                 <h3 className="text-lg font-semibold">Achievements</h3>
-                <p className={`text-sm mb-4 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Badges you can earn in this course.</p>
+                <p className={`text-sm mb-4 ${isDark ? 'text-gray-400' : 'text-slate-600'}`}>Badges you can earn in this course.</p>
                 <div className="grid grid-cols-5 gap-3">
                   {achievementIcons.map((IconComp, idx) => (
                     <div key={idx} className="flex items-center justify-center w-16 h-16 rounded-full border-2 border-green-400">
@@ -780,27 +862,27 @@ export default function CourseIntro({ courseSlug }) {
         </section>
 
         <section className="max-w-screen-2xl mx-auto px-6 md:px-10 py-6">
-          <div className={`flex items-center gap-6 border-b ${isDark ? 'border-gray-800' : 'border-gray-200'}`}>
-            <button className={`py-3 px-1 font-medium border-b-2 border-blue-600 ${isDark ? 'text-gray-100' : 'text-gray-800'}`}>Curriculum</button>
+          <div className={`flex items-center gap-6 border-b ${isDark ? 'border-gray-800' : 'border-slate-200'}`}>
+            <button className={`py-3 px-1 font-medium border-b-2 border-blue-600 ${isDark ? 'text-gray-100' : 'text-slate-900'}`}>Curriculum</button>
           </div>
           <div className="grid lg:grid-cols-3 gap-6 mt-6">
             <div className="lg:col-span-2 space-y-4">
               {syllabusModules.map((m) => (
-                <details key={m.id} className={`group rounded-xl border shadow-sm ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
+                <details key={m.id} className={`group rounded-xl border shadow-sm ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-slate-200'}`}>
                   <summary className="list-none cursor-pointer px-5 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className={`w-8 h-8 rounded-full border flex items-center justify-center ${isDark ? 'bg-green-900/20 border-green-800' : 'bg-green-100 border-green-300'}`}>
+                      <div className={`w-8 h-8 rounded-full border flex items-center justify-center ${isDark ? 'bg-green-900/20 border-green-800' : 'bg-green-50 border-green-300'}`}>
                         <Shield className="w-4 h-4 text-green-600" />
                       </div>
                       <div>
                         <div className="font-medium">{m.title}</div>
-                        <div className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{m.duration}</div>
+                        <div className={`text-sm ${isDark ? 'text-gray-400' : 'text-slate-600'}`}>{m.duration}</div>
                       </div>
                     </div>
                     <div className="text-gray-500 group-open:rotate-180 transition-transform">▾</div>
                   </summary>
                   <div className="px-5 pb-4">
-                    <ul className={`list-disc pl-6 space-y-1 text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                    <ul className={`list-disc pl-6 space-y-1 text-sm ${isDark ? 'text-gray-300' : 'text-slate-700'}`}>
                       {m.topics.map((t) => (
                         <li key={t}>{t}</li>
                       ))}
@@ -811,9 +893,9 @@ export default function CourseIntro({ courseSlug }) {
               ))}
             </div>
             <aside className="space-y-6">
-              <div className={`rounded-xl border shadow-sm p-6 ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
+              <div className={`rounded-xl border shadow-sm p-6 ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-slate-200'}`}>
                 <h3 className="text-lg font-semibold mb-3">Skills You Will Learn</h3>
-                <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Reconnaissance, vulnerability analysis, exploitation basics, reporting and mitigation recommendations.</p>
+                <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-slate-700'}`}>Reconnaissance, vulnerability analysis, exploitation basics, reporting and mitigation recommendations.</p>
               </div>
             </aside>
           </div>

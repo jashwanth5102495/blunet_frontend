@@ -9548,7 +9548,7 @@ if plt.get_fignums():
   const disabledNext = currentModuleIndex === courseData.length - 1;
 
   return (
-    <div className={`flex h-screen ${isDark ? 'bg-[#121212] text-white' : 'bg-gray-50 text-gray-900'} overflow-hidden font-sans`}>
+    <div className={`flex h-screen ${isDark ? 'bg-[#121212] text-white' : 'bg-gray-50 text-gray-900'} overflow-hidden font-sans`} style={{ zoom: 1.1 }}>
       <Sidebar 
         activeModuleId={activeModuleId}
         setActiveModuleId={setActiveModuleId}

@@ -226,7 +226,22 @@ const StudentPortal: React.FC = () => {
     const mappings: { [key: string]: string[] } = {
       'ai-tools-mastery': ['1', 'AI-TOOLS-MASTERY', 'ai-tools-mastery', 'AI Tools Mastery'],
       'frontend-beginner': ['frontend-beginner', 'Frontend Development - Beginner', 'FRONTEND-BEGINNER'],
-      'frontend-intermediate': ['frontend-intermediate', 'Frontend Development - Intermediate', 'FRONTEND-INTERMEDIATE', 'frontend_intermediate', 'front-end-intermediate', 'Front-End Intermediate', 'Intermediate Frontend'],
+      'frontend-intermediate': [
+        'frontend-intermediate',
+        'frontend-development-intermediate',
+        'Frontend Development - Intermediate',
+        'FRONTEND-INTERMEDIATE',
+        'frontend_intermediate',
+        'front-end-intermediate',
+        'Front-End Intermediate',
+        'Intermediate Frontend'
+      ],
+      'frontend-development-intermediate': [
+        'frontend-intermediate',
+        'frontend-development-intermediate',
+        'Frontend Development - Intermediate',
+        'FRONTEND-INTERMEDIATE'
+      ],
       'frontend-advanced': ['3', 'frontend-advanced', 'Frontend Development - Advanced'],
       'devops-beginner': ['DEVOPS-BEGINNER', 'devops-beginner', 'DevOps - Beginner'],
       'devops-intermediate': ['4', 'devops-intermediate', 'DevOps - Intermediate'],
@@ -239,8 +254,8 @@ const StudentPortal: React.FC = () => {
       'AI-TOOLS-MASTERY': ['ai-tools-mastery', '1', 'AI-TOOLS-MASTERY'],
       'AI Tools Mastery': ['ai-tools-mastery', '1', 'AI-TOOLS-MASTERY'],
       'Frontend Development - Beginner': ['frontend-beginner', 'FRONTEND-BEGINNER'],
-      'Frontend Development - Intermediate': ['frontend-intermediate', 'FRONTEND-INTERMEDIATE'],
-      'FRONTEND-INTERMEDIATE': ['frontend-intermediate', 'Frontend Development - Intermediate'],
+      'Frontend Development - Intermediate': ['frontend-intermediate', 'frontend-development-intermediate', 'FRONTEND-INTERMEDIATE'],
+      'FRONTEND-INTERMEDIATE': ['frontend-intermediate', 'frontend-development-intermediate', 'Frontend Development - Intermediate'],
       'FRONTEND-BEGINNER': ['frontend-beginner', 'Frontend Development - Beginner'],
       'DevOps - Beginner': ['devops-beginner', 'DEVOPS-BEGINNER'],
       'DEVOPS-BEGINNER': ['devops-beginner', 'DevOps - Beginner'],
@@ -3543,6 +3558,7 @@ const StudentPortal: React.FC = () => {
       'FRONTEND-BEGINNER': '/frontend-development-beginner',
       'Frontend Development - Beginner': '/frontend-development-beginner',
       'frontend-intermediate': '/frontend-development-intermediate',
+      'frontend-development-intermediate': '/frontend-development-intermediate',
       'FRONTEND-INTERMEDIATE': '/frontend-development-intermediate',
       'frontend-advanced': '/course-learning-advanced/frontend-advanced/advanced-react/performance-optimization',
       'devops-beginner': '/devops-beginner',

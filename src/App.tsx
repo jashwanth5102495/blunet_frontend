@@ -37,6 +37,7 @@ const CourseLearningNetworkingBeginner = lazy(() => import('./components/CourseL
 const CourseLearningNetworkingIntermediate = lazy(() => import('./components/CourseLearningNetworkingIntermediate'));
 const CourseLearningCyberSecurityBeginner = lazy(() => import('./components/CourseLearningCyberSecurityBeginner'));
 const CourseLearningFrontendBeginner = lazy(() => import('./components/CourseLearningFrontendBeginner'));
+const CourseLearningFrontendIntermediate = lazy(() => import('./components/CourseLearningFrontendIntermediate'));
 const CourseLearningCyberSecurityIntermediate = lazy(() => import('./components/CourseLearningCyberSecurityIntermediate'));
 const CourseLearningDataScienceBeginner = lazy(() => import('./components/CourseLearningDataScienceBeginner'));
 const CourseEnrollment = lazy(() => import('./components/CourseEnrollment'));
@@ -151,8 +152,9 @@ function AppInner() {
               }
             />
   
-            <Route path="/frontend-development-intermediate" element={<><Header hideDock={true} /><IntroductionPage /></>} />
-            <Route path="/frontend-development-intermediate/module/:slug" element={<><Header hideDock={true} /><ModuleComingSoon /></>} />
+            <Route path="/frontend-development-intermediate" element={<><Header hideDock={true} /><CourseIntro courseSlug="frontend-development-intermediate" /></>} />
+            <Route path="/new-frontend-development-intermediate" element={<Navigate to="/frontend-development-intermediate" replace />} />
+            <Route path="/frontend-development-intermediate/module/:slug" element={<><Header hideDock={true} /><CourseLearningFrontendIntermediate /></>} />
             <Route path="/course-enrollment/:courseId" element={<CourseEnrollment />} />
             <Route path="/student-registration" element={<StudentRegistration />} />
             <Route path="/student-login" element={<StudentLogin />} />

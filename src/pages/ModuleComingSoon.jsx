@@ -3174,7 +3174,7 @@ js/
                 It uses key-value pairs and supports arrays and nested objects.
               </p>
               <pre className="rounded bg-gray-900 text-gray-100 p-4 overflow-auto text-sm">{`{
-  "name": "Jashwanth",
+  "name": "Sai",
   "age": 21,
   "skills": ["HTML", "CSS", "JS"]
 }`}</pre>
