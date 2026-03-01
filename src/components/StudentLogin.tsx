@@ -8,6 +8,40 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
+// ── Fire-and-forget error reporter ─────────────────────────────────
+// Sends client-side errors to the backend so they appear in Railway logs.
+// Never throws, never blocks UI.
+function reportClientError(
+  action: string,
+  error: unknown,
+  metadata: Record<string, unknown> = {}
+) {
+  try {
+    const payload = {
+      source: 'StudentLogin',
+      action,
+      error: error instanceof Error
+        ? { name: error.name, message: error.message, stack: error.stack?.substring(0, 500) }
+        : String(error),
+      metadata: {
+        ...metadata,
+        url: window.location.href,
+        timestamp: new Date().toISOString(),
+        googleClientIdSet: Boolean(import.meta.env.VITE_GOOGLE_CLIENT_ID),
+        backendUrl: BASE_URL,
+      },
+    };
+    // Fire-and-forget — don't await, don't catch
+    fetch(`${BASE_URL}/api/log/client-error`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }).catch(() => { /* silently ignore if backend is unreachable */ });
+  } catch {
+    // Never let reporting break the UI
+  }
+}
+
 interface GoogleLoginButtonProps {
   onSuccess: (tokenResponse: any) => void;
   onError: () => void;
@@ -141,28 +175,79 @@ const StudentLogin = () => {
     try {
       setIsGoogleLoading(true);
       setError('');
-      // Get user info from Google using the access token
-      const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-        headers: {
-          Authorization: `Bearer ${tokenResponse.access_token}`,
-        },
+
+      // ── Stage 1: Fetch user info from Google ──────────────
+      reportClientError('google-login:stage1:start', 'info', {
+        hasAccessToken: Boolean(tokenResponse?.access_token),
+        tokenResponseKeys: tokenResponse ? Object.keys(tokenResponse) : [],
       });
-      const userInfo = await userInfoResponse.json();
-      // Send the access token or user info to your backend
-      const resp = await fetch(`${BASE_URL}/api/students/google-login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({ 
-          accessToken: tokenResponse.access_token,
-          userInfo: userInfo
-        })
+
+      let userInfo: any;
+      try {
+        const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: {
+            Authorization: `Bearer ${tokenResponse.access_token}`,
+          },
+        });
+        if (!userInfoResponse.ok) {
+          const text = await userInfoResponse.text().catch(() => '');
+          reportClientError('google-login:stage1:userinfo-failed', text, {
+            status: userInfoResponse.status,
+            statusText: userInfoResponse.statusText,
+          });
+          throw new Error(`Google userinfo request failed (${userInfoResponse.status}): ${text}`);
+        }
+        userInfo = await userInfoResponse.json();
+        reportClientError('google-login:stage1:userinfo-ok', 'info', {
+          hasEmail: Boolean(userInfo?.email),
+          hasSub: Boolean(userInfo?.sub),
+        });
+      } catch (userInfoErr) {
+        reportClientError('google-login:stage1:userinfo-exception', userInfoErr, {
+          stage: 'fetching Google userinfo',
+        });
+        throw userInfoErr;
+      }
+
+      // ── Stage 2: Send to backend /google-login ────────────
+      let resp: Response;
+      try {
+        resp = await fetch(`${BASE_URL}/api/students/google-login`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ 
+            accessToken: tokenResponse.access_token,
+            userInfo: userInfo
+          })
+        });
+      } catch (fetchErr) {
+        reportClientError('google-login:stage2:fetch-exception', fetchErr, {
+          stage: 'POST /api/students/google-login',
+          backendUrl: BASE_URL,
+        });
+        throw fetchErr;
+      }
+
+      // ── Stage 3: Parse backend response ───────────────────
+      const data = await resp.json().catch(async () => {
+        const raw = await resp.text().catch(() => '');
+        reportClientError('google-login:stage3:json-parse-failed', raw, {
+          status: resp.status,
+          contentType: resp.headers.get('content-type'),
+        });
+        return { raw };
       });
-      const data = await resp.json().catch(async () => ({ raw: await resp.text() }));
+
       if (!resp.ok || !data?.success) {
         const msg = data?.message || data?.error || 'Google login failed.';
+        reportClientError('google-login:stage3:backend-rejected', msg, {
+          status: resp.status,
+          success: data?.success,
+          dataKeys: data ? Object.keys(data) : [],
+        });
         setError(msg);
         toast.error(msg, {
           duration: 4000,
@@ -171,6 +256,8 @@ const StudentLogin = () => {
         setIsGoogleLoading(false);
         return;
       }
+
+      // ── Stage 4: Store session & navigate ─────────────────
       const { student, token, needsSetup } = data.data;
       const userData = { ...student, isAuthenticated: true, token };
       localStorage.setItem('currentUser', JSON.stringify(userData));
@@ -186,7 +273,7 @@ const StudentLogin = () => {
         navigate('/student-portal');
       }
     } catch (e) {
-      console.error('Google login error:', e);
+      reportClientError('google-login:unhandled-exception', e);
       const errorMsg = 'Unable to login with Google. Please try again.';
       setError(errorMsg);
       toast.error(errorMsg, {
@@ -199,7 +286,10 @@ const StudentLogin = () => {
   };
 
   const handleGoogleError = () => {
-    console.log('Google Login Failed');
+    reportClientError('google-login:popup-error', 'Google OAuth popup failed or was cancelled', {
+      googleClientIdSet: Boolean(import.meta.env.VITE_GOOGLE_CLIENT_ID),
+      currentOrigin: window.location.origin,
+    });
     const errorMsg = 'Google login failed. Please try again.';
     setError(errorMsg);
     toast.error(errorMsg, {
