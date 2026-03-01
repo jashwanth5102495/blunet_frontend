@@ -145,7 +145,7 @@ interface ActiveUserRow {
 
 const AdminPanel: React.FC = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'projects' | 'courses' | 'payments' | 'referral' | 'faculty' | 'activeUsers'>('projects');
+  const [activeTab, setActiveTab] = useState<'projects' | 'courses' | 'payments' | 'referral' | 'faculty' | 'activeUsers' | 'total'>('projects');
   const [projects, setProjects] = useState<Project[]>([]);
   const [students, setStudents] = useState<Student[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
@@ -365,6 +365,51 @@ const AdminPanel: React.FC = () => {
     const end = start + studentsPerPage;
     return filteredStudents.slice(start, end);
   }, [filteredStudents, currentStudentPage]);
+
+  const courseEnrollmentStats = useMemo(() => {
+    const stats: Record<string, { count: number; students: Student[] }> = {};
+    
+    // Initialize with specific courses requested to ensure specific order/presence
+    const targetCourses = [
+      'Frontend Development - Beginner',
+      'Frontend Development - Intermediate',
+      'Networking – Advanced (CCNA Certification Track)',
+      'Cyber Security - Beginner',
+      'Cyber Security - Intermediate'
+    ];
+
+    targetCourses.forEach(courseTitle => {
+        stats[courseTitle] = { count: 0, students: [] };
+    });
+
+    students.forEach(student => {
+      if (student.enrolledCourses && Array.isArray(student.enrolledCourses)) {
+        student.enrolledCourses.forEach(enrollment => {
+           let courseTitle = 'Unknown Course';
+           if (typeof enrollment.courseId === 'object' && enrollment.courseId !== null) {
+               // @ts-ignore
+               courseTitle = enrollment.courseId.title || 'Unknown Course';
+           } else if (typeof enrollment.courseId === 'string') {
+               // Try to lookup title from known courses if possible, or just use ID
+               courseTitle = enrollment.courseId; 
+               // You might want to map IDs to titles here if needed
+           }
+           
+           if (!stats[courseTitle]) {
+               stats[courseTitle] = { count: 0, students: [] };
+           }
+           
+           // Avoid duplicates
+           if (!stats[courseTitle].students.find(s => s._id === student._id)) {
+               stats[courseTitle].students.push(student);
+               stats[courseTitle].count++;
+           }
+        });
+      }
+    });
+    
+    return stats;
+  }, [students]);
 
   useEffect(() => {
     // Reset to first page when data, filter, or search changes
@@ -1275,6 +1320,18 @@ const AdminPanel: React.FC = () => {
             <span className="text-xl">👥</span>
             <span>Active Users</span>
           </button>
+
+          <button
+            onClick={() => setActiveTab('total')}
+            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
+              activeTab === 'total'
+                ? 'bg-blue-600 text-white shadow-lg'
+                : 'text-gray-400 hover:text-white hover:bg-white/10'
+            }`}
+          >
+            <span className="text-xl">📋</span>
+            <span>Total Enrolled</span>
+          </button>
         </nav>
 
         {/* Footer */}
@@ -1300,6 +1357,7 @@ const AdminPanel: React.FC = () => {
                 {activeTab === 'payments' && '💳 Payment Records'}
                 {activeTab === 'referral' && '🤝 Faculty & Referral System'}
                 {activeTab === 'activeUsers' && '👥 Active Users'}
+                {activeTab === 'total' && '📋 Total Enrollments'}
               </h2>
               <p className="text-white/70 mt-1">
                 {activeTab === 'projects' && 'Manage and track all client projects'}
@@ -1307,6 +1365,7 @@ const AdminPanel: React.FC = () => {
                 {activeTab === 'payments' && 'View payment history and transactions'}
                 {activeTab === 'referral' && 'Track referral codes and commission earnings'}
                 {activeTab === 'activeUsers' && 'Live active students and engagement time overview'}
+                {activeTab === 'total' && 'Overview of all students enrolled in each course'}
               </p>
             </div>
           </div>
@@ -1389,6 +1448,47 @@ const AdminPanel: React.FC = () => {
                   </table>
                 </div>
               </div>
+            </div>
+          )}
+          {activeTab === 'total' && (
+            <div className="space-y-6">
+              {Object.entries(courseEnrollmentStats).map(([courseTitle, data]) => (
+                <div key={courseTitle} className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-xl font-bold text-white">{courseTitle}</h3>
+                    <div className="px-4 py-2 bg-blue-600/20 text-blue-400 rounded-lg font-bold">
+                      Total: {data.count}
+                    </div>
+                  </div>
+                  
+                  {data.count > 0 ? (
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full table-auto">
+                        <thead>
+                          <tr className="text-left text-white/70 text-sm">
+                            <th className="px-4 py-2">Name</th>
+                            <th className="px-4 py-2">Email</th>
+                            <th className="px-4 py-2">Phone</th>
+                            <th className="px-4 py-2">Student ID</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-white/10">
+                          {data.students.map(student => (
+                            <tr key={student._id} className="text-white hover:bg-white/5">
+                              <td className="px-4 py-3">{student.firstName} {student.lastName}</td>
+                              <td className="px-4 py-3 text-white/80">{student.email}</td>
+                              <td className="px-4 py-3 text-white/80">{student.phone}</td>
+                              <td className="px-4 py-3 text-white/60 font-mono">{student.studentId}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <p className="text-white/40 italic">No students enrolled yet.</p>
+                  )}
+                </div>
+              ))}
             </div>
           )}
         {activeTab === 'projects' && (

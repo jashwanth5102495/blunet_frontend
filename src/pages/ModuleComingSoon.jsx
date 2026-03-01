@@ -2482,8 +2482,7 @@ root.render(React.createElement(App));`,
         'React introduction and why React',
         'Installing Node.js and verifying',
         'Create React App vs Vite',
-        'React project structure overview',
-        'Official docs and resources'
+        'React project structure overview'
       ],
       'module-1': [
         'Deep dive into semantic HTML5',
@@ -3175,7 +3174,7 @@ js/
                 It uses key-value pairs and supports arrays and nested objects.
               </p>
               <pre className="rounded bg-gray-900 text-gray-100 p-4 overflow-auto text-sm">{`{
-  "name": "Jashwanth",
+  "name": "Sai",
   "age": 21,
   "skills": ["HTML", "CSS", "JS"]
 }`}</pre>

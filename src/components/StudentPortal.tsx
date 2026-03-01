@@ -17,7 +17,8 @@ import {
   Squares2X2Icon,
   CalendarDaysIcon,
   ChatBubbleLeftRightIcon,
-  ChatBubbleOvalLeftEllipsisIcon
+  ChatBubbleOvalLeftEllipsisIcon,
+  Bars3Icon
 } from '@heroicons/react/24/outline';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
@@ -137,6 +138,7 @@ const StudentPortal: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [studentProfile, setStudentProfile] = useState<StudentProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -232,7 +234,22 @@ const StudentPortal: React.FC = () => {
     const mappings: { [key: string]: string[] } = {
       'ai-tools-mastery': ['1', 'AI-TOOLS-MASTERY', 'ai-tools-mastery', 'AI Tools Mastery'],
       'frontend-beginner': ['frontend-beginner', 'Frontend Development - Beginner', 'FRONTEND-BEGINNER'],
-      'frontend-intermediate': ['frontend-intermediate', 'Frontend Development - Intermediate', 'FRONTEND-INTERMEDIATE', 'frontend_intermediate', 'front-end-intermediate', 'Front-End Intermediate', 'Intermediate Frontend'],
+      'frontend-intermediate': [
+        'frontend-intermediate',
+        'frontend-development-intermediate',
+        'Frontend Development - Intermediate',
+        'FRONTEND-INTERMEDIATE',
+        'frontend_intermediate',
+        'front-end-intermediate',
+        'Front-End Intermediate',
+        'Intermediate Frontend'
+      ],
+      'frontend-development-intermediate': [
+        'frontend-intermediate',
+        'frontend-development-intermediate',
+        'Frontend Development - Intermediate',
+        'FRONTEND-INTERMEDIATE'
+      ],
       'frontend-advanced': ['3', 'frontend-advanced', 'Frontend Development - Advanced'],
       'devops-beginner': ['DEVOPS-BEGINNER', 'devops-beginner', 'DevOps - Beginner'],
       'devops-intermediate': ['4', 'devops-intermediate', 'DevOps - Intermediate'],
@@ -245,8 +262,8 @@ const StudentPortal: React.FC = () => {
       'AI-TOOLS-MASTERY': ['ai-tools-mastery', '1', 'AI-TOOLS-MASTERY'],
       'AI Tools Mastery': ['ai-tools-mastery', '1', 'AI-TOOLS-MASTERY'],
       'Frontend Development - Beginner': ['frontend-beginner', 'FRONTEND-BEGINNER'],
-      'Frontend Development - Intermediate': ['frontend-intermediate', 'FRONTEND-INTERMEDIATE'],
-      'FRONTEND-INTERMEDIATE': ['frontend-intermediate', 'Frontend Development - Intermediate'],
+      'Frontend Development - Intermediate': ['frontend-intermediate', 'frontend-development-intermediate', 'FRONTEND-INTERMEDIATE'],
+      'FRONTEND-INTERMEDIATE': ['frontend-intermediate', 'frontend-development-intermediate', 'Frontend Development - Intermediate'],
       'FRONTEND-BEGINNER': ['frontend-beginner', 'Frontend Development - Beginner'],
       'DevOps - Beginner': ['devops-beginner', 'DEVOPS-BEGINNER'],
       'DEVOPS-BEGINNER': ['devops-beginner', 'DevOps - Beginner'],
@@ -2729,7 +2746,42 @@ const StudentPortal: React.FC = () => {
       courseName: 'DevOps - Beginner',
       dueDate: '2024-04-08',
       status: 'pending',
-      description: 'How software moves from idea to production'
+      description: 'How software moves from idea to production',
+      studyMaterials: [
+        'SDLC Phases: Requirement, Design, Develop, Test, Deploy, Maintain',
+        'Agile vs Waterfall Methodologies',
+        'CI/CD Concepts: Continuous Integration, Delivery, & Deployment',
+        'Release Strategies: Blue-Green, Canary, Rolling Updates',
+        'Semantic Versioning (Major.Minor.Patch)',
+        'Environment Management (Dev, Staging, Prod)'
+      ],
+      testQuestions: [
+        {
+          question: 'Which release strategy involves running two identical environments (old and new) simultaneously?',
+          options: ['Rolling Update', 'Blue-Green Deployment', 'Canary Release', 'Big Bang'],
+          correctAnswer: 1
+        },
+        {
+          question: 'What does "CI" stand for in CI/CD?',
+          options: ['Continuous Improvement', 'Continuous Integration', 'Code Inspection', 'Cloud Infrastructure'],
+          correctAnswer: 1
+        },
+        {
+          question: 'Which methodology emphasizes iterative development and adaptability?',
+          options: ['Waterfall', 'Agile', 'V-Model', 'Spiral'],
+          correctAnswer: 1
+        },
+        {
+          question: 'In Semantic Versioning (e.g., 1.2.3), what does the number "2" represent?',
+          options: ['Major version', 'Minor version', 'Patch version', 'Build number'],
+          correctAnswer: 1
+        },
+        {
+          question: 'What is typically the first phase of the Software Development Lifecycle (SDLC)?',
+          options: ['Testing', 'Deployment', 'Requirement Analysis', 'Coding'],
+          correctAnswer: 2
+        }
+      ]
     },
     {
       id: 'devops-beginner-3',
@@ -2738,7 +2790,42 @@ const StudentPortal: React.FC = () => {
       courseName: 'DevOps - Beginner',
       dueDate: '2024-04-15',
       status: 'pending',
-      description: 'What DevOps engineers must understand about systems'
+      description: 'What DevOps engineers must understand about systems',
+      studyMaterials: [
+        'OSI Model Layers (Focus on L4 Transport & L7 Application)',
+        'TCP/IP Basics: IP Addressing, Subnets, DNS, DHCP',
+        'Linux Process Management: ps, top, kill, systemd',
+        'Linux File System Hierarchy & Permissions (chmod, chown)',
+        'SSH & Remote Management Best Practices',
+        'HTTP/HTTPS Protocols, Headers & Status Codes'
+      ],
+      testQuestions: [
+        {
+          question: 'Which port is the default for HTTPS traffic?',
+          options: ['80', '22', '443', '8080'],
+          correctAnswer: 2
+        },
+        {
+          question: 'Which command is used to change file permissions in Linux?',
+          options: ['chown', 'chmod', 'chgrp', 'passwd'],
+          correctAnswer: 1
+        },
+        {
+          question: 'Which OSI model layer is responsible for end-to-end communication (e.g., TCP, UDP)?',
+          options: ['Layer 1 (Physical)', 'Layer 3 (Network)', 'Layer 4 (Transport)', 'Layer 7 (Application)'],
+          correctAnswer: 2
+        },
+        {
+          question: 'What is the primary purpose of SSH (Secure Shell)?',
+          options: ['Web browsing', 'Secure remote login and command execution', 'File compression', 'Database management'],
+          correctAnswer: 1
+        },
+        {
+          question: 'What function does DNS perform?',
+          options: ['Encrypts data', 'Resolves domain names to IP addresses', 'Routes packets', 'Filters firewall traffic'],
+          correctAnswer: 1
+        }
+      ]
     },
     {
       id: 'devops-beginner-4',
@@ -2747,7 +2834,42 @@ const StudentPortal: React.FC = () => {
       courseName: 'DevOps - Beginner',
       dueDate: '2024-04-22',
       status: 'pending',
-      description: 'Beginner DevSecOps thinking'
+      description: 'Beginner DevSecOps thinking',
+      studyMaterials: [
+        'Principle of Least Privilege',
+        'IAM (Identity and Access Management) Fundamentals',
+        'SSH Key Management vs Password Authentication',
+        'Secrets Management: Environment Variables vs Vaults',
+        'Firewall Basics: UFW, Security Groups, NACLs',
+        'Common Vulnerabilities: OWASP Top 10 Awareness'
+      ],
+      testQuestions: [
+        {
+          question: 'What is the "Principle of Least Privilege"?',
+          options: ['Giving users all access by default', 'Giving users only the access they need to do their job', 'Giving admins less access than users', 'Removing all access'],
+          correctAnswer: 1
+        },
+        {
+          question: 'Where should application secrets (API keys, DB passwords) be stored?',
+          options: ['Hardcoded in source code', 'In public GitHub repositories', 'Environment variables or Secrets Manager', 'Text files on desktop'],
+          correctAnswer: 2
+        },
+        {
+          question: 'What does IAM stand for in the context of cloud security?',
+          options: ['Internet Access Mode', 'Identity and Access Management', 'Internal Application Monitor', 'Infrastructure as Machine'],
+          correctAnswer: 1
+        },
+        {
+          question: 'Which of the following is a common host-based firewall for Linux?',
+          options: ['Notepad', 'UFW (Uncomplicated Firewall)', 'Excel', 'VLC'],
+          correctAnswer: 1
+        },
+        {
+          question: 'What is the OWASP Top 10?',
+          options: ['A list of the top 10 DevOps tools', 'A standard awareness document for the most critical web application security risks', 'A list of the top 10 cloud providers', 'A coding challenge'],
+          correctAnswer: 1
+        }
+      ]
     },
     {
       id: 'devops-beginner-5',
@@ -2756,7 +2878,42 @@ const StudentPortal: React.FC = () => {
       courseName: 'DevOps - Beginner',
       dueDate: '2024-04-29',
       status: 'pending',
-      description: 'How systems behave under load and failure'
+      description: 'How systems behave under load and failure',
+      studyMaterials: [
+        'High Availability (HA) vs Fault Tolerance',
+        'Load Balancing Strategies: Round Robin, Least Connections',
+        'Monitoring Metrics: CPU, Memory, Latency, Throughput',
+        'Logging Best Practices: Structured Logging, Log Levels',
+        'Disaster Recovery Concepts: RTO (Recovery Time Objective) & RPO',
+        'Scalability Types: Vertical vs Horizontal Scaling'
+      ],
+      testQuestions: [
+        {
+          question: 'What is "Horizontal Scaling"?',
+          options: ['Adding more power (CPU/RAM) to an existing server', 'Adding more servers to the pool', 'Deleting servers', 'Upgrading the OS'],
+          correctAnswer: 1
+        },
+        {
+          question: 'What does RTO stand for in Disaster Recovery?',
+          options: ['Real Time Optimization', 'Recovery Time Objective', 'Return To Origin', 'Rapid Task Organization'],
+          correctAnswer: 1
+        },
+        {
+          question: 'What is the primary function of a Load Balancer?',
+          options: ['To encrypt data', 'To distribute incoming network traffic across multiple servers', 'To store backup files', 'To write code'],
+          correctAnswer: 1
+        },
+        {
+          question: 'What is "Structured Logging"?',
+          options: ['Writing logs on paper', 'Writing logs in a consistent, machine-parsable format like JSON', 'Writing random notes', 'Logging only errors'],
+          correctAnswer: 1
+        },
+        {
+          question: 'What does "High Availability" aim to minimize?',
+          options: ['Cost', 'Downtime', 'Security', 'Performance'],
+          correctAnswer: 1
+        }
+      ]
     },
     {
       id: 'devops-beginner-6',
@@ -2765,7 +2922,42 @@ const StudentPortal: React.FC = () => {
       courseName: 'DevOps - Beginner',
       dueDate: '2024-05-06',
       status: 'pending',
-      description: 'Industry tools, roles, and best practices'
+      description: 'Industry tools, roles, and best practices',
+      studyMaterials: [
+        'The DevOps Periodic Table: Understanding the Tool Landscape',
+        'Git & Version Control: Branching Strategies (GitFlow, Trunk-Based)',
+        'Containerization (Docker) vs Virtualization (VMs)',
+        'Orchestration: Kubernetes High-Level Overview',
+        'Infrastructure as Code (IaC): Terraform & Ansible Concepts',
+        'Collaboration Tools: Jira, Slack, & Documentation (Confluence)'
+      ],
+      testQuestions: [
+        {
+          question: 'Which tool is primarily used for "Infrastructure as Code"?',
+          options: ['Photoshop', 'Terraform', 'Slack', 'Excel'],
+          correctAnswer: 1
+        },
+        {
+          question: 'What is the main difference between a Container and a VM?',
+          options: ['Containers are larger', 'VMs share the OS kernel, Containers do not', 'Containers share the OS kernel, VMs have their own OS', 'No difference'],
+          correctAnswer: 2
+        },
+        {
+          question: 'What is "GitFlow"?',
+          options: ['A type of coffee', 'A Git branching strategy', 'A network protocol', 'A programming language'],
+          correctAnswer: 1
+        },
+        {
+          question: 'What is Kubernetes primarily used for?',
+          options: ['Word processing', 'Container Orchestration', 'Image editing', 'Video streaming'],
+          correctAnswer: 1
+        },
+        {
+          question: 'Which tool is commonly used for issue tracking and project management in DevOps?',
+          options: ['Jira', 'Notepad', 'Paint', 'WinRAR'],
+          correctAnswer: 0
+        }
+      ]
     },
 
     // Networking - Beginner Course Assignments (Course ID: 'networking-beginner')
@@ -3405,6 +3597,7 @@ const StudentPortal: React.FC = () => {
       'FRONTEND-BEGINNER': '/frontend-development-beginner',
       'Frontend Development - Beginner': '/frontend-development-beginner',
       'frontend-intermediate': '/frontend-development-intermediate',
+      'frontend-development-intermediate': '/frontend-development-intermediate',
       'FRONTEND-INTERMEDIATE': '/frontend-development-intermediate',
       'frontend-advanced': '/course-learning-advanced/frontend-advanced/advanced-react/performance-optimization',
       'devops-beginner': '/devops-beginner',
@@ -3429,7 +3622,9 @@ const StudentPortal: React.FC = () => {
       'CYBERSECURITY-INTERMEDIATE': '/cyber-security-intermediate/module/module-1',
       'cyber-security-advanced': '/cyber-security-advanced',
       'CYBER-SECURITY-ADVANCED': '/cyber-security-advanced',
-      'cybersecurity-advanced': '/cyber-security-advanced'
+      'cybersecurity-advanced': '/cyber-security-advanced',
+      'data-science-beginner': '/data-science-beginner/module/module-1',
+      'DATA-SCIENCE-BEGINNER': '/data-science-beginner/module/module-1'
     };
 
     const mappingKeys = getCourseIdMapping(courseId);
@@ -4723,7 +4918,10 @@ const StudentPortal: React.FC = () => {
       <Sidebar
         items={sidebarItems}
         activeId={activeTab}
-        onSelect={(id) => setActiveTab(id)}
+        onSelect={(id) => {
+          setActiveTab(id);
+          setIsSidebarOpen(false);
+        }}
         profile={
           studentProfile
             ? {
@@ -4734,21 +4932,36 @@ const StudentPortal: React.FC = () => {
             : undefined
         }
         onProfileClick={() => setShowProfileDetails(true)}
+        mobileOpen={isSidebarOpen}
+        onMobileClose={() => setIsSidebarOpen(false)}
       />
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col relative z-10 min-w-0">
         {/* Top Header */}
         <header className="px-4 pt-4">
-          <div className="max-w-6xl mx-auto flex items-center justify-end space-x-4">
-            <BellIcon className="w-6 h-6 text-gray-400 hover:text-white cursor-pointer" />
-            <button
-              onClick={handleLogout}
-              className="px-3 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white text-sm font-medium border border-red-500/50"
-              aria-label="Logout"
-            >
-              Logout
-            </button>
+          <div className="max-w-6xl mx-auto flex items-center justify-between md:justify-end space-x-4">
+            {/* Hamburger for mobile */}
+            <div className="md:hidden">
+              <button
+                onClick={() => setIsSidebarOpen(true)}
+                className="p-2 text-gray-400 hover:text-white rounded-md hover:bg-white/10"
+                aria-label="Open menu"
+              >
+                <Bars3Icon className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <BellIcon className="w-6 h-6 text-gray-400 hover:text-white cursor-pointer" />
+              <button
+                onClick={handleLogout}
+                className="px-3 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white text-sm font-medium border border-red-500/50"
+                aria-label="Logout"
+              >
+                Logout
+              </button>
+            </div>
           </div>
         </header>
 
@@ -4765,6 +4978,9 @@ const StudentPortal: React.FC = () => {
                       <h2 className="text-2xl font-bold text-white mb-2">
                         {studentProfile?.name || 'Student'}
                       </h2>
+                      <p className="text-gray-300 text-sm">
+                        Student ID: {studentProfile?.studentId || 'N/A'}
+                      </p>
                       <p className="text-gray-300 text-sm">
                         You have 3 new notifications and {assignments.filter(a => (assignmentStatuses[a.id] || a.status) === 'pending').length} assignments due.
                       </p>

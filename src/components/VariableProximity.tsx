@@ -111,6 +111,28 @@ const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityProps>((p
         }
     };
 
+    const letterPositionsRef = useRef<{ x: number; y: number }[]>([]);
+
+    useEffect(() => {
+        const calculatePositions = () => {
+            if (!containerRef?.current) return;
+            const containerRect = containerRef.current.getBoundingClientRect();
+            
+            letterPositionsRef.current = letterRefs.current.map(letterRef => {
+                if (!letterRef) return { x: 0, y: 0 };
+                const rect = letterRef.getBoundingClientRect();
+                return {
+                    x: rect.left + rect.width / 2 - containerRect.left,
+                    y: rect.top + rect.height / 2 - containerRect.top
+                };
+            });
+        };
+
+        calculatePositions();
+        window.addEventListener("resize", calculatePositions);
+        return () => window.removeEventListener("resize", calculatePositions);
+    }, [containerRef, label]);
+
     useAnimationFrame(() => {
         if (!containerRef?.current) return;
         const { x, y } = mousePositionRef.current;
@@ -118,14 +140,11 @@ const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityProps>((p
           return;
         }
         lastPositionRef.current = { x, y };
-        const containerRect = containerRef.current.getBoundingClientRect();
 
         letterRefs.current.forEach((letterRef, index) => {
             if (!letterRef) return;
 
-            const rect = letterRef.getBoundingClientRect();
-            const letterCenterX = rect.left + rect.width / 2 - containerRect.left;
-            const letterCenterY = rect.top + rect.height / 2 - containerRect.top;
+            const { x: letterCenterX, y: letterCenterY } = letterPositionsRef.current[index] || { x: 0, y: 0 };
 
             const distance = calculateDistance(
                 mousePositionRef.current.x,

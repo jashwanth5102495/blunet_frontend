@@ -19,6 +19,7 @@ export default defineConfig({
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'framer-motion': ['framer-motion'],
           'google-oauth': ['@react-oauth/google'],
+          'ogl': ['ogl'],
         }
       }
     }

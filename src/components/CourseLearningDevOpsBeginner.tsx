@@ -15,6 +15,7 @@ interface Lesson {
   syntax?: { title: string; content: string }[];
   terminalCommands?: string[];
   terminalGuide?: string; // HTML content for terminal instructions
+  videoUrl?: string;
 }
 
 interface Module {
@@ -41,12 +42,6 @@ const resources: Resource[] = [
     title: 'DevOps Overview',
     duration: '15 min',
     description: 'Introduction to the world of DevOps'
-  },
-  {
-    type: 'document',
-    title: 'Course Handbook',
-    duration: '20 min read',
-    description: 'Guide to course structure and requirements'
   }
 ];
 
@@ -59,6 +54,7 @@ const courseData: Module[] = [
     lessons: [
       {
         title: 'What is DevOps?',
+        videoUrl: '/Devops vid/what is devops.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. Why DevOps Exists (The Real Problem)</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">Before DevOps, software delivery was slow, manual, and unreliable.</p>
@@ -225,7 +221,7 @@ const courseData: Module[] = [
         ],
         terminalCommands: ['whoami', 'uname -a', 'mkdir -p ~/devops/module1/topic1', 'cd ~/devops/module1/topic1', 'nano app.txt', 'cat app.txt', 'mkdir manual_deploy', 'cp app.txt manual_deploy/', 'ls manual_deploy', 'rm -rf manual_deploy'],
         terminalGuide: `
-          <h2 class="text-xl font-semibold mb-4 text-white">🎯 Objective</h2>
+          <h2 className="text-xl font-semibold mb-4 text-white">🎯 Objective</h2>
           <p class="mb-6 text-gray-300">Introduce terminal usage and automation mindset from Day 1.</p>
 
           <div class="space-y-6">
@@ -276,6 +272,7 @@ const courseData: Module[] = [
       },
       {
         title: 'DevOps Lifecycle (Hands-On Automation Flow)',
+        videoUrl: '/Devops vid/DevOps Lifecycle.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. What is the DevOps Lifecycle? (Practical Meaning)</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">The DevOps lifecycle represents the real working flow of how software is continuously built, tested, deployed, and improved using automation.</p>
@@ -587,6 +584,7 @@ const courseData: Module[] = [
       },
       {
         title: 'DevOps Tools Overview & Environment Setup',
+        videoUrl: '/Devops vid/DevOps Tools Overview & Environment Setup.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. Why DevOps Needs Tools (Practical Reason)</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">DevOps is about automation, and automation is impossible without tools.</p>
@@ -829,6 +827,7 @@ Linux    - Control</pre>
       },
       {
         title: 'DevOps Lifecycle (End-to-End Practical Flow)',
+        videoUrl: '/Devops vid/DevOps Lifecycle (End-to-End Practical Flow).mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">What is the DevOps Lifecycle?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">The DevOps lifecycle is a continuous process that defines how an application moves from idea → code → build → test → deploy → operate → monitor → improve. Unlike traditional models, DevOps does not stop after deployment. It keeps running in a loop to continuously improve software quality, speed, and reliability.</p>
@@ -1035,6 +1034,7 @@ Monitor | Logs & metrics | Prometheus`
       },
       {
         title: 'DevOps Tools Overview (Beginner-Level Practical Understanding)',
+        videoUrl: '/Devops vid/DevOps Tools Overview (Beginner-Level Practical Understanding).mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why DevOps Tools Are Needed</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">DevOps is not a single tool; it is a combination of practices supported by tools. Each DevOps tool automates a specific stage of the DevOps lifecycle. Without tools, DevOps cannot be implemented practically because manual processes are slow, error-prone, and not scalable.</p>
@@ -1383,6 +1383,7 @@ S | Sharing (Knowledge)`
     lessons: [
       {
         title: 'Linux Basics for DevOps Engineers',
+        videoUrl: '/Devops vid/module 2/2.1 Linux Basics for DevOps Engineers.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why Linux is Important for DevOps</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">Most DevOps tools such as Docker, Kubernetes, Jenkins, Git servers, cloud VMs run on Linux. DevOps engineers manage servers through the terminal, not GUI. Understanding Linux basics allows you to install tools, troubleshoot issues, automate tasks, and manage production servers confidently.</p>
@@ -1535,6 +1536,7 @@ less file.txt | View large files`
       },
       {
         title: 'Linux File Permissions & Ownership (Hands-On & Real-World)',
+        videoUrl: '/Devops vid/module 2/2.2 Linux File Permissions & Ownership (Hands-On & Real-World).mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why File Permissions Matter in DevOps</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">In real-world DevOps environments, applications run as specific users, CI/CD tools access files automatically, and containers need controlled access. If permissions are incorrect, Jenkins might fail to read build files, Docker containers might fail to start, or applications could crash due to "Access Denied" errors. Linux permissions ensure security and controlled access.</p>
@@ -1915,6 +1917,7 @@ Check privileges | sudo -l`
       },
       {
         title: 'Linux File System & Navigation (Hands-On Practical)',
+        videoUrl: '/Devops vid/module 2/2.4 Linux File System & Navigation (Hands-On Practical).mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why File System Knowledge is Critical</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">DevOps engineers spend most of their time navigating servers, editing config files, and managing application directories. Understanding the Linux file system is mandatory because:</p>
@@ -2042,60 +2045,61 @@ tail file.txt | View last 10 lines`
           'ls -R'
         ],
         terminalGuide: `
-          <h2 class="text-xl font-semibold mb-4 text-white">🎯 Objective</h2>
-          <p class="mb-6 text-gray-300">Master Linux file navigation and organization structure.</p>
+          <h2 className="text-xl font-semibold mb-4 text-white">🎯 Objective</h2>
+          <p className="mb-6 text-gray-300">Master Linux file navigation and organization structure.</p>
 
-          <div class="space-y-6">
+          <div className="space-y-6">
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 1: Navigate to Home</h3>
-              <p class="text-sm text-gray-400 mb-2">Go to your home directory and check path.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">cd ~</code>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">pwd</code>
+              <h3 className="text-lg font-medium text-[#00bceb] mb-2">Step 1: Navigate to Home</h3>
+              <p className="text-sm text-gray-400 mb-2">Go to your home directory and check path.</p>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">cd ~</code>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">pwd</code>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 2: Create Project Structure</h3>
-              <p class="text-sm text-gray-400 mb-2">Create nested directories using <code class="text-white">-p</code> flag.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">mkdir -p devops/module2/topic4</code>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">cd devops/module2/topic4</code>
+              <h3 className="text-lg font-medium text-[#00bceb] mb-2">Step 2: Create Project Structure</h3>
+              <p className="text-sm text-gray-400 mb-2">Create nested directories using <code className="text-white">-p</code> flag.</p>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">mkdir -p devops/module2/topic4</code>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">cd devops/module2/topic4</code>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 3: Create Files</h3>
-              <p class="text-sm text-gray-400 mb-2">Create dummy application files.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">touch app.txt config.yml log.txt</code>
+              <h3 className="text-lg font-medium text-[#00bceb] mb-2">Step 3: Create Files</h3>
+              <p className="text-sm text-gray-400 mb-2">Create dummy application files.</p>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">touch app.txt config.yml log.txt</code>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 4: List Files</h3>
-              <p class="text-sm text-gray-400 mb-2">View the files you created.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">ls -l</code>
+              <h3 className="text-lg font-medium text-[#00bceb] mb-2">Step 4: List Files</h3>
+              <p className="text-sm text-gray-400 mb-2">View the files you created.</p>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">ls -l</code>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 5: Create Subdirectories</h3>
-              <p class="text-sm text-gray-400 mb-2">Create folders for organizing files.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">mkdir scripts build deploy</code>
+              <h3 className="text-lg font-medium text-[#00bceb] mb-2">Step 5: Create Subdirectories</h3>
+              <p className="text-sm text-gray-400 mb-2">Create folders for organizing files.</p>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">mkdir scripts build deploy</code>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 6: Move Files into Folders</h3>
-              <p class="text-sm text-gray-400 mb-2">Organize the files into their respective directories.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">mv app.txt build/</code>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">mv config.yml scripts/</code>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">mv log.txt deploy/</code>
+              <h3 className="text-lg font-medium text-[#00bceb] mb-2">Step 6: Move Files into Folders</h3>
+              <p className="text-sm text-gray-400 mb-2">Organize the files into their respective directories.</p>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">mv app.txt build/</code>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">mv config.yml scripts/</code>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">mv log.txt deploy/</code>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 7: Verify Structure</h3>
-              <p class="text-sm text-gray-400 mb-2">Check the final directory structure (using recursive list).</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">ls -R</code>
+              <h3 className="text-lg font-medium text-[#00bceb] mb-2">Step 7: Verify Structure</h3>
+              <p className="text-sm text-gray-400 mb-2">Check the final directory structure (using recursive list).</p>
+              <code className="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">ls -R</code>
             </div>
           </div>
         `
       },
       {
         title: 'Linux Processes & Monitoring (Hands-On Practical)',
+        videoUrl: '/Devops vid/module 2/2.5 Linux Processes & Monitoring (Hands-On Practical).mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why Process Management is Important</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">DevOps engineers need to monitor running processes, kill stuck processes, and check resource usage to ensure smooth CI/CD pipelines and production environments. Unmanaged processes can consume memory, crash applications, or freeze pipelines.</p>
@@ -2243,6 +2247,7 @@ uptime | Load average`
       },
       {
         title: 'Linux Networking & Firewall Basics (Hands-On Practical)',
+        videoUrl: '/Devops vid/module 2/2.6 Linux Networking & Firewall Basics (Hands-On Practical).mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why Networking is Important for DevOps</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">Networking is the backbone of DevOps. Without understanding network commands and firewall rules, pipelines, Docker containers, and cloud deployments will fail.</p>
@@ -2396,6 +2401,7 @@ sudo ufw enable | Enable Firewall`
       },
       {
         title: 'Linux Package Management (Hands-On Practical)',
+        videoUrl: '/Devops vid/module 2/2.7 Linux Package Management.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why Package Management Matters</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">In DevOps, installing, updating, and removing software is a daily task. You cannot manually compile every tool. Package managers automate this process, handling dependencies and security updates.</p>
@@ -2536,12 +2542,14 @@ sudo apt clean | Clear local cache`
       },
       {
         title: 'Users & groups',
+        videoUrl: '/Devops vid/module 2/2.3 Users & Groups (Linux Access Management for DevOps).mp4',
         content: '<h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">User Management</h2><p class="mb-4 text-gray-700 dark:text-gray-300">Managing user accounts and groups is crucial for system security. Commands: <code>useradd</code>, <code>usermod</code>, <code>groupadd</code>, <code>passwd</code>.</p>',
         duration: '15 min',
         terminalCommands: ['sudo useradd newuser', 'sudo passwd newuser']
       },
       {
         title: 'systemctl & journalctl (Service Management & Logs for DevOps)',
+        videoUrl: '/Devops vid/module 2/2.9 systemctl & journalctl (Service Management & Logs for DevOps).mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">What is systemctl?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -2990,157 +2998,245 @@ Remote Repo | Repository stored online`
       {
         title: 'Git Basics (Hands-On Oriented)',
         content: `
-          <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. Understanding Git at a Beginner Level</h2>
-          <p class="mb-4 text-gray-700 dark:text-gray-300">Git is a distributed version control system that allows developers and DevOps engineers to track, manage, and control changes made to source code over time. Unlike simple file storage, Git records every meaningful change in the project and preserves it as a permanent history.</p>
-          <p class="mb-4 text-gray-700 dark:text-gray-300">In DevOps, Git acts as the <strong>single source of truth</strong>. Every automation process—whether it is CI/CD, container builds, or cloud deployment—starts with Git.</p>
-
-          <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">2. What Happens Internally When You Use Git</h2>
-          <p class="mb-4 text-gray-700 dark:text-gray-300">When Git is initialized inside a project, it creates a hidden directory called <code class="bg-gray-200 dark:bg-gray-700 px-1 rounded">.git</code>. This directory stores:</p>
-          <ul class="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300 space-y-1">
-            <li>The complete history of the project</li>
-            <li>Metadata about commits</li>
-            <li>Branch information</li>
-            <li>Configuration details</li>
-          </ul>
-
-          <h3 class="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-200">The Three States of a File:</h3>
-          <ul class="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300 space-y-1">
-            <li><strong>Untracked</strong> – Git is not aware of the file</li>
-            <li><strong>Staged</strong> – File is prepared to be saved</li>
-            <li><strong>Committed</strong> – File is permanently stored in Git history</li>
-          </ul>
-
-          <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">3. Why Git Uses Commits Instead of Auto-Save</h2>
-          <p class="mb-4 text-gray-700 dark:text-gray-300">In real software development, not every change is meaningful. Git uses <strong>commits</strong> to allow developers to group related changes together.</p>
+          <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. What Is Git Setup?</h2>
+          <p class="mb-4 text-gray-700 dark:text-gray-300">
+            Git setup means configuring Git on your system so it can track files, save versions,
+            identify the developer, and manage repositories correctly. Before you start using Git
+            in any DevOps project, you must configure your identity.
+          </p>
           <div class="mb-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
-            <p class="font-mono text-sm text-gray-600 dark:text-gray-400">Adding a login feature → one commit</p>
-            <p class="font-mono text-sm text-gray-600 dark:text-gray-400">Fixing a bug → one commit</p>
-            <p class="font-mono text-sm text-gray-600 dark:text-gray-400">Updating documentation → one commit</p>
+            <p class="mb-2 text-gray-800 dark:text-gray-200 font-semibold">Git needs two key details:</p>
+            <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-1">
+              <li><strong>Username</strong> – who made the change</li>
+              <li><strong>Email</strong> – how to identify the developer</li>
+            </ul>
+            <p class="mt-2 text-gray-700 dark:text-gray-300">
+              Every commit in Git is labeled with this name and email. This makes history readable
+              and auditable in real DevOps environments.
+            </p>
           </div>
 
-          <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">4. Git as a Safety System in DevOps</h2>
-          <p class="mb-4 text-gray-700 dark:text-gray-300">Git is a risk management system. If a faulty change is deployed, teams can revert to a stable version.</p>
-          <ul class="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300 space-y-1">
-            <li>Jenkins pulls code from Git</li>
-            <li>Docker builds images from Git repositories</li>
-            <li>Kubernetes deployments reference Git commits</li>
-            <li>Infrastructure code is versioned in Git</li>
-          </ul>
-          <p class="mb-6 text-gray-700 dark:text-gray-300 font-bold">👉 Git is the foundation layer of DevOps automation.</p>
+          <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">2. Step 1 – Check Git Installation</h2>
+          <p class="mb-2 text-gray-700 dark:text-gray-300">First, confirm that Git is installed on your system.</p>
+          <pre class="bg-gray-900 text-gray-100 p-3 rounded mb-2 overflow-x-auto"><code>git --version</code></pre>
+          <p class="mb-4 text-gray-700 dark:text-gray-300">
+            Example output:
+          </p>
+          <pre class="bg-gray-900 text-gray-100 p-3 rounded mb-4 overflow-x-auto"><code>git version 2.39.1</code></pre>
+          <p class="mb-4 text-gray-700 dark:text-gray-300">
+            If you see a version number, Git is installed and ready to configure. If not, install Git
+            before continuing.
+          </p>
 
-          <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">5. Beginner Mindset</h2>
-          <p class="mb-4 text-gray-700 dark:text-gray-300">As a beginner, treat Git as:</p>
-          <ul class="list-disc pl-6 mb-6 text-gray-700 dark:text-gray-300 space-y-1">
-            <li>A backup system for your code</li>
-            <li>A journal of your learning progress</li>
-            <li>A collaboration tool for future team projects</li>
+          <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">3. Step 2 – Configure Git Username</h2>
+          <p class="mb-2 text-gray-700 dark:text-gray-300">
+            Set your global username so every commit clearly shows who made the change.
+          </p>
+          <pre class="bg-gray-900 text-gray-100 p-3 rounded mb-2 overflow-x-auto"><code>git config --global user.name "Your Name"</code></pre>
+          <p class="mb-4 text-gray-700 dark:text-gray-300">
+            This command configures your name globally on the system. All repositories you create will
+            use this name unless you override it locally.
+          </p>
+
+          <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">4. Step 3 – Configure Git Email</h2>
+          <p class="mb-2 text-gray-700 dark:text-gray-300">
+            Next, set the email address that will be attached to your commits.
+          </p>
+          <pre class="bg-gray-900 text-gray-100 p-3 rounded mb-2 overflow-x-auto"><code>git config --global user.email "your@email.com"</code></pre>
+          <p class="mb-4 text-gray-700 dark:text-gray-300">
+            Git uses this email in every commit. In companies, this is usually your official work email
+            so teams and tools (like GitHub, GitLab, or CI pipelines) can identify who did what.
+          </p>
+
+          <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">5. Step 4 – What Is a Git Repository?</h2>
+          <p class="mb-4 text-gray-700 dark:text-gray-300">
+            A Git repository is a project folder tracked by Git. When you run <code class="bg-gray-200 dark:bg-gray-700 px-1 rounded">git init</code>,
+            Git creates a hidden folder called <code class="bg-gray-200 dark:bg-gray-700 px-1 rounded">.git</code> inside your project directory.
+          </p>
+          <p class="mb-2 text-gray-700 dark:text-gray-300">
+            This <code class="bg-gray-200 dark:bg-gray-700 px-1 rounded">.git</code> folder stores:
+          </p>
+          <ul class="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300 space-y-1">
+            <li>Complete version history</li>
+            <li>Commit metadata (who, when, why)</li>
+            <li>Branch information</li>
+            <li>Internal configuration</li>
           </ul>
+          <p class="mb-4 text-gray-700 dark:text-gray-300">
+            Once <code class="bg-gray-200 dark:bg-gray-700 px-1 rounded">.git</code> exists, your normal folder becomes a Git repository and
+            can participate in DevOps workflows.
+          </p>
+
+          <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">6. Git File Lifecycle</h2>
+          <p class="mb-2 text-gray-700 dark:text-gray-300">
+            Every file in a Git repository moves through three main stages:
+          </p>
+          <div class="mb-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <p class="mb-2 text-gray-800 dark:text-gray-200 font-semibold">Working Directory → Staging Area → Repository</p>
+            <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-1">
+              <li>
+                <strong>Working Directory</strong> – where you create and edit files.
+              </li>
+              <li>
+                <strong>Staging Area</strong> – where files are prepared for commit using
+                <code class="bg-gray-200 dark:bg-gray-700 px-1 rounded">git add</code>.
+              </li>
+              <li>
+                <strong>Repository</strong> – where files are permanently saved in Git history after
+                <code class="bg-gray-200 dark:bg-gray-700 px-1 rounded">git commit</code>.
+              </li>
+            </ul>
+          </div>
+          <p class="mb-4 text-gray-700 dark:text-gray-300">
+            Understanding this lifecycle is mandatory before you start working with branches, merges,
+            and remote repositories in DevOps projects.
+          </p>
+
+          <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">7. Professional Takeaway</h2>
+          <p class="mb-4 text-gray-700 dark:text-gray-300">
+            In real companies, Git setup is done once on every new machine before any serious work
+            begins. A correctly configured name and email, a properly initialized repository, and a
+            clear understanding of the file lifecycle form the foundation of all Git-based automation.
+          </p>
         `,
         duration: '20 min',
         syntax: [
           {
-            title: 'Basic Git Commands',
-            content: `git init | Initialize Git in a project
-git status | Check file states
-git add | Stage changes
-git commit | Save changes permanently
-git log | View commit history`
+            title: 'Configure Username',
+            content: `git config --global user.name "Developer Name"`
           },
           {
-            title: 'Git File Lifecycle',
-            content: 'Untracked → Staged → Committed\\n\\nUntracked: New file created\\nStaged: File added to commit list\\nCommitted: Stored safely in Git history'
+            title: 'Configure Email',
+            content: `git config --global user.email "developer@email.com"`
           },
           {
-            title: 'Commit Message Syntax',
-            content: `git commit -m "Short, clear description"
-
-Good: git commit -m "Add initial application file"
-Bad: git commit -m "changes"`
+            title: 'Initialize Repository',
+            content: 'git init'
+          },
+          {
+            title: 'Check Git Status',
+            content: 'git status  # Shows file tracking status'
+          },
+          {
+            title: 'Add File to Staging Area',
+            content: 'git add filename'
+          },
+          {
+            title: 'Commit File',
+            content: `git commit -m "commit message"`
           }
         ],
         terminalCommands: [
-          'cd devops-git-demo',
+          'git config --global user.name "Developer"',
+          'git config --global user.email "developer@example.com"',
+          'mkdir my-project',
+          'cd my-project',
           'git init',
+          'echo "<h1>My Website</h1>" > index.html',
           'git status',
-          'git add app.txt',
-          'git status',
-          'git commit -m "Add initial app file"',
-          'git log',
-          'nano app.txt',
-          'git status'
+          'git add index.html',
+          'git commit -m "Added index.html"'
         ],
         terminalGuide: `
           <h2 class="text-xl font-semibold mb-4 text-white">🎯 Objective</h2>
-          <p class="mb-6 text-gray-300">Initialize a repository and perform your first commit lifecycle.</p>
+          <p class="mb-6 text-gray-300">
+            Configure Git on your system and create your first repository with a real file,
+            following a professional Git setup workflow.
+          </p>
 
           <div class="space-y-6">
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 1: Navigate to Your Project</h3>
-              <p class="text-sm text-gray-400 mb-2">Go to the folder we created in the previous lesson.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">cd devops-git-demo</code>
+              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 1: Configure Git Username</h3>
+              <p class="text-sm text-gray-400 mb-2">Tell Git who you are. This will be shown in every commit.</p>
+              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">git config --global user.name "Developer"</code>
+              <p class="text-sm text-gray-400 mt-2">
+                This sets your global username. Professional teams use real names so commit history
+                is readable during audits and code reviews.
+              </p>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 2: Initialize Git Repository</h3>
+              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 2: Configure Git Email</h3>
+              <p class="text-sm text-gray-400 mb-2">Attach an email address to your commits.</p>
+              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">git config --global user.email "developer@example.com"</code>
+              <p class="text-sm text-gray-400 mt-2">
+                This email appears in commit history and on platforms like GitHub or GitLab.
+                Use a professional email in real DevOps environments.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 3: Create Project Folder</h3>
+              <p class="text-sm text-gray-400 mb-2">Create a new directory for your first Git project.</p>
+              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">mkdir my-project</code>
+              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">cd my-project</code>
+              <p class="text-sm text-gray-400 mt-2">
+                You are now inside the project folder. All Git commands will apply to this directory.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 4: Initialize Git Repository</h3>
               <p class="text-sm text-gray-400 mb-2">Turn this folder into a Git repository.</p>
               <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">git init</code>
-              <p class="text-sm text-gray-400 mt-2">✔ Output indicates Git repository initialized</p>
-              <p class="text-sm text-gray-500 mt-1">📌 .git folder is created (hidden)</p>
+              <p class="text-sm text-gray-400 mt-2">
+                Output example: <span class="font-mono text-xs text-gray-300">Initialized empty Git repository</span>
+              </p>
+              <p class="text-sm text-gray-500 mt-1">
+                A hidden <span class="font-mono text-xs text-gray-300">.git</span> folder is created. This folder stores
+                all version history and internal Git data.
+              </p>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 3: Check Git Status</h3>
-              <p class="text-sm text-gray-400 mb-2">See what Git sees.</p>
+              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 5: Create Example File</h3>
+              <p class="text-sm text-gray-400 mb-2">Add a simple HTML file to the project.</p>
+              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">echo "&lt;h1&gt;My Website&lt;/h1&gt;" &gt; index.html</code>
+              <p class="text-sm text-gray-400 mt-2">
+                This creates <span class="font-mono text-xs text-gray-300">index.html</span> with a basic heading. Git
+                can now start tracking this file.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 6: Check Git Status</h3>
+              <p class="text-sm text-gray-400 mb-2">See how Git currently sees your project.</p>
               <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">git status</code>
               <div class="mt-2 p-2 bg-gray-800 rounded text-xs text-gray-300 font-mono">
                 Untracked files:<br>
-                &nbsp;&nbsp;app.txt
+                &nbsp;&nbsp;index.html
               </div>
-              <p class="text-sm text-yellow-500 mt-1">👉 Git sees the file but is not tracking it yet.</p>
+              <p class="text-sm text-yellow-500 mt-1">
+                "Untracked" means Git sees the file but is not yet including it in version history.
+              </p>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 4: Stage the File</h3>
-              <p class="text-sm text-gray-400 mb-2">Move file from "Untracked" to "Staged".</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">git add app.txt</code>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">git status</code>
-              <div class="mt-2 p-2 bg-gray-800 rounded text-xs text-gray-300 font-mono">
-                Changes to be committed:<br>
-                &nbsp;&nbsp;new file: app.txt
-              </div>
+              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 7: Add File to Staging Area</h3>
+              <p class="text-sm text-gray-400 mb-2">Move the file from Working Directory to Staging Area.</p>
+              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">git add index.html</code>
+              <p class="text-sm text-gray-400 mt-2">
+                Now the file is prepared for commit. Only staged files will be saved in the next snapshot.
+              </p>
             </div>
 
             <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 5: Commit the File</h3>
-              <p class="text-sm text-gray-400 mb-2">Permanently save the snapshot.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">git commit -m "Add initial app file"</code>
-              <p class="text-sm text-green-400 mt-2">✔ File is now permanently saved in Git history</p>
-            </div>
-
-            <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 6: Verify Commit History</h3>
-              <p class="text-sm text-gray-400 mb-2">View the log of what happened.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">git log</code>
-              <p class="text-sm text-gray-400 mt-2">👉 This is your first real Git checkpoint</p>
-            </div>
-
-            <div>
-              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 7: Make Another Change</h3>
-              <p class="text-sm text-gray-400 mb-2">Edit the file and see how Git reacts.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm mb-1">nano app.txt</code>
-              <p class="text-xs text-gray-500 mb-2">Add text: "Learning Git basics for DevOps", then Save/Exit.</p>
-              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">git status</code>
-              <p class="text-sm text-gray-400 mt-2">Observe how Git detects the modification.</p>
+              <h3 class="text-lg font-medium text-[#00bceb] mb-2">Step 8: Commit the File</h3>
+              <p class="text-sm text-gray-400 mb-2">Create the first permanent snapshot in Git history.</p>
+              <code class="block bg-black/50 p-2 rounded text-green-400 font-mono text-sm">git commit -m "Added index.html"</code>
+              <p class="text-sm text-green-400 mt-2">
+                The file is now stored in the repository. If you delete it later, you can still restore it from Git.
+              </p>
             </div>
           </div>
 
           <div class="mt-6 p-4 rounded-xl bg-gradient-to-br from-[#00bceb]/10 to-blue-600/10 border border-[#00bceb]/20">
-            <h2 class="text-xl font-bold mb-3 text-[#00bceb]">✅ What You Learned in Topic 3.2</h2>
+            <h2 class="text-xl font-bold mb-3 text-[#00bceb]">✅ What You Learned in Topic 4.2</h2>
             <ul class="list-disc pl-5 text-gray-300 space-y-1">
-              <li>How Git tracks files</li>
-              <li>What staging and committing mean</li>
-              <li>Why commits matter in DevOps</li>
-              <li>How to create and verify Git history</li>
+              <li>How to configure Git username and email</li>
+              <li>How to initialize a new Git repository</li>
+              <li>How the file lifecycle works (Working → Staging → Repository)</li>
+              <li>How to add and commit a real file to Git history</li>
             </ul>
           </div>
         `
@@ -12428,6 +12524,11 @@ const Sidebar = ({
           </div>
         ) : (
           <div className="p-4">
+            <div className="mb-6 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+              <p className="text-blue-400 text-sm font-medium">
+                this is latest version v3.03 and videos are in development
+              </p>
+            </div>
             {resources.map((res, idx) => (
               <div key={idx} className="mb-4 p-3 bg-[#2d2d2d] rounded hover:bg-[#333] transition-colors cursor-pointer border border-[#333]">
                 <div className="flex items-center gap-2 mb-2">
@@ -12776,6 +12877,20 @@ const CourseLearningDevOpsBeginner: React.FC = () => {
                     <div className="min-h-[500px]">
                        {activeContentTab === 'lesson' && (
                           <div className="animate-fadeIn">
+                             {/* Video Player */}
+                             {activeLesson.videoUrl && (
+                                <div className="mb-8 aspect-video bg-black rounded-xl overflow-hidden shadow-lg border border-[#333]">
+                                   <video 
+                                      key={activeLesson.videoUrl}
+                                      src={activeLesson.videoUrl} 
+                                      controls 
+                                      preload="metadata"
+                                      className="w-full h-full"
+                                      onEnded={() => setCompletedLessons(prev => new Set(prev).add(`${activeModuleId}-${activeLessonIndex}`))}
+                                   />
+                                </div>
+                             )}
+
                              <div 
                                className={`prose ${isDark ? 'prose-invert' : ''} prose-lg max-w-none prose-headings:text-[#00bceb] prose-a:text-blue-400 prose-code:text-[#00bceb] prose-pre:bg-[#1e1e1e] prose-pre:border prose-pre:border-[#333]`}
                                dangerouslySetInnerHTML={{ __html: activeLesson.content }} 
