@@ -141,8 +141,8 @@ const StudentPortal: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showProfileDetails, setShowProfileDetails] = useState(false);
-  const enrolledCarouselRef = useRef<HTMLDivElement | null>(null);
-  const recommendedCarouselRef = useRef<HTMLDivElement | null>(null);
+  const enrolledCarouselRef = useRef<HTMLDivElement>(null);
+  const recommendedCarouselRef = useRef<HTMLDivElement>(null);
 
   // Payment functionality state
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -177,6 +177,14 @@ const StudentPortal: React.FC = () => {
       // Hard redirect as fallback
       window.location.href = '/';
     }
+  };
+
+  // Handle unauthorized/expired session - clears storage and redirects to login
+  const handleUnauthorized = () => {
+    console.log('Session expired. Redirecting to login.');
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('authToken');
+    navigate('/student-login');
   };
 
   
@@ -2051,7 +2059,7 @@ const StudentPortal: React.FC = () => {
     return match?.image || course.image;
   };
 
-  const scrollCarousel = (ref: React.RefObject<HTMLDivElement>, direction: 'left' | 'right') => {
+  const scrollCarousel = (ref: React.RefObject<HTMLDivElement | null>, direction: 'left' | 'right') => {
     const container = ref.current;
     if (!container) return;
     const delta = direction === 'left' ? -320 : 320;
@@ -3192,112 +3200,141 @@ const StudentPortal: React.FC = () => {
 
   useEffect(() => {
     const currentUser = localStorage.getItem('currentUser');
+    const authToken = localStorage.getItem('authToken');
     
+    // Redirect if no user data in localStorage
     if (!currentUser) {
-      navigate('/student-login');
+      console.log('No currentUser found in localStorage. Redirecting to login.');
+      handleUnauthorized();
+      return;
+    }
+
+    // Safely parse currentUser JSON
+    let userData: any;
+    try {
+      userData = JSON.parse(currentUser);
+    } catch (parseError) {
+      console.error('Failed to parse currentUser from localStorage:', parseError);
+      handleUnauthorized();
+      return;
+    }
+
+    // Verify user is authenticated
+    if (!userData.isAuthenticated) {
+      console.log('User is not authenticated. Redirecting to login.');
+      handleUnauthorized();
+      return;
+    }
+
+    // Verify token exists
+    const token = userData.token || authToken;
+    if (!token) {
+      console.log('No auth token found. Redirecting to login.');
+      handleUnauthorized();
       return;
     }
 
     const loadStudentData = async () => {
       try {
-        const userData = JSON.parse(currentUser);
-        if (!userData.isAuthenticated) {
-          navigate('/student-login');
+        // Fetch purchased courses from backend
+        console.log('Fetching courses from backend for:', userData.email);
+        const coursesResponse = await fetch(`${BASE_URL}/api/courses/purchased/${userData.email}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        // Handle unauthorized response for courses fetch
+        if (coursesResponse.status === 401) {
+          console.error('Unauthorized: Token expired or invalid when fetching courses.');
+          handleUnauthorized();
           return;
         }
 
-        // Fetch purchased courses from backend
-        try {
-          console.log('Fetching courses from backend for:', userData.email);
-          const response = await fetch(`${BASE_URL}/api/courses/purchased/${userData.email}`, {
-            headers: {
-              Authorization: `Bearer ${userData.token}`
-            }
-          });
-          if (response.ok) {
-            const result = await response.json();
-            console.log('Backend response:', result);
-            if (result.success && result.data) {
-              // Backend now returns full course details with enrollment info
-              let enrolledCoursesData = result.data || [];
+        if (coursesResponse.ok) {
+          const result = await coursesResponse.json();
+          console.log('Backend response:', result);
 
-              // Fix course titles from backend
-              enrolledCoursesData = enrolledCoursesData.map((course: any) => {
-                if (course.title === 'DevOps Fundamentals') {
-                  return { ...course, title: 'DevOps – Beginner' };
-                }
-                return course;
-              });
+          if (result.success && result.data) {
+            // Backend now returns full course details with enrollment info
+            let enrolledCourses = result.data || [];
 
-              // Set purchased courses (just the IDs for compatibility)
-              const courseIds = enrolledCoursesData.map((course: any) => course.courseId || course.id);
-              setPurchasedCourses(courseIds);
-              
-              // Set the full course data for display
-              setEnrolledCoursesData(enrolledCoursesData);
-              console.log("Enrolled Course Data", enrolledCoursesData);
-              
-
-              
-              // Create course progress from enrollment data
-              const progressData = enrolledCoursesData.reduce((acc: any, course: any) => {
-                const courseId = course.courseId || course.id;
-                acc[courseId] = {
-                  courseId: courseId,
-                  progress: course.progress || 0,
-                  completedLessons: 0, // This should come from enrollment data
-                  totalLessons: course.modules?.length * 5 || 20, // Estimate based on modules
-                  lastAccessedAt: course.enrollmentDate || new Date().toISOString(),
-                  nextLesson: course.progress > 0 ? 'Continue Learning' : 'Start Course',
-                  isStarted: course.progress > 0 || course.status === 'active'
-                };
-                return acc;
-              }, {});
-              
-              setCourseProgress(progressData);
-              console.log('Set course progress:', progressData);
-              
-              // Fetch module submissions for each enrolled course
-              for (const course of enrolledCoursesData) {
-                const courseId = course.id; // Use the MongoDB _id
-                await fetchModuleSubmissions(userData.id, courseId);
+            // Fix course titles from backend
+            enrolledCourses = enrolledCourses.map((course: any) => {
+              if (course.title === 'DevOps Fundamentals') {
+                return { ...course, title: 'DevOps – Beginner' };
               }
-            } else {
-              console.log('No courses found in backend response');
-              setPurchasedCourses([]);
-              setEnrolledCoursesData([]);
-              setCourseProgress({});
+              return course;
+            });
+
+            // Set purchased courses (just the IDs for compatibility)
+            const courseIds = enrolledCourses.map((course: any) => course.courseId || course.id);
+            setPurchasedCourses(courseIds);
+            
+            // Set the full course data for display
+            setEnrolledCoursesData(enrolledCourses);
+            console.log('Enrolled Course Data', enrolledCourses);
+            
+            // Create course progress from enrollment data
+            const progressData = enrolledCourses.reduce((acc: any, course: any) => {
+              const courseId = course.courseId || course.id;
+              acc[courseId] = {
+                courseId: courseId,
+                progress: course.progress || 0,
+                completedLessons: 0, // This should come from enrollment data
+                totalLessons: course.modules?.length * 5 || 20, // Estimate based on modules
+                lastAccessedAt: course.enrollmentDate || new Date().toISOString(),
+                nextLesson: course.progress > 0 ? 'Continue Learning' : 'Start Course',
+                isStarted: course.progress > 0 || course.status === 'active'
+              };
+              return acc;
+            }, {});
+            
+            setCourseProgress(progressData);
+            console.log('Set course progress:', progressData);
+            
+            // Fetch module submissions for each enrolled course
+            for (const course of enrolledCourses) {
+              const courseId = course.id; // Use the MongoDB _id
+              await fetchModuleSubmissions(userData.id, courseId);
             }
           } else {
-            console.error('Backend request failed:', response.status);
+            // Backend returned success but no data
+            console.log('No courses found in backend response');
             setPurchasedCourses([]);
             setEnrolledCoursesData([]);
+            setCourseProgress({});
           }
-        } catch (error) {
-          console.error('Error fetching purchased courses:', error);
-          // Set empty data if backend fails
+        } else {
+          // Non-401 error from courses endpoint
+          console.error('Backend request failed with status:', coursesResponse.status);
           setPurchasedCourses([]);
           setEnrolledCoursesData([]);
           setCourseProgress({});
         }
 
-        // Try to fetch additional student data from backend
+        // Fetch additional student data from backend
         let studentData = userData;
-        try {
-          const response = await fetch(`${BASE_URL}/api/students/${userData.id}`, {
-            headers: {
-              'Authorization': `Bearer ${userData.token}`
-            }
-          });
-          
-          if (response.ok) {
-            const result = await response.json();
-            console.log("Result Data IN student portal: ", result.data);
-            if (result.success) {
-              studentData = { ...userData, ...result.data };
-            }
+        const studentResponse = await fetch(`${BASE_URL}/api/students/${userData.id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
           }
-        } catch (error) {
+        });
+
+        // Handle unauthorized response for student data fetch
+        if (studentResponse.status === 401) {
+          console.error('Unauthorized: Token expired or invalid when fetching student data.');
+          handleUnauthorized();
+          return;
+        }
+
+        if (studentResponse.ok) {
+          const result = await studentResponse.json();
+          console.log('Result Data IN student portal:', result.data);
+          if (result.success) {
+            studentData = { ...userData, ...result.data };
+          }
+        } else {
           console.log('Could not fetch additional student data from backend, using localStorage data');
         }
 
@@ -3314,10 +3351,12 @@ const StudentPortal: React.FC = () => {
           education: studentData.education,
           experience: studentData.experience
         });
+
       } catch (error) {
         console.error('Error loading student data:', error);
+        // Only set fallback profile on network/parse errors, not on auth errors
         setStudentProfile({
-          name: 'undefined undefined',
+          name: 'Student Name',
           email: 'student@example.com',
           enrolledCourses: 0
         });
