@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+﻿﻿import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { askLLM, ChatMessage } from '../services/llm';
@@ -25,6 +25,7 @@ import {
   X
 } from 'lucide-react';
 import { clsx } from 'clsx';
+import { module5Lesson4, module5Lesson5, module5Lesson6, module5Lesson7, module5Lesson8, module5Lesson9 } from './CourseLearningFrontendIntermediatepart2';
 
 interface Lesson {
   title: string;
@@ -7272,6 +7273,858 @@ simulateComponent();`,
     `
   };
 }
+
+const module5 = courseData.find((m) => m.id === 'module-5');
+
+if (module5 && module5.lessons[0]) {
+  module5.lessons[0] = {
+    ...module5.lessons[0],
+    duration: '60 min',
+    content: `
+      <h2 class="text-2xl font-bold text-white mb-4">5.1 Component Reusability and Composition</h2>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Introduction</h3>
+      <p class="text-gray-300 mb-3">
+        In modern frontend development using React, applications are built using <strong>components</strong>.
+        A component is an independent and reusable piece of UI that can be used multiple times in different parts of an application.
+      </p>
+      <p class="text-gray-300 mb-3">
+        Instead of writing the same code repeatedly, developers create reusable components that can be reused wherever needed. This concept is called <strong>Component Reusability</strong>.
+      </p>
+      <p class="text-gray-300 mb-3">
+        React also allows developers to build complex interfaces by combining multiple smaller components. This concept is known as <strong>Component Composition</strong>.
+      </p>
+      <p class="text-gray-300 mb-3">
+        Together, these two concepts form the foundation of scalable and maintainable React applications.
+      </p>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">What is Component Reusability?</h3>
+      <p class="text-gray-300 mb-3">
+        Component reusability means creating a component once and using it multiple times across the application.
+      </p>
+      <p class="text-gray-300 mb-3">
+        <strong>Example:</strong><br>
+        Instead of writing a button design multiple times, we create one reusable button component.
+      </p>
+      <p class="text-gray-300 mb-3">
+        <strong>Example usage:</strong>
+      </p>
+      <div class="bg-[#1e1e1e] p-4 rounded-lg mb-4">
+        <pre><code class="language-jsx">&lt;LoginButton /&gt;
+&lt;SignupButton /&gt;
+&lt;CheckoutButton /&gt;</code></pre>
+      </div>
+      <p class="text-gray-300 mb-3">
+        All of these can use the same Button component with different properties.
+      </p>
+
+      <h4 class="text-lg font-semibold text-white mt-4 mb-2">Benefits of reusable components:</h4>
+      <ul class="list-disc list-inside text-gray-300 space-y-1 mb-4">
+        <li>Reduces code duplication</li>
+        <li>Improves maintainability</li>
+        <li>Makes development faster</li>
+        <li>Keeps UI consistent across the application</li>
+      </ul>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">What is Component Composition?</h3>
+      <p class="text-gray-300 mb-3">
+        Component Composition is the process of combining smaller components to build larger components or pages.
+        Think of it like building with LEGO blocks.
+        Small pieces → combine them → create a complex structure.
+      </p>
+
+      <h4 class="text-lg font-semibold text-white mt-4 mb-2">Example structure:</h4>
+      <div class="bg-[#1e1e1e] p-4 rounded-lg mb-4 font-mono text-sm text-gray-300">
+        App<br/>
+        &nbsp;&nbsp;├── Navbar<br/>
+        &nbsp;&nbsp;├── Sidebar<br/>
+        &nbsp;&nbsp;├── ProductList<br/>
+        &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── ProductCard<br/>
+        &nbsp;&nbsp;└── Footer
+      </div>
+      <p class="text-gray-300 mb-3">
+        Each component performs a specific task and together they create the complete application interface.
+      </p>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Real World Example</h3>
+      <p class="text-gray-300 mb-3">
+        Consider an <strong>E-commerce website</strong>.
+        Components might include:
+      </p>
+      <ul class="list-disc list-inside text-gray-300 space-y-1 mb-4">
+        <li>Header</li>
+        <li>SearchBar</li>
+        <li>ProductCard</li>
+        <li>ShoppingCart</li>
+        <li>CheckoutForm</li>
+        <li>Footer</li>
+      </ul>
+      <p class="text-gray-300 mb-3">
+        The <code>ProductCard</code> component can be reused multiple times to display different products.
+      </p>
+      <div class="bg-[#1e1e1e] p-4 rounded-lg mb-4">
+        <pre><code class="language-jsx">&lt;ProductCard name="Laptop" price="50000" /&gt;
+&lt;ProductCard name="Mobile" price="20000" /&gt;
+&lt;ProductCard name="Headphones" price="3000" /&gt;</code></pre>
+      </div>
+      <p class="text-gray-300 mb-3">
+        This makes the application efficient and scalable.
+      </p>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Props and Reusable Components</h3>
+      <p class="text-gray-300 mb-3">
+        Reusable components receive data using <strong>props</strong>.
+        Props allow the same component to display different information.
+      </p>
+      <div class="bg-[#1e1e1e] p-4 rounded-lg mb-4">
+        <pre><code class="language-jsx">&lt;ProductCard title="Laptop" price="50000" /&gt;
+&lt;ProductCard title="Camera" price="35000" /&gt;</code></pre>
+      </div>
+      <p class="text-gray-300 mb-3">
+        The component structure remains the same, but the displayed content changes.
+      </p>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Advantages of Component-Based Architecture</h3>
+      <p class="text-gray-300 mb-3">
+        React follows a <strong>component-based architecture</strong>, which provides several advantages:
+      </p>
+      <ul class="list-disc list-inside text-gray-300 space-y-1 mb-4">
+        <li>Modular code structure</li>
+        <li>Easy debugging and testing</li>
+        <li>Faster development</li>
+        <li>Reusable UI elements</li>
+        <li>Better team collaboration</li>
+      </ul>
+      <p class="text-gray-300 mb-3">
+        Large applications like <strong>Netflix</strong>, <strong>Facebook</strong>, and <strong>Airbnb</strong> rely heavily on reusable components to build scalable user interfaces.
+      </p>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Best Practices for Reusable Components</h3>
+      <ul class="list-disc list-inside text-gray-300 space-y-1 mb-4">
+        <li>Keep components <strong>small and focused</strong>.</li>
+        <li>Use <strong>props</strong> for dynamic data.</li>
+        <li>Avoid putting too much logic in UI components.</li>
+        <li>Use <strong>composition instead of duplication</strong>.</li>
+        <li>Maintain clear folder structure.</li>
+      </ul>
+
+      <h4 class="text-lg font-semibold text-white mt-4 mb-2">Example professional structure:</h4>
+      <div class="bg-[#1e1e1e] p-4 rounded-lg mb-4 font-mono text-sm text-gray-300">
+        src<br/>
+        &nbsp;&nbsp;├── components<br/>
+        &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── Button<br/>
+        &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── Navbar<br/>
+        &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── ProductCard<br/>
+        &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── Footer<br/>
+        &nbsp;&nbsp;├── pages<br/>
+        &nbsp;&nbsp;└── App.js
+      </div>
+    `,
+    syntax: [
+      {
+        title: 'Creating a Reusable Component',
+        content: `function ComponentName(props) {
+  return (
+    <div>
+      {props.value}
+    </div>
+  );
+}`
+      },
+      {
+        title: 'Importing a Component',
+        content: `import ComponentName from "./ComponentName";`
+      },
+      {
+        title: 'Using the Component',
+        content: `<ComponentName value="Example Data" />`
+      },
+      {
+        title: 'Component with Multiple Props',
+        content: `function ProductCard(props) {
+  return (
+    <div>
+      <h2>{props.name}</h2>
+      <p>{props.price}</p>
+    </div>
+  );
+}
+
+// Usage:
+<ProductCard name="Laptop" price="50000" />`
+      },
+      {
+        title: 'Component Composition Syntax',
+        content: `function Layout() {
+  return (
+    <div>
+      <Header />
+      <MainContent />
+      <Footer />
+    </div>
+  );
+}`
+      }
+    ],
+    liveCodeExplanation: `
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Example: Reusable Product Card Component</h3>
+
+      <h4 class="text-lg font-semibold text-white mt-4 mb-2">Step 1 — Create ProductCard Component</h4>
+      <div class="bg-[#1e1e1e] p-4 rounded-lg mb-4">
+        <pre><code class="language-jsx">import React from "react";
+
+function ProductCard(props) {
+  return (
+    &lt;div style={{
+      border: "1px solid gray",
+      padding: "10px",
+      margin: "10px",
+      width: "200px"
+    }}&gt;
+      &lt;h2&gt;{props.name}&lt;/h2&gt;
+      &lt;p&gt;Price: ₹{props.price}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default ProductCard;</code></pre>
+      </div>
+
+      <h4 class="text-lg font-semibold text-white mt-4 mb-2">Step 2 — Use Component Multiple Times</h4>
+      <div class="bg-[#1e1e1e] p-4 rounded-lg mb-4">
+        <pre><code class="language-jsx">import React from "react";
+import ProductCard from "./ProductCard";
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Product List&lt;/h1&gt;
+
+      &lt;ProductCard name="Laptop" price="50000" /&gt;
+      &lt;ProductCard name="Mobile" price="20000" /&gt;
+      &lt;ProductCard name="Headphones" price="3000" /&gt;
+
+    &lt;/div&gt;
+  );
+}
+
+export default App;</code></pre>
+      </div>
+
+      <h4 class="text-lg font-semibold text-white mt-4 mb-2">Output</h4>
+      <p class="text-gray-300 mb-3">
+        The application will display three <strong>product cards</strong>, each with different product information, even though the same component is used multiple times.
+      </p>
+      <p class="text-gray-300 mb-3">
+        This demonstrates <strong>component reusability and composition</strong> in React.
+      </p>
+    `,
+    liveCode: `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>React Components</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #121212; color: #e5e5e5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    h1 { text-align: center; color: #fff; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    function ProductCard(props) {
+      return (
+        <div style={{
+          border: "1px solid #444",
+          padding: "15px",
+          margin: "10px",
+          width: "200px",
+          backgroundColor: "#1e1e1e",
+          borderRadius: "8px",
+          textAlign: "center",
+          boxShadow: "0 4px 6px rgba(0,0,0,0.3)"
+        }}>
+          <h2 style={{fontSize: "1.2rem", color: "#fff"}}>{props.name}</h2>
+          <p style={{color: "#aaa"}}>Price: ₹{props.price}</p>
+          <button style={{
+            marginTop: "10px",
+            padding: "5px 15px",
+            backgroundColor: "#007acc",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer"
+          }}>Add to Cart</button>
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <div>
+          <h1>Product List</h1>
+          <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
+            <ProductCard name="Laptop" price="50000" />
+            <ProductCard name="Mobile" price="20000" />
+            <ProductCard name="Headphones" price="3000" />
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>`
+  };
+}
+
+if (module5 && module5.lessons[1]) {
+  module5.lessons[1] = {
+    ...module5.lessons[1],
+    duration: '60 min',
+    content: `
+      <h2 class="text-2xl font-bold text-white mb-4">5.2 Custom Hooks for Logic Reuse</h2>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Introduction</h3>
+      <p class="text-gray-300 mb-3">
+        In modern React development, applications often contain repeated logic such as data fetching, form handling, authentication checks, or timers. Writing the same logic multiple times across components can make code difficult to maintain.
+      </p>
+      <p class="text-gray-300 mb-3">
+        To solve this problem, React provides a powerful concept called <strong>Custom Hooks</strong>.
+      </p>
+      <p class="text-gray-300 mb-3">
+        A Custom Hook is a reusable JavaScript function that allows developers to extract and reuse stateful logic between multiple components.
+      </p>
+
+      <h4 class="text-lg font-semibold text-white mt-4 mb-2">Custom Hooks follow the same rules as built-in hooks like:</h4>
+      <ul class="list-disc list-inside text-gray-300 space-y-1 mb-4">
+        <li><code>useState</code></li>
+        <li><code>useEffect</code></li>
+        <li><code>useRef</code></li>
+        <li><code>useContext</code></li>
+      </ul>
+      <p class="text-gray-300 mb-3">
+        The only requirement is that the function name must start with <strong>use</strong>.
+      </p>
+
+      <h4 class="text-lg font-semibold text-white mt-4 mb-2">Example:</h4>
+      <ul class="list-disc list-inside text-gray-300 space-y-1 mb-4">
+        <li><code>useFetchData()</code></li>
+        <li><code>useAuth()</code></li>
+        <li><code>useWindowSize()</code></li>
+      </ul>
+      <p class="text-gray-300 mb-3">
+        This naming convention allows React to treat them as hooks.
+      </p>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Why Custom Hooks are Important</h3>
+      <p class="text-gray-300 mb-3">
+        Custom Hooks help developers:
+      </p>
+      <ul class="list-disc list-inside text-gray-300 space-y-1 mb-4">
+        <li><strong>Reuse Logic</strong>: Instead of repeating the same logic across multiple components, it can be written once and reused.</li>
+        <li><strong>Cleaner Components</strong>: Components remain focused on UI instead of business logic.</li>
+        <li><strong>Better Code Organization</strong>: Complex logic can be moved into separate files.</li>
+        <li><strong>Improved Maintainability</strong>: Updating logic in one place updates it everywhere.</li>
+      </ul>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Example Scenario</h3>
+      <p class="text-gray-300 mb-3">
+        Imagine multiple components need to fetch data from an API.
+      </p>
+
+      <h4 class="text-lg font-semibold text-white mt-4 mb-2">Without Custom Hooks:</h4>
+      <div class="bg-[#1e1e1e] p-4 rounded-lg mb-4 font-mono text-sm text-gray-300">
+        Component A -> fetch data logic<br/>
+        Component B -> fetch data logic<br/>
+        Component C -> fetch data logic
+      </div>
+      <p class="text-gray-300 mb-3">
+        This duplicates code.
+      </p>
+
+      <h4 class="text-lg font-semibold text-white mt-4 mb-2">With Custom Hooks:</h4>
+      <div class="bg-[#1e1e1e] p-4 rounded-lg mb-4 font-mono text-sm text-gray-300">
+        useFetchData()<br/><br/>
+        Component A -> useFetchData()<br/>
+        Component B -> useFetchData()<br/>
+        Component C -> useFetchData()
+      </div>
+      <p class="text-gray-300 mb-3">
+        Now the logic exists in one place only.
+      </p>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Rules of Custom Hooks</h3>
+      <p class="text-gray-300 mb-3">
+        Custom hooks must follow the <strong>Rules of Hooks</strong>:
+      </p>
+      <ul class="list-disc list-inside text-gray-300 space-y-1 mb-4">
+        <li>Hooks must start with <strong>use</strong>.</li>
+        <li>Hooks must be called inside <strong>React functions</strong>.</li>
+        <li>Hooks must not be called inside loops or conditions.</li>
+      </ul>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Real World Use Cases</h3>
+      <p class="text-gray-300 mb-3">
+        Custom hooks are commonly used for:
+      </p>
+      <ul class="list-disc list-inside text-gray-300 space-y-1 mb-4">
+        <li>API data fetching</li>
+        <li>Authentication management</li>
+        <li>Window resize detection</li>
+        <li>Form validation</li>
+        <li>Theme switching</li>
+        <li>Local storage management</li>
+      </ul>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">File Structure Example</h3>
+      <p class="text-gray-300 mb-3">
+        Professional React applications store hooks inside a <code>hooks</code> folder.
+      </p>
+      <div class="bg-[#1e1e1e] p-4 rounded-lg mb-4 font-mono text-sm text-gray-300">
+        src<br/>
+        &nbsp;&nbsp;├── components<br/>
+        &nbsp;&nbsp;├── hooks<br/>
+        &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── useFetchData.js<br/>
+        &nbsp;&nbsp;├── pages<br/>
+        &nbsp;&nbsp;└── App.js
+      </div>
+      <p class="text-gray-300 mb-3">
+        This keeps reusable logic organized.
+      </p>
+    `,
+    syntax: [
+      {
+        title: 'Basic Custom Hook Syntax',
+        content: `import { useState, useEffect } from "react";
+
+function useCustomHook() {
+
+  const [state, setState] = useState(null);
+
+  useEffect(() => {
+    // logic here
+  }, []);
+
+  return state;
+}
+
+export default useCustomHook;`
+      },
+      {
+        title: 'Using Custom Hook in Component',
+        content: `import useCustomHook from "./hooks/useCustomHook";
+
+function Component() {
+
+  const data = useCustomHook();
+
+  return <div>{data}</div>;
+}`
+      }
+    ],
+    liveCodeExplanation: `
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Example: Custom Hook for Window Width</h3>
+
+      <h4 class="text-lg font-semibold text-white mt-4 mb-2">Step 1: Create Custom Hook</h4>
+      <div class="bg-[#1e1e1e] p-4 rounded-lg mb-4">
+        <pre><code class="language-jsx">import { useState, useEffect } from "react";
+
+function useWindowWidth() {
+
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+
+  }, []);
+
+  return width;
+}
+
+export default useWindowWidth;</code></pre>
+      </div>
+
+      <h4 class="text-lg font-semibold text-white mt-4 mb-2">Step 2: Use Hook in Component</h4>
+      <div class="bg-[#1e1e1e] p-4 rounded-lg mb-4">
+        <pre><code class="language-jsx">import React from "react";
+import useWindowWidth from "./useWindowWidth";
+
+function App() {
+
+  const width = useWindowWidth();
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Window Width: {width}px&lt;/h1&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;</code></pre>
+      </div>
+
+      <h4 class="text-lg font-semibold text-white mt-4 mb-2">Output</h4>
+      <p class="text-gray-300 mb-3">
+        When the browser window is resized, the displayed width will update automatically.
+      </p>
+    `,
+    liveCode: `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Custom Hooks Example</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #121212; color: #e5e5e5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    h1 { text-align: center; color: #fff; margin-bottom: 20px; }
+    .card { background: #1e1e1e; padding: 30px; border-radius: 12px; border: 1px solid #333; box-shadow: 0 4px 12px rgba(0,0,0,0.5); text-align: center; min-width: 300px; }
+    .width-display { font-size: 3rem; font-weight: bold; color: #00bceb; margin: 20px 0; }
+    .info { color: #aaa; font-size: 0.9rem; margin-top: 15px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // --- Custom Hook: useWindowWidth ---
+    function useWindowWidth() {
+      const [width, setWidth] = useState(window.innerWidth);
+
+      useEffect(() => {
+        const handleResize = () => {
+          setWidth(window.innerWidth);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        // Cleanup function
+        return () => {
+          window.removeEventListener("resize", handleResize);
+        };
+      }, []);
+
+      return width;
+    }
+
+    // --- Main Component ---
+    function App() {
+      const width = useWindowWidth();
+
+      return (
+        <div className="card">
+          <h1>Window Width Tracker</h1>
+          <div className="width-display">{width}px</div>
+          <p>Resize your browser window to see the value update instantly!</p>
+          <div className="info">Powered by a Custom Hook: <code>useWindowWidth()</code></div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>`
+  };
+}
+
+if (module5 && module5.lessons[2]) {
+  module5.lessons[2] = {
+    ...module5.lessons[2],
+    duration: '45 min',
+    content: `
+      <h2 class="text-2xl font-bold text-white mb-4">5.3 useRef and DOM Interaction</h2>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Introduction</h3>
+      <p class="text-gray-300 mb-3">
+        In React, most interactions with the user interface are handled through state and props. However, in certain situations developers need direct access to a DOM element.
+      </p>
+      <p class="text-gray-300 mb-3">
+        Examples include:
+      </p>
+      <ul class="list-disc list-inside text-gray-300 space-y-1 mb-4">
+        <li>Focusing an input field</li>
+        <li>Controlling media playback</li>
+        <li>Managing scroll positions</li>
+        <li>Integrating third-party libraries</li>
+      </ul>
+      <p class="text-gray-300 mb-3">
+        To handle such cases, React provides a hook called <strong>useRef</strong>.
+      </p>
+      <p class="text-gray-300 mb-3">
+        The <code>useRef</code> hook allows developers to create a reference to a DOM element and access it directly.
+      </p>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">What is useRef?</h3>
+      <p class="text-gray-300 mb-3">
+        The <code>useRef</code> hook is used to create a mutable reference object that persists across component re-renders.
+      </p>
+      <p class="text-gray-300 mb-3">
+        Unlike state variables, updating a <code>useRef</code> value <strong>does not cause the component to re-render</strong>.
+      </p>
+      <p class="text-gray-300 mb-3">
+        <strong>Basic idea:</strong><br/>
+        useRef → creates reference → attached to DOM element → accessed when needed
+      </p>
+      <p class="text-gray-300 mb-3">
+        The reference object contains a property called <code>.current</code>. This property stores the reference value.
+      </p>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Why useRef is Important</h3>
+      <p class="text-gray-300 mb-3">
+        The <code>useRef</code> hook is useful in situations where we need to interact directly with the DOM.
+      </p>
+      <h4 class="text-lg font-semibold text-white mt-4 mb-2">Common use cases include:</h4>
+      
+      <div class="space-y-4">
+        <div>
+          <h5 class="font-semibold text-white">1. Accessing DOM Elements</h5>
+          <p class="text-gray-300">Example: Auto focusing an input box when the page loads.</p>
+        </div>
+        <div>
+          <h5 class="font-semibold text-white">2. Persisting Values Between Renders</h5>
+          <p class="text-gray-300">useRef can store values that should persist between renders without triggering UI updates (e.g., Timer values, Previous state values).</p>
+        </div>
+        <div>
+          <h5 class="font-semibold text-white">3. Integration with External Libraries</h5>
+          <p class="text-gray-300">Libraries such as Chart.js or D3.js often require direct DOM manipulation.</p>
+        </div>
+      </div>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">How useRef Works</h3>
+      <p class="text-gray-300 mb-3">
+        The <code>useRef</code> hook returns an object like this:
+      </p>
+      <div class="bg-[#1e1e1e] p-3 rounded-lg mb-4 font-mono text-sm text-gray-300">
+        { current: value }
+      </div>
+      <p class="text-gray-300 mb-3">
+        This object remains the same across component renders.
+      </p>
+      <div class="bg-[#1e1e1e] p-3 rounded-lg mb-4 font-mono text-sm text-gray-300">
+        const inputRef = useRef(null);
+      </div>
+      <p class="text-gray-300 mb-3">
+        Here: <code>inputRef</code> stores the reference, and <code>.current</code> points to the DOM element.
+      </p>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Attaching useRef to DOM Elements</h3>
+      <p class="text-gray-300 mb-3">
+        The reference must be attached to a DOM element using the <code>ref</code> attribute.
+      </p>
+      <div class="bg-[#1e1e1e] p-3 rounded-lg mb-4 font-mono text-sm text-gray-300">
+        &lt;input ref={inputRef} /&gt;
+      </div>
+      <p class="text-gray-300 mb-3">
+        Now the input element can be accessed using <code>inputRef.current</code>.
+      </p>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Practical Example</h3>
+      <p class="text-gray-300 mb-3">
+        Consider a login form. When the page loads, the cursor should automatically focus on the username input field.
+      </p>
+      <p class="text-gray-300 mb-3">
+        Without useRef, this would require manual DOM manipulation. With useRef, the task becomes simple and clean.
+      </p>
+
+      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Best Practices for useRef</h3>
+      <ul class="list-disc list-inside text-gray-300 space-y-1 mb-4">
+        <li>Use useRef when direct DOM access is required.</li>
+        <li>Avoid excessive DOM manipulation.</li>
+        <li>Prefer state management whenever possible.</li>
+        <li>Use refs mainly for focus, animation, and external libraries.</li>
+      </ul>
+    `,
+    syntax: [
+      {
+        title: 'Importing useRef',
+        content: 'import { useRef } from "react";'
+      },
+      {
+        title: 'Creating a Reference',
+        content: 'const elementRef = useRef(initialValue);\\n\\n// Example:\\nconst inputRef = useRef(null);'
+      },
+      {
+        title: 'Attaching Ref to DOM Element',
+        content: '<input ref={inputRef} />'
+      },
+      {
+        title: 'Accessing the Element',
+        content: 'inputRef.current'
+      },
+      {
+        title: 'Example with useEffect',
+        content: 'import { useRef, useEffect } from "react";\\n\\nfunction Example() {\\n\\n  const inputRef = useRef(null);\\n\\n  useEffect(() => {\\n    inputRef.current.focus();\\n  }, []);\\n\\n}'
+      }
+    ],
+    liveCodeIsJsSnippet: false,
+    liveCode: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>useRef Example</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #121212; color: white; padding: 20px; display: flex; justify-content: center; }
+    .container { background: #1e1e1e; padding: 30px; border-radius: 12px; border: 1px solid #333; width: 100%; max-width: 400px; text-align: center; }
+    h2 { color: #00bceb; margin-top: 0; }
+    input { width: 80%; padding: 10px; margin: 15px 0; border-radius: 6px; border: 1px solid #444; background: #252526; color: white; outline: none; }
+    input:focus { border-color: #00bceb; box-shadow: 0 0 0 2px rgba(0, 188, 235, 0.2); }
+    button { background: #00bceb; color: #000; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 10px; }
+    button:hover { background: #00a0c9; }
+    .note { margin-top: 20px; font-size: 0.9em; color: #aaa; }
+    code { background: #333; padding: 2px 4px; border-radius: 4px; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useRef, useEffect } = React;
+
+    function App() {
+      const inputRef = useRef(null);
+
+      // Auto-focus on mount
+      useEffect(() => {
+        if (inputRef.current) {
+          inputRef.current.focus();
+        }
+      }, []);
+
+      const handleButtonClick = () => {
+        if (inputRef.current) {
+          inputRef.current.focus();
+        }
+      };
+
+      return (
+        <div className="container">
+          <h2>Login Form</h2>
+          <p>The input below is auto-focused on load.</p>
+          
+          <input 
+            ref={inputRef} 
+            type="text" 
+            placeholder="Enter Username" 
+          />
+          
+          <br />
+          
+          <button onClick={handleButtonClick}>
+            Focus Input
+          </button>
+          
+          <div className="note">
+            <p>Clicking the button also uses <code>ref.current.focus()</code></p>
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>`,
+    liveCodeExplanation: `
+      <p class="mb-3 text-gray-300">
+        This example demonstrates two key uses of <code>useRef</code>: auto-focusing on mount and programmatic focusing via a button click.
+      </p>
+
+      <h3 class="text-lg font-semibold text-white mb-1">1. Creating the Ref</h3>
+      <p class="text-gray-300 mb-2">
+        <code>const inputRef = useRef(null);</code> creates a reference object initialized with <code>null</code>.
+      </p>
+
+      <h3 class="text-lg font-semibold text-white mb-1">2. Attaching to DOM</h3>
+      <p class="text-gray-300 mb-2">
+        <code>&lt;input ref={inputRef} ... /&gt;</code> tells React to store the DOM node of this input into <code>inputRef.current</code> once it's rendered.
+      </p>
+
+      <h3 class="text-lg font-semibold text-white mb-1">3. Auto-Focus (useEffect)</h3>
+      <p class="text-gray-300 mb-2">
+        Inside <code>useEffect</code> with an empty dependency array <code>[]</code>, we access <code>inputRef.current.focus()</code>. This runs only once when the component mounts, mimicking the behavior of the HTML <code>autofocus</code> attribute but with more control.
+      </p>
+
+      <h3 class="text-lg font-semibold text-white mb-1">4. Programmatic Focus</h3>
+      <p class="text-gray-300 mb-2">
+        The "Focus Input" button triggers <code>handleButtonClick</code>, which also calls <code>inputRef.current.focus()</code>. This shows how you can interact with the DOM element at any time in response to user actions.
+      </p>
+    `
+  };
+}
+
+if (module5 && module5.lessons[3]) {
+  module5.lessons[3] = {
+    ...module5.lessons[3],
+    ...module5Lesson4
+  };
+}
+
+if (module5 && module5.lessons[4]) {
+    module5.lessons[4] = {
+      ...module5.lessons[4],
+      ...module5Lesson5
+    };
+  }
+
+  if (module5 && module5.lessons[5]) {
+    module5.lessons[5] = {
+      ...module5.lessons[5],
+      ...module5Lesson6
+    };
+  }
+
+  if (module5 && module5.lessons[6]) {
+    module5.lessons[6] = {
+      ...module5.lessons[6],
+      ...module5Lesson7
+    };
+  }
+
+  if (module5 && module5.lessons[7]) {
+    module5.lessons[7] = {
+      ...module5.lessons[7],
+      ...module5Lesson8
+    };
+  }
+
+  if (module5 && module5.lessons[8]) {
+    module5.lessons[8] = {
+      ...module5.lessons[8],
+      ...module5Lesson9
+    };
+  }
+
+const module6 = courseData.find((m) => m.id === 'module-6');
 
 const CourseLearningFrontendIntermediate: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
