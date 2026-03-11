@@ -31,12 +31,12 @@ export default function LiquidEther({
   cursorSize = 100,
   isViscous = false,
   viscous = 30,
-  iterationsViscous = 32,
-  iterationsPoisson = 32,
-  dt = 0.014,
-  BFECC = true,
-  resolution = 0.5,
-  isBounce = false,
+  iterationsViscous: _iterationsViscous = 32,
+  iterationsPoisson: _iterationsPoisson = 32,
+  dt: _dt = 0.014,
+  BFECC: _BFECC = true,
+  resolution: _resolution = 0.5,
+  isBounce: _isBounce = false,
   colors = defaultColors,
   style = {},
   className = '',
@@ -45,7 +45,7 @@ export default function LiquidEther({
   autoIntensity = 2.2,
   takeoverDuration = 0.25,
   autoResumeDelay = 3000,
-  autoRampDuration = 0.6,
+  autoRampDuration: _autoRampDuration = 0.6,
 }: LiquidEtherProps): React.ReactElement {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);

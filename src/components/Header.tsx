@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTheme } from '../contexts/ThemeContext';
 
 interface HeaderProps {
   hideDock?: boolean;
@@ -8,7 +7,6 @@ interface HeaderProps {
 
 const Header = ({ hideDock = false }: HeaderProps) => {
     const navigate = useNavigate();
-    const { theme, toggleTheme } = useTheme();
     const [scrolled, setScrolled] = useState(false);
     const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -44,10 +42,6 @@ const Header = ({ hideDock = false }: HeaderProps) => {
             day: 'numeric',
             year: 'numeric'
         });
-    };
-
-    const scrollToSection = (sectionId: string) => {
-        document.querySelector(sectionId)?.scrollIntoView({ behavior: 'smooth' });
     };
 
     if (hideDock) {

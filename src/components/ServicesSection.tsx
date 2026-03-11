@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
 import CircularGallery from './CircularGallery';
 
 const ServicesSection = () => {
-  const navigate = useNavigate();
   const [savedService, setSavedService] = useState<number | null>(null);
   const [currentServiceIndex, setCurrentServiceIndex] = useState(0);
   const galleryRef = useRef<any>(null);

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useId, useEffect, CSSProperties } from 'react';
+import { useRef, useId, useEffect, type CSSProperties } from 'react';
 import { animate, useMotionValue, AnimationPlaybackControls } from 'framer-motion';
 
 interface ResponsiveImage {
@@ -15,11 +15,6 @@ interface AnimationConfig {
   speed: number; // 1-100
 }
 
-interface NoiseConfig {
-  opacity: number; // 0-1
-  scale: number; // 1-100
-}
-
 interface ShadowOverlayProps {
   type?: 'preset' | 'custom';
   presetIndex?: number;
@@ -27,7 +22,6 @@ interface ShadowOverlayProps {
   sizing?: 'fill' | 'stretch';
   color?: string;
   animation?: AnimationConfig;
-  noise?: NoiseConfig;
   blendMode?: CSSProperties['mixBlendMode'];
   style?: CSSProperties;
   className?: string;
@@ -50,7 +44,6 @@ export default function EtheralShadow({
   sizing = 'fill',
   color = 'rgba(128, 128, 128, 0.25)',
   animation = { scale: 60, speed: 40 },
-  noise = { opacity: 0.0, scale: 40 },
   blendMode = 'soft-light',
   style,
   className,

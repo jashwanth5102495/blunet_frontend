@@ -13,6 +13,7 @@ interface Lesson {
   duration?: string;
   videoUrl?: string; // URL for the lesson video
   videoSlides?: { title: string; url: string }[]; // Array of videos for slideshow
+  videoComingSoon?: boolean;
   syntax?: { title: string; content: string }[];
   terminalCommands?: string[];
   liveCode?: string; // Default code for the live editor
@@ -38,7 +39,7 @@ const courseData: Module[] = [
     description: 'Master the building blocks of the web.',
     lessons: [
       { 
-        title: 'Introduction to HTML', 
+        title: '1.1 Introduction to HTML', 
         duration: '5 min', 
         videoSlides: [
           { title: 'Part 1: HTML Basics', url: '/htmlpart1.mp4' },
@@ -126,7 +127,7 @@ const courseData: Module[] = [
 </html>`
       },
       { 
-        title: 'HTML Headings (h1-h6)', 
+        title: '1.2 HTML Headings', 
         duration: '10 min', 
         videoUrl: '/HTML%20Headings%20(h1-h6).mp4',
         content: `
@@ -212,7 +213,7 @@ const courseData: Module[] = [
 </html>`
       },
       { 
-        title: 'HTML Paragraphs and Text Formatting', 
+        title: '1.3 HTML Paragraphs and Text Formatting Basics', 
         duration: '12 min', 
         videoUrl: '/HTML%20Paragraphs%20and%20Text%20Formatting.mp4',
         content: `
@@ -296,7 +297,7 @@ const courseData: Module[] = [
 </html>`
       },
       { 
-        title: 'HTML Links and Navigation', 
+        title: '1.4 HTML Links and Navigation', 
         duration: '15 min', 
         videoUrl: '/links.mp4',
         content: `
@@ -391,37 +392,1061 @@ const courseData: Module[] = [
 </html>`
       },
       {
-        title: 'Topic 4.5',
+        title: '1.5 HTML Text Formatting',
         duration: '10 min',
-        content: '<h2 class="text-2xl font-bold text-white mb-4">Topic 4.5</h2><p class="text-gray-300 mb-4">Content for Topic 4.5 coming soon.</p>'
+        videoComingSoon: true,
+        content: `
+          <h2 class="text-2xl font-bold text-white mb-4">Introduction to HTML Text Formatting</h2>
+
+          <p class="text-gray-300 mb-4">
+            HTML provides several tags that allow developers to format text to make web pages more readable,
+            structured, and visually appealing. These formatting tags help emphasize important information,
+            highlight keywords, and organize content effectively.
+          </p>
+
+          <p class="text-gray-300 mb-4">
+            Text formatting is widely used in articles, blogs, documentation, and websites where different types
+            of text emphasis are required.
+          </p>
+
+          <p class="text-gray-300 mb-4">
+            HTML formatting elements can make text bold, italic, highlighted, smaller, superscript, or subscript.
+          </p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Common HTML Text Formatting Tags</h3>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Bold Text</h4>
+          <p class="text-gray-300 mb-2">
+            The <code>&lt;b&gt;</code> tag is used to make text appear bold without adding extra importance.
+          </p>
+          <p class="text-gray-300 mb-4">
+            Example: <code>&lt;b&gt;This text is bold&lt;/b&gt;</code>
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Strong Text</h4>
+          <p class="text-gray-300 mb-2">
+            The <code>&lt;strong&gt;</code> tag is used to indicate that the text has strong importance.
+          </p>
+          <p class="text-gray-300 mb-2">
+            Example: <code>&lt;strong&gt;This text is important&lt;/strong&gt;</code>
+          </p>
+          <p class="text-gray-300 mb-4">
+            Browsers usually display it as bold, but it also has semantic meaning.
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Italic Text</h4>
+          <p class="text-gray-300 mb-2">
+            The <code>&lt;i&gt;</code> tag displays text in italic style.
+          </p>
+          <p class="text-gray-300 mb-4">
+            Example: <code>&lt;i&gt;This text is italic&lt;/i&gt;</code>
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Emphasized Text</h4>
+          <p class="text-gray-300 mb-2">
+            The <code>&lt;em&gt;</code> tag is used to emphasize text.
+          </p>
+          <p class="text-gray-300 mb-2">
+            Example: <code>&lt;em&gt;This text is emphasized&lt;/em&gt;</code>
+          </p>
+          <p class="text-gray-300 mb-4">
+            Browsers usually render it in italic, but it also carries meaning for screen readers.
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Marked / Highlighted Text</h4>
+          <p class="text-gray-300 mb-2">
+            The <code>&lt;mark&gt;</code> tag highlights text.
+          </p>
+          <p class="text-gray-300 mb-2">
+            Example: <code>&lt;mark&gt;This text is highlighted&lt;/mark&gt;</code>
+          </p>
+          <p class="text-gray-300 mb-4">
+            This is useful when highlighting keywords or search results.
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Small Text</h4>
+          <p class="text-gray-300 mb-2">
+            The <code>&lt;small&gt;</code> tag reduces the size of the text.
+          </p>
+          <p class="text-gray-300 mb-4">
+            Example: <code>&lt;small&gt;This is smaller text&lt;/small&gt;</code>
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Deleted Text</h4>
+          <p class="text-gray-300 mb-2">
+            The <code>&lt;del&gt;</code> tag represents deleted content.
+          </p>
+          <p class="text-gray-300 mb-4">
+            Example: <code>&lt;del&gt;Old price&lt;/del&gt;</code>
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Inserted Text</h4>
+          <p class="text-gray-300 mb-2">
+            The <code>&lt;ins&gt;</code> tag represents inserted content.
+          </p>
+          <p class="text-gray-300 mb-4">
+            Example: <code>&lt;ins&gt;New price&lt;/ins&gt;</code>
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Subscript Text</h4>
+          <p class="text-gray-300 mb-2">
+            The <code>&lt;sub&gt;</code> tag displays text slightly below the normal line.
+          </p>
+          <p class="text-gray-300 mb-2">
+            Example: Water formula: H<sub>2</sub>O
+          </p>
+          <p class="text-gray-300 mb-4">
+            HTML: <code>H&lt;sub&gt;2&lt;/sub&gt;O</code>
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Superscript Text</h4>
+          <p class="text-gray-300 mb-2">
+            The <code>&lt;sup&gt;</code> tag displays text slightly above the normal line.
+          </p>
+          <p class="text-gray-300 mb-2">
+            Example: Math expression: x<sup>2</sup>
+          </p>
+          <p class="text-gray-300 mb-4">
+            HTML: <code>x&lt;sup&gt;2&lt;/sup&gt;</code>
+          </p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Why Text Formatting is Important</h3>
+          <p class="text-gray-300 mb-4">Text formatting helps in:</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>Highlighting important information</li>
+            <li>Improving readability</li>
+            <li>Structuring content</li>
+            <li>Making web pages more user-friendly</li>
+            <li>Helping search engines understand content importance</li>
+          </ul>
+          <p class="text-gray-300 mb-4">
+            Using the correct formatting tags also improves accessibility for screen readers.
+          </p>
+        `,
+        syntax: [
+          {
+            title: 'Basic Syntax of HTML Text Formatting',
+            content: `<b>Bold Text</b>
+<strong>Important Text</strong>
+<i>Italic Text</i>
+<em>Emphasized Text</em>
+<mark>Highlighted Text</mark>
+<small>Small Text</small>
+<del>Deleted Text</del>
+<ins>Inserted Text</ins>
+H<sub>2</sub>O
+x<sup>2</sup>`
+          }
+        ],
+        liveCode: `<!DOCTYPE html>
+<html>
+<head>
+  <title>HTML Text Formatting Example</title>
+</head>
+
+<body>
+  <h2>HTML Text Formatting Examples</h2>
+
+  <p><b>This text is bold</b></p>
+
+  <p><strong>This text is strong and important</strong></p>
+
+  <p><i>This text is italic</i></p>
+
+  <p><em>This text is emphasized</em></p>
+
+  <p>This is <mark>highlighted text</mark></p>
+
+  <p>This is <small>small text</small></p>
+
+  <p>This is <del>deleted text</del></p>
+
+  <p>This is <ins>inserted text</ins></p>
+
+  <p>Water formula: H<sub>2</sub>O</p>
+
+  <p>Math expression: x<sup>2</sup></p>
+</body>
+</html>`,
+        language: 'html'
       },
       {
-        title: 'Topic 4.6',
+        title: '1.6 HTML Semantic Elements',
         duration: '10 min',
-        content: '<h2 class="text-2xl font-bold text-white mb-4">Topic 4.6</h2><p class="text-gray-300 mb-4">Content for Topic 4.6 coming soon.</p>'
+        videoComingSoon: true,
+        content: `
+          <h2 class="text-2xl font-bold text-white mb-4">Introduction to Semantic Elements</h2>
+
+          <p class="text-gray-300 mb-4">
+            Semantic elements in HTML are tags that clearly describe the meaning of the content they contain.
+            These elements help both browsers and developers understand the structure of a webpage.
+          </p>
+
+          <p class="text-gray-300 mb-4">
+            Before semantic HTML, developers often used <code>&lt;div&gt;</code> tags for everything. This made
+            the code difficult to understand. Semantic elements solve this problem by giving meaningful names
+            to different sections of a webpage.
+          </p>
+
+          <p class="text-gray-300 mb-4">
+            For example:
+          </p>
+
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>A website header can be written using <code>&lt;header&gt;</code></li>
+            <li>Navigation links can be placed inside <code>&lt;nav&gt;</code></li>
+            <li>Main content can be placed inside <code>&lt;main&gt;</code></li>
+            <li>Footer content can be placed inside <code>&lt;footer&gt;</code></li>
+          </ul>
+
+          <p class="text-gray-300 mb-4">
+            This improves code readability, SEO, and accessibility.
+          </p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Benefits of Semantic HTML</h3>
+
+          <p class="text-gray-300 mb-4">
+            Using semantic elements provides several advantages:
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Better Code Structure</h4>
+          <p class="text-gray-300 mb-4">
+            Semantic tags make HTML code easier to read and maintain.
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Improved SEO</h4>
+          <p class="text-gray-300 mb-4">
+            Search engines understand the structure of the webpage better, which can improve rankings.
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Accessibility</h4>
+          <p class="text-gray-300 mb-4">
+            Screen readers can interpret semantic elements properly, making websites easier to use for people
+            with disabilities.
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Developer Collaboration</h4>
+          <p class="text-gray-300 mb-4">
+            Developers can quickly understand the layout of a webpage when semantic elements are used.
+          </p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Common Semantic Elements</h3>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Header</h4>
+          <p class="text-gray-300 mb-2">
+            The <code>&lt;header&gt;</code> element represents introductory content or a group of navigational links.
+          </p>
+          <p class="text-gray-300 mb-2">It usually contains:</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>Logo</li>
+            <li>Website title</li>
+            <li>Navigation menu</li>
+          </ul>
+          <p class="text-gray-300 mb-4">
+            Example: <code>&lt;header&gt;Website Header&lt;/header&gt;</code>
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Navigation</h4>
+          <p class="text-gray-300 mb-2">
+            The <code>&lt;nav&gt;</code> element defines navigation links.
+          </p>
+          <p class="text-gray-300 mb-4">
+            Example: <code>&lt;nav&gt;Home | About | Contact&lt;/nav&gt;</code>
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Main Content</h4>
+          <p class="text-gray-300 mb-2">
+            The <code>&lt;main&gt;</code> element represents the main content of the webpage.
+          </p>
+          <p class="text-gray-300 mb-4">
+            Example: <code>&lt;main&gt;Main Content of the Page&lt;/main&gt;</code>
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Section</h4>
+          <p class="text-gray-300 mb-2">
+            The <code>&lt;section&gt;</code> element defines a section in a document.
+          </p>
+          <p class="text-gray-300 mb-4">
+            Example: <code>&lt;section&gt;Blog Posts&lt;/section&gt;</code>
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Article</h4>
+          <p class="text-gray-300 mb-2">
+            The <code>&lt;article&gt;</code> element represents independent content such as blog posts, news
+            articles, or forum posts.
+          </p>
+          <p class="text-gray-300 mb-4">
+            Example: <code>&lt;article&gt;Blog Article&lt;/article&gt;</code>
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Footer</h4>
+          <p class="text-gray-300 mb-2">
+            The <code>&lt;footer&gt;</code> element defines the footer of a webpage or section.
+          </p>
+          <p class="text-gray-300 mb-2">It usually contains:</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>Copyright information</li>
+            <li>Contact details</li>
+            <li>Social media links</li>
+          </ul>
+          <p class="text-gray-300 mb-4">
+            Example: <code>&lt;footer&gt;Copyright 2026&lt;/footer&gt;</code>
+          </p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Example Layout Using Semantic Elements</h3>
+          <p class="text-gray-300 mb-4">
+            A typical webpage layout using semantic HTML looks like this:
+          </p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>Header</li>
+            <li>Navigation</li>
+            <li>Main Content</li>
+            <li>Sections / Articles</li>
+            <li>Footer</li>
+          </ul>
+          <p class="text-gray-300 mb-4">
+            This makes the website structure clean and easy to understand.
+          </p>
+        `,
+        syntax: [
+          {
+            title: 'Basic Syntax of Semantic Elements',
+            content: `<header>
+  Website Header
+</header>
+
+<nav>
+  <a href="#">Home</a>
+  <a href="#">About</a>
+  <a href="#">Contact</a>
+</nav>
+
+<main>
+  Main Content Here
+</main>
+
+<section>
+  Section Content
+</section>
+
+<article>
+  Article Content
+</article>
+
+<footer>
+  Footer Content
+</footer>`
+          }
+        ],
+        liveCode: `<!DOCTYPE html>
+<html>
+<head>
+  <title>Semantic HTML Example</title>
+</head>
+
+<body>
+  <header>
+    <h1>My Website</h1>
+  </header>
+
+  <nav>
+    <a href="#">Home</a> |
+    <a href="#">About</a> |
+    <a href="#">Services</a> |
+    <a href="#">Contact</a>
+  </nav>
+
+  <main>
+    <section>
+      <h2>Latest News</h2>
+
+      <article>
+        <h3>Article 1</h3>
+        <p>This is the first article on the webpage.</p>
+      </article>
+
+      <article>
+        <h3>Article 2</h3>
+        <p>This is another article inside the section.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>Copyright 2026 My Website</p>
+  </footer>
+</body>
+</html>`,
+        language: 'html'
       },
       {
-        title: 'Topic 4.7',
+        title: '1.7 HTML Block vs Inline Elements',
         duration: '10 min',
-        content: '<h2 class="text-2xl font-bold text-white mb-4">Topic 4.7</h2><p class="text-gray-300 mb-4">Content for Topic 4.7 coming soon.</p>'
+        videoComingSoon: true,
+        content: `
+          <h2 class="text-2xl font-bold text-white mb-4">Introduction to Block and Inline Elements</h2>
+
+          <p class="text-gray-300 mb-4">
+            In HTML, elements are generally categorized into two types:
+          </p>
+
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>Block Elements</li>
+            <li>Inline Elements</li>
+          </ul>
+
+          <p class="text-gray-300 mb-4">
+            Understanding the difference between these elements is important because it helps developers design
+            webpage layouts and structure content properly.
+          </p>
+
+          <p class="text-gray-300 mb-4">
+            Block elements usually start on a new line and take the full width available, while inline elements
+            do not start on a new line and only take up as much width as necessary.
+          </p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Block Elements</h3>
+          <p class="text-gray-300 mb-4">
+            A block element always starts on a new line and stretches across the full width of its parent container.
+            Block elements are mainly used to define the structure of a webpage.
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Characteristics of Block Elements</h4>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>Starts on a new line</li>
+            <li>Takes the full available width</li>
+            <li>Can contain other block and inline elements</li>
+            <li>Used for page layout and structure</li>
+          </ul>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Examples of Block Elements</h4>
+          <p class="text-gray-300 mb-4">Some common block elements include:</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li><code>&lt;div&gt;</code></li>
+            <li><code>&lt;p&gt;</code></li>
+            <li><code>&lt;h1&gt;</code> to <code>&lt;h6&gt;</code></li>
+            <li><code>&lt;section&gt;</code></li>
+            <li><code>&lt;article&gt;</code></li>
+            <li><code>&lt;header&gt;</code></li>
+            <li><code>&lt;footer&gt;</code></li>
+            <li><code>&lt;ul&gt;</code></li>
+            <li><code>&lt;ol&gt;</code></li>
+          </ul>
+
+          <p class="text-gray-300 mb-2">Example:</p>
+          <p class="text-gray-300 mb-4">
+            <code>&lt;p&gt;This is a paragraph.&lt;/p&gt;</code>
+          </p>
+          <p class="text-gray-300 mb-4">
+            The paragraph will always appear on a new line.
+          </p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Inline Elements</h3>
+          <p class="text-gray-300 mb-4">
+            Inline elements do not start on a new line. They only take up the space required by their content.
+            Inline elements are usually used for formatting small parts of text inside block elements.
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Characteristics of Inline Elements</h4>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>Do not start on a new line</li>
+            <li>Only take the required width</li>
+            <li>Cannot contain block elements</li>
+            <li>Used for styling small pieces of content</li>
+          </ul>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Examples of Inline Elements</h4>
+          <p class="text-gray-300 mb-4">Some common inline elements include:</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li><code>&lt;span&gt;</code></li>
+            <li><code>&lt;a&gt;</code></li>
+            <li><code>&lt;strong&gt;</code></li>
+            <li><code>&lt;em&gt;</code></li>
+            <li><code>&lt;b&gt;</code></li>
+            <li><code>&lt;i&gt;</code></li>
+            <li><code>&lt;img&gt;</code></li>
+          </ul>
+
+          <p class="text-gray-300 mb-2">Example:</p>
+          <p class="text-gray-300 mb-4">
+            This is <code>&lt;strong&gt;important&lt;/strong&gt;</code> text.
+          </p>
+          <p class="text-gray-300 mb-4">
+            The strong tag will not move to a new line.
+          </p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Why Understanding Block and Inline Elements is Important</h3>
+          <p class="text-gray-300 mb-4">Understanding these elements helps in:</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>Designing webpage layouts</li>
+            <li>Writing structured HTML</li>
+            <li>Preparing HTML for CSS styling</li>
+            <li>Avoiding layout issues</li>
+          </ul>
+          <p class="text-gray-300 mb-4">
+            For example, layout containers are usually created using block elements, while text formatting is done
+            using inline elements.
+          </p>
+        `,
+        syntax: [
+          {
+            title: 'Example of Block Element',
+            content: `<div>
+  This is a block element
+</div>
+
+Block elements always start on a new line.`
+          },
+          {
+            title: 'Example of Inline Element',
+            content: `<span>This is an inline element</span>
+
+Inline elements stay in the same line with other content.`
+          },
+          {
+            title: 'Block Element Example with Paragraph',
+            content: `<p>This is a paragraph block element</p>
+<p>This is another paragraph</p>
+
+Each paragraph starts on a new line.`
+          },
+          {
+            title: 'Inline Element Inside Text',
+            content: `<p>This is <strong>important</strong> text inside a paragraph.</p>
+
+The strong tag appears inline with the paragraph text.`
+          }
+        ],
+        liveCode: `<!DOCTYPE html>
+<html>
+<head>
+  <title>Block vs Inline Elements</title>
+</head>
+
+<body>
+  <h2>Block Element Example</h2>
+
+  <p>This is the first paragraph.</p>
+  <p>This is the second paragraph.</p>
+
+  <div>This is a div block element.</div>
+  <div>This is another div block element.</div>
+
+  <h2>Inline Element Example</h2>
+
+  <p>
+    This is an example of
+    <strong>strong text</strong>,
+    <i>italic text</i>,
+    and a
+    <span>span element</span>
+    inside the same line.
+  </p>
+</body>
+</html>`,
+        language: 'html'
       },
       {
-        title: 'Topic 4.8',
+        title: '1.8 HTML Div and Span Containers',
         duration: '10 min',
-        content: '<h2 class="text-2xl font-bold text-white mb-4">Topic 4.8</h2><p class="text-gray-300 mb-4">Content for Topic 4.8 coming soon.</p>'
+        videoComingSoon: true,
+        content: `
+          <h2 class="text-2xl font-bold text-white mb-4">Introduction to HTML Containers</h2>
+
+          <p class="text-gray-300 mb-4">
+            In HTML, containers are elements used to group other elements together. This helps organize content
+            and apply styles using CSS or behavior using JavaScript.
+          </p>
+
+          <p class="text-gray-300 mb-4">
+            The two most commonly used container elements are:
+          </p>
+
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li><code>&lt;div&gt;</code></li>
+            <li><code>&lt;span&gt;</code></li>
+          </ul>
+
+          <p class="text-gray-300 mb-4">
+            Both elements do not add visual changes by default but are extremely important for structuring web pages.
+          </p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">The &lt;div&gt; Element</h3>
+          <p class="text-gray-300 mb-4">
+            The <code>&lt;div&gt;</code> element is a block-level container used to group large sections of content.
+          </p>
+
+          <p class="text-gray-300 mb-4">
+            Developers often use <code>&lt;div&gt;</code> to create layout sections like:
+          </p>
+
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>Header area</li>
+            <li>Navigation bar</li>
+            <li>Sidebar</li>
+            <li>Main content</li>
+            <li>Footer</li>
+          </ul>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Characteristics of &lt;div&gt;</h4>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>It is a block element</li>
+            <li>Starts on a new line</li>
+            <li>Takes the full width available</li>
+            <li>Can contain both block and inline elements</li>
+            <li>Used heavily in webpage layout design</li>
+          </ul>
+
+          <p class="text-gray-300 mb-2">Example</p>
+          <p class="text-gray-300 mb-4">
+            <code>&lt;div&gt;This is a container created using the div element.&lt;/div&gt;</code>
+          </p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">The &lt;span&gt; Element</h3>
+          <p class="text-gray-300 mb-4">
+            The <code>&lt;span&gt;</code> element is an inline container used to group small parts of text inside other
+            elements. It is commonly used for styling small portions of content.
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Characteristics of &lt;span&gt;</h4>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>It is an inline element</li>
+            <li>Does not start on a new line</li>
+            <li>Only takes up the width needed</li>
+            <li>Usually used inside paragraphs or headings</li>
+          </ul>
+
+          <p class="text-gray-300 mb-2">Example</p>
+          <p class="text-gray-300 mb-4">
+            <code>&lt;p&gt;This is &lt;span&gt;highlighted text&lt;/span&gt; inside a paragraph.&lt;/p&gt;</code>
+          </p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Difference Between Div and Span</h3>
+          <div class="overflow-x-auto mb-4">
+            <table class="min-w-full border border-gray-700 text-gray-300">
+              <thead>
+                <tr class="bg-[#1e1e1e]">
+                  <th class="text-left px-3 py-2 border-b border-gray-700">Feature</th>
+                  <th class="text-left px-3 py-2 border-b border-gray-700">div</th>
+                  <th class="text-left px-3 py-2 border-b border-gray-700">span</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="px-3 py-2 border-b border-gray-700">Element Type</td>
+                  <td class="px-3 py-2 border-b border-gray-700">Block</td>
+                  <td class="px-3 py-2 border-b border-gray-700">Inline</td>
+                </tr>
+                <tr>
+                  <td class="px-3 py-2 border-b border-gray-700">Starts New Line</td>
+                  <td class="px-3 py-2 border-b border-gray-700">Yes</td>
+                  <td class="px-3 py-2 border-b border-gray-700">No</td>
+                </tr>
+                <tr>
+                  <td class="px-3 py-2 border-b border-gray-700">Usage</td>
+                  <td class="px-3 py-2 border-b border-gray-700">Page layout</td>
+                  <td class="px-3 py-2 border-b border-gray-700">Text styling</td>
+                </tr>
+                <tr>
+                  <td class="px-3 py-2 border-b border-gray-700">Width</td>
+                  <td class="px-3 py-2 border-b border-gray-700">Full width</td>
+                  <td class="px-3 py-2 border-b border-gray-700">Content width</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Why Div and Span Are Important</h3>
+          <p class="text-gray-300 mb-4">
+            These elements are widely used because they help in:
+          </p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>Creating structured webpage layouts</li>
+            <li>Applying CSS styling to groups of elements</li>
+            <li>Targeting elements using JavaScript</li>
+            <li>Organizing content effectively</li>
+          </ul>
+          <p class="text-gray-300 mb-4">
+            Almost every modern website uses <code>&lt;div&gt;</code> and <code>&lt;span&gt;</code> extensively.
+          </p>
+        `,
+        syntax: [
+          {
+            title: 'Basic Syntax of Div',
+            content: `<div>
+  Content inside div container
+</div>`
+          },
+          {
+            title: 'Div with Multiple Elements',
+            content: `<div>
+  <h2>Section Title</h2>
+  <p>This is a paragraph inside a div.</p>
+</div>`
+          },
+          {
+            title: 'Basic Syntax of Span',
+            content: `<span>Inline content</span>`
+          },
+          {
+            title: 'Span Inside Paragraph',
+            content: `<p>This is a <span>special word</span> in the sentence.</p>`
+          }
+        ],
+        liveCode: `<!DOCTYPE html>
+<html>
+<head>
+  <title>Div and Span Example</title>
+</head>
+
+<body>
+  <h2>Div Container Example</h2>
+
+  <div>
+    <h3>Welcome Section</h3>
+    <p>This content is grouped inside a div container.</p>
+  </div>
+
+  <div>
+    <h3>Another Section</h3>
+    <p>This is another block container created using div.</p>
+  </div>
+
+  <h2>Span Example</h2>
+
+  <p>
+    HTML is a <span>powerful</span> language used for
+    <span>building web pages</span>.
+  </p>
+</body>
+</html>`,
+        language: 'html'
       },
       {
-        title: 'Topic 4.9',
+        title: '1.9 HTML Comments and Code Structure',
         duration: '10 min',
-        content: '<h2 class="text-2xl font-bold text-white mb-4">Topic 4.9</h2><p class="text-gray-300 mb-4">Content for Topic 4.9 coming soon.</p>'
+        videoComingSoon: true,
+        content: `
+          <h2 class="text-2xl font-bold text-white mb-4">Introduction to HTML Comments</h2>
+
+          <p class="text-gray-300 mb-4">
+            HTML comments are used to add notes or explanations inside the HTML code. These comments are not displayed
+            on the webpage and are only visible to developers in the source code.
+          </p>
+
+          <p class="text-gray-300 mb-4">
+            Comments help developers understand the purpose of different parts of the code, especially when working on
+            large projects or collaborating with other developers.
+          </p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Why Comments Are Important</h3>
+          <p class="text-gray-300 mb-4">HTML comments are useful for several reasons:</p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Code Documentation</h4>
+          <p class="text-gray-300 mb-4">
+            Comments allow developers to explain what certain sections of the code are doing.
+          </p>
+          <p class="text-gray-300 mb-4">
+            Example: explaining layout sections, describing functionality.
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Debugging Code</h4>
+          <p class="text-gray-300 mb-4">
+            Sometimes developers temporarily disable parts of the code using comments while testing or debugging.
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Team Collaboration</h4>
+          <p class="text-gray-300 mb-4">
+            When multiple developers work on the same project, comments help everyone understand the code more easily.
+          </p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">HTML Code Structure</h3>
+          <p class="text-gray-300 mb-4">
+            Writing clean and structured HTML code is important for readability and maintainability. Good code structure
+            helps developers quickly understand the layout of a webpage.
+          </p>
+
+          <p class="text-gray-300 mb-4">Proper structure includes:</p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>Indentation</li>
+            <li>Organized sections</li>
+            <li>Clear naming</li>
+            <li>Use of comments</li>
+          </ul>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Best Practices for HTML Code Structure</h3>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Use Proper Indentation</h4>
+          <p class="text-gray-300 mb-4">
+            Indentation helps make the HTML code easier to read. Instead of writing everything on one line, structure
+            the code clearly.
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Organize Page Sections</h4>
+          <p class="text-gray-300 mb-4">
+            Divide the webpage into logical sections such as header, navigation, main content, and footer.
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">Use Comments for Important Sections</h4>
+          <p class="text-gray-300 mb-4">
+            Comments can be used to mark different parts of a webpage, such as header section, navigation section,
+            main content area, and footer section.
+          </p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Example of Structured HTML Code</h3>
+          <p class="text-gray-300 mb-4">
+            A well-structured HTML document typically includes:
+          </p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>Document declaration</li>
+            <li>Head section</li>
+            <li>Body section</li>
+            <li>Organized elements inside the body</li>
+          </ul>
+          <p class="text-gray-300 mb-4">
+            This structure helps developers maintain clean and professional code.
+          </p>
+        `,
+        syntax: [
+          {
+            title: 'Basic HTML Comment Syntax',
+            content: `<!-- This is an HTML comment -->
+
+Comments start with <!-- and end with -->.`
+          },
+          {
+            title: 'Comment for Page Section',
+            content: `<!-- Header Section -->
+<header>
+  <h1>My Website</h1>
+</header>`
+          },
+          {
+            title: 'Multi-line Comments',
+            content: `<!--
+This is a multi-line comment.
+It can span multiple lines.
+-->`
+          },
+          {
+            title: 'Temporarily Disabling Code',
+            content: `<!--
+<p>This paragraph will not appear on the webpage.</p>
+-->
+
+The browser will ignore anything inside the comment.`
+          }
+        ],
+        liveCode: `<!DOCTYPE html>
+<html>
+<head>
+  <title>HTML Comments Example</title>
+</head>
+
+<body>
+  <!-- Header Section -->
+  <header>
+    <h1>Welcome to My Website</h1>
+  </header>
+
+  <!-- Navigation Menu -->
+  <nav>
+    <a href="#">Home</a> |
+    <a href="#">About</a> |
+    <a href="#">Contact</a>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <p>This is the main content of the webpage.</p>
+  </main>
+
+  <!-- Footer Section -->
+  <footer>
+    <p>Copyright 2026 My Website</p>
+  </footer>
+
+  <!-- This paragraph is commented out and will not be shown -->
+  <!-- <p>This text will not appear on the webpage.</p> -->
+</body>
+</html>`,
+        language: 'html'
       },
       {
-        title: 'Topic 4.10',
+        title: '1.10 HTML Attributes',
         duration: '10 min',
-        content: '<h2 class="text-2xl font-bold text-white mb-4">Topic 4.10</h2><p class="text-gray-300 mb-4">Content for Topic 4.10 coming soon.</p>'
+        videoComingSoon: true,
+        content: `
+          <h2 class="text-2xl font-bold text-white mb-4">Introduction to HTML Attributes</h2>
+
+          <p class="text-gray-300 mb-4">
+            HTML attributes provide additional information about HTML elements. They modify the behavior or appearance of an element.
+          </p>
+
+          <p class="text-gray-300 mb-4">
+            Attributes are always written inside the opening tag of an HTML element and usually appear as name-value pairs.
+          </p>
+
+          <p class="text-gray-300 mb-2">Example:</p>
+          <p class="text-gray-300 mb-4">
+            <code>&lt;a href="https://example.com"&gt;Visit Website&lt;/a&gt;</code>
+          </p>
+
+          <p class="text-gray-300 mb-4">
+            In this example:
+          </p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li><strong>href</strong> is the attribute</li>
+            <li><strong>"https://example.com"</strong> is the value</li>
+          </ul>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Structure of an HTML Attribute</h3>
+          <p class="text-gray-300 mb-4">
+            The general structure of an attribute is:
+          </p>
+          <p class="text-gray-300 mb-4">
+            <code>attribute_name="value"</code>
+          </p>
+
+          <p class="text-gray-300 mb-2">Example:</p>
+          <p class="text-gray-300 mb-4">
+            <code>&lt;img src="image.jpg" alt="Sample Image"&gt;</code>
+          </p>
+          <p class="text-gray-300 mb-4">
+            Here:
+          </p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li><strong>src</strong> specifies the image source</li>
+            <li><strong>alt</strong> provides alternative text for the image</li>
+          </ul>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Common HTML Attributes</h3>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">1. href Attribute</h4>
+          <p class="text-gray-300 mb-2">
+            The href attribute is used in the <code>&lt;a&gt;</code> tag to define the link destination.
+          </p>
+          <p class="text-gray-300 mb-4">
+            Example: <code>&lt;a href="https://google.com"&gt;Go to Google&lt;/a&gt;</code>
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">2. src Attribute</h4>
+          <p class="text-gray-300 mb-2">
+            The src attribute specifies the source file for elements like images.
+          </p>
+          <p class="text-gray-300 mb-4">
+            Example: <code>&lt;img src="photo.jpg"&gt;</code>
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">3. alt Attribute</h4>
+          <p class="text-gray-300 mb-2">
+            The alt attribute provides alternative text if an image cannot be displayed.
+          </p>
+          <p class="text-gray-300 mb-4">
+            Example: <code>&lt;img src="cat.jpg" alt="Image of a cat"&gt;</code>
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">4. title Attribute</h4>
+          <p class="text-gray-300 mb-2">
+            The title attribute provides additional information about an element. When users hover over the element, a tooltip appears.
+          </p>
+          <p class="text-gray-300 mb-4">
+            Example: <code>&lt;p title="This is additional information"&gt;Hover over this text&lt;/p&gt;</code>
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">5. class Attribute</h4>
+          <p class="text-gray-300 mb-2">
+            The class attribute is used to group elements so that they can be styled using CSS.
+          </p>
+          <p class="text-gray-300 mb-4">
+            Example: <code>&lt;p class="highlight"&gt;Important text&lt;/p&gt;</code>
+          </p>
+
+          <h4 class="text-lg font-semibold text-white mt-4 mb-2">6. id Attribute</h4>
+          <p class="text-gray-300 mb-2">
+            The id attribute uniquely identifies an HTML element.
+          </p>
+          <p class="text-gray-300 mb-4">
+            Example: <code>&lt;div id="header"&gt;Website Header&lt;/div&gt;</code>
+          </p>
+
+          <p class="text-gray-300 mb-4">
+            Each id should be unique within the page.
+          </p>
+
+          <h3 class="text-xl font-bold text-white mb-2 mt-6">Why HTML Attributes Are Important</h3>
+          <p class="text-gray-300 mb-4">
+            HTML attributes are important because they:
+          </p>
+          <ul class="list-disc pl-6 text-gray-300 space-y-2 mb-4">
+            <li>Add functionality to elements</li>
+            <li>Help connect HTML with CSS and JavaScript</li>
+            <li>Provide extra information about content</li>
+            <li>Improve accessibility and SEO</li>
+          </ul>
+
+          <p class="text-gray-300 mb-4">
+            Attributes are used in almost every HTML element.
+          </p>
+        `,
+        syntax: [
+          {
+            title: 'Basic Attribute Syntax',
+            content: `<tag attribute="value">Content</tag>
+
+Example:
+
+<a href="https://example.com">Example Link</a>`
+          },
+          {
+            title: 'Multiple Attributes in One Element',
+            content: `<img src="image.jpg" alt="Sample Image" width="200">
+
+An element can contain multiple attributes.`
+          },
+          {
+            title: 'Using Class Attribute',
+            content: `<p class="text-style">Styled paragraph</p>`
+          },
+          {
+            title: 'Using ID Attribute',
+            content: `<div id="main-section">
+  Main Content
+</div>`
+          }
+        ],
+        liveCode: `<!DOCTYPE html>
+<html>
+<head>
+  <title>HTML Attributes Example</title>
+</head>
+
+<body>
+
+  <h2>HTML Attributes Examples</h2>
+
+  <p title="This is a tooltip">Hover over this paragraph to see the title attribute.</p>
+
+  <a href="https://www.google.com">Visit Google</a>
+
+  <br><br>
+
+  <img src="https://via.placeholder.com/150" alt="Sample Image">
+
+  <br><br>
+
+  <p class="highlight">This paragraph uses a class attribute.</p>
+
+  <div id="section1">
+    This is a div with an id attribute.
+  </div>
+
+</body>
+</html>`,
+        language: 'html'
       },
       { 
-        title: 'HTML Lists (Ordered, Unordered, Description)', 
+        title: '1.11 HTML Lists', 
         duration: '10 min', 
         videoUrl: '/list.mp4',
         content: `
@@ -521,7 +1546,7 @@ const courseData: Module[] = [
 </html>`
       },
       { 
-        title: 'HTML Images and Media', 
+        title: '1.12 HTML Images and Media', 
         duration: '12 min', 
         videoUrl: '/images.mp4',
         content: `
@@ -602,7 +1627,7 @@ const courseData: Module[] = [
 </html>`
       },
       { 
-        title: 'HTML Tables', 
+        title: '1.13 HTML Tables', 
         duration: '15 min', 
         videoUrl: '/tables.mp4',
         content: `
@@ -703,7 +1728,7 @@ const courseData: Module[] = [
 </html>`
       },
       { 
-        title: 'HTML Forms and Input Elements', 
+        title: '1.14 HTML Forms and Input Elements', 
         duration: '20 min', 
         videoUrl: '/forms.mp4',
         content: `
@@ -4490,6 +5515,12 @@ const Sidebar = ({
                         const lessonKey = `${module.id}-${idx}`;
                         const isCompleted = completedLessons.has(lessonKey);
                         const isLessonActive = isActive && activeLessonIndex === idx;
+                        const moduleNumber = module.id.split('-')[1];
+                        const computedPrefix = `${moduleNumber}.${idx + 1}`;
+                        const trimmedLessonTitle = lesson.title.trim();
+                        const lessonDisplayTitle = new RegExp(`^${computedPrefix}(\\s|$)`).test(trimmedLessonTitle)
+                          ? trimmedLessonTitle
+                          : `${computedPrefix} ${trimmedLessonTitle}`;
 
                         return (
                           <div
@@ -4531,7 +5562,7 @@ const Sidebar = ({
                                 'text-sm font-medium truncate mb-0.5',
                                 isLessonActive ? 'text-white' : 'text-gray-400'
                               )}>
-                                {module.id.split('-')[1]}.{idx + 1} {lesson.title}
+                                {lessonDisplayTitle}
                               </div>
                             </div>
                             
@@ -5075,6 +6106,15 @@ const CourseLearningFrontendBeginner: React.FC = () => {
                                  allowFullScreen
                               />
                            )}
+                        </div>
+                      )}
+
+                      {activeLesson.videoComingSoon && !activeLesson.videoUrl && !activeLesson.videoSlides && (
+                        <div className="mb-8 aspect-video bg-[#0d0d0d] rounded-xl overflow-hidden shadow-lg border border-[#333] flex items-center justify-center">
+                          <div className="text-center">
+                            <Video className="w-10 h-10 mx-auto mb-3 text-gray-500" />
+                            <p className="text-gray-400 font-medium">Coming soon</p>
+                          </div>
                         </div>
                       )}
                       <div 

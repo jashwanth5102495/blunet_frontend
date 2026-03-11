@@ -246,10 +246,6 @@ const CreatorPortal = () => {
     // Handle gig application logic
   };
 
-  const isProjectOwned = (projectId: string): boolean => {
-    return creativeProjects.some(project => project.id === projectId);
-  };
-
   if (isLoading) {
     return (
       <div className={`min-h-screen flex items-center justify-center ${

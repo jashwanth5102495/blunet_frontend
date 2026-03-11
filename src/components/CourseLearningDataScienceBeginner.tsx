@@ -9371,7 +9371,7 @@ print(df)
                 await new Promise(resolve => script.onload = resolve);
             }
 
-            // @ts-ignore
+            // @ts-expect-error loadPyodide is injected via CDN script
             const pyodideInstance = await window.loadPyodide({
                 indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.0/full/"
             });

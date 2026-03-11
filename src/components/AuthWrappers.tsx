@@ -17,29 +17,19 @@ export function ProtectedLoginRoute({ children }: { children: ReactNode }) {
 }
 
 export function ProtectedCourseGate({ courseId, children }: { courseId: string; children: ReactNode }) {
-  const currentUserRaw = localStorage.getItem('currentUser');
-  const currentUser = currentUserRaw ? JSON.parse(currentUserRaw) : null;
-  if (!currentUser?.isAuthenticated || !currentUser?.token) return <Navigate to="/student-login" replace />;
-
-  const [allowed, setAllowed] = useState<boolean | null>(() => {
-    if (courseId && (
-      courseId.includes('cyber-security') || 
-      courseId.includes('frontend') || 
-      courseId.includes('backend') || 
-      courseId.includes('fullstack') ||
-      courseId.includes('networking') ||
-      courseId.includes('devops')
-    )) {
-      return true;
-    }
-    return null;
-  });
+  const [allowed, setAllowed] = useState<boolean | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const currentUserRaw = localStorage.getItem('currentUser');
+  const currentUser = currentUserRaw ? JSON.parse(currentUserRaw) : null;
+  const token: string | undefined = currentUser?.token;
+  const isLoggedIn = Boolean(currentUser?.isAuthenticated && token);
+
   useEffect(() => {
-    // Also log the courseId for debugging
-    console.log('ProtectedCourseGate checking access for:', courseId);
-    
+    if (!isLoggedIn || !token) return;
+    setAllowed(null);
+    setError(null);
+
     if (courseId && (
       courseId.includes('cyber-security') || 
       courseId.includes('frontend') || 
@@ -48,17 +38,18 @@ export function ProtectedCourseGate({ courseId, children }: { courseId: string; 
       courseId.includes('networking') ||
       courseId.includes('devops')
     )) {
-      console.log('ProtectedCourseGate: Bypassing check for course');
       setAllowed(true);
       return;
     }
 
+    let cancelled = false;
     const checkAccess = async () => {
       try {
         const res = await fetch(`${BASE_URL}/api/courses/access/${courseId}`, {
-          headers: { Authorization: `Bearer ${currentUser.token}` }
+          headers: { Authorization: `Bearer ${token}` }
         });
         const data = await res.json();
+        if (cancelled) return;
         if (res.ok && data?.success) {
           setAllowed(Boolean(data.allowed));
         } else {
@@ -66,12 +57,18 @@ export function ProtectedCourseGate({ courseId, children }: { courseId: string; 
           setError(data?.message || 'Access denied');
         }
       } catch (e: any) {
+        if (cancelled) return;
         setAllowed(false);
         setError(e?.message || 'Network error');
       }
     };
     checkAccess();
-  }, [courseId]);
+    return () => {
+      cancelled = true;
+    };
+  }, [courseId, isLoggedIn, token]);
+
+  if (!isLoggedIn) return <Navigate to="/student-login" replace />;
 
   if (allowed === null) {
     return (<>

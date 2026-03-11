@@ -213,7 +213,7 @@ function SplashCursor({
     document.addEventListener('click', handleClick);
 
     // Add enter event to tech section specifically
-    const techSection = document.querySelector('.splash-cursor');
+    const techSection = document.querySelector('.splash-cursor') as HTMLElement | null;
     if (techSection) {
       techSection.addEventListener('mouseenter', handleMouseEnter);
     }

@@ -42,7 +42,6 @@ export default function MagicBento(props: MagicBentoProps) {
     style,
     textAutoHide = defaultProps.textAutoHide,
     enableStars = defaultProps.enableStars,
-    enableSpotlight = defaultProps.enableSpotlight,
     enableBorderGlow = defaultProps.enableBorderGlow,
     disableAnimations = defaultProps.disableAnimations,
     spotlightRadius = defaultProps.spotlightRadius,

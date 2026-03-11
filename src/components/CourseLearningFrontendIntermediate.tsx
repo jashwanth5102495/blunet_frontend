@@ -1,9 +1,9 @@
-﻿﻿import React, { useState, useMemo, useEffect, useRef } from 'react';
+﻿import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { askLLM, ChatMessage } from '../services/llm';
+import { useCourses } from '../hooks/useCourses';
 import {
-  Paperclip,
   Mic,
   Send,
   BookOpen,
@@ -15,17 +15,14 @@ import {
   ChevronLeft,
   Home,
   PlayCircle,
-  Terminal,
   Code,
-  ArrowLeft,
-  ArrowRight,
   Copy,
   Check,
   Menu,
   X
 } from 'lucide-react';
 import { clsx } from 'clsx';
-import { module5Lesson4, module5Lesson5, module5Lesson6, module5Lesson7, module5Lesson8, module5Lesson9 } from './CourseLearningFrontendIntermediatepart2';
+import { module5Lesson4, module5Lesson5, module5Lesson6, module5Lesson7, module5Lesson8, module5Lesson9, module6Lesson1, module6Lesson2, module6Lesson3, module6Lesson4, module6Lesson5, module6Lesson6 } from './CourseLearningFrontendIntermediatepart2';
 
 interface Lesson {
   title: string;
@@ -8126,11 +8123,55 @@ if (module5 && module5.lessons[4]) {
 
 const module6 = courseData.find((m) => m.id === 'module-6');
 
+if (module6 && module6.lessons[0]) {
+  module6.lessons[0] = {
+    ...module6.lessons[0],
+    ...module6Lesson1
+  };
+}
+
+if (module6 && module6.lessons[1]) {
+  module6.lessons[1] = {
+    ...module6.lessons[1],
+    ...module6Lesson2
+  };
+}
+
+if (module6 && module6.lessons[2]) {
+  module6.lessons[2] = {
+    ...module6.lessons[2],
+    ...module6Lesson3
+  };
+}
+
+if (module6 && module6.lessons[3]) {
+  module6.lessons[3] = {
+    ...module6.lessons[3],
+    ...module6Lesson4
+  };
+}
+
+if (module6 && module6.lessons[4]) {
+  module6.lessons[4] = {
+    ...module6.lessons[4],
+    ...module6Lesson5
+  };
+}
+
+if (module6 && module6.lessons[5]) {
+  module6.lessons[5] = {
+    ...module6.lessons[5],
+    ...module6Lesson6
+  };
+}
+
+
 const CourseLearningFrontendIntermediate: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
+  const { courses } = useCourses();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -8140,7 +8181,6 @@ const CourseLearningFrontendIntermediate: React.FC = () => {
 
   const [activeContentTab, setActiveContentTab] =
     useState<'lesson' | 'syntax' | 'live-code'>('lesson');
-  const [currentVideoSlide] = useState(0);
 
   const [liveCode, setLiveCode] = useState(defaultLiveCode);
   const [previewKey, setPreviewKey] = useState(0);
@@ -8158,16 +8198,46 @@ const CourseLearningFrontendIntermediate: React.FC = () => {
     [activeModule, activeLessonIndex]
   );
 
+  const authoredLesson = useMemo(() => {
+    if (!activeLesson?.title) return null;
+
+    const normalize = (value: string | undefined) => (value ?? '').trim().toLowerCase();
+    const title = normalize(activeLesson.title);
+    const match = title.match(/^(\d+)\.(\d+)/);
+    if (!match) return null;
+    const moduleNumber = Number(match[1]);
+    const lessonNumber = Number(match[2]);
+    const shouldSyncFromAuthor = moduleNumber > 6 || (moduleNumber === 6 && lessonNumber >= 5);
+    if (!shouldSyncFromAuthor) return null;
+    const topicId = match ? `${match[1]}-${match[2]}` : null;
+
+    const authoredCourse =
+      courses.find((c) => normalize(c.id) === 'frontend-intermediate') ||
+      courses.find((c) => normalize(c.title) === 'frontend development - intermediate');
+
+    const authoredModule = authoredCourse?.modules?.find((m) => m.id === activeModuleId);
+    const lesson = authoredModule?.lessons?.find(
+      (l) => (topicId ? l.id === topicId : false) || normalize(l.title) === title
+    );
+    return lesson ? (lesson as Partial<Lesson>) : null;
+  }, [activeLesson?.title, activeModuleId, courses]);
+
+  const displayedLesson = useMemo(() => {
+    if (!activeLesson) return undefined;
+    if (!authoredLesson) return activeLesson;
+    return { ...activeLesson, ...authoredLesson };
+  }, [activeLesson, authoredLesson]);
+
   useEffect(() => {
-    if (activeLesson?.liveCode) {
-      setLiveCode(activeLesson.liveCode);
+    if (displayedLesson?.liveCode) {
+      setLiveCode(displayedLesson.liveCode);
     } else {
       setLiveCode(defaultLiveCode);
     }
-  }, [activeLesson]);
+  }, [displayedLesson]);
 
   const previewDoc = useMemo(() => {
-    if (activeLesson?.liveCodeIsJsSnippet) {
+    if (displayedLesson?.liveCodeIsJsSnippet) {
       const safeCode = liveCode.replace(/<\/script/gi, '<\\/script');
       return `<!DOCTYPE html>
 <html>
@@ -8204,7 +8274,7 @@ ${safeCode}
 </html>`;
     }
     return liveCode;
-  }, [liveCode, activeLesson]);
+  }, [liveCode, displayedLesson]);
 
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -8226,8 +8296,8 @@ ${safeCode}
         courseContext: {
           courseName: 'Frontend Development Intermediate',
           moduleName: activeModule?.title,
-          lessonTitle: activeLesson?.title,
-          lessonContent: activeLesson?.content.replace(/<[^>]*>/g, '').substring(0, 1500)
+          lessonTitle: displayedLesson?.title,
+          lessonContent: displayedLesson?.content.replace(/<[^>]*>/g, '').substring(0, 1500)
         }
       });
       setMessages((prev) => [...prev, { role: 'assistant', content: answer }]);
@@ -8300,7 +8370,7 @@ ${safeCode}
     activeLessonIndex === (activeModule?.lessons.length || 0) - 1 &&
     activeModuleId === courseData[courseData.length - 1].id;
 
-  if (!activeModule || !activeLesson) return <div>Loading...</div>;
+  if (!activeModule || !displayedLesson) return <div>Loading...</div>;
 
   return (
     <div className="bg-[#121212] text-white overflow-hidden font-sans h-screen" style={{ zoom: 1.1 }}>
@@ -8344,7 +8414,7 @@ ${safeCode}
               </span>
               <ChevronRight className="w-4 h-4" />
               <span className="text-white truncate max-w-[300px]">
-                {activeLesson.title}
+                {displayedLesson.title}
               </span>
             </div>
             <div className="flex items-center gap-4">
@@ -8404,7 +8474,7 @@ ${safeCode}
                       </span>
                     </div>
                     <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 drop-shadow-lg">
-                      {activeLesson.title}
+                      {displayedLesson.title}
                     </h1>
                     <p className="text-gray-200 text-sm md:text-base max-w-2xl drop-shadow-md">
                       {activeModule.description}
@@ -8457,15 +8527,15 @@ ${safeCode}
                         <div className="animate-fadeIn">
                           <div
                             className="prose prose-invert prose-lg max-w-none mb-12"
-                            dangerouslySetInnerHTML={{ __html: activeLesson.content }}
+                            dangerouslySetInnerHTML={{ __html: displayedLesson.content }}
                           ></div>
                         </div>
                       )}
 
                       {activeContentTab === 'syntax' && (
                         <div className="animate-fadeIn space-y-8">
-                          {activeLesson.syntax ? (
-                            activeLesson.syntax.map((item, idx) => (
+                          {displayedLesson.syntax ? (
+                            displayedLesson.syntax.map((item, idx) => (
                               <div
                                 key={idx}
                                 className="bg-[#1e1e1e] rounded-xl border border-gray-700 overflow-hidden"
@@ -8550,11 +8620,11 @@ ${safeCode}
                               </div>
                             </div>
                           </div>
-                          {activeLesson.liveCodeExplanation && (
+                          {displayedLesson.liveCodeExplanation && (
                             <div className="mt-6">
                               <div
                                 className="prose prose-invert prose-sm max-w-none text-gray-300"
-                                dangerouslySetInnerHTML={{ __html: activeLesson.liveCodeExplanation }}
+                                dangerouslySetInnerHTML={{ __html: displayedLesson.liveCodeExplanation }}
                               />
                             </div>
                           )}

@@ -1,5 +1,3 @@
-import React from 'react';
-
 const TradingSection = () => {
   return (
     <section className="bg-black py-20 relative overflow-hidden z-10">

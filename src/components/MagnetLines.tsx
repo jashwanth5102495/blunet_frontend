@@ -1,19 +1,22 @@
-import React, { useRef, useEffect, CSSProperties } from "react";
+import { useRef, useEffect, type CSSProperties } from "react";
 import "./MagnetLines.css";
+
+type SizeValue = string | number;
+type ContainerSizeValue = SizeValue | { width: SizeValue; height: SizeValue };
 
 interface MagnetLinesProps {
   rows?: number;
   columns?: number;
-  containerSize?: string;
+  containerSize?: ContainerSizeValue;
   lineColor?: string;
-  lineWidth?: string;
-  lineHeight?: string;
+  lineWidth?: SizeValue;
+  lineHeight?: SizeValue;
   baseAngle?: number;
   className?: string;
   style?: CSSProperties;
 }
 
-const MagnetLines: React.FC<MagnetLinesProps> = ({
+const MagnetLines = ({
   rows = 9,
   columns = 9,
   containerSize = "80vmin",
@@ -23,7 +26,7 @@ const MagnetLines: React.FC<MagnetLinesProps> = ({
   baseAngle = -10,
   className = "",
   style = {},
-}) => {
+}: MagnetLinesProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -78,6 +81,11 @@ const MagnetLines: React.FC<MagnetLinesProps> = ({
     />
   ));
 
+  const resolvedSize =
+    typeof containerSize === "object"
+      ? containerSize
+      : { width: containerSize, height: containerSize };
+
   return (
     <div
       ref={containerRef}
@@ -86,8 +94,8 @@ const MagnetLines: React.FC<MagnetLinesProps> = ({
         display: "grid",
         gridTemplateColumns: `repeat(${columns}, 1fr)`,
         gridTemplateRows: `repeat(${rows}, 1fr)`,
-        width: containerSize,
-        height: containerSize,
+        width: resolvedSize.width,
+        height: resolvedSize.height,
         ...style,
       }}
     >

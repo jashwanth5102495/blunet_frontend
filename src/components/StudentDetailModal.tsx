@@ -171,10 +171,10 @@ const StudentDetailModal: React.FC<StudentDetailModalProps> = ({ student, isOpen
                       <div className="flex items-center justify-between mb-3">
                         <div>
                           <h4 className="text-white font-medium text-lg">
-                            {payment.courseId?.title || getCourseTitleFromKey(normalizeCourseKey(payment.courseId)) || 'Course Title N/A'}
+                            {payment.courseId?.title || 'Course Title N/A'}
                           </h4>
                           <p className="text-gray-400 text-sm">
-                            Course ID: {payment.courseId?.courseId || 'N/A'}
+                            Course ID: {payment.courseId?._id || 'N/A'}
                           </p>
                         </div>
                         <div className="text-right">

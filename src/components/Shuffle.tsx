@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, type CSSProperties } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText as GSAPSplitText } from 'gsap/SplitText';
@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger, GSAPSplitText, useGSAP);
 export interface ShuffleProps {
   text: string;
   className?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   shuffleDirection?: 'left' | 'right';
   duration?: number;
   maxDelay?: number;
@@ -18,7 +18,7 @@ export interface ShuffleProps {
   threshold?: number;
   rootMargin?: string;
   tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
-  textAlign?: React.CSSProperties['textAlign'];
+  textAlign?: CSSProperties['textAlign'];
   onShuffleComplete?: () => void;
   shuffleTimes?: number;
   animationMode?: 'random' | 'evenodd';
@@ -33,7 +33,7 @@ export interface ShuffleProps {
   triggerOnHover?: boolean;
 }
 
-const Shuffle: React.FC<ShuffleProps> = ({
+const Shuffle = ({
   text,
   className = '',
   style = {},
@@ -57,10 +57,9 @@ const Shuffle: React.FC<ShuffleProps> = ({
   triggerOnce = true,
   respectReducedMotion = true,
   triggerOnHover = true
-}) => {
+}: ShuffleProps) => {
   const ref = useRef<HTMLElement>(null);
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [ready, setReady] = useState(false);
 
   const splitRef = useRef<GSAPSplitText | null>(null);
   const wrappersRef = useRef<HTMLElement[]>([]);
@@ -132,7 +131,7 @@ const Shuffle: React.FC<ShuffleProps> = ({
         if (!chars || chars.length === 0) return;
 
         // Create wrapper elements for each character
-        wrappersRef.current = chars.map((char, i) => {
+        wrappersRef.current = chars.map((char) => {
           const wrapper = document.createElement('div');
           wrapper.className = 'shuffle-char-wrapper';
           wrapper.style.cssText = `
@@ -245,20 +244,24 @@ const Shuffle: React.FC<ShuffleProps> = ({
     { dependencies: [text, fontsLoaded], scope: ref }
   );
 
-  const Tag = tag as keyof JSX.IntrinsicElements;
+  const commonProps = {
+    ref: ref as any,
+    className: `shuffle-component ${className}`,
+    style: {
+      textAlign,
+      ...style,
+    },
+    children: text,
+  };
 
-  return (
-    <Tag
-      ref={ref}
-      className={`shuffle-component ${className}`}
-      style={{
-        textAlign,
-        ...style
-      }}
-    >
-      {text}
-    </Tag>
-  );
+  if (tag === 'h1') return <h1 {...commonProps} />;
+  if (tag === 'h2') return <h2 {...commonProps} />;
+  if (tag === 'h3') return <h3 {...commonProps} />;
+  if (tag === 'h4') return <h4 {...commonProps} />;
+  if (tag === 'h5') return <h5 {...commonProps} />;
+  if (tag === 'h6') return <h6 {...commonProps} />;
+  if (tag === 'span') return <span {...commonProps} />;
+  return <p {...commonProps} />;
 };
 
 export default Shuffle;

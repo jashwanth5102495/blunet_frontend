@@ -1,4 +1,4 @@
-import React from 'react';
+import type { FC } from 'react';
 
 export type PaymentStatusType = 'pending' | 'confirmed' | 'rejected' | 'unknown';
 
@@ -8,7 +8,7 @@ interface PaymentStatusProps {
   showText?: boolean;
 }
 
-const PaymentStatus: React.FC<PaymentStatusProps> = ({ 
+const PaymentStatus: FC<PaymentStatusProps> = ({ 
   status, 
   className = '', 
   showText = true 
@@ -73,12 +73,11 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({
   );
 };
 
-export const PaymentStatusBadge: React.FC<PaymentStatusProps & { description?: boolean }> = ({ 
+export const PaymentStatusBadge: FC<PaymentStatusProps & { description?: boolean }> = ({ 
   status, 
   className = '', 
   description = false 
 }) => {
-  const config = PaymentStatus({ status, showText: false }).props.children[0].props;
   const statusConfig = {
     pending: {
       color: 'bg-yellow-500',

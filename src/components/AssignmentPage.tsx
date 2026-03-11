@@ -1619,6 +1619,9 @@ const AssignmentPage = () => {
   useEffect(() => {
     const fetchAssignment = async () => {
       try {
+        if (!effectiveAssignmentId) return;
+        const assignmentId = effectiveAssignmentId;
+
         setLoading(true);
         setError(null);
         
@@ -1630,7 +1633,7 @@ const AssignmentPage = () => {
         
         const userData = JSON.parse(currentUser);
         
-        const response = await fetch(`${BASE_URL}/api/assignments/${effectiveAssignmentId}`, {
+        const response = await fetch(`${BASE_URL}/api/assignments/${assignmentId}`, {
           headers: {
             'Authorization': `Bearer ${userData.token}`,
             'Content-Type': 'application/json'
@@ -1640,7 +1643,7 @@ const AssignmentPage = () => {
         const result = await response.json();
         
         if (!response.ok) {
-          const local = localAssignmentFallback(effectiveAssignmentId);
+          const local = localAssignmentFallback(assignmentId);
           if (local) {
             setAssignment(local);
             const first = local.topics[0];
@@ -1660,7 +1663,7 @@ const AssignmentPage = () => {
             setSelectedTopic(tid);
           }
         } else {
-          const local = localAssignmentFallback(effectiveAssignmentId);
+          const local = localAssignmentFallback(assignmentId);
           if (local) {
             setAssignment(local);
             const first = local.topics[0];
@@ -1671,6 +1674,10 @@ const AssignmentPage = () => {
           }
         }
       } catch (err: any) {
+        if (!effectiveAssignmentId) {
+          setError('Assignment not found');
+          return;
+        }
         const local = localAssignmentFallback(effectiveAssignmentId);
         if (local) {
           setAssignment(local);
@@ -1767,6 +1774,7 @@ const AssignmentPage = () => {
 
         // Record progress in backend (assignments summary)
         try {
+          if (!effectiveAssignmentId) return;
           const { courseId, moduleId, assignmentTitle } = getCourseAndModuleForAssignment(effectiveAssignmentId, assignment?.title);
           const percentage = typeof result?.data?.percentage === 'number' ? Math.round(result.data.percentage) : null;
           const passed = Boolean(result?.data?.passed);
@@ -1822,6 +1830,7 @@ const AssignmentPage = () => {
         };
         setTestResult(localResult);
         try {
+          if (!effectiveAssignmentId) return;
           const { courseId, moduleId, assignmentTitle } = getCourseAndModuleForAssignment(effectiveAssignmentId, assignment?.title);
           const pctRounded = Math.round(percentage);
           if (courseId) {

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import Header from './Header';
-import { ArrowLeft, Play, Book, Code, CheckCircle, XCircle, Lightbulb, Clock, Award, Users, Star, Monitor, Send, Sun, Moon, RotateCcw, Smartphone, Download, Upload, Shield, Activity, Cloud, FolderOpen, File } from 'lucide-react';
+import { ArrowLeft, Play, Book, Code, CheckCircle, Lightbulb, Award, Send, Sun, Moon, RotateCcw, FolderOpen, File } from 'lucide-react';
 
 interface Lesson {
   id: string;
@@ -26,8 +26,8 @@ interface CourseModule {
   lessons: Lesson[];
 }
 
-const CourseLearningMobileIntermediate: React.FC = () => {
-  const { courseId, moduleId, lessonId } = useParams();
+const CourseLearningMobileIntermediate = () => {
+  const { moduleId, lessonId } = useParams();
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
   const [currentModule, setCurrentModule] = useState<CourseModule | null>(null);
@@ -38,12 +38,10 @@ const CourseLearningMobileIntermediate: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'theory' | 'exercise'>('theory');
   const [currentExerciseId, setCurrentExerciseId] = useState<string | null>(null);
   const [submittedExercises, setSubmittedExercises] = useState<Set<string>>(new Set());
-  const [exerciseProgress, setExerciseProgress] = useState<{[key: string]: number}>({});
+  const [, setExerciseProgress] = useState<{[key: string]: number}>({});
   const [showSubmissionModal, setShowSubmissionModal] = useState(false);
   const [submissionMessage, setSubmissionMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
-  const [isFlipping, setIsFlipping] = useState(false);
   const [showFileExplorer, setShowFileExplorer] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
 

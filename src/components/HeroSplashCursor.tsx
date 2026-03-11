@@ -200,9 +200,9 @@ function HeroSplashCursor() {
     document.addEventListener('click', handleClick);
     
     // Add enter event to hero section specifically
-    const heroSection = document.querySelector('#hero-section');
+    const heroSection = document.querySelector('#hero-section') as HTMLElement | null;
     if (heroSection) {
-      heroSection.addEventListener('mouseenter', handleMouseEnter);
+      heroSection.addEventListener('mouseenter', handleMouseEnter as EventListener);
     }
 
     return () => {
@@ -211,7 +211,7 @@ function HeroSplashCursor() {
       document.removeEventListener('click', handleClick);
       window.removeEventListener('resize', resizeCanvas);
       if (heroSection) {
-        heroSection.removeEventListener('mouseenter', handleMouseEnter);
+        heroSection.removeEventListener('mouseenter', handleMouseEnter as EventListener);
       }
       if (animationId) {
         cancelAnimationFrame(animationId);

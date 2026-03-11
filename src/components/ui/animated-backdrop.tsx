@@ -1,5 +1,3 @@
-import React from 'react';
-
 type AnimatedBackdropProps = {
   src?: string;
   className?: string;

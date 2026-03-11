@@ -2,7 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { getAssignmentDefinitions, normalizeCourseKey, getCourseTitleFromKey } from '../data/courseAssignments';
 import { useNavigate } from 'react-router-dom';
 import StudentDetailModal from './StudentDetailModal';
-import { PaymentStatusBadge, PaymentStatusType } from './PaymentStatus';
+import { PaymentStatusBadge } from './PaymentStatus';
+import AuthorTools from './AuthorTools';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
@@ -68,6 +69,14 @@ interface Student {
       score?: number;
       gitUrl?: string;
     }>;
+    completedModules?: Array<{
+      title: string;
+      submittedAt: string;
+      status?: string;
+      score?: number;
+      submissionUrl?: string;
+      feedback?: string;
+    }>;
   }>;
   paymentHistory: Array<{
     courseId: {
@@ -108,18 +117,6 @@ interface Payment {
   createdAt: string;
 }
 
-interface ReferredStudent {
-  _id: string;
-  name: string;
-  email: string;
-  phone: string;
-  selectedCourse: string;
-  amountPaid: number;
-  paymentStatus: string;
-  referralCode: string;
-  createdAt: string;
-}
-
 interface Faculty {
   _id: string;
   name: string;
@@ -145,7 +142,8 @@ interface ActiveUserRow {
 
 const AdminPanel: React.FC = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'projects' | 'courses' | 'payments' | 'referral' | 'faculty' | 'activeUsers' | 'total'>('projects');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [activeTab, setActiveTab] = useState<'projects' | 'courses' | 'payments' | 'referral' | 'faculty' | 'activeUsers' | 'total' | 'author'>('projects');
   const [projects, setProjects] = useState<Project[]>([]);
   const [students, setStudents] = useState<Student[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
@@ -186,7 +184,7 @@ const AdminPanel: React.FC = () => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   // Payment Status Update States
-  const [pendingPaymentChanges, setPendingPaymentChanges] = useState<{[key: string]: {studentId: string, paymentId: string, newStatus: string, courseId: string, isNewPayment: boolean}}>({});
+  const [pendingPaymentChanges, setPendingPaymentChanges] = useState<{[key: string]: {studentId: string, paymentId: string, newStatus: string, courseId?: string, isNewPayment: boolean}}>({});
   const [savingPayments, setSavingPayments] = useState<{[key: string]: boolean}>({});
 
   // Collapsible Sections States
@@ -386,12 +384,12 @@ const AdminPanel: React.FC = () => {
       if (student.enrolledCourses && Array.isArray(student.enrolledCourses)) {
         student.enrolledCourses.forEach(enrollment => {
            let courseTitle = 'Unknown Course';
-           if (typeof enrollment.courseId === 'object' && enrollment.courseId !== null) {
-               // @ts-ignore
-               courseTitle = enrollment.courseId.title || 'Unknown Course';
-           } else if (typeof enrollment.courseId === 'string') {
+           const courseId = enrollment.courseId;
+           if (courseId && typeof courseId === 'object' && 'title' in courseId && typeof (courseId as { title?: unknown }).title === 'string') {
+               courseTitle = (courseId as { title: string }).title;
+           } else if (typeof courseId === 'string') {
                // Try to lookup title from known courses if possible, or just use ID
-               courseTitle = enrollment.courseId; 
+               courseTitle = courseId; 
                // You might want to map IDs to titles here if needed
            }
            
@@ -767,15 +765,6 @@ const AdminPanel: React.FC = () => {
     }
   };
 
-  const generateReferralCode = () => {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let result = '';
-    for (let i = 0; i < 8; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    setNewFaculty({...newFaculty, referralCode: result});
-  };
-
   const handleAddFaculty = async () => {
     if (!newFaculty.name || !newFaculty.email || !newFaculty.referralCode || !newFaculty.discountPercentage) {
       alert('Please fill in all required fields');
@@ -822,7 +811,7 @@ const AdminPanel: React.FC = () => {
         const message = (data && data.message) || text || 'Failed to create faculty member';
         alert(message);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating faculty:', error);
       alert(error?.message || 'Error creating faculty member');
     }
@@ -1067,13 +1056,6 @@ const AdminPanel: React.FC = () => {
      }));
   };
 
-  const refreshStudentData = async () => {
-    console.log('Refreshing student data...');
-    await fetchStudents();
-    await fetchPayments();
-    console.log('Student data refreshed');
-  };
-
   const savePaymentStatusChange = async (changeKey: string) => {
     const change = pendingPaymentChanges[changeKey];
     console.log('Save attempt - changeKey:', changeKey);
@@ -1111,7 +1093,7 @@ const AdminPanel: React.FC = () => {
         }
 
         // Generate a proper transaction ID for the new payment
-        const actualTransactionId = `ADMIN_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        const actualTransactionId = `ADMIN_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
         
         // Get course price with fallback
         const coursePrice = course.price || 0;
@@ -1241,14 +1223,25 @@ const AdminPanel: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white flex">
       {/* Side Navigation */}
-      <div className="w-64 bg-black/50 backdrop-blur-lg border-r border-white/20 flex flex-col">
+      <div className={`${isSidebarOpen ? 'w-64' : 'w-20'} bg-black/50 backdrop-blur-lg border-r border-white/20 flex flex-col transition-all duration-300`}>
         {/* Header */}
-        <div className="p-6 border-b border-white/20">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
-              <p className="text-white/70 text-sm mt-1">Management Portal</p>
+        <div className="p-4 border-b border-white/20">
+          <div className={`flex items-center ${isSidebarOpen ? 'justify-between' : 'justify-center flex-col gap-4'}`}>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200"
+              >
+                <span className="text-xl">☰</span>
+              </button>
+              {isSidebarOpen && (
+                <div>
+                  <h1 className="text-lg font-bold text-white leading-tight">Admin</h1>
+                  <p className="text-white/50 text-xs">Portal</p>
+                </div>
+              )}
             </div>
+            
             <button
               onClick={refreshAllData}
               className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200"
@@ -1263,74 +1256,93 @@ const AdminPanel: React.FC = () => {
         <nav className="flex-1 p-4 space-y-2">
           <button
             onClick={() => setActiveTab('projects')}
-            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
+            className={`w-full flex items-center ${isSidebarOpen ? 'justify-start space-x-3 px-4' : 'justify-center px-2'} py-3 rounded-lg font-medium transition-all duration-200 ${
               activeTab === 'projects'
                 ? 'bg-blue-600 text-white shadow-lg'
                 : 'text-gray-400 hover:text-white hover:bg-white/10'
             }`}
+            title={!isSidebarOpen ? "Projects" : ""}
           >
             <span className="text-xl">📊</span>
-            <span>Projects</span>
+            {isSidebarOpen && <span>Projects</span>}
           </button>
           
           <button
             onClick={() => setActiveTab('courses')}
-            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
+            className={`w-full flex items-center ${isSidebarOpen ? 'justify-start space-x-3 px-4' : 'justify-center px-2'} py-3 rounded-lg font-medium transition-all duration-200 ${
               activeTab === 'courses'
                 ? 'bg-blue-600 text-white shadow-lg'
                 : 'text-gray-400 hover:text-white hover:bg-white/10'
             }`}
+            title={!isSidebarOpen ? "Student Courses" : ""}
           >
             <span className="text-xl">🎓</span>
-            <span>Student Courses</span>
+            {isSidebarOpen && <span>Student Courses</span>}
           </button>
           
           <button
             onClick={() => setActiveTab('payments')}
-            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
+            className={`w-full flex items-center ${isSidebarOpen ? 'justify-start space-x-3 px-4' : 'justify-center px-2'} py-3 rounded-lg font-medium transition-all duration-200 ${
               activeTab === 'payments'
                 ? 'bg-blue-600 text-white shadow-lg'
                 : 'text-gray-400 hover:text-white hover:bg-white/10'
             }`}
+            title={!isSidebarOpen ? "Payments" : ""}
           >
             <span className="text-xl">💳</span>
-            <span>Payments</span>
+            {isSidebarOpen && <span>Payments</span>}
           </button>
           
           <button
             onClick={() => setActiveTab('referral')}
-            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
+            className={`w-full flex items-center ${isSidebarOpen ? 'justify-start space-x-3 px-4' : 'justify-center px-2'} py-3 rounded-lg font-medium transition-all duration-200 ${
               activeTab === 'referral'
                 ? 'bg-blue-600 text-white shadow-lg'
                 : 'text-gray-400 hover:text-white hover:bg-white/10'
             }`}
+            title={!isSidebarOpen ? "Faculty & Referral" : ""}
           >
             <span className="text-xl">🤝</span>
-            <span>Faculty & Referral</span>
+            {isSidebarOpen && <span>Faculty & Referral</span>}
           </button>
 
           <button
             onClick={() => setActiveTab('activeUsers')}
-            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
+            className={`w-full flex items-center ${isSidebarOpen ? 'justify-start space-x-3 px-4' : 'justify-center px-2'} py-3 rounded-lg font-medium transition-all duration-200 ${
               activeTab === 'activeUsers'
                 ? 'bg-blue-600 text-white shadow-lg'
                 : 'text-gray-400 hover:text-white hover:bg-white/10'
             }`}
+            title={!isSidebarOpen ? "Active Users" : ""}
           >
             <span className="text-xl">👥</span>
-            <span>Active Users</span>
+            {isSidebarOpen && <span>Active Users</span>}
           </button>
 
           <button
             onClick={() => setActiveTab('total')}
-            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
+            className={`w-full flex items-center ${isSidebarOpen ? 'justify-start space-x-3 px-4' : 'justify-center px-2'} py-3 rounded-lg font-medium transition-all duration-200 ${
               activeTab === 'total'
                 ? 'bg-blue-600 text-white shadow-lg'
                 : 'text-gray-400 hover:text-white hover:bg-white/10'
             }`}
+            title={!isSidebarOpen ? "Total Enrolled" : ""}
           >
             <span className="text-xl">📋</span>
-            <span>Total Enrolled</span>
+            {isSidebarOpen && <span>Total Enrolled</span>}
+          </button>
+
+          <button
+            onClick={() => setActiveTab('author')}
+            className={`w-full flex items-center ${isSidebarOpen ? 'justify-start space-x-3 px-4' : 'justify-center px-2'} py-3 rounded-lg font-medium transition-all duration-200 ${
+              activeTab === 'author'
+                ? 'bg-blue-600 text-white shadow-lg'
+                : 'text-gray-400 hover:text-white hover:bg-white/10'
+            }`}
+            title={!isSidebarOpen ? "Author" : ""}
+          >
+            <span className="text-xl">✍️</span>
+            {isSidebarOpen && <span>Author</span>}
           </button>
         </nav>
 
@@ -1338,9 +1350,10 @@ const AdminPanel: React.FC = () => {
         <div className="p-4 border-t border-white/20">
           <button
             onClick={() => navigate('/')}
-            className="w-full px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors duration-200 text-sm"
+            className={`w-full ${isSidebarOpen ? 'px-4' : 'px-2'} py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors duration-200 text-sm flex items-center justify-center`}
+            title={!isSidebarOpen ? "Back to Home" : ""}
           >
-            Back to Home
+            {isSidebarOpen ? "Back to Home" : "🏠"}
           </button>
         </div>
       </div>
@@ -1489,6 +1502,12 @@ const AdminPanel: React.FC = () => {
                   )}
                 </div>
               ))}
+            </div>
+          )}
+
+          {activeTab === 'author' && (
+            <div className="bg-white/5 backdrop-blur-lg rounded-2xl border border-white/10 overflow-hidden min-h-full">
+              <AuthorTools />
             </div>
           )}
         {activeTab === 'projects' && (
@@ -2366,8 +2385,8 @@ const AdminPanel: React.FC = () => {
                                         <span className="text-white/80">{test.title}</span>
                                         <div className="flex items-center gap-2">
                                           <span className={`px-2 py-1 rounded-full text-xs ${
-                                            test.score >= 80 ? 'bg-green-600 text-white' :
-                                            test.score >= 60 ? 'bg-yellow-600 text-white' :
+                                            (test.score || 0) >= 80 ? 'bg-green-600 text-white' :
+                                            (test.score || 0) >= 60 ? 'bg-yellow-600 text-white' :
                                             test.score ? 'bg-red-600 text-white' :
                                             'bg-gray-600 text-white'
                                           }`}>
@@ -2604,7 +2623,7 @@ const AdminPanel: React.FC = () => {
                           </div>
                           {expandedStudents[student._id]?.payments && (
                             <div className="space-y-2 mt-3">
-                            {studentPayments.map((payment, index) => (
+                            {studentPayments.map((payment) => (
                               <div key={payment.paymentId} className="bg-black/30 rounded-lg p-3 border border-white/10">
                                 <div className="flex items-center justify-between">
                                   <div>

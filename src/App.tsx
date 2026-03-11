@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import React, { type ReactNode, Suspense, lazy } from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Header from './components/Header';
@@ -11,9 +11,6 @@ const Hero = lazy(() => import('./components/Hero'));
 const ServicesSection = lazy(() => import('./components/ServicesSection'));
 const TradingSection = lazy(() => import('./components/TradingSection'));
 const TechnologiesCarousel = lazy(() => import('./components/TechnologiesCarousel'));
-const HappyClients = lazy(() => import('./components/HappyClients'));
-const StudentReviews = lazy(() => import('./components/StudentReviews'));
-const IntroductionPage = lazy(() => import('./pages/IntroductionPage.jsx'));
 const ModuleComingSoon = lazy(() => import('./pages/ModuleComingSoon.jsx'));
 const CourseIntro = lazy(() => import('./pages/CourseIntro.jsx'));
 const FrontendProjectPage = lazy(() => import('./components/FrontendProjectPage'));
@@ -58,8 +55,8 @@ const PageLoader = () => (
 );
 
 // Error Boundary for Google OAuth
-class ErrorBoundary extends React.Component<{ children: ReactNode }, { hasError: boolean }> {
-  constructor(props: { children: ReactNode }) {
+class ErrorBoundary extends React.Component<{ children: ReactNode; fallback?: ReactNode }, { hasError: boolean }> {
+  constructor(props: { children: ReactNode; fallback?: ReactNode }) {
     super(props);
     this.state = { hasError: false };
   }
@@ -71,7 +68,7 @@ class ErrorBoundary extends React.Component<{ children: ReactNode }, { hasError:
   }
   render() {
     if (this.state.hasError) {
-      return this.props.children; // Fallback to children without provider if it fails
+      return this.props.fallback || this.props.children; // Use fallback if available
     }
     return this.props.children;
   }
@@ -100,7 +97,6 @@ function AIStudyMaterialProtected() {
 }
 
 function AppInner() {
-  const location = useLocation();
   return (
       <ClickSpark 
         sparkColor="#60a5fa" 

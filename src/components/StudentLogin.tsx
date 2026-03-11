@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import FloatingLines from './FloatingLines';
-import ModernClock from './ModernClock';
 import { useGoogleLogin } from '@react-oauth/google';
 import toast, { Toaster } from 'react-hot-toast';
 

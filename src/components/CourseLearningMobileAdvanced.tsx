@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useTheme } from '../contexts/ThemeContext';
+import { useState, useEffect } from 'react';
 import Header from './Header';
 import { Play, Book, CheckCircle, Clock, Send, File } from 'lucide-react';
 
@@ -26,24 +24,18 @@ interface CourseModule {
   lessons: Lesson[];
 }
 
-const CourseLearningMobileAdvanced: React.FC = () => {
-  const { _courseId, _moduleId, _lessonId } = useParams();
-  const _navigate = useNavigate();
-  const { _theme, _toggleTheme } = useTheme();
+const CourseLearningMobileAdvanced = () => {
   const [currentModule, setCurrentModule] = useState<CourseModule | null>(null);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [code, setCode] = useState('');
   const [output, setOutput] = useState('');
-  const [sidebarOpen, _setSidebarOpen] = useState(true);
+  const [sidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState<'theory' | 'exercise'>('theory');
   const [currentExerciseId, setCurrentExerciseId] = useState<string | null>(null);
   const [submittedExercises, setSubmittedExercises] = useState<Set<string>>(new Set());
-  const [_exerciseProgress, _setExerciseProgress] = useState<{[key: string]: number}>({});
   const [showSubmissionModal, setShowSubmissionModal] = useState(false);
   const [submissionMessage, setSubmissionMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [_showPreview, _setShowPreview] = useState(false);
-  const [_isFlipping, _setIsFlipping] = useState(false);
   const [showFileExplorer, setShowFileExplorer] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
@@ -1225,11 +1217,6 @@ export default OptimizedListScreen;`,
       setShowSubmissionModal(true);
       setIsSubmitting(false);
     }, 1000);
-  };
-
-  const handleNextLesson = () => {
-    // Navigate to next lesson logic
-    console.log('Navigate to next lesson');
   };
 
   if (!currentModule || !currentLesson) {

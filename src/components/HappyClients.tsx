@@ -1,5 +1,3 @@
-import React from 'react';
-
 const HappyClients = () => {
   const logos = [
     { name: 'Y Combinator', color: '#f26522', initial: 'Y' },

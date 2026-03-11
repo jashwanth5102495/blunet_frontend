@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import './LogoLoop.css';
 
 export interface LogoItem {
-  node?: React.ReactNode;
+  node?: ReactNode;
   src?: string;
   alt?: string;
   title?: string;
@@ -23,10 +24,10 @@ interface LogoLoopProps {
   scaleOnHover?: boolean;
   ariaLabel?: string;
   className?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 }
 
-const LogoLoop: React.FC<LogoLoopProps> = ({
+const LogoLoop = ({
   logos,
   speed = 120,
   direction = 'up',
@@ -41,7 +42,7 @@ const LogoLoop: React.FC<LogoLoopProps> = ({
   ariaLabel = 'AI Tools logos',
   className = '',
   style = {},
-}) => {
+}: LogoLoopProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
 

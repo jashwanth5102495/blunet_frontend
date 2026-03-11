@@ -14,7 +14,6 @@ import {
   Transition,
   type VariantLabels,
   type Target,
-  type AnimationControls,
   type TargetAndTransition,
 } from "motion/react";
 
@@ -39,7 +38,7 @@ export interface RotatingTextProps
   texts: string[];
   transition?: Transition;
   initial?: boolean | Target | VariantLabels;
-  animate?: boolean | VariantLabels | AnimationControls | TargetAndTransition;
+  animate?: boolean | VariantLabels | TargetAndTransition;
   exit?: Target | VariantLabels;
   animatePresenceMode?: "sync" | "wait";
   animatePresenceInitial?: boolean;
@@ -81,12 +80,17 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
     const [currentTextIndex, setCurrentTextIndex] = useState<number>(0);
 
     const splitIntoCharacters = (text: string): string[] => {
-      if (typeof Intl !== "undefined" && Intl.Segmenter) {
-        const segmenter = new Intl.Segmenter("en", { granularity: "grapheme" });
-        return Array.from(
-          segmenter.segment(text),
-          (segment) => segment.segment
-        );
+      type SegmenterCtor = new (
+        locales?: string | string[],
+        options?: { granularity?: string }
+      ) => { segment: (input: string) => Iterable<{ segment: string }> };
+
+      const IntlWithSegmenter = Intl as unknown as { Segmenter?: SegmenterCtor };
+      if (typeof Intl !== "undefined" && IntlWithSegmenter.Segmenter) {
+        const segmenter = new IntlWithSegmenter.Segmenter("en", {
+          granularity: "grapheme",
+        });
+        return Array.from(segmenter.segment(text), (s) => s.segment);
       }
       return Array.from(text);
     };

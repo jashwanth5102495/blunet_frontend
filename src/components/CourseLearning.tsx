@@ -666,7 +666,6 @@ window.addEventListener('load', addInteractivity);`
       setSubmittedMsg('Your doubt has been noted — we will respond soon.');
       const answer = generateAnswer(questionText);
       setQuestionText('');
-      setShowQuestionBox(false);
 
       // Speak and type the answer on the whiteboard
       setIsSpeaking(true);

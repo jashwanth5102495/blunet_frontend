@@ -1,4 +1,4 @@
-import { forwardRef, useMemo, useRef, useEffect, MutableRefObject, RefObject, HTMLAttributes} from "react";
+import { forwardRef, useMemo, useRef, useEffect, RefObject, HTMLAttributes, type CSSProperties } from "react";
 import { motion } from "motion/react";
 import "./VariableProximity.css";
 
@@ -55,7 +55,7 @@ interface VariableProximityProps extends HTMLAttributes<HTMLSpanElement>{
     falloff?: "linear" | "exponential" | "gaussian";
     className?: string;
     onClick?: () => void;
-    style?: React.CSSProperties;
+    style?: CSSProperties;
 }
 
 const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityProps>((props, ref) => {

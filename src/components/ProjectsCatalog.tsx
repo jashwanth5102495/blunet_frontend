@@ -1,6 +1,5 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import Header from './Header';
 
 // Types
@@ -288,8 +287,8 @@ const ProjectsCatalog: React.FC = () => {
                <div className="mt-4">
                  <label className="text-sm text-white/70">Difficulty</label>
                  <div className="mt-2 flex flex-wrap gap-2">
-                   {['beginner','intermediate','advanced'].map(d => (
-                     <button key={d} onClick={()=>setDifficulty(d)} className={`px-3 py-1 rounded-full border text-sm ${difficulty===d ? 'bg-white/20 border-white/40' : 'bg-white/5 border-white/20 hover:bg-white/10'}`}>{d}</button>
+                   {(['beginner', 'intermediate', 'advanced'] as const).map((d) => (
+                     <button key={d} onClick={() => setDifficulty(d)} className={`px-3 py-1 rounded-full border text-sm ${difficulty===d ? 'bg-white/20 border-white/40' : 'bg-white/5 border-white/20 hover:bg-white/10'}`}>{d}</button>
                    ))}
                  </div>
                </div>

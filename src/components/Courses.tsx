@@ -18,6 +18,7 @@ interface Course {
   description: string;
   technologies: string[];
   price: number;
+  originalPrice?: number;
   duration: string;
   projects: number;
   modules: CourseModule[];
@@ -26,6 +27,8 @@ interface Course {
   students: number;
   maxStudents: number;
   instructor: string;
+  certification?: string;
+  premiumFeatures?: string[];
 }
 
 const Courses = () => {
