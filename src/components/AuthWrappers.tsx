@@ -2,7 +2,12 @@ import { ReactNode, useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import Header from './Header';
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const FALLBACK_BACKEND_URL =
+  import.meta.env.DEV
+    ? 'http://localhost:5000'
+    : (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5000');
+
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || FALLBACK_BACKEND_URL;
 
 // Helper to create URL-safe slugs from names/usernames
 export const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');

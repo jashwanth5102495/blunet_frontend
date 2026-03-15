@@ -3,7 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Header from './Header';
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const FALLBACK_BACKEND_URL =
+  import.meta.env.DEV
+    ? 'http://localhost:5000'
+    : (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5000');
+
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || FALLBACK_BACKEND_URL;
 
 interface CourseModule {
   title: string;

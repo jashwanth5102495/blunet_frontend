@@ -20,7 +20,12 @@ const SecureAdminPanel: React.FC = () => {
   // Ref to store interval ID for proper cleanup
   const blockTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+  const FALLBACK_BACKEND_URL =
+    import.meta.env.DEV
+      ? 'http://localhost:5000'
+      : (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5000');
+
+  const BASE_URL = import.meta.env.VITE_BACKEND_URL || FALLBACK_BACKEND_URL;
 
   // Security constants
   const MAX_ATTEMPTS = 3;

@@ -73,7 +73,7 @@ const isExcludedFromAuthorTab = (course: Course) => {
 };
 
 const AuthorTools: React.FC = () => {
-  const { courses, addCourse, deleteCourse, updateCourse } = useCourses();
+  const { courses, addCourse, deleteCourse, updateCoursePersisted } = useCourses();
   const [view, setView] = useState<'list' | 'editor'>('list');
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
   
@@ -163,7 +163,7 @@ const AuthorTools: React.FC = () => {
     setEditedLesson({ ...lesson });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!selectedCourseId || !activeModuleId || !activeLessonId || !editedLesson || !selectedCourse) return;
 
     const updatedCourse = {
@@ -180,8 +180,12 @@ const AuthorTools: React.FC = () => {
       }) || []
     };
 
-    updateCourse(updatedCourse);
-    alert('Lesson saved successfully!');
+    const result = await updateCoursePersisted(updatedCourse);
+    if (result.ok) {
+      alert('Lesson saved successfully!');
+      return;
+    }
+    alert(`Saved locally, but backend save failed: ${result.message} (status: ${result.status})`);
   };
 
   const updateSyntaxItem = (index: number, field: 'title' | 'content', value: string) => {

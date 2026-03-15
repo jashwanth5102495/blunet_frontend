@@ -1,4 +1,9 @@
-const API_BASE_URL = `${(import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000')}/api`;
+const FALLBACK_BACKEND_URL =
+  import.meta.env.DEV
+    ? 'http://localhost:5000'
+    : (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5000');
+
+const API_BASE_URL = `${(import.meta.env.VITE_BACKEND_URL || FALLBACK_BACKEND_URL)}/api`;
 
 export interface Project {
   id: number;

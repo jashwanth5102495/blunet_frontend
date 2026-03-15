@@ -1081,7 +1081,12 @@ window.addEventListener('load', addInteractivity);`
       const intro = asked ? `You asked: "${asked}"\n` : '';
       const intent = detectIntent(q);
       const subject = normalizeSubject(intent?.subject || asked);
-      const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+      const FALLBACK_BACKEND_URL =
+        import.meta.env.DEV
+          ? 'http://localhost:5000'
+          : (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5000');
+
+      const BASE_URL = import.meta.env.VITE_BACKEND_URL || FALLBACK_BACKEND_URL;
       const LLM_PROVIDER = (import.meta.env.VITE_LLM_PROVIDER || "ollama");
       const LLM_MODEL = (import.meta.env.VITE_LLM_MODEL || "qwen2.5-coder:1.5b");
       const codeIntent = isCodeIntent(q);

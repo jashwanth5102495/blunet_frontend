@@ -2,7 +2,12 @@
 import { useState, useEffect } from 'react';
 import { Course, INITIAL_COURSES } from '../data/courses';
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const FALLBACK_BACKEND_URL =
+  import.meta.env.DEV
+    ? 'http://localhost:5000'
+    : (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5000');
+
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || FALLBACK_BACKEND_URL;
 
 export const useCourses = () => {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -90,9 +95,11 @@ export const useCourses = () => {
 
   const persistAuthoringCourse = async (updatedCourse: Course) => {
     const token = getAdminToken();
-    if (!token) return;
+    if (!token) {
+      return { ok: false as const, status: 401, message: 'Admin not authenticated' };
+    }
     try {
-      await fetch(`${BASE_URL}/api/courses/authoring/${encodeURIComponent(updatedCourse.id)}`, {
+      const response = await fetch(`${BASE_URL}/api/courses/authoring/${encodeURIComponent(updatedCourse.id)}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -100,8 +107,18 @@ export const useCourses = () => {
         },
         body: JSON.stringify(updatedCourse)
       });
+      const result = await response.json().catch(() => null);
+      if (!response.ok) {
+        return {
+          ok: false as const,
+          status: response.status,
+          message: result?.message || 'Failed to save to backend'
+        };
+      }
+      return { ok: true as const, status: response.status, message: 'Saved' };
     } catch (error) {
       console.error('Failed to persist authoring course:', error);
+      return { ok: false as const, status: 0, message: 'Network or server error' };
     }
   };
 
@@ -157,6 +174,14 @@ export const useCourses = () => {
     void persistAuthoringCourse(updatedCourse);
   };
 
+  const updateCoursePersisted = async (updatedCourse: Course) => {
+    const updatedCourses = courses.map(course =>
+      course.id === updatedCourse.id ? updatedCourse : course
+    );
+    saveCourses(updatedCourses);
+    return await persistAuthoringCourse(updatedCourse);
+  };
+
   // Listen for custom event 'coursesUpdated' to sync within the same tab/window
   useEffect(() => {
     const handleLocalUpdate = () => {
@@ -170,5 +195,5 @@ export const useCourses = () => {
     return () => window.removeEventListener('coursesUpdated', handleLocalUpdate);
   }, []);
 
-  return { courses, loading, addCourse, deleteCourse, updateCourse };
+  return { courses, loading, addCourse, deleteCourse, updateCourse, updateCoursePersisted };
 };

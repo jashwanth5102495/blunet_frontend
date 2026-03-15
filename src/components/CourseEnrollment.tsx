@@ -6,7 +6,12 @@ import StarBorder from './StarBorder';
 import PaymentStatusModal from './PaymentStatusModal';
 import { ArrowLeft, Clock, Award, CheckCircle, BookOpen, Target, Zap } from 'lucide-react';
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const FALLBACK_BACKEND_URL =
+  import.meta.env.DEV
+    ? 'http://localhost:5000'
+    : (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5000');
+
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || FALLBACK_BACKEND_URL;
 
 interface CourseModule {
   title: string;
