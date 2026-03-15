@@ -2766,6 +2766,7 @@ journalctl -xe | View details of recent crash`
     lessons: [
       {
         title: 'Why Version Control?',
+        videoUrl: '/Devops vid/module 3/3.1.mp4',
         content: `<h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. The Real Problem Before Version Control (Industry Reality)</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">Before tools like Git existed, developers managed code like this:</p>
           <div class="mb-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
@@ -2997,6 +2998,7 @@ Remote Repo | Repository stored online`
       },
       {
         title: 'Git Basics (Hands-On Oriented)',
+        videoUrl: '/Devops vid/module 3/3.2.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. What Is Git Setup?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -3243,6 +3245,7 @@ Remote Repo | Repository stored online`
       },
       {
         title: 'Git Workflow Explained',
+        videoUrl: '/Devops vid/module 3/3.3.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. What Is a Git Workflow?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">A Git workflow defines how code moves from a developer’s laptop into a shared repository and eventually into production systems. It is not just about commands—it is about discipline, order, and safety. In DevOps environments, a proper Git workflow ensures that automation pipelines run smoothly and production systems remain stable.</p>
@@ -3412,6 +3415,7 @@ Fix login validation to prevent empty input`
       },
       {
         title: 'Working with Remote Repositories',
+        videoUrl: '/Devops vid/module 3/3.4.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. What Is a Remote Repository?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">A remote repository is a Git repository that is stored on a remote server instead of your local machine. In real-world DevOps environments, this remote repository acts as the central collaboration point for the entire team. Platforms like GitHub, GitLab, and Bitbucket host these repositories and make it possible for developers and DevOps engineers to work together from different locations.</p>
@@ -3593,6 +3597,7 @@ main → branch name`
       },
       {
         title: 'Branching (Beginner Level)',
+        videoUrl: '/Devops vid/module 3/3.5.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. What Is a Branch in Git?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">A branch in Git is an independent line of development. It allows you to work on a new feature, fix a bug, or experiment with changes without affecting the main codebase. In simple terms, branching lets multiple versions of the same project exist at the same time.</p>
@@ -3781,6 +3786,7 @@ bugfix-header`
       },
       {
         title: 'Git Best Practices',
+        videoUrl: '/Devops vid/module 3/3.6.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. Why Git Best Practices Matter</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">Git is powerful, but poor usage can make a project messy and dangerous. In DevOps environments, Git repositories are not just code storage—they are automation triggers. A single bad commit can break a CI/CD pipeline, cause deployment failures, or even bring down production systems.</p>
@@ -3958,6 +3964,7 @@ git push | Share changes`
       },
       {
         title: 'Git in Team Environments',
+        videoUrl: '/Devops vid/module 3/3.7.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. Why Git Changes When You Work in a Team</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">Working alone with Git is simple. Working in a team is completely different. In real companies, multiple developers and DevOps engineers work on the same repository at the same time. This introduces challenges like overlapping changes, conflicting edits, and coordination issues.</p>
@@ -4341,6 +4348,7 @@ These markers must be manually resolved.`
     lessons: [
       {
         title: 'What is a Build Tool?',
+        videoUrl: '/Devops vid/modlue 4/4.1.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. Why Build Tools Exist (The Real Problem)</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">In the early days of software development, developers manually compiled code, copied files, and packaged applications. This worked when applications were small and teams were tiny. But modern applications are:</p>
@@ -4571,6 +4579,7 @@ dotnet build`
       },
       {
         title: 'Build Automation Concepts',
+        videoUrl: '/Devops vid/modlue 4/4.2.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. Why Build Automation Matters</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">In modern DevOps, manual builds are no longer acceptable. Applications are updated frequently, often multiple times a day. Manual builds introduce:</p>
@@ -4774,6 +4783,7 @@ echo "Build completed successfully!"</pre>
       },
       {
         title: 'Introduction to Maven',
+        videoUrl: '/Devops vid/modlue 4/4.3.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. What Is Maven?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">Apache Maven is a popular build automation and project management tool for Java applications. It simplifies:</p>
@@ -4976,6 +4986,7 @@ deploy | Deploy artifact to remote repository`
       },
       {
         title: 'Maven Build Lifecycle',
+        videoUrl: '/Devops vid/modlue 4/4.4.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. What Is a Maven Build Lifecycle?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">A Maven Build Lifecycle is a sequence of predefined phases that control how a project is built, tested, and packaged. Instead of manually running multiple commands for compile, test, and package, Maven automates the workflow by executing each phase in order.</p>
@@ -5193,6 +5204,7 @@ You don’t have to run them individually`
       },
       {
         title: 'Introduction to MSBuild',
+        videoUrl: '/Devops vid/modlue 4/4.5.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. What Is MSBuild?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">MSBuild (Microsoft Build Engine) is Microsoft’s official build tool for .NET projects. It automates compiling code, managing dependencies, running tests, and creating deployable artifacts (DLLs, EXEs).</p>
@@ -5562,6 +5574,7 @@ msbuild MyApp.sln /t:Rebuild /p:Configuration=Release`
       },
       {
         title: 'Introduction to CI (Continuous Integration)',
+        videoUrl: '/Devops vid/modlue 4/4.7.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. What Is Continuous Integration (CI)?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">Continuous Integration (CI) is the practice of merging all developers’ code changes into a central repository frequently, usually several times a day.</p>
@@ -5740,6 +5753,7 @@ Note: CI server runs these commands automatically on every commit. Developers ty
       },
       {
         title: 'Jenkins Basics',
+        videoUrl: '/Devops vid/modlue 4/4.8.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">What Is Jenkins?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -5875,6 +5889,7 @@ Pipeline:
       },
       {
         title: 'Hands-On: Build Apps & Jenkins',
+        videoUrl: '/Devops vid/modlue 4/4.9.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why Hands-On Jenkins?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">

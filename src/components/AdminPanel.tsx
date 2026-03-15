@@ -332,11 +332,15 @@ const AdminPanel: React.FC = () => {
     const isConfirmed = (s?: string) => normalize(s) === 'confirmed';
 
     return students.filter((s) => {
-      // Search by Student ID (case-insensitive, partial match)
       const search = studentSearchId.trim().toLowerCase();
       const matchesSearch = search === ''
         ? true
-        : normalize(String(s.studentId || '')).includes(search);
+        : (
+          normalize(String(s.studentId || '')).includes(search) ||
+          normalize(String((s as any).name || '')).includes(search) ||
+          normalize(`${s.firstName || ''} ${s.lastName || ''}`.trim()).includes(search) ||
+          normalize(`${s.lastName || ''} ${s.firstName || ''}`.trim()).includes(search)
+        );
 
       // When filter is 'all', rely solely on the search match
       if (studentFilter === 'all') return matchesSearch;
@@ -1836,7 +1840,7 @@ const AdminPanel: React.FC = () => {
                   <input
                     value={studentSearchId}
                     onChange={(e) => setStudentSearchId(e.target.value)}
-                    placeholder="Student ID"
+                    placeholder="Student ID or Name"
                     className="bg-transparent border border-white/10 rounded px-2 py-1 text-sm text-white placeholder-white/40 focus:outline-none focus:border-blue-500"
                   />
                 </div>
