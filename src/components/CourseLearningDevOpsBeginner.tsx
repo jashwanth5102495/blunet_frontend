@@ -6096,6 +6096,7 @@ Prepare for real-world CI/CD pipelines`
     lessons: [
       {
         title: 'What Are Containers?',
+        videoUrl: '/Devops vid/module 5/5.1.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">What Is a Container?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -6310,6 +6311,7 @@ CMD ["java", "-jar", "target/demo-app-1.0.0.jar"]
       },
       {
         title: 'Containers vs Virtual Machines (VMs)',
+        videoUrl: '/Devops vid/module 5/5.2.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">What Are Virtual Machines?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -6484,6 +6486,7 @@ CMD ["java", "-jar", "target/demo-app-1.0.0.jar"]
       },
       {
         title: 'Docker Architecture',
+        videoUrl: '/Devops vid/module 5/5.3.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">What Is Docker Architecture?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -6663,6 +6666,7 @@ docker volume ls | Lists persistent storage volumes.`
       },
       {
         title: 'Docker Images & Containers',
+        videoUrl: '/Devops vid/module 5/5.4.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Understanding Docker Images</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -6851,6 +6855,7 @@ docker run -d -p 8080:8080 demo-app:1.0`
       },
       {
         title: 'Dockerfile Basics',
+        videoUrl: '/Devops vid/module 5/5.5.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">What Is a Dockerfile?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -7063,6 +7068,7 @@ CMD ["java", "-jar", "demo-app-1.0.0.jar"]`
       },
       {
         title: 'Container Best Practices',
+        videoUrl: '/Devops vid/module 5/5.6.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why Container Best Practices Matter</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -7274,6 +7280,7 @@ docker push myrepo/demo-app:1.0`
       },
       {
         title: 'Docker in DevOps Pipelines',
+        videoUrl: '/Devops vid/module 5/5.7.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why Use Docker in DevOps Pipelines?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -7495,6 +7502,7 @@ docker run -d -p 80:8080 demo-app:1.0`
       },
       {
         title: 'Hands-On: Dockerize Application',
+        videoUrl: '/Devops vid/module 5/5.8.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">What Is Dockerizing an Application?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -7705,6 +7713,7 @@ docker run -d -p 80:8080 demo-app:1.0`
     lessons: [
       {
         title: 'What is Cloud Computing?',
+        videoUrl: '/Devops vid/module 6/6.1.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Introduction to Cloud Computing</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -7880,6 +7889,7 @@ aws --version`
       },
       {
         title: 'Cloud Service Models',
+        videoUrl: '/Devops vid/module 6/6.2.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Introduction to Cloud Service Models</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -8113,6 +8123,7 @@ Create a pipeline → pull code from GitHub → build & deploy`
       },
       {
         title: 'Introduction to AWS',
+        videoUrl: '/Devops vid/module 6/6.3.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">What is AWS?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -8297,6 +8308,7 @@ aws cloudwatch get-metric-statistics --namespace AWS/EC2 --metric-name CPUUtiliz
       },
       {
         title: 'Compute, Storage & Networking',
+        videoUrl: '/Devops vid/module 6/6.4.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">1. Compute in the Cloud</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -8486,6 +8498,7 @@ aws ec2 authorize-security-group-ingress --group-name DevOpsSG --protocol tcp --
       },
       {
         title: 'DevOps in Cloud',
+        videoUrl: '/Devops vid/module 6/6.5.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why DevOps in Cloud?</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -8680,6 +8693,7 @@ aws cloudwatch get-metric-statistics \\
       },
       {
         title: 'Cloud Security Basics',
+        videoUrl: '/Devops vid/module 6/6.6.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Introduction to Cloud Security</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -8865,6 +8879,7 @@ aws cloudtrail start-logging --name devops-trail`
       },
       {
         title: 'Cost Awareness',
+        videoUrl: '/Devops vid/module 6/6.7.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Why Cost Awareness Matters in Cloud</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -9011,6 +9026,7 @@ aws ec2 delete-volume --volume-id vol-0123456789abcdef0
       },
       {
         title: 'Hands-On: Cloud Deployment',
+        videoUrl: '/Devops vid/module 6/6.8.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Introduction</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -9210,6 +9226,7 @@ python3 app.py`
     lessons: [
       {
         title: 'What is Infrastructure as Code?',
+        videoUrl: '/Devops vid/module 7/7.1.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Introduction to Infrastructure as Code</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -9392,6 +9409,7 @@ resource "aws_s3_bucket" "my_bucket" {
       },
       {
         title: 'Terraform Overview',
+        videoUrl: '/Devops vid/module 7/7.2.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Introduction to Terraform</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -9617,6 +9635,7 @@ resource "aws_s3_bucket" "devops_bucket" {
       },
       {
         title: 'Terraform Architecture',
+        videoUrl: '/Devops vid/module 7/7.3.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Introduction to Terraform Architecture</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -9798,6 +9817,7 @@ resource "aws_s3_bucket" "demo_bucket" {
       },
       {
         title: 'Terraform Workflow',
+        videoUrl: '/Devops vid/module 7/7.4.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Introduction to Terraform Workflow</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -9978,6 +9998,7 @@ terraform apply tfplan`
       },
       {
         title: 'Terraform with Cloud',
+        videoUrl: '/Devops vid/module 7/7.5.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Introduction to Terraform with Cloud</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -10175,6 +10196,7 @@ aws s3 ls
       },
       {
         title: 'Automation in DevOps',
+        videoUrl: '/Devops vid/module 7/7.6.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Introduction to Automation in DevOps</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -10376,6 +10398,7 @@ pipeline {
       },
       {
         title: 'Terraform Best Practices',
+        videoUrl: '/Devops vid/module 7/7.7.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Introduction to Terraform Best Practices</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -10598,6 +10621,7 @@ terraform validate`
       },
       {
         title: 'Hands-On: Provision Infrastructure',
+        videoUrl: '/Devops vid/module 7/7.8.mp4',
         content: `
           <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Introduction to End-to-End Infrastructure Deployment</h2>
           <p class="mb-4 text-gray-700 dark:text-gray-300">
@@ -10812,7 +10836,7 @@ aws s3 ls
     id: 'module-8',
     title: 'Module 8 — Beginner Monitoring & DevOps Workflow',
     duration: '1 week',
-    description: 'End-to-end DevOps workflow, monitoring importance, logs basics, and DevOps career roadmap.',
+    description: 'End-to-end DevOps workflow, monitoring importance, logs basics, and DevOps career roadmap. Topics in this module are easy and simple, so videos are not provided in Module 8 (may be added in the future).',
     lessons: [
       {
         title: 'Why Monitoring Matters',
