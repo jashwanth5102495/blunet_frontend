@@ -3,6 +3,10 @@ import React, { type ReactNode, Suspense, lazy } from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Header from './components/Header';
 import ClickSpark from './components/ClickSpark';
+import { FallingPattern } from './components/ui/falling-pattern';
+import BlurText from './components/ui/blur-text';
+import ShinyText from './components/ui/shiny-text';
+import AutoServiceCards from './components/visiting-cards/auto-service-cards';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ProtectedLoginRoute, ProtectedCourseGate } from './components/AuthWrappers';
 
@@ -96,6 +100,73 @@ function AIStudyMaterialProtected() {
   );
 }
 
+function VisitingCardsHero() {
+  const [blurComplete, setBlurComplete] = React.useState(false);
+  const [showShiny, setShowShiny] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!blurComplete) return;
+    const timeoutId = window.setTimeout(() => setShowShiny(true), 5000);
+    return () => window.clearTimeout(timeoutId);
+  }, [blurComplete]);
+
+  return (
+    <div className="w-full relative min-h-screen bg-black overflow-hidden">
+      <FallingPattern
+        className="h-screen w-full pointer-events-none absolute inset-0"
+        variant="dots"
+        color="rgba(255, 255, 255, 0.85)"
+        backgroundColor="#000000"
+        blurIntensity="0px"
+        duration={150}
+        density={1.6}
+        style={{
+          maskImage:
+            'radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 70%)',
+          WebkitMaskImage:
+            'radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 70%)',
+          maskRepeat: 'no-repeat',
+          WebkitMaskRepeat: 'no-repeat',
+          maskSize: '100% 100%',
+          WebkitMaskSize: '100% 100%',
+          maskMode: 'alpha',
+          WebkitMaskComposite: 'source-over',
+        }}
+      />
+      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-10 px-6">
+        <div className="w-full text-center">
+          {!showShiny ? (
+            <BlurText
+              text="Our Services"
+              delay={200}
+              animateBy="words"
+              direction="top"
+              className="w-full justify-center text-center font-mono font-extrabold tracking-tighter text-white drop-shadow-[0_2px_24px_rgba(255,255,255,0.12)] text-4xl leading-[1.05] sm:text-6xl lg:text-7xl"
+              onAnimationComplete={() => setBlurComplete(true)}
+            />
+          ) : (
+            <ShinyText
+              text="Our Services"
+              speed={2}
+              delay={0}
+              color="#b5b5b5"
+              shineColor="#ffffff"
+              spread={120}
+              direction="left"
+              yoyo={false}
+              pauseOnHover={false}
+              disabled={false}
+              className="whitespace-nowrap font-mono font-extrabold tracking-tighter drop-shadow-[0_2px_24px_rgba(255,255,255,0.12)] text-4xl leading-[1.05] sm:text-6xl lg:text-7xl"
+            />
+          )}
+        </div>
+
+        <AutoServiceCards />
+      </div>
+    </div>
+  );
+}
+
 function AppInner() {
   return (
       <ClickSpark 
@@ -132,15 +203,12 @@ function AppInner() {
             <Route path="/about" element={<><Header /><About /></>} />
             <Route path="/career" element={<><Header /><Career /></>} />
             <Route path="/contact" element={<><Header /><Contact /></>} />
+            <Route path="/visiting cards" element={<Navigate to="/visiting-cards" replace />} />
+            <Route path="/visiting%20cards" element={<Navigate to="/visiting-cards" replace />} />
             <Route
               path="/visiting-cards"
               element={
-                <>
-                  <Header />
-                  <div className="min-h-screen flex items-center justify-center">
-                    <div className="text-2xl font-semibold">visiting cards</div>
-                  </div>
-                </>
+                <VisitingCardsHero />
               }
             />
   
