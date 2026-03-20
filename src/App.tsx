@@ -132,6 +132,17 @@ function AppInner() {
             <Route path="/about" element={<><Header /><About /></>} />
             <Route path="/career" element={<><Header /><Career /></>} />
             <Route path="/contact" element={<><Header /><Contact /></>} />
+            <Route
+              path="/visiting-cards"
+              element={
+                <>
+                  <Header />
+                  <div className="min-h-screen flex items-center justify-center">
+                    <div className="text-2xl font-semibold">visiting cards</div>
+                  </div>
+                </>
+              }
+            />
   
             <Route path="/projects" element={<><Header /><ProjectsCatalog /></>} />
             <Route path="/projects/enroll" element={<><Header /><ProjectEnrollment /></>} />
