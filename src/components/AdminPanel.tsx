@@ -584,7 +584,6 @@ const AdminPanel: React.FC = () => {
         const result = await response.json();
         if (result.success) {
           setStudentSubmissions(result.data || []);
-          console.log('Fetched submissions:', result.data);
         } else {
           console.error('Failed to fetch submissions:', result.message);
           setStudentSubmissions([]);
@@ -602,14 +601,12 @@ const AdminPanel: React.FC = () => {
   };
 
   const refreshAllData = async () => {
-    console.log('🔄 Refreshing all data...');
     await Promise.all([
       fetchProjects(),
       fetchStudents(),
       fetchPayments(),
       fetchFaculty()
     ]);
-    console.log('✅ All data refreshed');
   };
 
   const fetchProjects = async () => {
@@ -634,7 +631,6 @@ const AdminPanel: React.FC = () => {
 
   const fetchStudents = async () => {
     try {
-      console.log('🔍 Fetching students...');
       const token = sessionStorage.getItem('admin_auth_token') || '';
       const response = await fetch(`${BASE_URL}/api/students?all=true&includeInactive=true`, {
         headers: token ? { Authorization: `Bearer ${token}` } : {}
@@ -642,16 +638,11 @@ const AdminPanel: React.FC = () => {
       if (response.ok) {
         const result = await response.json();
         const data = result.data || result;
-        console.log('📊 Students API response:', result);
-        console.log('📊 Students data:', data);
         
         // Check if course prices are populated
         if (Array.isArray(data) && data.length > 0) {
           const firstStudent = data[0];
-          console.log('📊 First student sample:', firstStudent);
           if (firstStudent.enrolledCourses && firstStudent.enrolledCourses.length > 0) {
-            console.log('📊 First enrolled course:', firstStudent.enrolledCourses[0]);
-            console.log('📊 Course price:', firstStudent.enrolledCourses[0].courseId?.price);
           }
         }
         
@@ -674,7 +665,7 @@ const AdminPanel: React.FC = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log('Payments API response:', data); // Debug log
+ // Debug log
         setPayments(data.data?.payments || []);
       }
     } catch (error) {
@@ -878,7 +869,6 @@ const AdminPanel: React.FC = () => {
       if (response.ok && result && result.success) {
         const data = Array.isArray(result.data) ? result.data : [];
         setReferredStudents(data);
-        console.log('Referred students fetched:', { count: data.length, sample: data[0] });
       } else {
         console.error('Failed to fetch referred students', {
           status: response.status,
@@ -1006,7 +996,6 @@ const AdminPanel: React.FC = () => {
         setStudentToDelete(null);
         
         // Show success message (you can add a toast notification here)
-        console.log('Student deleted successfully');
       } else {
         const errorData = await response.json();
         console.error('Failed to delete student:', errorData.message);
@@ -1047,11 +1036,6 @@ const AdminPanel: React.FC = () => {
     // Track the pending change
     const changeKey = `${studentId}-${paymentId}`;
     
-    console.log('handlePaymentStatusUpdate - studentId:', studentId);
-    console.log('handlePaymentStatusUpdate - paymentId:', paymentId);
-    console.log('handlePaymentStatusUpdate - newStatus:', newStatus);
-    console.log('handlePaymentStatusUpdate - courseId:', courseId);
-    console.log('handlePaymentStatusUpdate - isNewPayment:', !existingPayment);
 
     setPendingPaymentChanges(prev => ({
        ...prev,
@@ -1067,16 +1051,12 @@ const AdminPanel: React.FC = () => {
 
   const savePaymentStatusChange = async (changeKey: string) => {
     const change = pendingPaymentChanges[changeKey];
-    console.log('Save attempt - changeKey:', changeKey);
-    console.log('Save attempt - change:', change);
     
     if (!change) {
-      console.log('No change found for key:', changeKey);
       return;
     }
     
     if (!change.paymentId) {
-      console.log('No paymentId found in change:', change);
       alert('Error: Payment ID not found. Please refresh the page and try again.');
       return;
     }
@@ -1123,22 +1103,7 @@ const AdminPanel: React.FC = () => {
           metadata: { createdByAdmin: true, adminEmail: 'support@blunetitservices.in' }
         };
 
-        console.log('=== PAYMENT DATA DEBUG ===');
-        console.log('Student:', student);
-        console.log('Course:', course);
-        console.log('Payment Data being sent:', paymentData);
-        console.log('Required fields check:');
-        console.log('- transactionId:', paymentData.transactionId);
-        console.log('- studentId:', paymentData.studentId);
-        console.log('- courseId:', paymentData.courseId);
-        console.log('- courseName:', paymentData.courseName);
-        console.log('- amount:', paymentData.amount);
-        console.log('- studentName:', paymentData.studentName);
-        console.log('- studentEmail:', paymentData.studentEmail);
-        console.log('- paymentMethod:', paymentData.paymentMethod);
-        console.log('========================');
 
-        console.log('Creating new payment with data:', paymentData);
         
         const token = sessionStorage.getItem('admin_auth_token') || '';
         response = await fetch(`${BASE_URL}/api/payments`, {
@@ -1151,7 +1116,6 @@ const AdminPanel: React.FC = () => {
         });
 
         responseData = await response.json();
-        console.log('Create payment response:', responseData);
 
         if (response.ok && responseData.data) {
           // Now update the confirmation status
@@ -1168,7 +1132,6 @@ const AdminPanel: React.FC = () => {
           });
 
           const confirmData = await confirmResponse.json();
-          console.log('Confirm payment response:', confirmData);
 
           if (confirmResponse.ok) {
             response = confirmResponse;
@@ -1177,11 +1140,6 @@ const AdminPanel: React.FC = () => {
         }
       } else {
         // Update existing payment
-        console.log('Making API call to:', `${BASE_URL}/api/payments/${change.paymentId}/confirm`);
-        console.log('Request body:', {
-          confirmationStatus: change.newStatus,
-          adminEmail: 'support@blunetitservices.in'
-        });
         
         const token = sessionStorage.getItem('admin_auth_token') || '';
         response = await fetch(`${BASE_URL}/api/payments/${change.paymentId}/confirm`, {
@@ -1199,8 +1157,6 @@ const AdminPanel: React.FC = () => {
         responseData = await response.json();
       }
 
-      console.log('Response status:', response.status);
-      console.log('Response data:', responseData);
 
       if (response.ok) {
         // Remove from pending changes

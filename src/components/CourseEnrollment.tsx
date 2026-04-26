@@ -605,12 +605,9 @@ const CourseEnrollment: React.FC = () => {
   const applyReferralCode = async () => {
     if (!course || !referralCode.trim()) return;
     
-    console.log('Applying referral code:', referralCode.trim());
-    console.log('Course price:', course.price);
     
     try {
       // First try faculty referral codes
-      console.log('Calling faculty API...');
       const facultyResponse = await fetch(`${BASE_URL}/api/faculty/validate-referral`, {
         method: 'POST',
         headers: {
@@ -629,8 +626,6 @@ const CourseEnrollment: React.FC = () => {
       } catch (e) {
         facultyText = await facultyResponse.text();
       }
-      console.log('Faculty response status:', facultyResponse.status);
-      console.log('Faculty response data:', facultyData || facultyText);
       
       if (facultyResponse.ok && facultyData && facultyData.success && facultyData.data) {
         const discountValue = course.price - facultyData.data.finalPrice;
@@ -644,7 +639,6 @@ const CourseEnrollment: React.FC = () => {
       }
       
       // If faculty code fails, try general referral codes
-      console.log('Faculty code failed, trying general referral codes...');
       const generalResponse = await fetch(`${BASE_URL}/api/courses/verify-referral`, {
         method: 'POST',
         headers: {
@@ -662,8 +656,6 @@ const CourseEnrollment: React.FC = () => {
       } catch (e) {
         generalText = await generalResponse.text();
       }
-      console.log('General response status:', generalResponse.status);
-      console.log('General response data:', generalData || generalText);
       
       if (generalResponse.ok && generalData && generalData.success && generalData.valid) {
         const discount = generalData.discount;
@@ -673,7 +665,6 @@ const CourseEnrollment: React.FC = () => {
         setDiscountApplied(true);
         alert(`Referral code applied successfully! You saved ₹${discountValue.toLocaleString()} (${discount}% off)`);
       } else {
-        console.log('Both faculty and general referral codes failed');
         alert('Invalid referral code');
       }
     } catch (error) {
@@ -716,16 +707,6 @@ const CourseEnrollment: React.FC = () => {
       // Get current user from localStorage
       const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
 
-      console.log('Submitting payment with transaction ID:', {
-        course: course.title,
-        originalPrice: course.price,
-        finalPrice: finalPrice,
-        discountApplied: discountApplied,
-        discountAmount: discountAmount,
-        referralCode: referralCode,
-        transactionId: transactionId,
-        user: currentUser.email
-      });
 
       // Prepare courseId variants to handle backend differences (prod vs local)
       const baseId = (course.id || '').trim();
@@ -740,7 +721,6 @@ const CourseEnrollment: React.FC = () => {
       let lastErrorMessage = '';
 
       for (const variant of courseIdVariants) {
-        console.log('Attempting enrollment with courseId variant:', variant);
         const enrollmentData = {
           courseId: variant,
           paymentDetails: {
@@ -770,7 +750,6 @@ const CourseEnrollment: React.FC = () => {
           const txt = await resp.text();
           enrollResult = { success: false, message: txt };
         }
-        console.log('Backend enrollment response (variant:', variant, '):', enrollResult);
 
         if (resp.ok && enrollResult?.success) {
           // Success -> stop retrying

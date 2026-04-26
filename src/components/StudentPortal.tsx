@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { normalizeCourseKey, getCourseTitleFromKey } from '../data/courseAssignments';
 import { useCourses } from '../hooks/useCourses';
 import { Course } from '../data/courses';
+import { appLogger } from '../lib/logger';
 
 import Sidebar from './Sidebar';
 import MagicBento from './MagicBento';
@@ -154,7 +155,6 @@ const StudentPortal: React.FC = () => {
 
   // Handle unauthorized/expired session - clears storage and redirects to login
   const handleUnauthorized = () => {
-    console.log('Session expired. Redirecting to login.');
     localStorage.removeItem('currentUser');
     localStorage.removeItem('authToken');
     navigate('/student-login');
@@ -427,7 +427,10 @@ const StudentPortal: React.FC = () => {
               onClick={() => {
                 const submissionUrl = isAIToolsProject ? projectGoogleDriveUrl.trim() : projectGitUrl.trim();
                 if (submissionUrl) {
-                  console.log('Submitting project:', selectedProjectId, 'with URL:', submissionUrl, 'Type:', isAIToolsProject ? 'Google Drive' : 'Git');
+                  appLogger.info('student.project.submit', 'Submitting student project', {
+                    selectedProjectId,
+                    submissionType: isAIToolsProject ? 'google_drive' : 'git'
+                  });
                   alert(`Project submitted successfully! Your instructor will review your ${isAIToolsProject ? 'Google Drive folder' : 'Git repository'} soon.`);
                   setShowProjectSubmissionModal(false);
                   setSelectedProjectId(null);
@@ -537,7 +540,6 @@ const StudentPortal: React.FC = () => {
       const currentUser = localStorage.getItem('currentUser');
       const userData = JSON.parse(currentUser!);
       const token = userData.token;
-      console.log(`Token fetch modules: ${token}`);
       const response = await fetch(`${BASE_URL}/api/students/${studentId}/module-submissions/${courseId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -578,12 +580,13 @@ const StudentPortal: React.FC = () => {
       }
 
       const userData = JSON.parse(currentUser);
-      console.log('User data for submission:', userData);
       const token = userData.token;
-      console.log("The Current User TOken",token);
 
-      console.log('Submitting module:', { courseId, moduleId, submissionUrl });
-      console.log('Using student ID:', userData.id); // Log the ID being used
+      appLogger.info('student.module.submit', 'Submitting module URL', {
+        courseId,
+        moduleId,
+        studentId: userData.id
+      });
 
       const response = await fetch(`${BASE_URL}/api/students/${userData.id}/submit-module`, {
         method: 'POST',
@@ -601,7 +604,11 @@ const StudentPortal: React.FC = () => {
       const result = await response.json();
       
       if (response.ok && result.success) {
-        console.log('Module submitted successfully:', result);
+        appLogger.info('student.module.submit.success', 'Module submitted successfully', {
+          courseId,
+          moduleId,
+          studentId: userData.id
+        });
         // Update local state
         setModuleSubmissions(prev => ({
           ...prev,
@@ -628,22 +635,22 @@ const StudentPortal: React.FC = () => {
 
   // Helper function to check if a course is accessible (either purchased or confirmed payment)
   const isCourseAccessible = (courseId: string): boolean => {
-    console.log('🔍 Checking course accessibility for:', courseId);
-    console.log('📚 Purchased courses:', purchasedCourses);
-    console.log('🎓 Enrolled courses:', enrolledCourses.map(c => ({ id: c.id, status: c.confirmationStatus })));
+    appLogger.debug('student.course.access.check', 'Checking course accessibility', {
+      courseId,
+      purchasedCoursesCount: purchasedCourses.length,
+      enrolledCoursesCount: enrolledCourses.length
+    });
     
 
     
     // Check if course is in purchased courses list
     if (purchasedCourses.includes(courseId)) {
-      console.log('✅ Course found in purchased courses');
       return true;
     }
     
     // Check if course has confirmed payment status in enrolled courses
     const enrolledCourse = enrolledCourses.find(course => course.id === courseId);
     if (enrolledCourse && enrolledCourse.confirmationStatus === 'confirmed') {
-      console.log('✅ Course found in enrolled courses with confirmed status');
       return true;
     }
     
@@ -651,13 +658,11 @@ const StudentPortal: React.FC = () => {
     const possibleMappings = getCourseIdMapping(courseId);
     for (const mappedId of possibleMappings) {
       if (purchasedCourses.includes(mappedId)) {
-        console.log('✅ Course found via mapping in purchased courses:', mappedId);
         return true;
       }
       
       const mappedEnrolledCourse = enrolledCourses.find(course => course.id === mappedId);
       if (mappedEnrolledCourse && mappedEnrolledCourse.confirmationStatus === 'confirmed') {
-        console.log('✅ Course found via mapping in enrolled courses with confirmed status:', mappedId);
         return true;
       }
     }
@@ -667,12 +672,11 @@ const StudentPortal: React.FC = () => {
     for (const backendCourseId of confirmedCourseIds) {
       const backendMappings = getCourseIdMapping(backendCourseId);
       if (backendMappings.includes(courseId)) {
-        console.log('✅ Course found via reverse mapping:', backendCourseId, '→', courseId);
         return true;
       }
     }
     
-    console.log('❌ Course not accessible');
+    appLogger.warn('student.course.access.denied', 'Course access check failed', { courseId });
     return false;
   };
 
@@ -706,7 +710,6 @@ const StudentPortal: React.FC = () => {
   }
 
   // Generate enrolled courses summary from backend data
-  console.log('enrolledCoursesData:', enrolledCoursesData);
   const enrolledCourses: EnrolledCourseSummary[] = enrolledCoursesData.map((course: Course & { 
     courseId?: string;
     paymentMethod?: string;
@@ -736,7 +739,9 @@ const StudentPortal: React.FC = () => {
       adminConfirmedAt: course.adminConfirmedAt
     };
   });
-  console.log('Final enrolledCourses:', enrolledCourses);
+  appLogger.debug('student.enrollment.summary', 'Built enrolled course summary', {
+    totalEnrolledCourses: enrolledCourses.length
+  });
 
   const recommendedCourses = allCourses.filter(course => 
     !enrolledCourses.some(enrolledCourse => enrolledCourse.id === course.id)
@@ -2068,7 +2073,6 @@ const StudentPortal: React.FC = () => {
     
     // Redirect if no user data in localStorage
     if (!currentUser) {
-      console.log('No currentUser found in localStorage. Redirecting to login.');
       handleUnauthorized();
       return;
     }
@@ -2085,7 +2089,6 @@ const StudentPortal: React.FC = () => {
 
     // Verify user is authenticated
     if (!userData.isAuthenticated) {
-      console.log('User is not authenticated. Redirecting to login.');
       handleUnauthorized();
       return;
     }
@@ -2093,7 +2096,6 @@ const StudentPortal: React.FC = () => {
     // Verify token exists
     const token = userData.token || authToken;
     if (!token) {
-      console.log('No auth token found. Redirecting to login.');
       handleUnauthorized();
       return;
     }
@@ -2101,7 +2103,6 @@ const StudentPortal: React.FC = () => {
     const loadStudentData = async () => {
       try {
         // Fetch purchased courses from backend
-        console.log('Fetching courses from backend for:', userData.email);
         const coursesResponse = await fetch(`${BASE_URL}/api/courses/purchased/${userData.email}`, {
           headers: {
             Authorization: `Bearer ${token}`
@@ -2117,7 +2118,6 @@ const StudentPortal: React.FC = () => {
 
         if (coursesResponse.ok) {
           const result = await coursesResponse.json();
-          console.log('Backend response:', result);
 
           if (result.success && result.data) {
             // Backend now returns full course details with enrollment info
@@ -2137,7 +2137,6 @@ const StudentPortal: React.FC = () => {
             
             // Set the full course data for display
             setEnrolledCoursesData(enrolledCourses);
-            console.log('Enrolled Course Data', enrolledCourses);
             
             // Create course progress from enrollment data
             const progressData = enrolledCourses.reduce((acc: any, course: any) => {
@@ -2155,7 +2154,6 @@ const StudentPortal: React.FC = () => {
             }, {});
             
             setCourseProgress(progressData);
-            console.log('Set course progress:', progressData);
             
             // Fetch module submissions for each enrolled course
             for (const course of enrolledCourses) {
@@ -2164,7 +2162,6 @@ const StudentPortal: React.FC = () => {
             }
           } else {
             // Backend returned success but no data
-            console.log('No courses found in backend response');
             setPurchasedCourses([]);
             setEnrolledCoursesData([]);
             setCourseProgress({});
@@ -2194,12 +2191,10 @@ const StudentPortal: React.FC = () => {
 
         if (studentResponse.ok) {
           const result = await studentResponse.json();
-          console.log('Result Data IN student portal:', result.data);
           if (result.success) {
             studentData = { ...userData, ...result.data };
           }
         } else {
-          console.log('Could not fetch additional student data from backend, using localStorage data');
         }
 
         const fullName = [studentData.firstName, studentData.lastName].filter(Boolean).join(' ').trim();
@@ -2235,17 +2230,9 @@ const StudentPortal: React.FC = () => {
   const handleContinueLearning = (courseId: string) => {
     // Check payment confirmation status before allowing access
     const courseData = enrolledCoursesData.find(c => c.courseId === courseId);
-    console.log(enrolledCoursesData);
-    console.log("CourseData: ", courseData);
     const confirmationStatus = courseData?.confirmationStatus || 'unknown';
     const paymentStatus = courseData?.paymentStatus || 'unknown';
     
-    console.log('Course access check:', {
-      courseId,
-      confirmationStatus,
-      paymentStatus,
-      courseData
-    });
     
     // Allow access if payment is confirmed by admin
     const isAccessAllowed = confirmationStatus === 'confirmed';
@@ -2262,7 +2249,6 @@ const StudentPortal: React.FC = () => {
     }
     
     // Navigate to course content/study material based on course ID
-    console.log('Navigating to course:', courseId);
     
     const courseRoutes: { [key: string]: string } = {
       'frontend-beginner': '/frontend-development-beginner',
@@ -2519,7 +2505,6 @@ const StudentPortal: React.FC = () => {
                       });
                       if (response.ok) {
                         const result = await response.json();
-                        console.log("Enrolled data: ", result.data);
                         if (result.success && result.data) {
                           const enrolledCoursesData = result.data || [];
                           const courseIds = enrolledCoursesData.map((course: any) => course.courseId || course.id);
@@ -2592,14 +2577,6 @@ const StudentPortal: React.FC = () => {
                 const transactionId = course.transactionId;
                 
                 // Debug logging
-                console.log(`🔍 Course ${course.title} Status Debug:`, {
-                  confirmationStatus,
-                  enrollmentStatus,
-                  paymentStatus: course.paymentStatus,
-                  enrollmentConfirmationStatus: course.enrollmentConfirmationStatus,
-                  adminConfirmedBy: course.adminConfirmedBy,
-                  fullCourse: course
-                });
                 
                 // Simplified and more flexible access logic
                 // Priority: Payment confirmation status > Enrollment status > Payment status
@@ -2627,12 +2604,6 @@ const StudentPortal: React.FC = () => {
                   (!course.transactionId && !course.paymentId)
                 );
                 
-                console.log(`🎯 Course ${course.title} Final Status:`, {
-                  isAccessAllowed,
-                  isPending, 
-                  isRejected,
-                  hasNoPayment
-                });
                 
                 return (
                   <div key={course.id} className="bg-gray-800 rounded-lg p-6 w-full max-w-full">
@@ -3474,12 +3445,6 @@ const StudentPortal: React.FC = () => {
                                 const submissionUrl = isAIToolsProject ? projectGoogleDriveUrl.trim() : projectGitUrl.trim();
                                 
                                 if (submissionUrl) {
-                                  console.log('Submitting with data:', {
-                                    courseId: courseData.id,
-                                    moduleId: moduleId,
-                                    submissionUrl: submissionUrl,
-                                    projectId: project.id
-                                  });
                                   
                                   const success = await submitModuleUrl(courseData.id, moduleId, submissionUrl);
                                   

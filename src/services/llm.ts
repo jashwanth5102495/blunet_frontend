@@ -2,7 +2,6 @@ import axios from 'axios';
 
 // Backend URL configuration - use VITE_BACKEND_URL in production, fallback to localhost only in development
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL as string || 'http://localhost:5000';
-console.log('🌐 Backend URL:', BACKEND_URL);
 
 /**
  * Chat message interface for conversation history
@@ -76,13 +75,8 @@ export async function askLLM(
   
   const trimmedQuestion = question.trim();
   
-  console.log('🤖 [LLM] Starting askLLM request (timeout:', timeout, 'ms)');
-  console.log('🤖 [LLM] Backend URL:', BACKEND_URL);
-  console.log('🤖 [LLM] Question:', trimmedQuestion.substring(0, 50) + '...');
   
   try {
-    console.log(`🤖 [LLM] Sending to: ${BACKEND_URL}/api/llm/chat`);
-    console.log('🤖 [LLM] Request body:', { question: trimmedQuestion.substring(0, 50), historyLength: history?.length });
     
     const resp = await axios.post(
       `${BACKEND_URL}/api/llm/chat`, 
@@ -100,21 +94,16 @@ export async function askLLM(
       }
     );
     
-    console.log('🤖 [LLM] Response received:', resp.status, resp.data?.success);
     
     if (resp.data?.success) {
-      console.log('🤖 [LLM] SUCCESS! Answer length:', resp.data.answer?.length);
       return resp.data.answer as string;
     }
     
     // Non-success response from backend
-    console.log('🤖 [LLM] Backend returned success=false:', resp.data?.message);
     throw new Error(resp.data?.message || 'LLM backend error');
   } catch (err: unknown) {
-    console.log(`🤖 [LLM] Error:`, err);
     const error = err as Error & { response?: { data?: { message?: string } } };
     const message = error?.response?.data?.message || error?.message || 'AI tutor is temporarily unavailable';
-    console.log('🤖 [LLM] Final error:', message);
     throw new Error(message);
   }
 }

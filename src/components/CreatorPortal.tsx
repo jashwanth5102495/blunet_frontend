@@ -237,12 +237,10 @@ const CreatorPortal = () => {
   };
 
   const handleContinueProject = (projectId: string) => {
-    console.log('Continue working on project:', projectId);
     // Navigate to project workspace
   };
 
   const handleStartGig = (gigId: string, gigName: string, budget: string) => {
-    console.log('Starting new gig:', gigName);
     // Handle gig application logic
   };
 

@@ -30,9 +30,7 @@ const ProjectTracking = () => {
     if (savedProjects) {
       const parsedProjects = JSON.parse(savedProjects);
       setProjects(parsedProjects);
-      console.log('Loaded projects from localStorage:', parsedProjects);
     } else {
-      console.log('No projects found in localStorage');
     }
   }, []);
 
@@ -43,18 +41,14 @@ const ProjectTracking = () => {
       return;
     }
 
-    console.log('Searching for Project ID:', projectId.trim());
-    console.log('Available projects:', projects);
     
     const foundProject = projects.find(p => p.id === projectId.trim());
     if (foundProject) {
       setProject(foundProject);
       setError('');
-      console.log('Project found:', foundProject);
     } else {
       setProject(null);
       setError('Project not found. Please check your Project ID and try again.');
-      console.log('Project not found. Available IDs:', projects.map(p => p.id));
     }
   };
 

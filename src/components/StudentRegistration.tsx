@@ -172,7 +172,6 @@ const StudentRegistration = () => {
         }
       };
 
-      console.log(registrationData);
 
       // Call backend API to register student
       const response = await fetch(`${BASE_URL}/api/students/register`, {
@@ -204,7 +203,6 @@ const StudentRegistration = () => {
       }
 
       if (result && result.success) {
-        console.log('Student registered successfully in database:', result.data);
         
         // Store user data locally for immediate access
         const userData = {
