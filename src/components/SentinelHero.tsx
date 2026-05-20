@@ -4,6 +4,7 @@ import React, { Suspense, lazy, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GlassFilter } from "@/components/ui/liquid-radio";
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { FlowHoverButton } from "@/components/ui/flow-hover-button";
 
 const Spline = lazy(() => import("@splinetool/react-spline"));
 
@@ -115,9 +116,9 @@ const SentinelHero: React.FC = () => {
             >
               Start Learning
             </button>
-            <button className="pointer-events-auto bg-white text-background px-6 py-3 md:px-8 md:py-4 text-sm md:text-base rounded-sm cursor-pointer hover:brightness-90 transition-all active:scale-[0.97] border border-primary/40 shadow-[0_0_20px_rgba(34,197,94,0.2)]">
+            <FlowHoverButton className="pointer-events-auto rounded-sm px-6 py-3 md:px-8 md:py-4 text-sm md:text-base">
               Explore Programs
-            </button>
+            </FlowHoverButton>
           </div>
 
           {/* Trust line */}
