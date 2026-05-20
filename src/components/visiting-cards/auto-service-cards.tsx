@@ -59,7 +59,7 @@ export default function AutoServiceCards() {
         locationLabel: 'Remote • Onsite',
       },
       {
-        title: 'Student Training Programs',
+        title: 'Students Development',
         image:
           'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80',
         badgeTop: 'TRN',

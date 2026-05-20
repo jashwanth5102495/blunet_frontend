@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from 'rea
 import React, { type ReactNode, Suspense, lazy } from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Header from './components/Header';
+import ScrollToTop from './components/ScrollToTop';
 import ClickSpark from './components/ClickSpark';
 import { FallingPattern } from './components/ui/falling-pattern';
 import BlurText from './components/ui/blur-text';
@@ -9,9 +10,14 @@ import ShinyText from './components/ui/shiny-text';
 import AutoServiceCards from './components/visiting-cards/auto-service-cards';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ProtectedLoginRoute, ProtectedCourseGate } from './components/AuthWrappers';
+import { Slab } from 'react-loading-indicators';
+import Loader from './components/ui/loader-4';
+import StudentPage from './pages/StudentPage';
 
 // Lazy load heavy components
 const Hero = lazy(() => import('./components/Hero'));
+const IntegrationsSection = lazy(() => import('./components/ui/integrations-section'));
+const StudentProgramsSection = lazy(() => import('./components/StudentProgramsSection'));
 const ServicesSection = lazy(() => import('./components/ServicesSection'));
 const TradingSection = lazy(() => import('./components/TradingSection'));
 const TechnologiesCarousel = lazy(() => import('./components/TechnologiesCarousel'));
@@ -53,8 +59,8 @@ const IntroHtmlProtected = lazy(() => import('./components/IntroHtmlProtected'))
 
 // Loading Fallback Component
 const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+  <div className="min-h-screen flex items-center justify-center bg-black">
+    <Loader />
   </div>
 );
 
@@ -184,6 +190,12 @@ function AppInner() {
                 <section id="home">
                   <Hero />
                 </section>
+                <section id="integrations">
+                  <IntegrationsSection />
+                </section>
+                <section id="student-programs">
+                  <StudentProgramsSection />
+                </section>
                 <section id="services">
                   <ServicesSection />
                 </section>
@@ -232,7 +244,7 @@ function AppInner() {
             <Route path="/frontend-development-intermediate/module/:slug" element={<><Header hideDock={true} /><CourseLearningFrontendIntermediate /></>} />
             <Route path="/course-enrollment/:courseId" element={<CourseEnrollment />} />
             <Route path="/student-registration" element={<StudentRegistration />} />
-            <Route path="/student-login" element={<StudentLogin />} />
+            <Route path="/student-login" element={<><Header /><StudentLogin /></>} />
             <Route path="/student-setup" element={<StudentSetup />} />
             <Route path="/student-portal" element={<StudentPortal />} />
             <Route path="/creator-portal" element={<><Header /><CreatorPortal /></>} />
@@ -296,7 +308,7 @@ function AppInner() {
             <Route path="/devops-project/:projectId" element={<DevOpsProjectPage />} />
             <Route path="/frontend-project/:projectId" element={<FrontendProjectPage />} />
             {/* Plasma/Dither demo routes removed */}
-  
+            <Route path="/student-page" element={<><Header /><StudentPage /></>} />
           </Routes>
         </Suspense>
       </ClickSpark>
@@ -308,6 +320,7 @@ function App() {
   const appTree = (
     <ThemeProvider>
       <Router basename={import.meta.env.VITE_BASE_PATH || '/'}>
+        <ScrollToTop />
         <AppInner />
       </Router>
     </ThemeProvider>
