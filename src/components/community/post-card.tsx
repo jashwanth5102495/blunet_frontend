@@ -7,6 +7,8 @@ type PostCardProps = {
   post: CommunityMessage;
   isOwn: boolean;
   replies?: CommunityMessage[];
+  /** When false, hide reply composer and edit (delete still allowed on own posts) */
+  canPost?: boolean;
   onLike: (id: string) => void;
   onReply: (parentId: string, text: string) => void;
   onEdit: (id: string, text: string) => void;
@@ -31,6 +33,7 @@ export const PostCard = memo(function PostCard({
   post,
   isOwn,
   replies = [],
+  canPost = true,
   onLike,
   onReply,
   onEdit,
@@ -185,14 +188,16 @@ export const PostCard = memo(function PostCard({
             </button>
             {isOwn && !editing && (
               <>
-                <button
-                  type="button"
-                  onClick={() => setEditing(true)}
-                  className="text-slate-400 hover:text-slate-700 dark:text-white/40 dark:hover:text-white"
-                  aria-label="Edit"
-                >
-                  <Pencil className="w-4 h-4" />
-                </button>
+                {canPost && (
+                  <button
+                    type="button"
+                    onClick={() => setEditing(true)}
+                    className="text-slate-400 hover:text-slate-700 dark:text-white/40 dark:hover:text-white"
+                    aria-label="Edit"
+                  >
+                    <Pencil className="w-4 h-4" />
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={() => onDelete(post.id)}
@@ -216,28 +221,32 @@ export const PostCard = memo(function PostCard({
                   <p className="text-slate-700 dark:text-white/75 mt-1">{r.message}</p>
                 </div>
               ))}
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={replyText}
-                  onChange={(e) => setReplyText(e.target.value)}
-                  placeholder="Write a reply..."
-                  className={cn(
-                    'flex-1 rounded-lg text-sm px-3 py-2 border',
-                    'bg-white border-slate-300 text-slate-900 placeholder:text-slate-400',
-                    'dark:bg-black/40 dark:border-white/15 dark:text-white dark:placeholder:text-white/40'
-                  )}
-                  onKeyDown={(e) => e.key === 'Enter' && submitReply()}
-                />
-                <button
-                  type="button"
-                  onClick={submitReply}
-                  className="p-2 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-black"
-                  aria-label="Send reply"
-                >
-                  <Send className="w-4 h-4" />
-                </button>
-              </div>
+              {canPost ? (
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={replyText}
+                    onChange={(e) => setReplyText(e.target.value)}
+                    placeholder="Write a reply..."
+                    className={cn(
+                      'flex-1 rounded-lg text-sm px-3 py-2 border',
+                      'bg-white border-slate-300 text-slate-900 placeholder:text-slate-400',
+                      'dark:bg-black/40 dark:border-white/15 dark:text-white dark:placeholder:text-white/40'
+                    )}
+                    onKeyDown={(e) => e.key === 'Enter' && submitReply()}
+                  />
+                  <button
+                    type="button"
+                    onClick={submitReply}
+                    className="p-2 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-black"
+                    aria-label="Send reply"
+                  >
+                    <Send className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <p className="text-xs text-slate-500 dark:text-white/40">Replies are disabled</p>
+              )}
             </div>
           )}
         </div>

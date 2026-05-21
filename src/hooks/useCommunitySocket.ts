@@ -23,21 +23,22 @@ export function useCommunitySocket(
       const isTopLevel = !payload.parentId;
       const isOwn = payload.userId === state.currentUserId;
 
-      if (sub?.plan === 'trial' && isTopLevel && !isOwn) {
+      if (sub?.plan === 'trial' && !isOwn) {
         if (sub.viewLimitReached || (sub.viewsRemaining ?? 0) <= 0) {
           return;
         }
-        try {
-          const { allowed, data } = await recordTrialView(token, payload.id);
-          useCommunityStore.getState().setSubscription(data);
-          onSubscriptionUpdate?.();
-          if (!allowed) {
-            return;
+        if (isTopLevel) {
+          try {
+            const { allowed, data } = await recordTrialView(token, payload.id);
+            useCommunityStore.getState().setSubscription(data);
+            onSubscriptionUpdate?.();
+            if (!allowed) {
+              return;
+            }
+            useCommunityStore.getState().prependMessage(payload);
+          } catch (e) {
+            console.error('Trial view record failed:', e);
           }
-          useCommunityStore.getState().prependMessage(payload);
-          return;
-        } catch (e) {
-          console.error('Trial view record failed:', e);
           return;
         }
       }
@@ -71,7 +72,17 @@ export function useCommunitySocket(
       reply: CommunityMessage;
       replyCount?: number;
     }) => {
-      useCommunityStore.getState().addReply(parentId, reply);
+      const state = useCommunityStore.getState();
+      const sub = state.subscription;
+      const isOwn = reply.userId === state.currentUserId;
+      if (
+        sub?.plan === 'trial' &&
+        !isOwn &&
+        (sub.viewLimitReached || (sub.viewsRemaining ?? 0) <= 0)
+      ) {
+        return;
+      }
+      state.addReply(parentId, reply);
     };
 
     socket.on('message:new', onNew);

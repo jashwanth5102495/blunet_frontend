@@ -15,7 +15,6 @@ type CommunityFreeTrialProps = {
   loading?: boolean;
   subscriptionLoading?: boolean;
   plan?: string;
-  trialExhausted?: boolean;
   /** Student id — used to remember first visit vs return */
   userId?: string | null;
 };
@@ -121,21 +120,17 @@ export function CommunityFreeTrial({
   loading,
   subscriptionLoading,
   plan,
-  trialExhausted = false,
   userId,
 }: CommunityFreeTrialProps) {
   const [modalOpen, setModalOpen] = useState(false);
 
-  const hasActiveTrial = plan === 'trial' && !trialExhausted;
-  const isEnded = trialExhausted;
+  const hasTrialPlan = plan === 'trial';
   const hasEnteredBefore = hasCompletedCommunityIntro(userId);
-  /** Continue only after first visit + trial started; first visit always shows Free Trial */
-  const showContinue = hasActiveTrial && hasEnteredBefore;
 
-  /** Only disable when trial fully ended or API still loading */
-  const buttonDisabled = Boolean(loading || subscriptionLoading || isEnded);
+  /** Only disable while loading — trial limits never disable this button */
+  const buttonDisabled = Boolean(loading || subscriptionLoading);
 
-  const label = isEnded ? 'Trial Ended' : showContinue ? 'Continue' : 'Free Trial';
+  const label = hasTrialPlan && hasEnteredBefore ? 'Continue' : 'Free Trial';
 
   const enterChat = () => {
     markCommunityIntroComplete(userId);
@@ -144,7 +139,7 @@ export function CommunityFreeTrial({
 
   const handleClick = () => {
     if (buttonDisabled) return;
-    if (showContinue) {
+    if (hasTrialPlan && hasEnteredBefore) {
       enterChat();
       return;
     }
@@ -153,7 +148,7 @@ export function CommunityFreeTrial({
 
   const handleGetStarted = async () => {
     try {
-      if (!hasActiveTrial) {
+      if (!hasTrialPlan) {
         await onStartTrial();
       }
       setModalOpen(false);

@@ -3,7 +3,7 @@ import { ArrowLeft, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { CommunityChat } from '@/components/ui/community-chat';
 import { SubscriptionExpiredOverlay } from '@/components/ui/community-free-trial';
-import { TrialUsagePopup, TrialUpgradeOverlay } from '@/components/ui/trial-usage-popup';
+import { TrialUsagePopup } from '@/components/ui/trial-usage-popup';
 import { useCommunityStore } from '@/store/community-store';
 import { PostCard } from './post-card';
 import {
@@ -58,7 +58,9 @@ export const CommunityFeed = memo(function CommunityFeed({
     (sendLimitReached && viewLimitReached);
 
   const canPost = !isExpired && !sendLimitReached && subscription?.canPost !== false;
-  const inputDisabled = !canPost || isExpired || (isTrial && sendLimitReached);
+  const inputDisabled =
+    isExpired || !canPost || (isTrial && (sendLimitReached || trialFullyExhausted));
+  const blockIncomingFromOthers = isTrial && viewLimitReached && !isExpired;
 
   /** API returns newest-first; show oldest at top like WhatsApp */
   const chronologicalMessages = [...messages].reverse();
@@ -160,7 +162,7 @@ export const CommunityFeed = memo(function CommunityFeed({
 
   const handleLike = useCallback(
     async (id: string) => {
-      if (isExpired || trialFullyExhausted) return;
+      if (isExpired) return;
       try {
         const data = await toggleLike(token, id);
         useCommunityStore.getState().updateLike(data.id, data.likesCount, data.likedByMe);
@@ -168,7 +170,7 @@ export const CommunityFeed = memo(function CommunityFeed({
         console.error(e);
       }
     },
-    [token, isExpired, trialFullyExhausted]
+    [token, isExpired]
   );
 
   const handleReply = useCallback(
@@ -204,7 +206,6 @@ export const CommunityFeed = memo(function CommunityFeed({
   );
 
   const maxImages = subscription?.maxImagesPerPost ?? 0;
-  const showTrialOverlay = isTrial && trialFullyExhausted && !isExpired;
 
   return (
     <div className="relative flex flex-col w-full max-w-3xl mx-auto px-4 md:px-0 h-[calc(100vh-7.5rem)] min-h-[420px] max-h-[900px]">
@@ -242,7 +243,7 @@ export const CommunityFeed = memo(function CommunityFeed({
       <div
         className={cn(
           'relative flex flex-col flex-1 min-h-0 mt-3',
-          (isExpired || showTrialOverlay) && 'pointer-events-none select-none blur-[6px] opacity-70'
+          isExpired && 'pointer-events-none select-none blur-[6px] opacity-70'
         )}
       >
         {/* Messages — scrollable, above composer */}
@@ -267,6 +268,7 @@ export const CommunityFeed = memo(function CommunityFeed({
               post={post}
               isOwn={post.userId === currentUserId}
               replies={repliesByParent[post.id]}
+              canPost={!inputDisabled}
               onLike={handleLike}
               onReply={handleReply}
               onEdit={async (id, text) => {
@@ -289,9 +291,9 @@ export const CommunityFeed = memo(function CommunityFeed({
               onLoadReplies={handleLoadReplies}
             />
           ))}
-          {viewLimitReached && isTrial && !trialFullyExhausted && (
+          {blockIncomingFromOthers && (
             <p className="text-center text-sm text-slate-500 dark:text-white/50 py-2">
-              10/10 messages received — new incoming posts are hidden
+              New posts from other students are hidden — you can still delete your own messages
             </p>
           )}
           {loading && messages.length > 0 && (
@@ -304,9 +306,11 @@ export const CommunityFeed = memo(function CommunityFeed({
 
         {/* Composer — fixed at bottom like WhatsApp */}
         <div className="shrink-0 border-t border-slate-200/80 dark:border-white/10 bg-slate-50/95 dark:bg-gray-950/95 backdrop-blur-sm pt-3 pb-1">
-          {sendLimitReached && isTrial && !isExpired && (
+          {inputDisabled && isTrial && !isExpired && (
             <p className="text-center text-xs text-amber-600 dark:text-amber-400/90 mb-2">
-              5/5 messages sent — posting is disabled
+              {trialFullyExhausted
+                ? 'Free trial limits reached — posting is disabled. Delete your own messages below if needed.'
+                : '5/5 messages sent — posting is disabled'}
             </p>
           )}
           <CommunityChat
@@ -329,7 +333,6 @@ export const CommunityFeed = memo(function CommunityFeed({
       </div>
 
       {isExpired && <SubscriptionExpiredOverlay onRenew={onUpgrade} />}
-      {showTrialOverlay && <TrialUpgradeOverlay onUpgrade={onUpgrade} />}
     </div>
   );
 });

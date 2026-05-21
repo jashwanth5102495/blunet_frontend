@@ -178,7 +178,6 @@ export default function CommunityTab() {
         trialLoading={trialLoading}
         subscriptionLoading={subscriptionLoading}
         plan={plan}
-        trialExhausted={trialFullyExhausted}
         userId={auth.userId}
         showTrialLimitMessage={trialFullyExhausted && plan !== 'trial'}
         sendLimitReached={subscription?.sendLimitReached}

@@ -100,7 +100,6 @@ export function CommunityPricing({
                 loading={trialLoading}
                 subscriptionLoading={subscriptionLoading}
                 plan={plan}
-                trialExhausted={trialExhausted}
                 userId={userId}
               />
             </div>
