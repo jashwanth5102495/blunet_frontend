@@ -1,25 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { normalizeCourseKey, getCourseTitleFromKey } from '../data/courseAssignments';
 import { useCourses } from '../hooks/useCourses';
 import { Course } from '../data/courses';
-
+import { useTheme } from '../contexts/ThemeContext';
+import Switch from './ui/sky-toggle';
+import Loader4 from './ui/loader-4';
+import { AnimatedBorderCard } from './ui/animated-border-card';
 import Sidebar from './Sidebar';
 import MagicBento from './MagicBento';
-import StudentReviews from './StudentReviews';
+import { Bars3Icon, Cog6ToothIcon, GlobeAltIcon, BookOpenIcon, ClipboardDocumentListIcon, Squares2X2Icon, CalendarDaysIcon, XMarkIcon, ChatBubbleOvalLeftEllipsisIcon } from '@heroicons/react/24/outline';
 import { 
-  HomeIcon,
-  BookOpenIcon,
-  ClipboardDocumentListIcon,
-  GlobeAltIcon,
-  Cog6ToothIcon,
-  BellIcon,
-  XMarkIcon,
-  Squares2X2Icon,
-  CalendarDaysIcon,
-  ChatBubbleOvalLeftEllipsisIcon,
-  Bars3Icon
-} from '@heroicons/react/24/outline';
+  Briefcase, 
+  ClipboardList, 
+  Clock,
+  History,
+  LogOut,
+  Search,
+  Users,
+} from 'lucide-react';
+
+const CommunityTab = lazy(() => import('./community/CommunityTab'));
+import {
+  getStoredProgressForCourse,
+  type CourseLessonProgressRecord,
+} from '../utils/courseLessonProgress';
 
 const FALLBACK_BACKEND_URL =
   import.meta.env.DEV
@@ -107,6 +112,7 @@ interface PaymentModalData {
 }
 
 const StudentPortal: React.FC = () => {
+  const { theme, toggleTheme } = useTheme();
   // Use the shared courses data
   const { courses: allCourses } = useCourses();
 
@@ -2040,20 +2046,61 @@ const StudentPortal: React.FC = () => {
   ];
 
   const sidebarItems = [
-    { id: 'dashboard', label: 'Overview', icon: HomeIcon, isActive: true },
+    { id: 'dashboard', label: 'Overview', icon: Squares2X2Icon },
     { id: 'courses', label: 'My Courses', icon: BookOpenIcon },
-    { id: 'projects', label: 'Projects', icon: ClipboardDocumentListIcon },
-    { id: 'assignments', label: 'Assignments', icon: ClipboardDocumentListIcon },
+    { id: 'projects', label: 'Projects', icon: Briefcase },
+    { id: 'assignments', label: 'Assignments', icon: ClipboardList },
     { id: 'browse-courses', label: 'Browse Courses', icon: GlobeAltIcon },
-    { id: 'settings', label: 'Settings', icon: Cog6ToothIcon },
-    { id: 'history', label: 'History', icon: ClipboardDocumentListIcon },
+    { id: 'community', label: 'Community', icon: Users, badge: 'New' },
+    { id: 'history', label: 'History', icon: History },
   ];
+
+  const mergeProgressWithLocalStorage = (
+    enrolledCourses: { courseId?: string; id?: string; progress?: number; enrollmentDate?: string; status?: string; modules?: { length: number }[] }[]
+  ) => {
+    return enrolledCourses.reduce((acc: Record<string, CourseProgress>, course) => {
+      const courseId = course.courseId || course.id || '';
+      const aliases = getCourseIdMapping(courseId);
+      const local: CourseLessonProgressRecord | null = getStoredProgressForCourse(courseId, aliases);
+      const backendProgress = course.progress || 0;
+      const localProgress = local?.progress ?? 0;
+      const progress = Math.max(backendProgress, localProgress);
+      const totalLessons =
+        local?.totalLessons ?? (course.modules?.length ? course.modules.length * 5 : 20);
+
+      acc[courseId] = {
+        courseId,
+        progress,
+        completedLessons: local?.completedLessons ?? 0,
+        totalLessons,
+        lastAccessedAt: local?.lastUpdated || course.enrollmentDate || new Date().toISOString(),
+        nextLesson: progress > 0 ? 'Continue Learning' : 'Start Course',
+        isStarted: progress > 0 || course.status === 'active',
+      };
+      return acc;
+    }, {});
+  };
+
+  const refreshProgressFromStorage = () => {
+    if (enrolledCoursesData.length === 0) return;
+    setCourseProgress(mergeProgressWithLocalStorage(enrolledCoursesData));
+  };
 
   // Maintain active tab locally; no BubbleMenu hashes
   useEffect(() => {
     // Default to dashboard
     if (!activeTab) setActiveTab('dashboard');
   }, []);
+
+  useEffect(() => {
+    const onProgressUpdated = () => refreshProgressFromStorage();
+    window.addEventListener('student-progress-updated', onProgressUpdated);
+    window.addEventListener('focus', onProgressUpdated);
+    return () => {
+      window.removeEventListener('student-progress-updated', onProgressUpdated);
+      window.removeEventListener('focus', onProgressUpdated);
+    };
+  }, [enrolledCoursesData]);
 
   useEffect(() => {
     const state = location.state as { activeTab?: string } | null;
@@ -2098,7 +2145,39 @@ const StudentPortal: React.FC = () => {
       return;
     }
 
+    const buildProfileFromUser = (data: Record<string, unknown>, enrolledCount = 0) => {
+      const first = String(data.firstName ?? '').trim();
+      const last = String(data.lastName ?? '').trim();
+      const fullName = [first, last].filter(Boolean).join(' ').trim();
+      const email = String(data.email ?? '').trim();
+      return {
+        name: fullName || String(data.username ?? '').trim() || 'Student',
+        email: email || 'Not provided',
+        enrolledCourses: enrolledCount,
+        phone: String(data.phone ?? '') || 'Not provided',
+        location:
+          data.address && typeof data.address === 'object'
+            ? [(data.address as { city?: string }).city, (data.address as { state?: string }).state]
+                .filter(Boolean)
+                .join(', ') || 'Not provided'
+            : 'Not provided',
+        joinDate: String(data.createdAt ?? new Date().toISOString()),
+        studentId: String(data.studentId ?? '') || 'Not assigned',
+        dateOfBirth: data.dateOfBirth as string | undefined,
+        education: data.education as string | undefined,
+        experience: data.experience as string | undefined,
+      };
+    };
+
+    const studentDocId = userData._id || userData.id;
+    setStudentProfile(buildProfileFromUser(userData, purchasedCourses.length));
+
     const loadStudentData = async () => {
+      const profileId = studentDocId ? String(studentDocId) : String(userData.id || userData._id);
+      let enrolledCount = Array.isArray(userData.enrolledCourses)
+        ? userData.enrolledCourses.length
+        : purchasedCourses.length;
+
       try {
         // Fetch purchased courses from backend
         console.log('Fetching courses from backend for:', userData.email);
@@ -2137,30 +2216,16 @@ const StudentPortal: React.FC = () => {
             
             // Set the full course data for display
             setEnrolledCoursesData(enrolledCourses);
+            enrolledCount = enrolledCourses.length;
             console.log('Enrolled Course Data', enrolledCourses);
             
-            // Create course progress from enrollment data
-            const progressData = enrolledCourses.reduce((acc: any, course: any) => {
-              const courseId = course.courseId || course.id;
-              acc[courseId] = {
-                courseId: courseId,
-                progress: course.progress || 0,
-                completedLessons: 0, // This should come from enrollment data
-                totalLessons: course.modules?.length * 5 || 20, // Estimate based on modules
-                lastAccessedAt: course.enrollmentDate || new Date().toISOString(),
-                nextLesson: course.progress > 0 ? 'Continue Learning' : 'Start Course',
-                isStarted: course.progress > 0 || course.status === 'active'
-              };
-              return acc;
-            }, {});
-            
-            setCourseProgress(progressData);
+            setCourseProgress(mergeProgressWithLocalStorage(enrolledCourses));
             console.log('Set course progress:', progressData);
             
             // Fetch module submissions for each enrolled course
             for (const course of enrolledCourses) {
               const courseId = course.id; // Use the MongoDB _id
-              await fetchModuleSubmissions(userData.id, courseId);
+              await fetchModuleSubmissions(profileId, courseId);
             }
           } else {
             // Backend returned success but no data
@@ -2177,12 +2242,12 @@ const StudentPortal: React.FC = () => {
           setCourseProgress({});
         }
 
-        // Fetch additional student data from backend
-        let studentData = userData;
-        const studentResponse = await fetch(`${BASE_URL}/api/students/${userData.id}`, {
+        // Fetch additional student data from backend (must use student document _id)
+        let studentData = { ...userData };
+        const studentResponse = await fetch(`${BASE_URL}/api/students/profile/${profileId}`, {
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         // Handle unauthorized response for student data fetch
@@ -2195,35 +2260,21 @@ const StudentPortal: React.FC = () => {
         if (studentResponse.ok) {
           const result = await studentResponse.json();
           console.log('Result Data IN student portal:', result.data);
-          if (result.success) {
+          if (result.success && result.data) {
             studentData = { ...userData, ...result.data };
           }
         } else {
-          console.log('Could not fetch additional student data from backend, using localStorage data');
+          console.log(
+            'Could not fetch student profile from backend, using login session data',
+            studentResponse.status
+          );
         }
 
-        const fullName = [studentData.firstName, studentData.lastName].filter(Boolean).join(' ').trim();
-        setStudentProfile({
-          name: fullName || 'Student Name',
-          email: studentData.email || 'student@example.com',
-          enrolledCourses: purchasedCourses.length,
-          phone: studentData.phone || 'Not provided',
-          location: studentData.address ? `${studentData.address.city}, ${studentData.address.state}` : 'Not provided',
-          joinDate: studentData.createdAt || new Date().toISOString(),
-          studentId: studentData.studentId || 'Not assigned',
-          dateOfBirth: studentData.dateOfBirth,
-          education: studentData.education,
-          experience: studentData.experience
-        });
+        setStudentProfile(buildProfileFromUser(studentData, enrolledCount));
 
       } catch (error) {
         console.error('Error loading student data:', error);
-        // Only set fallback profile on network/parse errors, not on auth errors
-        setStudentProfile({
-          name: 'Student Name',
-          email: 'student@example.com',
-          enrolledCourses: 0
-        });
+        setStudentProfile(buildProfileFromUser(userData, purchasedCourses.length));
       } finally {
         setIsLoading(false);
       }
@@ -2526,21 +2577,7 @@ const StudentPortal: React.FC = () => {
                           setPurchasedCourses(courseIds);
                           setEnrolledCoursesData(enrolledCoursesData);
                           
-                          const progressData = enrolledCoursesData.reduce((acc: any, course: any) => {
-                            const courseId = course.courseId || course.id;
-                            acc[courseId] = {
-                              courseId: courseId,
-                              progress: course.progress || 0,
-                              completedLessons: 0,
-                              totalLessons: course.modules?.length * 5 || 20,
-                              lastAccessedAt: course.enrollmentDate || new Date().toISOString(),
-                              nextLesson: course.progress > 0 ? 'Continue Learning' : 'Start Course',
-                              isStarted: course.progress > 0 || course.status === 'active'
-                            };
-                            return acc;
-                          }, {});
-                          
-                          setCourseProgress(progressData);
+                          setCourseProgress(mergeProgressWithLocalStorage(enrolledCoursesData));
                         }
                       }
                     } catch (error) {
@@ -2747,12 +2784,12 @@ const StudentPortal: React.FC = () => {
         );
       case 'assignments':
         return (
-          <div className="space-y-6">
-            <h2 className="text-white text-2xl font-bold">Assignments</h2>
+          <div className="space-y-6 max-w-6xl mx-auto">
+            <h2 className="text-slate-900 dark:text-white text-2xl font-bold">Assignments</h2>
             
             {/* Course Selection */}
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-white text-lg font-semibold mb-4">Select Course</h3>
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-slate-200 dark:border-gray-700 p-6 shadow-sm">
+              <h3 className="text-slate-900 dark:text-white text-lg font-semibold mb-4">Select Course</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {allCourses
                   .filter(course => isCourseAccessible(course.id))
@@ -3560,21 +3597,31 @@ const StudentPortal: React.FC = () => {
     }
   };
 
+  const pendingAssignments = assignments.filter(
+    (a) => (assignmentStatuses[a.id] || a.status) === 'pending'
+  );
+  const overallProgress =
+    enrolledCoursesData.length > 0
+      ? Math.round(
+          enrolledCoursesData.reduce((sum, c) => {
+            const p = courseProgress[c.courseId || c.id];
+            return sum + (p?.progress || 0);
+          }, 0) / enrolledCoursesData.length
+        )
+      : 0;
+
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
-          <p className="text-gray-100">Loading...</p>
-        </div>
+      <div className="min-h-screen bg-slate-50 dark:bg-gray-950 flex flex-col items-center justify-center">
+        <Loader4 />
+        <p className="text-slate-700 dark:text-gray-100 mt-4 text-lg">Loading...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 flex relative overflow-hidden">
+    <div className="h-screen bg-slate-50 dark:bg-[#050508] relative overflow-hidden md:pl-[calc(1.25rem+18.5rem+1.5rem)] lg:pl-[calc(1.25rem+19.5rem+1.75rem)]">
 
-      {/* Professional Sidebar navigation */}
       <Sidebar
         items={sidebarItems}
         activeId={activeTab}
@@ -3594,280 +3641,329 @@ const StudentPortal: React.FC = () => {
         onProfileClick={() => setShowProfileDetails(true)}
         mobileOpen={isSidebarOpen}
         onMobileClose={() => setIsSidebarOpen(false)}
+        footerNavItem={{ id: 'settings', label: 'Settings', icon: Cog6ToothIcon }}
+        footerAction={{
+          label: 'Logout',
+          icon: LogOut,
+          onClick: handleLogout,
+          variant: 'danger',
+        }}
       />
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col relative z-10 min-w-0">
-        {/* Top Header */}
-        <header className="px-4 pt-4">
-          <div className="max-w-6xl mx-auto flex items-center justify-between md:justify-end space-x-4">
-            {/* Hamburger for mobile */}
-            <div className="md:hidden">
+      <div className="flex flex-col relative z-10 min-w-0 h-screen overflow-y-auto overflow-x-hidden">
+        <header className="px-4 py-4 bg-white dark:bg-gray-900 border-b border-slate-200 dark:border-gray-800 sticky top-0 z-20">
+          <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3 flex-1 min-w-0">
               <button
+                type="button"
                 onClick={() => setIsSidebarOpen(true)}
-                className="p-2 text-gray-400 hover:text-white rounded-md hover:bg-white/10"
+                className="md:hidden p-2 text-slate-500 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white rounded-md hover:bg-slate-100 dark:hover:bg-white/10"
                 aria-label="Open menu"
               >
                 <Bars3Icon className="w-6 h-6" />
               </button>
+              <div className="relative w-full max-w-lg hidden sm:block">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Search courses or assignments..."
+                  className="w-full bg-slate-50 dark:bg-gray-800/50 border border-slate-200 dark:border-gray-700 rounded-lg py-2.5 pl-10 pr-4 text-sm text-slate-800 dark:text-gray-200 placeholder:text-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors"
+                />
+              </div>
             </div>
 
-            <div className="flex items-center space-x-4">
-              <BellIcon className="w-6 h-6 text-gray-400 hover:text-white cursor-pointer" />
-              <button
-                onClick={handleLogout}
-                className="px-3 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white text-sm font-medium border border-red-500/50"
-                aria-label="Logout"
+            <div className="flex items-center gap-3 shrink-0">
+              <a
+                href="https://wa.me/9347564390"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Chat on WhatsApp"
+                aria-label="WhatsApp support"
+                className="inline-flex items-center gap-2 rounded-lg border border-green-500/30 bg-green-500/10 px-2.5 py-2 text-xs font-medium text-green-700 hover:bg-green-500/20 transition-colors dark:border-green-500/40 dark:text-green-400 dark:hover:bg-green-500/15"
               >
-                Logout
-              </button>
+                <ChatBubbleOvalLeftEllipsisIcon className="w-5 h-5 shrink-0 text-green-600 dark:text-green-400" />
+                <span className="hidden sm:inline whitespace-nowrap">for any support</span>
+              </a>
+              <div className="hidden sm:block text-right">
+                <p className="text-sm font-semibold text-slate-900 dark:text-white capitalize">
+                  Welcome Back, {studentProfile?.name?.split(' ')[0] || 'Student'}
+                </p>
+                <p className="text-[10px] tracking-widest text-slate-400 dark:text-gray-500 uppercase">
+                  Active Session
+                </p>
+              </div>
+              <Switch checked={theme === 'dark'} onChange={() => toggleTheme()} />
             </div>
           </div>
         </header>
 
-        {/* Content Area */}
-        <main className="flex-1 px-4 pb-8 overflow-x-hidden bg-gray-950 text-gray-100">
+        <main className="flex-1 px-4 py-6 pb-8 overflow-x-hidden bg-slate-50 dark:bg-gray-950 text-slate-900 dark:text-gray-100">
 
           {activeTab === 'dashboard' ? (
             <React.Fragment>
-              <div className="max-w-6xl mx-auto space-y-6">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  <div className="bg-gray-900 rounded-2xl border border-gray-800 p-6 lg:col-span-2 flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-gray-400 mb-1">Welcome Back,</p>
-                      <h2 className="text-2xl font-bold text-white mb-2">
-                        {studentProfile?.name || 'Student'}
+              <div className="max-w-6xl mx-auto space-y-8">
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                  {/* Hero — Master Your Academic Journey */}
+                  <div className="lg:col-span-3 relative min-h-[320px] md:min-h-[340px] rounded-2xl overflow-hidden shadow-lg">
+                    <img
+                      src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80"
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-[#0a1128]/88 dark:bg-[#0a1128]/92" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#0a1128] via-[#0a1128]/80 to-transparent" />
+                    <div className="relative z-10 h-full flex flex-col justify-center p-8 md:p-10 lg:p-12 text-white">
+                      <h2 className="text-3xl md:text-4xl lg:text-[2.5rem] font-bold leading-tight mb-4 max-w-xl">
+                        Master Your Academic Journey
                       </h2>
-                      <p className="text-gray-300 text-sm">
-                        Student ID: {studentProfile?.studentId || 'N/A'}
+                      <p className="text-slate-300 text-base md:text-lg max-w-lg mb-8 leading-relaxed">
+                        Track your assignments, monitor course progress, and stay ahead of your learning goals with our integrated student dashboard.
                       </p>
-                      <p className="text-gray-300 text-sm">
-                        You have 3 new notifications and {assignments.filter(a => (assignmentStatuses[a.id] || a.status) === 'pending').length} assignments due.
-                      </p>
-                    </div>
-                    <div className="hidden md:block">
-                      <div className="w-28 h-28 rounded-3xl overflow-hidden border border-green-500/40 shadow-lg shadow-green-500/20">
-                        <img
-                          src="https://images.pexels.com/photos/5212324/pexels-photo-5212324.jpeg?auto=compress&cs=tinysrgb&w=400"
-                          alt="Happy student holding books"
-                          className="w-full h-full object-cover"
-                          loading="lazy"
-                          referrerPolicy="no-referrer"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-gray-900 rounded-2xl border border-gray-800 p-6">
-                    <h3 className="text-white text-lg font-semibold mb-4">Quick Access</h3>
-                    <div className="grid grid-cols-2 gap-4">
                       <button
-                        onClick={() => setActiveTab('browse-courses')}
-                        className="group flex flex-col items-center justify-center rounded-2xl px-4 py-5 bg-white/5 border border-white/10 backdrop-blur-lg text-white text-xs font-medium shadow-sm hover:bg-white/10 hover:-translate-y-0.5 transition-all"
-                      >
-                        <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
-                          <Squares2X2Icon className="h-5 w-5" />
-                        </div>
-                        <span className="text-center leading-snug">Browse Courses</span>
-                      </button>
-                      <button
+                        type="button"
                         onClick={() => setActiveTab('assignments')}
-                        className="group flex flex-col items-center justify-center rounded-2xl px-4 py-5 bg-white/5 border border-white/10 backdrop-blur-lg text-white text-xs font-medium shadow-sm hover:bg-white/10 hover:-translate-y-0.5 transition-all"
+                        className="self-start inline-flex items-center gap-2 bg-white text-[#0a1128] px-6 py-3 rounded-lg text-sm font-bold hover:bg-slate-100 transition-colors shadow-md"
                       >
-                        <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
-                          <CalendarDaysIcon className="h-5 w-5" />
-                        </div>
-                        <span className="text-center leading-snug">View Schedules</span>
+                        <CalendarDaysIcon className="h-5 w-5" />
+                        View Schedule
                       </button>
                     </div>
                   </div>
-                </div>
 
-                <div className="bg-gray-900 rounded-2xl border border-gray-800 p-6">
-                  <h3 className="text-white text-2xl font-bold mb-4">Upcoming Assignments</h3>
-                  {assignments.filter(a => (assignmentStatuses[a.id] || a.status) === 'pending').length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {assignments
-                        .filter(a => (assignmentStatuses[a.id] || a.status) === 'pending')
-                        .slice(0, 4)
-                        .map(assignment => (
-                          <div
-                            key={assignment.id}
-                            className="flex items-center gap-3 rounded-xl px-4 py-3 bg-gray-800"
-                          >
-                            <div className="w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center text-white text-lg">
-                              📝
-                            </div>
-                            <div>
-                              <p className="text-sm font-semibold text-white">
-                                {assignment.title}
-                              </p>
-                              <p className="text-xs text-gray-400">
-                                Due: {new Date(assignment.dueDate).toLocaleDateString()}
-                              </p>
-                            </div>
-                          </div>
-                        ))}
+                  {/* Overall Progress — animated border (matches landing collaboration card) */}
+                  <AnimatedBorderCard
+                    className="lg:col-span-2 min-h-[320px] md:min-h-[340px] h-full"
+                    innerClassName="bg-white dark:bg-gray-900 shadow-2xl p-8 md:p-10 flex flex-col items-center justify-center min-h-[316px] md:min-h-[336px]"
+                  >
+                    <div className="w-full text-center mb-8">
+                      <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">
+                        Overall Progress
+                      </h3>
+                      <p className="text-sm md:text-base text-slate-500 dark:text-gray-400 mt-1">
+                        Academic Year 2023-2024
+                      </p>
                     </div>
-                  ) : (
-                    <p className="text-gray-500 text-sm">You have no upcoming assignments.</p>
-                  )}
-                </div>
-
-                <div className="bg-gray-900 rounded-2xl border border-gray-800 p-6">
-                  <h3 className="text-white text-2xl font-bold mb-4">My Enrolled Courses</h3>
-                  {enrolledCoursesData.length > 0 ? (
-                    <div className="relative">
-                      <button
-                        type="button"
-                        onClick={() => scrollCarousel(enrolledCarouselRef, 'left')}
-                        className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 items-center justify-center rounded-full bg-gray-800 shadow text-gray-100 hover:bg-gray-700"
-                      >
-                        ‹
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => scrollCarousel(enrolledCarouselRef, 'right')}
-                        className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 h-8 w-8 items-center justify-center rounded-full bg-gray-800 shadow text-gray-100 hover:bg-gray-700"
-                      >
-                        ›
-                      </button>
-                      <div
-                        ref={enrolledCarouselRef}
-                        className="flex gap-4 overflow-x-auto pb-2 scroll-smooth"
-                      >
-                        {enrolledCoursesData.map((course) => {
-                          const progress = courseProgress[course.courseId || course.id];
-                          const image = getEnrolledCourseImage(course);
-                          return (
-                            <div
-                              key={course.id}
-                              className="min-w-[260px] max-w-[260px] bg-gray-900 rounded-lg overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/20"
-                            >
-                              <div className="relative h-32 overflow-hidden">
-                                {image ? (
-                                  <img
-                                    src={image}
-                                    alt={course.title}
-                                    className="w-full h-full object-cover"
-                                    loading="lazy"
-                                    referrerPolicy="no-referrer"
-                                  />
-                                ) : (
-                                  <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900" />
-                                )}
-                                <div className="absolute top-2 left-2">
-                                  <span className="px-2 py-1 rounded text-xs font-medium bg-green-500 text-white">
-                                    Enrolled
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="p-4">
-                                <h4 className="text-white text-sm font-semibold mb-1 line-clamp-2">
-                                  {getCourseTitleFromKey(normalizeCourseKey(course.courseId || course.id)) || course.title}
-                                </h4>
-                                <p className="text-gray-400 text-xs mb-2">
-                                  {course.duration}
-                                </p>
-                                {progress && (
-                                  <div className="mt-2 space-y-2">
-                                    <div>
-                                      <div className="flex items-center justify-between text-xs text-gray-400 mb-1">
-                                        <span>Progress</span>
-                                        <span>{progress.progress || 0}%</span>
-                                      </div>
-                                      <div className="h-1.5 rounded-full bg-gray-800 overflow-hidden">
-                                        <div
-                                          className="h-full bg-green-500"
-                                          style={{ width: `${Math.min(progress.progress || 0, 100)}%` }}
-                                        />
-                                      </div>
-                                    </div>
-                                    <button
-                                      type="button"
-                                      onClick={() => handleContinueLearning(course.courseId || course.id)}
-                                      className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-xs font-medium transition-colors"
-                                    >
-                                      Continue Learning
-                                    </button>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          );
-                        })}
+                    <div className="relative w-44 h-44 md:w-52 md:h-52 lg:w-56 lg:h-56">
+                      <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="40"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="10"
+                          className="text-slate-100 dark:text-gray-800"
+                        />
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="40"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="10"
+                          strokeLinecap="round"
+                          strokeDasharray={`${overallProgress * 2.51} 251`}
+                          className="text-emerald-500"
+                        />
+                      </svg>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white">
+                          {overallProgress}%
+                        </span>
                       </div>
                     </div>
-                  ) : (
-                    <p className="text-gray-500 text-sm">No courses enrolled yet.</p>
-                  )}
+                    <p className="mt-8 text-base md:text-lg font-bold text-slate-800 dark:text-gray-200 text-center">
+                      {overallProgress >= 70 ? 'High Distinction Track' : overallProgress > 0 ? 'Keep Going!' : 'Start Learning'}
+                    </p>
+                  </AnimatedBorderCard>
                 </div>
 
-                <div className="bg-gray-900 rounded-2xl border border-gray-800 p-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-white text-2xl font-bold">What to learn next</h3>
+                <section>
+                  <div className="flex items-end justify-between gap-4 mb-2">
+                    <div>
+                      <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">
+                        Upcoming Assignments
+                      </h3>
+                      <p className="text-sm text-slate-500 dark:text-gray-400 mt-1">
+                        Your immediate academic priorities.
+                      </p>
+                    </div>
                     <button
                       type="button"
-                      onClick={() => setActiveTab('browse-courses')}
-                      className="text-sm font-medium text-blue-400 hover:text-blue-300"
+                      onClick={() => setActiveTab('assignments')}
+                      className="text-sm font-semibold text-slate-600 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white shrink-0"
                     >
-                      View all
+                      View All &gt;
                     </button>
                   </div>
-                  <p className="text-gray-400 text-sm mb-4">
-                    Popular picks based on your interests.
-                  </p>
-                  {recommendedCourses.length > 0 ? (
-                    <div
-                      ref={recommendedCarouselRef}
-                      className="flex gap-4 overflow-x-auto pb-2 scroll-smooth"
-                    >
+                  {pendingAssignments.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      {pendingAssignments.slice(0, 3).map((assignment, idx) => {
+                        const badgeStyles = [
+                          'bg-blue-50 text-blue-700 border-blue-100 dark:bg-blue-500/10 dark:text-blue-300 dark:border-blue-500/20',
+                          'bg-violet-50 text-violet-700 border-violet-100 dark:bg-violet-500/10 dark:text-violet-300 dark:border-violet-500/20',
+                          'bg-amber-50 text-amber-700 border-amber-100 dark:bg-amber-500/10 dark:text-amber-300 dark:border-amber-500/20',
+                        ];
+                        const badgeLabels = ['Due in 2 days', 'Next week', 'Upcoming'];
+                        return (
+                          <div
+                            key={assignment.id}
+                            className="bg-white dark:bg-gray-900 rounded-xl border border-slate-200 dark:border-gray-800 p-5 shadow-sm hover:shadow-md transition-shadow"
+                          >
+                            <span className={`inline-block text-[10px] font-bold tracking-wide uppercase px-2 py-1 rounded border mb-3 ${badgeStyles[idx % 3]}`}>
+                              {badgeLabels[idx % 3]}
+                            </span>
+                            <h4 className="font-bold text-slate-900 dark:text-white text-sm mb-1 line-clamp-2">
+                              {assignment.title}
+                            </h4>
+                            <p className="text-xs text-slate-500 dark:text-gray-400 mb-3">{assignment.courseName}</p>
+                            <div className="flex items-center justify-between text-xs text-slate-500 dark:text-gray-400 pt-3 border-t border-slate-100 dark:border-gray-800">
+                              <span className="flex items-center gap-1">
+                                <Clock className="w-3.5 h-3.5" />
+                                {new Date(assignment.dueDate).toLocaleDateString()}
+                              </span>
+                              <span className="font-semibold text-slate-700 dark:text-gray-300">100 Points</span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p className="text-slate-500 dark:text-gray-500 text-sm">You have no upcoming assignments.</p>
+                  )}
+                </section>
+
+                <section>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">My Enrolled Courses</h3>
+                  {enrolledCoursesData.length > 0 ? (
+                    <div className="space-y-4">
+                      {enrolledCoursesData.map((course) => {
+                        const progress = courseProgress[course.courseId || course.id];
+                        const pct = progress?.progress || 0;
+                        const image = getEnrolledCourseImage(course);
+                        const title =
+                          getCourseTitleFromKey(normalizeCourseKey(course.courseId || course.id)) || course.title;
+                        const instructor =
+                          typeof course.instructor === 'string'
+                            ? course.instructor
+                            : course.instructor?.name || 'Instructor';
+                        return (
+                          <div
+                            key={course.id}
+                            className="bg-white dark:bg-gray-900 rounded-xl border border-slate-200 dark:border-gray-800 overflow-hidden shadow-sm flex flex-col sm:flex-row"
+                          >
+                            <div className="sm:w-48 h-36 sm:h-auto shrink-0 relative">
+                              {image ? (
+                                <img src={image} alt={title} className="w-full h-full object-cover" loading="lazy" />
+                              ) : (
+                                <div className="w-full h-full bg-gradient-to-br from-slate-200 to-slate-300 dark:from-gray-800 dark:to-gray-900" />
+                              )}
+                            </div>
+                            <div className="flex-1 p-5 flex flex-col justify-center min-w-0">
+                              <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
+                                <div>
+                                  <h4 className="font-bold text-slate-900 dark:text-white">{title}</h4>
+                                  <p className="text-sm text-slate-500 dark:text-gray-400">{instructor}</p>
+                                </div>
+                                <span className="text-[10px] font-bold tracking-wide uppercase px-2 py-1 rounded bg-emerald-50 text-emerald-700 border border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/20">
+                                  Enrolled
+                                </span>
+                              </div>
+                              <div className="mt-3">
+                                <div className="flex justify-between text-xs text-slate-500 dark:text-gray-400 mb-1">
+                                  <span>Course Progress</span>
+                                  <span className="font-semibold text-slate-700 dark:text-gray-300">{pct}%</span>
+                                </div>
+                                <div className="h-2 rounded-full bg-slate-100 dark:bg-gray-800 overflow-hidden">
+                                  <div
+                                    className="h-full bg-emerald-500 rounded-full transition-all"
+                                    style={{ width: `${Math.min(pct, 100)}%` }}
+                                  />
+                                </div>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => handleContinueLearning(course.courseId || course.id)}
+                                className="mt-4 self-start text-sm font-semibold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors"
+                              >
+                                Continue Learning →
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="bg-white dark:bg-gray-900 rounded-xl border border-slate-200 dark:border-gray-800 p-8 text-center">
+                      <p className="text-slate-500 dark:text-gray-500 text-sm mb-4">No courses enrolled yet.</p>
+                      <button
+                        type="button"
+                        onClick={() => setActiveTab('browse-courses')}
+                        className="inline-flex items-center gap-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200 hover:scale-105 transition-transform"
+                      >
+                        Explore Programs
+                      </button>
+                    </div>
+                  )}
+                </section>
+
+                {recommendedCourses.length > 0 && (
+                  <section className="bg-white dark:bg-gray-900 rounded-2xl border border-slate-200 dark:border-gray-800 p-6 shadow-sm">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-xl font-bold text-slate-900 dark:text-white">What to learn next</h3>
+                      <button
+                        type="button"
+                        onClick={() => setActiveTab('browse-courses')}
+                        className="text-sm font-semibold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400"
+                      >
+                        View all
+                      </button>
+                    </div>
+                    <div ref={recommendedCarouselRef} className="flex gap-4 overflow-x-auto pb-2 scroll-smooth">
                       {recommendedCourses.map((course) => (
                         <div
                           key={course.id}
-                          className="min-w-[220px] max-w-[230px] bg-gray-900 rounded-lg overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 cursor-pointer"
-                          onClick={() => handleCourseDetails(course as any)}
+                          className="min-w-[220px] max-w-[230px] bg-slate-50 dark:bg-gray-800 rounded-lg overflow-hidden border border-slate-200 dark:border-gray-700 hover:border-emerald-500 transition-all cursor-pointer shrink-0"
+                          onClick={() => handleCourseDetails(course as Course)}
+                          onKeyDown={(e) => e.key === 'Enter' && handleCourseDetails(course as Course)}
+                          role="button"
+                          tabIndex={0}
                         >
                           <div className="relative h-28 overflow-hidden">
-                            <img
-                              src={course.image}
-                              alt={course.title}
-                              className="w-full h-full object-cover"
-                              loading="lazy"
-                              referrerPolicy="no-referrer"
-                            />
+                            <img src={course.image} alt={course.title} className="w-full h-full object-cover" loading="lazy" />
                           </div>
                           <div className="p-4">
-                            <h4 className="text-white text-sm font-semibold mb-1 line-clamp-2">
-                              {course.title}
-                            </h4>
-                            <p className="text-gray-400 text-xs mb-2">
+                            <h4 className="text-slate-900 dark:text-white text-sm font-semibold mb-1 line-clamp-2">{course.title}</h4>
+                            <p className="text-slate-500 dark:text-gray-400 text-xs">
                               {course.duration} • {course.projects} projects
                             </p>
-                            <div className="flex items-center justify-between text-xs text-gray-300">
-                              <span className="font-semibold">
-                                {'₹'}{course.price.toLocaleString()}
-                              </span>
-                              <span className="flex items-center gap-1">
-                                <span className="text-yellow-400">★</span>
-                                <span>{course.rating}</span>
-                              </span>
-                            </div>
                           </div>
                         </div>
                       ))}
                     </div>
-                  ) : (
-                    <p className="text-gray-500 text-sm">You have explored all available courses.</p>
-                  )}
-                </div>
+                  </section>
+                )}
 
-                <div className="bg-gray-900 rounded-2xl border border-gray-800 p-6 overflow-hidden">
-                   <h3 className="text-white text-2xl font-bold mb-4">Student Reviews</h3>
-                   <StudentReviews />
-                </div>
               </div>
             </React.Fragment>
+          ) : activeTab === 'community' ? (
+            <Suspense
+              fallback={
+                <div className="flex justify-center py-20">
+                  <Loader4 />
+                </div>
+              }
+            >
+              <CommunityTab />
+            </Suspense>
+          ) : activeTab === 'history' ? (
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">History</h2>
+              <div className="bg-white dark:bg-gray-900 rounded-xl border border-slate-200 dark:border-gray-800 p-6 shadow-sm">
+                <p className="text-slate-500 dark:text-gray-400 text-sm">Your learning activity history will appear here.</p>
+              </div>
+            </div>
           ) : (
             renderTabContent()
           )}
@@ -4496,20 +4592,6 @@ const StudentPortal: React.FC = () => {
         </div>
       )}
 
-      {/* WhatsApp Floating Action Button */}
-      <a
-        href="https://wa.me/9347564390"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-50 p-4 bg-green-500 hover:bg-green-600 rounded-full shadow-lg transition-all hover:scale-110 flex items-center justify-center group"
-        title="Chat on WhatsApp"
-        aria-label="Chat on WhatsApp"
-      >
-        <ChatBubbleOvalLeftEllipsisIcon className="w-8 h-8 text-white" />
-        <span className="absolute right-full mr-3 bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap border border-gray-700">
-          for any support
-        </span>
-      </a>
     </div>
   );
 };

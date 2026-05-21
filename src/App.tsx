@@ -180,7 +180,7 @@ function AppInner() {
         sparkCount={8} 
         sparkRadius={80} 
         duration={800}
-        className="min-h-screen bg-gradient-to-b from-sky-200 via-blue-50 to-white text-gray-900 font-sans relative"
+        className="min-h-screen bg-black text-white font-sans relative"
       >
         <Suspense fallback={<PageLoader />}>
           <Routes>
@@ -245,8 +245,8 @@ function AppInner() {
             <Route path="/course-enrollment/:courseId" element={<CourseEnrollment />} />
             <Route path="/student-registration" element={<StudentRegistration />} />
             <Route path="/student-login" element={<><Header /><StudentLogin /></>} />
-            <Route path="/student-setup" element={<StudentSetup />} />
-            <Route path="/student-portal" element={<StudentPortal />} />
+            <Route path="/student-setup" element={<ProtectedLoginRoute><StudentSetup /></ProtectedLoginRoute>} />
+            <Route path="/student-portal" element={<ProtectedLoginRoute><StudentPortal /></ProtectedLoginRoute>} />
             <Route path="/creator-portal" element={<><Header /><CreatorPortal /></>} />
             <Route path="/AJRV8328" element={<SecureAdminPanel />} />
             <Route path="/project-tracking" element={<><Header /><ProjectTracking /></>} />

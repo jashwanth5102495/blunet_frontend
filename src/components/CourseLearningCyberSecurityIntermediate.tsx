@@ -4,6 +4,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { askLLM, ChatMessage } from '../services/llm';
 import { Paperclip, Mic, Send, BookOpen, FileText, Search, CheckCircle, ChevronDown, ChevronRight, PlayCircle, Terminal, Code, ClipboardList } from 'lucide-react';
 import { clsx } from 'clsx';
+import { markLessonComplete, getTotalLessonsFromModules } from '../utils/courseLessonProgress';
 
 // --- Types ---
 
@@ -11262,7 +11263,14 @@ const CourseLearningCyberSecurityIntermediate: React.FC = () => {
 
                         <button 
                            onClick={() => {
-                              // Mark current as completed
+                              markLessonComplete({
+                                courseId: 'cyber-security-intermediate',
+                                moduleId: activeModuleId,
+                                lessonIndex: activeLessonIndex,
+                                totalLessons: getTotalLessonsFromModules(courseData),
+                                lessonTitle: activeLesson?.title,
+                                moduleTitle: activeModule?.title,
+                              });
                               setCompletedLessons(prev => new Set(prev).add(`${activeModuleId}-${activeLessonIndex}`));
                               if (activeLessonIndex < activeModule.lessons.length - 1) {
                                  setActiveLessonIndex(activeLessonIndex + 1);

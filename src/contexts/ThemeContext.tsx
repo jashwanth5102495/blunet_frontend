@@ -13,8 +13,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const getInitialTheme = (): Theme => {
     const stored = localStorage.getItem('blunet_theme');
     if (stored === 'light' || stored === 'dark') return stored as Theme;
-    // Default to dark if no stored preference
-    return 'dark';
+    // Default to light for student portal / modern UI
+    return 'light';
   };
 
   const [theme, setTheme] = useState<Theme>(getInitialTheme);

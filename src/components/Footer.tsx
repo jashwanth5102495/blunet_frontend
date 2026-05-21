@@ -86,11 +86,9 @@ export default function Footer() {
   return (
     <footer className="border-gray-800 border-t bg-black text-white px-2">
       <div className="relative mx-auto grid max-w-7xl items-center justify-center gap-6 p-10 pb-0 md:flex flex-col md:flex-row">
-        <Link to="/">
-          <p className="flex items-center justify-center rounded-full">
-            <img src="/logo.png" alt="Blunet" className="h-12 md:h-16 object-contain" />
-          </p>
-        </Link>
+        <div className="flex items-center justify-center rounded-full">
+          <img src="/logo.png" alt="Blunet" className="h-12 md:h-16 object-contain" />
+        </div>
         <p className="bg-transparent text-center text-sm leading-relaxed text-gray-400 md:text-left max-w-3xl">
           Welcome to Blunet, where intelligent software meets scalable infrastructure. We craft high-performance web applications, mobile experiences, and AI automations that help businesses innovate and streamline operations. Our mission is to empower companies to stand out in a rapidly evolving digital landscape.
         </p>
@@ -113,12 +111,9 @@ export default function Footer() {
                   >
                     {section.items.map((item) => (
                       <li key={item.name} className="flow-root">
-                        <Link
-                          to={item.href}
-                          className="text-sm text-gray-500 hover:text-white transition-colors"
-                        >
+                        <span className="text-sm text-gray-500 cursor-default transition-colors">
                           {item.name}
-                        </Link>
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -132,51 +127,21 @@ export default function Footer() {
 
       <div className="flex flex-wrap justify-center gap-y-6">
         <div className="flex flex-wrap items-center justify-center gap-6 gap-y-4 px-6">
-          <a
-            aria-label="Email"
-            href="mailto:contact@blunet.com"
-            rel="noreferrer"
-            target="_blank"
-            className={Underline}
-          >
+          <div className={Underline.replace('hover:text-white hover:border-white hover:-translate-y-1', 'cursor-default')}>
             <Mail strokeWidth={1.5} className="h-5 w-5" />
-          </a>
-          <a
-            aria-label="Twitter/X"
-            href="https://x.com/blunet"
-            rel="noreferrer"
-            target="_blank"
-            className={Underline}
-          >
+          </div>
+          <div className={Underline.replace('hover:text-white hover:border-white hover:-translate-y-1', 'cursor-default')}>
             <Twitter className="h-5 w-5" />
-          </a>
-          <a
-            aria-label="Instagram"
-            href="https://instagram.com/blunet"
-            rel="noreferrer"
-            target="_blank"
-            className={Underline}
-          >
+          </div>
+          <div className={Underline.replace('hover:text-white hover:border-white hover:-translate-y-1', 'cursor-default')}>
             <Instagram className="h-5 w-5" />
-          </a>
-          <a
-            aria-label="LinkedIn"
-            href="https://linkedin.com/company/blunet"
-            rel="noreferrer"
-            target="_blank"
-            className={Underline}
-          >
+          </div>
+          <div className={Underline.replace('hover:text-white hover:border-white hover:-translate-y-1', 'cursor-default')}>
             <Linkedin className="h-5 w-5" />
-          </a>
-          <a
-            aria-label="Github"
-            href="https://github.com/blunet"
-            rel="noreferrer"
-            target="_blank"
-            className={Underline}
-          >
+          </div>
+          <div className={Underline.replace('hover:text-white hover:border-white hover:-translate-y-1', 'cursor-default')}>
             <Github className="h-5 w-5" />
-          </a>
+          </div>
         </div>
       </div>
       

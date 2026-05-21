@@ -1,0 +1,173 @@
+/* Apple-inspired liquid glass + localized sidebar video */
+
+@keyframes liquid-glass-shine {
+  0% {
+    transform: translate3d(-120%, -20%, 0) rotate(12deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    transform: translate3d(220%, 10%, 0) rotate(12deg);
+    opacity: 0;
+  }
+}
+
+@keyframes liquid-glass-breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* Fixed region: video + glass only — never spans main content */
+.sidebar-video-container {
+  position: fixed;
+  z-index: 40;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+  contain: layout style paint;
+  transform: translateZ(0);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sidebar-video-container > .liquid-sidebar-panel {
+  pointer-events: auto;
+}
+
+.sidebar-video-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  transform: translateZ(0);
+}
+
+.sidebar-video-layer {
+  position: absolute;
+  inset: -8%;
+  width: 116%;
+  height: 116%;
+  object-fit: cover;
+  opacity: 0.72;
+  filter: blur(10px) brightness(0.45) saturate(1.2) contrast(0.92);
+  transform: translateZ(0);
+  will-change: transform;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .sidebar-video-layer {
+    opacity: 0.58;
+    filter: blur(10px) brightness(0.4) saturate(1.15) contrast(0.9);
+  }
+}
+
+.sidebar-video-fallback {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    165deg,
+    rgba(8, 12, 20, 0.95) 0%,
+    rgba(12, 18, 28, 0.9) 40%,
+    rgba(20, 30, 24, 0.85) 100%
+  );
+}
+
+/* Vignette + readability between video and glass panel */
+.sidebar-video-glass-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse 120% 90% at 50% 50%, transparent 35%, rgba(0, 0, 0, 0.55) 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 28%, transparent 72%, rgba(0, 0, 0, 0.65) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, transparent 30%, transparent 70%, rgba(0, 0, 0, 0.45) 100%);
+}
+
+.liquid-sidebar-panel {
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
+}
+
+.liquid-sidebar-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.05) 22%,
+    transparent 48%,
+    transparent 72%,
+    rgba(120, 255, 120, 0.04) 100%
+  );
+}
+
+.liquid-sidebar-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.4) 0%,
+    transparent 42%
+  );
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.liquid-sidebar-shine {
+  position: absolute;
+  top: -40%;
+  left: -30%;
+  width: 55%;
+  height: 80%;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 50%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.26) 42%,
+    rgba(255, 255, 255, 0.08) 58%,
+    transparent 72%
+  );
+  filter: blur(8px);
+  animation: liquid-glass-shine 14s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  will-change: transform, opacity;
+}
+
+.liquid-sidebar-ambient {
+  position: absolute;
+  bottom: -20%;
+  left: 10%;
+  right: 10%;
+  height: 45%;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(120, 255, 120, 0.14) 0%,
+    transparent 70%
+  );
+  animation: liquid-glass-breathe 8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}

@@ -1,10 +1,19 @@
 import React from 'react'
+import { useNavigate } from "react-router-dom";
 import SentinelHero from "../components/SentinelHero";
 import { CpuArchitecture } from "../components/ui/cpu-architecture";
-import TeamShowcase from "../components/ui/team-showcase";
 import { TestimonialsColumn } from "../components/ui/testimonials-columns-1";
 import { motion } from "motion/react";
 import { FlowHoverButton } from "../components/ui/flow-hover-button";
+import { CardsSlider } from "../components/ui/cards-slider-shadcnui";
+import { TestimonialSlider, type Review } from "../components/ui/testimonial-slider-1";
+import { ContactCard } from "../components/ui/contact-card";
+import { MailIcon, PhoneIcon, MapPinIcon } from 'lucide-react';
+import { Input } from '../components/ui/input';
+import { Button } from '../components/ui/button';
+import { Label } from '../components/ui/label';
+import { Textarea } from '../components/ui/textarea';
+import Footer from "../components/Footer";
 
 const testimonials = [
   {
@@ -67,7 +76,52 @@ const firstColumn = testimonials.slice(0, 3);
 const secondColumn = testimonials.slice(3, 6);
 const thirdColumn = testimonials.slice(6, 9);
 
+const placementOfficers: Review[] = [
+  {
+    id: 1,
+    name: "Chadrack",
+    affiliation: "Director of Photography",
+    quote: "Capturing the essence of student success through visual storytelling and professional documentation.",
+    imageSrc: "https://media.licdn.com/dms/image/v2/D4D03AQFnmLdpZW78yA/profile-displayphoto-scale_200_200/B4DZvM8NB2JMAY-/0/1768669895649?e=2147483647&v=beta&t=5VGAB-2gYupLNaHvJHECollR25THd-3oR5wngGlQiY4",
+    thumbnailSrc: "https://media.licdn.com/dms/image/v2/D4D03AQFnmLdpZW78yA/profile-displayphoto-scale_200_200/B4DZvM8NB2JMAY-/0/1768669895649?e=2147483647&v=beta&t=5VGAB-2gYupLNaHvJHECollR25THd-3oR5wngGlQiY4",
+  },
+  {
+    id: 2,
+    name: "Mak VieSAinte",
+    affiliation: "Founder",
+    quote: "Building a bridge between academic excellence and industry demands to empower the next generation of engineers.",
+    imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2vnSxNNVGZV2MXRjlGELl-NgLl5kXdpDR6A&s",
+    thumbnailSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2vnSxNNVGZV2MXRjlGELl-NgLl5kXdpDR6A&s",
+  },
+  {
+    id: 3,
+    name: "Osiris Balonga",
+    affiliation: "Lead Front-end",
+    quote: "Ensuring our students master the art of building immersive and high-performance user interfaces.",
+    imageSrc: "https://media.licdn.com/dms/image/v2/D4D03AQGVqrPPAGHtoQ/profile-displayphoto-scale_200_200/B4DZwhAkjaHwAY-/0/1770080338529?e=2147483647&v=beta&t=q-_6p1VCJ8NN8eHj9zUFwJZds_XpKez9Hy14SAIDp4M",
+    thumbnailSrc: "https://media.licdn.com/dms/image/v2/D4D03AQGVqrPPAGHtoQ/profile-displayphoto-scale_200_200/B4DZwhAkjaHwAY-/0/1770080338529?e=2147483647&v=beta&t=q-_6p1VCJ8NN8eHj9zUFwJZds_XpKez9Hy14SAIDp4M",
+  },
+  {
+    id: 4,
+    name: "Jacques",
+    affiliation: "Product Owner",
+    quote: "Guiding students through real-world product lifecycles and agile development methodologies.",
+    imageSrc: "https://media.licdn.com/dms/image/v2/D4D03AQE-Z7-S1LSYNQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1724143166545?e=2147483647&v=beta&t=6IPCwgOzblGt4p2fEdnY74gMbLyRHii5Ite3A39qQsY",
+    thumbnailSrc: "https://media.licdn.com/dms/image/v2/D4D03AQE-Z7-S1LSYNQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1724143166545?e=2147483647&v=beta&t=6IPCwgOzblGt4p2fEdnY74gMbLyRHii5Ite3A39qQsY",
+  },
+  {
+    id: 5,
+    name: "Riche Makso",
+    affiliation: "CTO",
+    quote: "Pushing the boundaries of what's possible with AI-assisted development and modern cloud architectures.",
+    imageSrc: "https://media.licdn.com/dms/image/v2/D4D03AQEkTAbZLlSrLg/profile-displayphoto-scale_200_200/B4DZoHdu8BGgAY-/0/1761061833315?e=2147483647&v=beta&t=Rg1dBTvq9X2heyhuhBwG2DsEkG65v0vQ35hF2FSeYns",
+    thumbnailSrc: "https://media.licdn.com/dms/image/v2/D4D03AQEkTAbZLlSrLg/profile-displayphoto-scale_200_200/B4DZoHdu8BGgAY-/0/1761061833315?e=2147483647&v=beta&t=Rg1dBTvq9X2heyhuhBwG2DsEkG65v0vQ35hF2FSeYns",
+  }
+];
+
 const StudentPage: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-hero-bg min-h-screen">
       <SentinelHero />
@@ -104,7 +158,10 @@ const StudentPage: React.FC = () => {
               </div>
 
               <div className="pt-4">
-                <FlowHoverButton className="rounded-xl px-8 py-4">
+                <FlowHoverButton 
+                  onClick={() => navigate('/courses')}
+                  className="rounded-xl px-8 py-4"
+                >
                   Explore Programs
                 </FlowHoverButton>
               </div>
@@ -136,21 +193,38 @@ const StudentPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Our Placement Officers Section */}
+      {/* Our Courses Section */}
       <section className="py-24 px-4 md:px-8 lg:px-16 bg-black relative overflow-hidden border-b border-white/5">
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16 space-y-4">
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
-              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Placement Officers</span>
+              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#39FF14] via-[#00FF99] to-[#7CFF00] [text-shadow:0_0_10px_rgba(57,255,20,0.35)]">Courses</span>
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              Choose from our selection of industry-leading programs designed to fast-track your engineering career.
+            </p>
+            <div className="h-1 w-20 bg-[#39FF14] rounded-full mx-auto [box-shadow:0_0_8px_rgba(57,255,20,0.5)]" />
+          </div>
+
+          <CardsSlider />
+        </div>
+      </section>
+
+      {/* Our Placement Officers Section */}
+      <section className="py-24 bg-black relative overflow-hidden border-b border-white/5">
+        <div className="w-full relative z-10 px-4 md:px-12 lg:px-20">
+          <div className="text-center mb-16 space-y-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
+              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#39FF14] via-[#00FF99] to-[#7CFF00] [text-shadow:0_0_10px_rgba(57,255,20,0.35)]">Placement Officers</span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
               Meet the dedicated team helping our students transition from learning to leading in the industry.
             </p>
-            <div className="h-1 w-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto" />
+            <div className="h-1 w-20 bg-[#39FF14] rounded-full mx-auto [box-shadow:0_0_8px_rgba(57,255,20,0.5)]" />
           </div>
 
-          <div className="bg-zinc-900/40 border border-white/5 rounded-[3rem] p-8 md:p-12 backdrop-blur-sm">
-            <TeamShowcase />
+          <div className="w-full">
+            <TestimonialSlider reviews={placementOfficers} />
           </div>
         </div>
         
@@ -163,33 +237,86 @@ const StudentPage: React.FC = () => {
 
       {/* Testimonials Section */}
       <section className="bg-black py-24 relative overflow-hidden">
-        <div className="w-full z-10 mx-auto px-4 md:px-8 lg:px-12">
+        <div className="w-full z-10 mx-auto px-4 md:px-12 lg:px-20">
           <motion.div 
             initial={{ opacity: 0, y: 20 }} 
             whileInView={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }} 
             viewport={{ once: true }} 
-            className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center mb-16" 
+            className="flex flex-col items-center justify-center mx-auto text-center mb-16" 
           > 
             <div className="flex justify-center mb-4"> 
               <div className="border border-white/10 py-1 px-4 rounded-lg text-sm text-gray-400 bg-white/5 backdrop-blur-sm">Testimonials</div> 
             </div> 
   
             <h2 className="text-3xl md:text-5xl font-bold tracking-tighter text-white"> 
-              What our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Students Say</span> 
+              What our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#39FF14] via-[#00FF99] to-[#7CFF00]">Students Say</span> 
             </h2> 
           </motion.div> 
   
-          <div className="flex justify-center gap-6 mt-10 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] overflow-hidden w-full"> 
-            <TestimonialsColumn testimonials={firstColumn} duration={15} className="flex-1" /> 
-            <TestimonialsColumn testimonials={secondColumn} className="hidden md:block flex-1" duration={19} /> 
-            <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:block flex-1" duration={17} /> 
+          <div className="flex justify-center gap-10 mt-10 [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)] max-h-[900px] overflow-hidden w-full"> 
+            <TestimonialsColumn testimonials={firstColumn} duration={20} className="flex-1" /> 
+            <TestimonialsColumn testimonials={secondColumn} className="hidden md:block flex-1" duration={25} /> 
+            <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:block flex-1" duration={22} /> 
           </div> 
         </div>
 
         {/* Background glow */}
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60%] h-[40%] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none" />
       </section>
+
+      {/* Contact Section */}
+      <section className="py-24 px-4 md:px-8 lg:px-16 bg-black relative overflow-hidden">
+        <div className="max-w-6xl mx-auto relative z-10">
+          <ContactCard 
+            title="Get in touch" 
+            description="If you have any questions regarding our Services or need help, please fill out the form here. We do our best to respond within 1 business day." 
+            className="rounded-none overflow-visible border-white/10 bg-zinc-900/30 backdrop-blur-xl"
+            formSectionClassName="bg-zinc-950/50"
+            contactInfo={[ 
+              { 
+                icon: MailIcon, 
+                label: 'Email', 
+                value: 'contact@21st.dev', 
+              }, 
+              { 
+                icon: PhoneIcon, 
+                label: 'Phone', 
+                value: '+92 312 1234567', 
+              }, 
+              { 
+                icon: MapPinIcon, 
+                label: 'Address', 
+                value: 'Faisalabad, Pakistan', 
+              } 
+            ]} 
+          > 
+            <form action="" className="w-full space-y-5 p-4"> 
+              <div className="flex flex-col gap-2"> 
+                <Label className="text-white text-sm font-semibold">Name</Label> 
+                <Input type="text" className="bg-black/40 border-white/5 text-white focus-visible:ring-primary h-12" /> 
+              </div> 
+              <div className="flex flex-col gap-2"> 
+                <Label className="text-white text-sm font-semibold">Email</Label> 
+                <Input type="email" className="bg-black/40 border-white/5 text-white focus-visible:ring-primary h-12" /> 
+              </div> 
+              <div className="flex flex-col gap-2"> 
+                <Label className="text-white text-sm font-semibold">Phone</Label> 
+                <Input type="phone" className="bg-black/40 border-white/5 text-white focus-visible:ring-primary h-12" /> 
+              </div> 
+              <div className="flex flex-col gap-2"> 
+                <Label className="text-white text-sm font-semibold">Message</Label> 
+                <Textarea className="bg-black/40 border-white/5 text-white focus-visible:ring-primary min-h-[120px] resize-none" /> 
+              </div> 
+              <Button className="w-full bg-white hover:bg-white/90 text-black font-bold py-6 rounded-xl transition-all hover:scale-[1.01] shadow-xl" type="button"> 
+                Submit 
+              </Button> 
+            </form> 
+          </ContactCard>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 };

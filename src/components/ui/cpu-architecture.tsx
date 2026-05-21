@@ -384,7 +384,7 @@ const CpuArchitecture = ({
         </linearGradient> 
         {/* Add CPU Text Gradient */} 
         <linearGradient id="cpu-text-gradient" x1="0" y1="0" x2="1" y2="0"> 
-          <stop offset="0%" stopColor="#666666"> 
+          <stop offset="0%" stopColor="#39FF14"> 
             <animate 
               attributeName="offset" 
               values="-2; -1; 0" 
@@ -395,7 +395,7 @@ const CpuArchitecture = ({
               keySplines="0.4 0 0.2 1; 0.4 0 0.2 1" 
             /> 
           </stop> 
-          <stop offset="25%" stopColor="white"> 
+          <stop offset="25%" stopColor="#00FF99"> 
             <animate 
               attributeName="offset" 
               values="-1; 0; 1" 
@@ -406,7 +406,7 @@ const CpuArchitecture = ({
               keySplines="0.4 0 0.2 1; 0.4 0 0.2 1" 
             /> 
           </stop> 
-          <stop offset="50%" stopColor="#666666"> 
+          <stop offset="50%" stopColor="#7CFF00"> 
             <animate 
               attributeName="offset" 
               values="0; 1; 2;" 

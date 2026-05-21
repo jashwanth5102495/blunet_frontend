@@ -116,7 +116,10 @@ const SentinelHero: React.FC = () => {
             >
               Start Learning
             </button>
-            <FlowHoverButton className="pointer-events-auto rounded-sm px-6 py-3 md:px-8 md:py-4 text-sm md:text-base">
+            <FlowHoverButton 
+              onClick={() => navigate('/courses')}
+              className="pointer-events-auto rounded-sm px-6 py-3 md:px-8 md:py-4 text-sm md:text-base"
+            >
               Explore Programs
             </FlowHoverButton>
           </div>
