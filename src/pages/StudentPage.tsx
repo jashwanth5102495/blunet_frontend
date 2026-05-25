@@ -55,19 +55,19 @@ const testimonials = [
   {
     text: "Our business functions improved with a user-friendly design and positive customer feedback.",
     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150&h=150",
-    name: "Karthik",
+    name: "Puneeth",
     role: "Marketing Director",
   },
   {
     text: "They delivered a solution that exceeded expectations, understanding our needs and enhancing our operations.",
     image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=150&h=150",
-    name: "Priya",
+    name: "Chandana",
     role: "Sales Manager",
   },
   {
     text: "Using this ERP, our online presence and conversions significantly improved, boosting business performance.",
     image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=150&h=150",
-    name: "Rahul",
+    name: "Tejaswini",
     role: "E-commerce Manager",
   },
 ];
@@ -79,7 +79,7 @@ const thirdColumn = testimonials.slice(6, 9);
 const placementOfficers: Review[] = [
   {
     id: 1,
-    name: "Aditya",
+    name: "Dhanush",
     affiliation: "Director of Photography",
     quote: "Capturing the essence of student success through visual storytelling and professional documentation.",
     imageSrc: "https://media.licdn.com/dms/image/v2/D4D03AQFnmLdpZW78yA/profile-displayphoto-scale_200_200/B4DZvM8NB2JMAY-/0/1768669895649?e=2147483647&v=beta&t=5VGAB-2gYupLNaHvJHECollR25THd-3oR5wngGlQiY4",
@@ -87,7 +87,7 @@ const placementOfficers: Review[] = [
   },
   {
     id: 2,
-    name: "Kavya",
+    name: "Varshith",
     affiliation: "Founder",
     quote: "Building a bridge between academic excellence and industry demands to empower the next generation of engineers.",
     imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2vnSxNNVGZV2MXRjlGELl-NgLl5kXdpDR6A&s",
@@ -95,7 +95,7 @@ const placementOfficers: Review[] = [
   },
   {
     id: 3,
-    name: "Rohan",
+    name: "Aishwarya",
     affiliation: "Lead Front-end",
     quote: "Ensuring our students master the art of building immersive and high-performance user interfaces.",
     imageSrc: "https://media.licdn.com/dms/image/v2/D4D03AQGVqrPPAGHtoQ/profile-displayphoto-scale_200_200/B4DZwhAkjaHwAY-/0/1770080338529?e=2147483647&v=beta&t=q-_6p1VCJ8NN8eHj9zUFwJZds_XpKez9Hy14SAIDp4M",
@@ -103,7 +103,7 @@ const placementOfficers: Review[] = [
   },
   {
     id: 4,
-    name: "Sneha",
+    name: "Puneeth",
     affiliation: "Product Owner",
     quote: "Guiding students through real-world product lifecycles and agile development methodologies.",
     imageSrc: "https://media.licdn.com/dms/image/v2/D4D03AQE-Z7-S1LSYNQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1724143166545?e=2147483647&v=beta&t=6IPCwgOzblGt4p2fEdnY74gMbLyRHii5Ite3A39qQsY",
@@ -111,7 +111,7 @@ const placementOfficers: Review[] = [
   },
   {
     id: 5,
-    name: "Vikram",
+    name: "Chandana",
     affiliation: "CTO",
     quote: "Pushing the boundaries of what's possible with AI-assisted development and modern cloud architectures.",
     imageSrc: "https://media.licdn.com/dms/image/v2/D4D03AQEkTAbZLlSrLg/profile-displayphoto-scale_200_200/B4DZoHdu8BGgAY-/0/1761061833315?e=2147483647&v=beta&t=Rg1dBTvq9X2heyhuhBwG2DsEkG65v0vQ35hF2FSeYns",
