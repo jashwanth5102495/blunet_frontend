@@ -45,30 +45,20 @@ const generatePreviewHtml = (code: string): string => {
     <script>
       (function(){
         const out = document.getElementById('output');
-        function write(type, args){
+        window.__writeOutput = function(message){
+          if (!out) return;
           const div = document.createElement('div');
-          div.className = type;
-          try {
-            div.textContent = args.map(a => {
-              if (typeof a === 'object') {
-                try { return JSON.stringify(a); } catch(e){ return String(a); }
-              }
-              return String(a);
-            }).join(' ');
-          } catch(e) {
-            div.textContent = String(args);
-          }
-          if (out) out.appendChild(div);
-        }
-        const origLog = console.log, origErr = console.error;
-        console.log = function(...args){ write('log', args); origLog.apply(console, args); };
-        console.error = function(...args){ write('error', args); origErr.apply(console, args); };
-        window.onerror = function(msg){ write('error', [msg]); };
+          div.textContent = String(message);
+          out.appendChild(div);
+        };
+        window.onerror = function(msg){
+          if (window.__writeOutput) window.__writeOutput(msg);
+        };
       })();
     </script>`;
 
   if (isLikelyJsOnly) {
-    return `<!doctype html><html><head><meta charset="utf-8"><style>body{font-family:monospace;background:#fff;color:#222}#output{white-space:pre-wrap;padding:8px;border-top:1px solid #ddd}</style></head><body><div>Program Output:</div><div id="output"></div>${consoleCapture}<script>try{${code}}catch(e){console.error(e && e.stack ? e.stack : e);}</script></body></html>`;
+    return `<!doctype html><html><head><meta charset="utf-8"><style>body{font-family:monospace;background:#fff;color:#222}#output{white-space:pre-wrap;padding:8px;border-top:1px solid #ddd}</style></head><body><div>Program Output:</div><div id="output"></div>${consoleCapture}<script>try{${code}}catch(e){ if (window.__writeOutput) window.__writeOutput(e && e.stack ? e.stack : e); }</script></body></html>`;
   }
 
   const userHtml = hasHtmlStructure ? code : `<div>${code}</div>`;
@@ -858,7 +848,7 @@ window.addEventListener('load', addInteractivity);`
     const autoStartedRef = useRef(false);
 
     const baseScript = [
-      `Welcome! Let’s explore ${currentLesson?.title ?? 'this topic'}.`,
+      `Welcome! Let's explore ${currentLesson?.title ?? 'this topic'}.`,
       'I will summarize the most important points in simple terms.',
       'You can ask a question below and I will explain it as well.',
     ];
@@ -1229,7 +1219,7 @@ window.addEventListener('load', addInteractivity);`
           intro +
           "APIs let apps communicate over HTTP.\n" +
           "- GET reads data; POST creates; PUT/PATCH updates; DELETE removes.\n" +
-          "Example:\nfetch(\"/api/items\").then(r=>r.json()).then(data=>console.log(data));"
+          "Example:\nfetch(\"/api/items\").then(r=>r.json()).then(data=>"
         );
       }
 
@@ -3209,7 +3199,7 @@ body {
     
     <script>
         // Internal JavaScript
-        console.log("JavaScript is running!");
+        
         
         function changeContent() {
             document.getElementById('demo').innerHTML = 'Content changed by JavaScript!';
@@ -3223,7 +3213,7 @@ body {
         
         // This runs when the page loads
         window.onload = function() {
-            console.log("Page loaded successfully!");
+            
         };
     </script>
 </body>
@@ -3700,7 +3690,7 @@ body {
         // Event listener (recommended method)
         document.getElementById('listener-button').addEventListener('click', function(event) {
             updateOutput('Event listener: Button clicked at ' + new Date().toLocaleTimeString());
-            console.log('Event object:', event);
+            
         });
         
         // Mouse events
@@ -5763,9 +5753,9 @@ function example() {
     let y = 2;
     const z = 3;
   }
-  console.log(x); // 1 (accessible)
-  console.log(y); // ReferenceError
-  console.log(z); // ReferenceError
+   // 1 (accessible)
+   // ReferenceError
+   // ReferenceError
 }
 \`\`\`
 
@@ -5826,9 +5816,9 @@ const html = \`
 const numbers = [1, 2, 3, 4, 5];
 const [first, second, ...rest] = numbers;
 
-console.log(first); // 1
-console.log(second); // 2
-console.log(rest); // [3, 4, 5]
+ // 1
+ // 2
+ // [3, 4, 5]
 \`\`\`
 
 ### Object Destructuring
@@ -5954,9 +5944,9 @@ export default function multiply(a, b) {
 // main.js
 import multiply, { PI, add } from './math.js';
 
-console.log(PI); // 3.14159
-console.log(add(2, 3)); // 5
-console.log(multiply(4, 5)); // 20
+ // 3.14159
+ // 5
+ // 20
 \`\`\`
            `,
            codeExample: `<!DOCTYPE html>
@@ -6285,7 +6275,7 @@ function fetchData(callback) {
 }
 
 fetchData((data) => {
-  console.log('Data received:', data);
+  
 });
 \`\`\`
 
@@ -6325,17 +6315,17 @@ const myPromise = new Promise((resolve, reject) => {
 \`\`\`javascript
 myPromise
   .then(result => {
-    console.log(result); // 'Operation successful!'
+     // 'Operation successful!'
     return 'Next step';
   })
   .then(nextResult => {
-    console.log(nextResult); // 'Next step'
+     // 'Next step'
   })
   .catch(error => {
-    console.error(error);
+    
   })
   .finally(() => {
-    console.log('Promise completed');
+    
   });
 \`\`\`
 
@@ -6344,13 +6334,13 @@ myPromise
 // Wait for all promises to resolve
 Promise.all([promise1, promise2, promise3])
   .then(results => {
-    console.log('All promises resolved:', results);
+    
   });
 
 // Get the first promise to resolve
 Promise.race([promise1, promise2, promise3])
   .then(result => {
-    console.log('First promise resolved:', result);
+    
   });
 \`\`\`
 
@@ -6367,15 +6357,14 @@ async function fetchUserData(id) {
     
     return { user, posts, comments };
   } catch (error) {
-    console.error('Error fetching data:', error);
+    
     throw error;
   }
 }
 
 // Usage
 fetchUserData(1)
-  .then(data => console.log(data))
-  .catch(error => console.error(error));
+  .then(data => 
 \`\`\`
 
 ## Fetch API
@@ -6392,10 +6381,10 @@ fetch('https://api.example.com/users')
     return response.json();
   })
   .then(data => {
-    console.log('Users:', data);
+    
   })
   .catch(error => {
-    console.error('Fetch error:', error);
+    
   });
 \`\`\`
 
@@ -6415,7 +6404,7 @@ fetch('https://api.example.com/users', {
 })
 .then(response => response.json())
 .then(data => {
-  console.log('User created:', data);
+  
 });
 \`\`\`
 
@@ -6432,7 +6421,7 @@ async function getUsers() {
     const users = await response.json();
     return users;
   } catch (error) {
-    console.error('Error fetching users:', error);
+    
     throw error;
   }
 }
@@ -6445,14 +6434,14 @@ async function getUsers() {
 async function handleAsyncOperation() {
   try {
     const result = await someAsyncOperation();
-    console.log('Success:', result);
+    
   } catch (error) {
     if (error.name === 'NetworkError') {
-      console.error('Network problem:', error.message);
+      
     } else if (error.name === 'ValidationError') {
-      console.error('Data validation failed:', error.message);
+      
     } else {
-      console.error('Unexpected error:', error);
+      
     }
   }
 }
@@ -6492,7 +6481,7 @@ class ApiClient {
       
       return await response.json();
     } catch (error) {
-      console.error('API request failed:', error);
+      
       throw error;
     }
   }
@@ -6687,7 +6676,7 @@ class ApiClient {
                 
             } catch (error) {
                 setStatus(\`Error: \${error.message}\`, 'error');
-                console.error('Fetch error:', error);
+                
             } finally {
                 btn.disabled = false;
             }
@@ -6731,7 +6720,7 @@ class ApiClient {
                 
             } catch (error) {
                 setStatus(\`Error: \${error.message}\`, 'error');
-                console.error('Create error:', error);
+                
             } finally {
                 btn.disabled = false;
             }
@@ -6896,7 +6885,7 @@ class WeatherApp {
       💨 Wind Speed: \${weatherData.wind.speed} m/s
     \`;
     
-    console.log(weatherInfo);
+    
     
     // Update DOM if elements exist
     const weatherDisplay = document.getElementById('weather-display');
@@ -6918,7 +6907,7 @@ class WeatherApp {
   
   handleError(error) {
     const errorMessage = \`❌ Error: \${error.message}\`;
-    console.error(errorMessage);
+    
     
     const errorDisplay = document.getElementById('error-display');
     if (errorDisplay) {
@@ -6935,9 +6924,9 @@ class WeatherApp {
       const successful = results.filter(result => result.status === 'fulfilled');
       const failed = results.filter(result => result.status === 'rejected');
       
-      console.log(\`✅ Successfully fetched weather for \${successful.length} cities\`);
+      
       if (failed.length > 0) {
-        console.log(\`❌ Failed to fetch weather for \${failed.length} cities\`);
+        
       }
       
       return results;
@@ -6952,8 +6941,7 @@ const app = new WeatherApp();
 
 // Single city
 app.getWeatherByCity('London')
-  .then(data => console.log('Weather data received:', data))
-  .catch(error => console.error('Failed to get weather:', error));
+  .then(data => 
 
 // Multiple cities
 // app.getMultipleCitiesWeather(['London', 'Paris', 'Tokyo']);`
@@ -7584,7 +7572,7 @@ const client = new MongoClient(uri);
 async function connectToMongoDB() {
   try {
     await client.connect();
-    console.log('Connected to MongoDB');
+    
     
     const database = client.db('myapp');
     const collection = database.collection('users');
@@ -7595,9 +7583,9 @@ async function connectToMongoDB() {
       email: 'john@example.com'
     });
     
-    console.log('Inserted document:', result.insertedId);
+    
   } catch (error) {
-    console.error('Connection error:', error);
+    
   } finally {
     await client.close();
   }
@@ -7681,9 +7669,9 @@ mongoose.connect(process.env.MONGODB_URI, {
 });
 
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', () => {});
 db.once('open', () => {
-  console.log('Connected to MongoDB with Mongoose');
+  
 });
 \`\`\`
 
@@ -7750,7 +7738,7 @@ userSchema.statics.findByEmail = function(email) {
 
 // Middleware (hooks)
 userSchema.pre('save', function(next) {
-  console.log('About to save user:', this.name);
+  
   next();
 });
 
@@ -7969,10 +7957,10 @@ async function transferOperation(fromUserId, toUserId, amount) {
     );
     
     await session.commitTransaction();
-    console.log('Transaction completed successfully');
+    
   } catch (error) {
     await session.abortTransaction();
-    console.error('Transaction failed:', error);
+    
     throw error;
   } finally {
     session.endSession();
@@ -8028,9 +8016,9 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/taskapp',
 });
 
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.on('error', () => {});
 db.once('open', () => {
-  console.log('Connected to MongoDB');
+  
 });
 
 // Task Schema
@@ -8273,7 +8261,7 @@ app.get('/api/stats', async (req, res) => {
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  
   res.status(500).json({
     success: false,
     error: 'Something went wrong!'
@@ -8290,12 +8278,12 @@ app.use('*', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(\`Server running on port \${PORT}\`);
+  
 });
 
 // Graceful shutdown
 process.on('SIGINT', async () => {
-  console.log('Shutting down gracefully...');
+  
   await mongoose.connection.close();
   process.exit(0);
 });`,
@@ -8580,7 +8568,7 @@ app.get('/api/stats', async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(\`Blog API running on port \${PORT}\`);
+  
 });`
              }
            ]
@@ -9605,3 +9593,5 @@ app.listen(PORT, () => {
 };
 
 export default CourseLearning;
+
+

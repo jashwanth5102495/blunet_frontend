@@ -223,7 +223,7 @@ const CreatorPortal = () => {
         
         setCreativeProjects(sampleProjects);
       } catch (error) {
-        console.error('Error loading creator data:', error);
+        
       } finally {
         setIsLoading(false);
       }
@@ -976,3 +976,4 @@ const CreatorPortal = () => {
 };
 
 export default CreatorPortal;
+

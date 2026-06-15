@@ -85,7 +85,7 @@ const CodeViewer: React.FC<CodeViewerProps> = ({ file, onCopy, copied }) => {
         await navigator.clipboard.writeText(file.content);
         onCopy?.();
       } catch (err) {
-        console.error('Failed to copy code:', err);
+        
       }
     }
   };

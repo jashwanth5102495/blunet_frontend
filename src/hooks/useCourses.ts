@@ -24,7 +24,7 @@ export const useCourses = () => {
           localStorage.setItem('blunet_courses', JSON.stringify(INITIAL_COURSES));
         }
       } catch (error) {
-        console.error('Failed to load courses:', error);
+        
         setCourses(INITIAL_COURSES);
       } finally {
         setLoading(false);
@@ -61,7 +61,7 @@ export const useCourses = () => {
           return merged;
         });
       } catch (error) {
-        console.error('Failed to fetch authoring overrides:', error);
+        
       }
     };
 
@@ -117,7 +117,7 @@ export const useCourses = () => {
       }
       return { ok: true as const, status: response.status, message: 'Saved' };
     } catch (error) {
-      console.error('Failed to persist authoring course:', error);
+      
       return { ok: false as const, status: 0, message: 'Network or server error' };
     }
   };
@@ -135,7 +135,7 @@ export const useCourses = () => {
         body: JSON.stringify(newCourse)
       });
     } catch (error) {
-      console.error('Failed to create authoring course:', error);
+      
     }
   };
 
@@ -150,7 +150,7 @@ export const useCourses = () => {
         }
       });
     } catch (error) {
-      console.error('Failed to delete authoring course:', error);
+      
     }
   };
 
@@ -197,3 +197,4 @@ export const useCourses = () => {
 
   return { courses, loading, addCourse, deleteCourse, updateCourse, updateCoursePersisted };
 };
+

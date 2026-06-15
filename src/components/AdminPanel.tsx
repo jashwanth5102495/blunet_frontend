@@ -246,7 +246,7 @@ const AdminPanel: React.FC = () => {
       const data = result?.data || { activeCount: 0, users: [], windowMinutes };
       setActiveUsersData({ activeCount: data.activeCount || 0, users: data.users || [], windowMinutes: data.windowMinutes || windowMinutes });
     } catch (e: any) {
-      console.error('Error fetching active users:', e);
+      
       setActiveUsersError(e?.message || 'Failed to load active users');
     } finally {
       setActiveUsersLoading(false);
@@ -550,7 +550,7 @@ const AdminPanel: React.FC = () => {
                 };
               }
             } catch (err) {
-              console.error('Failed to fetch progress summary for', student._id, courseKey, err);
+              
             }
             return {
               ...enrollment,
@@ -564,7 +564,7 @@ const AdminPanel: React.FC = () => {
 
         setStudents(updated);
       } catch (e) {
-        console.error('Error augmenting assignment/test counts:', e);
+        
       }
     };
 
@@ -585,15 +585,15 @@ const AdminPanel: React.FC = () => {
         if (result.success) {
           setStudentSubmissions(result.data || []);
         } else {
-          console.error('Failed to fetch submissions:', result.message);
+          
           setStudentSubmissions([]);
         }
       } else {
-        console.error('Failed to fetch submissions:', response.status);
+        
         setStudentSubmissions([]);
       }
     } catch (error) {
-      console.error('Error fetching student submissions:', error);
+      
       setStudentSubmissions([]);
     } finally {
       setSubmissionsLoading(false);
@@ -620,11 +620,11 @@ const AdminPanel: React.FC = () => {
         const data = result.data || result;
         setProjects(Array.isArray(data) ? data : []);
       } else {
-        console.error('Failed to fetch projects:', response.status);
+        
         setProjects([]);
       }
     } catch (error) {
-      console.error('Error fetching projects:', error);
+      
       setProjects([]);
     }
   };
@@ -648,11 +648,11 @@ const AdminPanel: React.FC = () => {
         
         setStudents(Array.isArray(data) ? data : []);
       } else {
-        console.error('Failed to fetch students:', response.status);
+        
         setStudents([]);
       }
     } catch (error) {
-      console.error('Error fetching students:', error);
+      
       setStudents([]);
     }
   };
@@ -669,7 +669,7 @@ const AdminPanel: React.FC = () => {
         setPayments(data.data?.payments || []);
       }
     } catch (error) {
-      console.error('Error fetching payments:', error);
+      
     }
   };
 
@@ -708,7 +708,7 @@ const AdminPanel: React.FC = () => {
         setShowAddProject(false);
       }
     } catch (error) {
-      console.error('Error adding project:', error);
+      
     }
   };
 
@@ -729,7 +729,7 @@ const AdminPanel: React.FC = () => {
         setStatusNotes('');
       }
     } catch (error) {
-      console.error('Error updating project status:', error);
+      
     }
   };
 
@@ -758,10 +758,10 @@ const AdminPanel: React.FC = () => {
       if (data.success) {
         setFacultyList(data.data);
       } else {
-        console.error('Failed to fetch faculty:', data.message);
+        
       }
     } catch (error) {
-      console.error('Error fetching faculty:', error);
+      
     }
   };
 
@@ -812,7 +812,7 @@ const AdminPanel: React.FC = () => {
         alert(message);
       }
     } catch (error: any) {
-      console.error('Error creating faculty:', error);
+      
       alert(error?.message || 'Error creating faculty member');
     }
   };
@@ -844,7 +844,7 @@ const AdminPanel: React.FC = () => {
           alert(data.message || 'Failed to delete faculty member');
         }
       } catch (error) {
-        console.error('Error deleting faculty:', error);
+        
         alert('Error deleting faculty member. Please try again.');
       }
     }
@@ -870,15 +870,11 @@ const AdminPanel: React.FC = () => {
         const data = Array.isArray(result.data) ? result.data : [];
         setReferredStudents(data);
       } else {
-        console.error('Failed to fetch referred students', {
-          status: response.status,
-          statusText: response.statusText,
-          body: result || rawText
-        });
+        
         setReferredStudents([]);
       }
     } catch (error) {
-      console.error('Error fetching referred students:', error);
+      
       setReferredStudents([]);
     }
   };
@@ -998,11 +994,11 @@ const AdminPanel: React.FC = () => {
         // Show success message (you can add a toast notification here)
       } else {
         const errorData = await response.json();
-        console.error('Failed to delete student:', errorData.message);
+        
         alert('Failed to delete student: ' + errorData.message);
       }
     } catch (error) {
-      console.error('Error deleting student:', error);
+      
       alert('Error deleting student. Please try again.');
     } finally {
       setIsDeleting(false);
@@ -1087,7 +1083,7 @@ const AdminPanel: React.FC = () => {
         // Get course price with fallback
         const coursePrice = course.price || 0;
         if (coursePrice === 0) {
-          console.warn('Course price is 0 or undefined:', course);
+          
         }
         
         const paymentData = {
@@ -1172,13 +1168,13 @@ const AdminPanel: React.FC = () => {
         
         alert(`Payment status ${change.isNewPayment ? 'created and ' : ''}updated to "${change.newStatus}" successfully!`);
       } else {
-        console.error('API Error Response:', response.status, responseData);
+        
         alert(`Failed to ${change.isNewPayment ? 'create and ' : ''}save payment status change: ${responseData?.message || 'Unknown error'}`);
         // Refresh data to revert any local changes
         fetchPayments();
       }
     } catch (error) {
-      console.error('Error saving payment status:', error);
+      
       alert('Error saving payment status change');
     } finally {
       setSavingPayments(prev => ({ ...prev, [changeKey]: false }));
@@ -3280,3 +3276,4 @@ const AdminPanel: React.FC = () => {
 };
 
 export default AdminPanel;
+

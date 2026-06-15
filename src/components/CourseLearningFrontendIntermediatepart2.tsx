@@ -1043,7 +1043,7 @@ export class DataService {
     // --- 1. Service Definition ---
     class MessageService {
       constructor() {
-        console.log("MessageService: Initialized");
+        
       }
 
       getMessage() {
@@ -1057,7 +1057,7 @@ export class DataService {
       constructor(messageService) {
         this.messageService = messageService;
         this.message = "";
-        console.log("AppComponent: Initialized with Service");
+        
       }
 
       // Method to simulate ngOnInit or user action
@@ -1804,7 +1804,7 @@ export const module5Lesson8 = {
       title: 'Handling Form Submission',
       content: `function handleSubmit(event) {
   event.preventDefault();
-  console.log(name);
+  
 }`
     },
     {
@@ -1852,8 +1852,8 @@ export const module5Lesson8 = {
 
       const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("Email:", email);
-        console.log("Password:", password);
+        
+        
         setSubmittedData({ email, password });
       };
 
@@ -1965,7 +1965,7 @@ export const module5Lesson7 = {
     {
       title: 'React.memo Syntax',
       content: `const Child = React.memo(({ name }) => {
-  console.log("Child rendered");
+  
   return <div>{name}</div>;
 });`
     },
@@ -1978,7 +1978,7 @@ export const module5Lesson7 = {
     {
       title: 'useCallback Syntax',
       content: `const handleClick = useCallback(() => {
-  console.log("Clicked");
+  
 }, []);`
     }
   ],
@@ -2048,7 +2048,7 @@ export const module5Lesson7 = {
     // --- 2. useMemo Example Components ---
 
     function slowFunction(num) {
-      console.log('Calling slow function...');
+      
       for (let i = 0; i < 100000000; i++) {} // Artificial delay
       return num * 2;
     }
@@ -2108,7 +2108,7 @@ export const module5Lesson7 = {
 
       useEffect(() => {
         setItems(getItems());
-        console.log('Updating Items');
+        
       }, [getItems]);
 
       return (
@@ -2650,10 +2650,10 @@ DELETE /orders/10</code></pre>
       content: `fetch("API_URL")
   .then(response => response.json())
   .then(data => {
-    console.log(data);
+    
   })
   .catch(error => {
-    console.error(error);
+    
   });`
     },
     {
@@ -2684,7 +2684,7 @@ function Component() {
 
 axios.get("API_URL")
   .then(response => {
-    console.log(response.data);
+    
   });`
     },
     {
@@ -2734,7 +2734,7 @@ axios.get("API_URL")
             setLoading(false);
           })
           .catch(error => {
-            console.error("Error fetching data:", error);
+            
             setLoading(false);
           });
           
@@ -4135,3 +4135,5 @@ export class ExampleComponent {}`
       </p>
   `
 };
+
+

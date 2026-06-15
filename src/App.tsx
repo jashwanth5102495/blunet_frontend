@@ -68,7 +68,7 @@ class ErrorBoundary extends React.Component<{ children: ReactNode; fallback?: Re
     return { hasError: true };
   }
   componentDidCatch(error: any, errorInfo: any) {
-    console.error("Google OAuth Error:", error, errorInfo);
+    
   }
   render() {
     if (this.state.hasError) {
@@ -323,3 +323,4 @@ function App() {
 }
 
 export default App;
+

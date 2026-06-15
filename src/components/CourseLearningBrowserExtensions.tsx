@@ -155,7 +155,7 @@ const CourseLearningBrowserExtensions: React.FC = () => {
   });
 });`,
     'content.js': `// Content script - runs on web pages
-console.log('Content script loaded');
+
 
 // Listen for messages from popup
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
@@ -202,12 +202,12 @@ floatingBtn.addEventListener('click', function() {
 
 document.body.appendChild(floatingBtn);`,
     'background.js': `// Service worker for Manifest V3
-console.log('Background script loaded');
+
 
 // Handle extension installation
 chrome.runtime.onInstalled.addListener(function(details) {
   if (details.reason === 'install') {
-    console.log('Extension installed');
+    
     
     // Set default storage values
     chrome.storage.sync.set({
@@ -222,7 +222,7 @@ chrome.runtime.onInstalled.addListener(function(details) {
 // Handle tab updates
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   if (changeInfo.status === 'complete' && tab.url) {
-    console.log('Tab updated:', tab.url);
+    
     
     // Update badge text
     chrome.action.setBadgeText({
@@ -461,7 +461,7 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
   }
   
   function initializeExtension() {
-    console.log('Extension content script loaded');
+    
     
     // Create floating toolbar
     createFloatingToolbar();
@@ -529,7 +529,7 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
         range.surroundContents(span);
         selection.removeAllRanges();
       } catch (e) {
-        console.error('Could not highlight selection:', e);
+        
       }
     }
   }
@@ -650,7 +650,7 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
     const buttons = element.querySelectorAll('button, .clickable');
     buttons.forEach(btn => {
       btn.addEventListener('click', function() {
-        console.log('Dynamic button clicked:', btn.textContent);
+        
       });
     });
   }
@@ -735,11 +735,11 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
             <p>Service workers use event listeners to respond to browser events like tab updates, extension installation, and message passing.</p>
           `,
           codeExample: `// background.js - Service Worker for Manifest V3
-console.log('Background service worker loaded');
+
 
 // Handle extension installation
 chrome.runtime.onInstalled.addListener(function(details) {
-  console.log('Extension installed:', details.reason);
+  
   
   if (details.reason === 'install') {
     // First time installation
@@ -779,7 +779,7 @@ function initializeExtension() {
 }
 
 function handleExtensionUpdate(previousVersion) {
-  console.log('Updated from version:', previousVersion);
+  
   
   // Migrate data if needed
   chrome.storage.sync.get(['settings'], function(result) {
@@ -793,7 +793,7 @@ function handleExtensionUpdate(previousVersion) {
 // Handle tab updates
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   if (changeInfo.status === 'complete' && tab.url) {
-    console.log('Tab completed loading:', tab.url);
+    
     
     // Update badge
     updateBadge(tabId, tab.url);
@@ -835,7 +835,7 @@ function trackPageVisit(url) {
 
 // Handle messages from content scripts and popup
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  console.log('Message received:', request);
+  
   
   switch(request.action) {
     case 'saveData':
@@ -856,7 +856,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       break;
       
     default:
-      console.log('Unknown action:', request.action);
+      
       sendResponse({error: 'Unknown action'});
   }
   
@@ -908,7 +908,7 @@ function handleDataSync(sendResponse) {
 
 // Handle context menu clicks
 chrome.contextMenus.onClicked.addListener(function(info, tab) {
-  console.log('Context menu clicked:', info.menuItemId);
+  
   
   if (info.menuItemId === 'mainMenu') {
     if (info.selectionText) {
@@ -944,7 +944,7 @@ function processSelectedText(text, tab) {
 
 // Handle alarms
 chrome.alarms.onAlarm.addListener(function(alarm) {
-  console.log('Alarm triggered:', alarm.name);
+  
   
   if (alarm.name === 'dailySync') {
     performDailySync();
@@ -985,19 +985,19 @@ function showNotification(title, message) {
 
 // Handle extension startup
 chrome.runtime.onStartup.addListener(function() {
-  console.log('Extension started');
+  
   
   // Restore any necessary state
   chrome.storage.local.get(['extensionState'], function(result) {
     if (result.extensionState) {
-      console.log('Restored state:', result.extensionState);
+      
     }
   });
 });
 
 // Handle extension suspend (cleanup)
 chrome.runtime.onSuspend.addListener(function() {
-  console.log('Extension suspending');
+  
   
   // Save current state
   chrome.storage.local.set({
@@ -1727,3 +1727,5 @@ chrome.runtime.onSuspend.addListener(function() {
 };
 
 export default CourseLearningBrowserExtensions;
+
+

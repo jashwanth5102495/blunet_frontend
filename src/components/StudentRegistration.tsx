@@ -8,7 +8,6 @@ import toast, { Toaster } from 'react-hot-toast';
 declare global {
   interface Window {
     google: any;
-    Razorpay: any;
   }
 }
 
@@ -193,7 +192,7 @@ const StudentRegistration = () => {
 
       if (!response.ok) {
         const errorMessage = (result && (result.message || result.error)) || rawText || `Registration failed. Status ${response.status}`;
-        console.error('Registration failed:', errorMessage);
+        
         toast.error(errorMessage, {
           duration: 4000,
           position: 'top-center',
@@ -225,7 +224,7 @@ const StudentRegistration = () => {
         setStep(3); // Move to final step (registration complete)
       } else {
         const errMsg = (result && result.message) || 'Registration failed. Please try again.';
-        console.error('Registration failed:', errMsg);
+        
         toast.error(errMsg, {
           duration: 4000,
           position: 'top-center',
@@ -233,7 +232,7 @@ const StudentRegistration = () => {
         setErrors({ email: errMsg });
       }
     } catch (err) {
-      console.error('Registration error:', err);
+      
       const fallbackMessage = err instanceof Error ? err.message : 'Unable to connect to server. Please try again.';
       toast.error(fallbackMessage, {
         duration: 4000,
@@ -557,3 +556,4 @@ const StudentRegistration = () => {
 };
 
 export default StudentRegistration;
+

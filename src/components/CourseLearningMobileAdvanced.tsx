@@ -460,7 +460,7 @@ export default function AdvancedCameraScreen() {
 
   const processImage = async (uri) => {
     // Custom image processing logic
-    console.log('Processing image:', uri);
+    
   };
 
   const startRecording = async () => {
@@ -993,7 +993,7 @@ const OptimizedListScreen = () => {
 
   // Memoize callback functions
   const handleItemPress = useCallback((itemId) => {
-    console.log('Item pressed:', itemId);
+    
     // Navigate or perform action
   }, []);
 
@@ -1004,7 +1004,7 @@ const OptimizedListScreen = () => {
       const newData = await fetchData();
       setData(newData);
     } catch (error) {
-      console.error('Refresh failed:', error);
+      
     } finally {
       setRefreshing(false);
     }
@@ -1035,7 +1035,7 @@ const OptimizedListScreen = () => {
         }
       } catch (error) {
         if (isMounted) {
-          console.error('Failed to load data:', error);
+          
           setLoading(false);
         }
       }
@@ -1115,7 +1115,7 @@ const usePerformanceMonitor = (componentName) => {
       const renderTime = endTime - startTime;
       
       if (renderTime > 16) { // 60fps threshold
-        console.warn(\`\${componentName} render time: \${renderTime}ms\`);
+        
       }
     };
   });
@@ -1175,7 +1175,7 @@ export default OptimizedListScreen;`,
               id: 'ex3',
               question: 'Optimize a FlatList component for better performance with large datasets, including memoization and proper cleanup.',
               initialCode: `import React, { useState, useEffect } from 'react';\nimport { View, Text, FlatList, TouchableOpacity } from 'react-native';\n\nconst ListScreen = () => {\n  const [data, setData] = useState([]);\n\n  const renderItem = ({ item }) => (\n    <TouchableOpacity>\n      <Text>{item.title}</Text>\n    </TouchableOpacity>\n  );\n\n  useEffect(() => {\n    // Load data\n    fetchData().then(setData);\n  }, []);\n\n  return (\n    <View>\n      <FlatList\n        data={data}\n        renderItem={renderItem}\n      />\n    </View>\n  );\n};\n\nexport default ListScreen;`,
-              solution: `import React, { useState, useEffect, useMemo, useCallback, memo } from 'react';\nimport { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';\n\n// Memoized list item component\nconst ListItem = memo(({ item, onPress }) => {\n  return (\n    <TouchableOpacity style={styles.listItem} onPress={() => onPress(item.id)}>\n      <Text style={styles.itemTitle}>{item.title}</Text>\n      <Text style={styles.itemDescription}>{item.description}</Text>\n    </TouchableOpacity>\n  );\n});\n\nconst ITEM_HEIGHT = 80;\n\nconst OptimizedListScreen = () => {\n  const [data, setData] = useState([]);\n  const [loading, setLoading] = useState(true);\n\n  // Memoize filtered data\n  const filteredData = useMemo(() => {\n    return data.filter(item => item.isActive);\n  }, [data]);\n\n  // Memoize callback functions\n  const handleItemPress = useCallback((itemId) => {\n    console.log('Item pressed:', itemId);\n  }, []);\n\n  const renderItem = useCallback(({ item }) => (\n    <ListItem item={item} onPress={handleItemPress} />\n  ), [handleItemPress]);\n\n  const getItemLayout = useCallback((data, index) => ({\n    length: ITEM_HEIGHT,\n    offset: ITEM_HEIGHT * index,\n    index,\n  }), []);\n\n  const keyExtractor = useCallback((item) => item.id.toString(), []);\n\n  useEffect(() => {\n    let isMounted = true;\n    \n    const loadData = async () => {\n      try {\n        const result = await fetchData();\n        if (isMounted) {\n          setData(result);\n          setLoading(false);\n        }\n      } catch (error) {\n        if (isMounted) {\n          console.error('Failed to load data:', error);\n          setLoading(false);\n        }\n      }\n    };\n\n    loadData();\n\n    // Cleanup function to prevent memory leaks\n    return () => {\n      isMounted = false;\n    };\n  }, []);\n\n  if (loading) {\n    return (\n      <View style={styles.loadingContainer}>\n        <Text>Loading...</Text>\n      </View>\n    );\n  }\n\n  return (\n    <View style={styles.container}>\n      <FlatList\n        data={filteredData}\n        renderItem={renderItem}\n        keyExtractor={keyExtractor}\n        getItemLayout={getItemLayout}\n        // Performance optimizations\n        removeClippedSubviews={true}\n        maxToRenderPerBatch={10}\n        updateCellsBatchingPeriod={50}\n        initialNumToRender={10}\n        windowSize={10}\n      />\n    </View>\n  );\n};\n\nconst styles = StyleSheet.create({\n  container: {\n    flex: 1,\n    backgroundColor: '#f5f5f5',\n  },\n  loadingContainer: {\n    flex: 1,\n    justifyContent: 'center',\n    alignItems: 'center',\n  },\n  listItem: {\n    padding: 16,\n    backgroundColor: 'white',\n    marginVertical: 4,\n    marginHorizontal: 16,\n    borderRadius: 8,\n    height: ITEM_HEIGHT,\n  },\n  itemTitle: {\n    fontSize: 16,\n    fontWeight: 'bold',\n    color: '#333',\n  },\n  itemDescription: {\n    fontSize: 14,\n    color: '#666',\n    marginTop: 4,\n  },\n});\n\nexport default OptimizedListScreen;`,
+              solution: `import React, { useState, useEffect, useMemo, useCallback, memo } from 'react';\nimport { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';\n\n// Memoized list item component\nconst ListItem = memo(({ item, onPress }) => {\n  return (\n    <TouchableOpacity style={styles.listItem} onPress={() => onPress(item.id)}>\n      <Text style={styles.itemTitle}>{item.title}</Text>\n      <Text style={styles.itemDescription}>{item.description}</Text>\n    </TouchableOpacity>\n  );\n});\n\nconst ITEM_HEIGHT = 80;\n\nconst OptimizedListScreen = () => {\n  const [data, setData] = useState([]);\n  const [loading, setLoading] = useState(true);\n\n  // Memoize filtered data\n  const filteredData = useMemo(() => {\n    return data.filter(item => item.isActive);\n  }, [data]);\n\n  // Memoize callback functions\n  const handleItemPress = useCallback((itemId) => {\n    \n  }, []);\n\n  const renderItem = useCallback(({ item }) => (\n    <ListItem item={item} onPress={handleItemPress} />\n  ), [handleItemPress]);\n\n  const getItemLayout = useCallback((data, index) => ({\n    length: ITEM_HEIGHT,\n    offset: ITEM_HEIGHT * index,\n    index,\n  }), []);\n\n  const keyExtractor = useCallback((item) => item.id.toString(), []);\n\n  useEffect(() => {\n    let isMounted = true;\n    \n    const loadData = async () => {\n      try {\n        const result = await fetchData();\n        if (isMounted) {\n          setData(result);\n          setLoading(false);\n        }\n      } catch (error) {\n        if (isMounted) {\n          \n          setLoading(false);\n        }\n      }\n    };\n\n    loadData();\n\n    // Cleanup function to prevent memory leaks\n    return () => {\n      isMounted = false;\n    };\n  }, []);\n\n  if (loading) {\n    return (\n      <View style={styles.loadingContainer}>\n        <Text>Loading...</Text>\n      </View>\n    );\n  }\n\n  return (\n    <View style={styles.container}>\n      <FlatList\n        data={filteredData}\n        renderItem={renderItem}\n        keyExtractor={keyExtractor}\n        getItemLayout={getItemLayout}\n        // Performance optimizations\n        removeClippedSubviews={true}\n        maxToRenderPerBatch={10}\n        updateCellsBatchingPeriod={50}\n        initialNumToRender={10}\n        windowSize={10}\n      />\n    </View>\n  );\n};\n\nconst styles = StyleSheet.create({\n  container: {\n    flex: 1,\n    backgroundColor: '#f5f5f5',\n  },\n  loadingContainer: {\n    flex: 1,\n    justifyContent: 'center',\n    alignItems: 'center',\n  },\n  listItem: {\n    padding: 16,\n    backgroundColor: 'white',\n    marginVertical: 4,\n    marginHorizontal: 16,\n    borderRadius: 8,\n    height: ITEM_HEIGHT,\n  },\n  itemTitle: {\n    fontSize: 16,\n    fontWeight: 'bold',\n    color: '#333',\n  },\n  itemDescription: {\n    fontSize: 14,\n    color: '#666',\n    marginTop: 4,\n  },\n});\n\nexport default OptimizedListScreen;`,
               hint: 'Use React.memo for list items, useCallback for functions, useMemo for expensive calculations, and FlatList performance props'
             }
           ]
@@ -1439,3 +1439,5 @@ export default OptimizedListScreen;`,
 };
 
 export default CourseLearningMobileAdvanced;
+
+

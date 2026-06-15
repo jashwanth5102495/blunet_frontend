@@ -257,7 +257,7 @@ const StudentSetup: React.FC = () => {
         navigate('/student-portal');
       }, 1000);
     } catch (err) {
-      console.error('Setup save error:', err);
+      
       const errorMsg = 'Unable to save. Please try again.';
       setError(errorMsg);
       toast.error(errorMsg, {
@@ -539,3 +539,4 @@ const StudentSetup: React.FC = () => {
 };
 
 export default StudentSetup;
+

@@ -17,7 +17,7 @@ class BackgroundErrorBoundary extends React.Component<{ children: React.ReactNod
     return { hasError: true };
   }
   componentDidCatch(error: any, errorInfo: any) {
-    console.error("Background Component Error:", error, errorInfo);
+    
   }
   render() {
     if (this.state.hasError) {
@@ -226,3 +226,4 @@ const RotatingBackgrounds: React.FC<RotatingBackgroundsProps> = ({
 };
 
 export default RotatingBackgrounds;
+

@@ -276,7 +276,7 @@ export class PerformanceMonitor {
     console.group('Performance Metrics');
     this.metrics.forEach((times, name) => {
       const avg = this.getAverageTime(name);
-      console.log(\`\${name}: \${avg.toFixed(2)}ms (avg of \${times.length} measurements)\`);
+      
     });
     console.groupEnd();
   }
@@ -687,18 +687,19 @@ const PerformanceMonitor = () => {
     
     return () => {
       const endTime = performance.now();
-      console.log(\`Component was mounted for \${endTime - startTime} milliseconds\`);
+      
     };
   }, []);
 
   // Report Core Web Vitals
   useEffect(() => {
     import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
-      getCLS(console.log);
-      getFID(console.log);
-      getFCP(console.log);
-      getLCP(console.log);
-      getTTFB(console.log);
+      const noop = () => {};
+      getCLS(noop);
+      getFID(noop);
+      getFCP(noop);
+      getLCP(noop);
+      getTTFB(noop);
     });
   }, []);
 
@@ -717,7 +718,7 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error('Error caught by boundary:', error, errorInfo);
+    
     // Send to error reporting service
   }
 
@@ -968,7 +969,7 @@ const useLocalStorage = (key, initialValue) => {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
-      console.error(error);
+      
       return initialValue;
     }
   });
@@ -979,7 +980,7 @@ const useLocalStorage = (key, initialValue) => {
       setStoredValue(valueToStore);
       window.localStorage.setItem(key, JSON.stringify(valueToStore));
     } catch (error) {
-      console.error(error);
+      
     }
   };
 
@@ -1589,3 +1590,4 @@ export default Modal;`
 };
 
 export default CourseLearningFrontendAdvanced;
+

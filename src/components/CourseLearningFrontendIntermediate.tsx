@@ -272,7 +272,7 @@ const defaultLiveCode = `<!DOCTYPE html>
   </p>
 
   <script>
-    console.log("Happy learning from the intermediate course!");
+    
   </script>
 
 </body>
@@ -354,7 +354,7 @@ if (module1 && module1.lessons[0]) {
       </ul>
 
       <div class="bg-[#111827] border border-[#1f2937] rounded-lg p-4 mb-4 text-gray-200">
-        <pre class="text-sm overflow-x-auto"><code>console.log(a);
+        <pre class="text-sm overflow-x-auto"><code>
 var a = 10;</code></pre>
         <p class="text-gray-300 mt-2">
           Output: <code>undefined</code><br />
@@ -395,7 +395,7 @@ var a = 10;</code></pre>
 }
 
 function second() {
-  console.log("Hello");
+  
 }
 
 first();</code></pre>
@@ -435,7 +435,7 @@ first();</code></pre>
       },
       {
         title: 'Variable Hoisting Example',
-        content: 'console.log(x); // undefined\nvar x = 5;'
+        content: ' // undefined\nvar x = 5;'
       },
       {
         title: 'Stack Overflow Example',
@@ -443,35 +443,35 @@ first();</code></pre>
       }
     ],
     liveCodeIsJsSnippet: true,
-    liveCode: `console.log("=== Example 1: Execution Context ===");
+    liveCode: `
 
-console.log("Start");
+
 
 var a = 10;
 
 function greet() {
   var message = "Hello World";
-  console.log(message);
+  
 }
 
 greet();
 
-console.log("End");
 
-console.log("=== Example 2: Call Stack Flow ===");
+
+
 
 function one() {
-  console.log("Inside One");
+  
   two();
 }
 
 function two() {
-  console.log("Inside Two");
+  
   three();
 }
 
 function three() {
-  console.log("Inside Three");
+  
 }
 
 one();`,
@@ -483,7 +483,7 @@ one();`,
       <h3 class="text-lg font-semibold text-white mb-2">Example 1: Execution Context</h3>
       <ul class="list-disc list-inside text-gray-300 mb-4">
         <li>
-          <code>console.log("Start");</code> runs in the global execution context and prints the first message.
+          <code></code> runs in the global execution context and prints the first message.
         </li>
         <li>
           <code>var a = 10;</code> creates a global variable inside the global execution context.
@@ -498,7 +498,7 @@ one();`,
         </li>
         <li>
           After <code>greet</code> finishes, its execution context is popped off the stack and
-          <code>console.log("End");</code> runs back in the global context.
+          <code></code> runs back in the global context.
         </li>
       </ul>
       <h3 class="text-lg font-semibold text-white mb-2">Example 2: Call Stack Flow</h3>
@@ -549,7 +549,7 @@ if (module1 && module1.lessons[1]) {
   var name = "Sai";
 
   function inner() {
-    console.log(name);
+    
   }
 
   inner();
@@ -597,7 +597,7 @@ outer();</code></pre>
 
   function inner() {
     count++;
-    console.log(count);
+    
   }
 
   return inner;
@@ -629,7 +629,7 @@ counter();</code></pre>
 
   return function() {
     balance += 500;
-    console.log("Balance:", balance);
+    
   };
 }
 
@@ -666,7 +666,7 @@ deposit();</code></pre>
 
   document.getElementById("btn").onclick = function() {
     count++;
-    console.log(count);
+    
   };
 }</code></pre>
         <p class="text-gray-300 mt-2">
@@ -709,7 +709,7 @@ deposit();</code></pre>
       {
         title: 'Closure with Parameters',
         content:
-          'function outer(x) {\n    return function inner(y) {\n        console.log(x + y);\n    };\n}\n\nvar add = outer(5);\nadd(10);'
+          'function outer(x) {\n    return function inner(y) {\n        \n    };\n}\n\nvar add = outer(5);\nadd(10);'
       },
       {
         title: 'Closure with Private Variable',
@@ -719,15 +719,15 @@ deposit();</code></pre>
       {
         title: 'Lexical Scope Example',
         content:
-          'function parent() {\n    var name = "JavaScript";\n\n    function child() {\n        console.log(name);\n    }\n\n    child();\n}'
+          'function parent() {\n    var name = "JavaScript";\n\n    function child() {\n        \n    }\n\n    child();\n}'
       }
     ],
     liveCodeIsJsSnippet: true,
-    liveCode: `console.log("=== Example 1: Simple Closure ===");
+    liveCode: `
 
 function greetUser(name) {
   function greet() {
-    console.log("Hello " + name);
+    
   }
   return greet;
 }
@@ -735,13 +735,13 @@ function greetUser(name) {
 var greetSai = greetUser("Sai");
 greetSai();
 
-console.log("=== Example 2: Counter Application ===");
+
 
 function createCounter() {
   var count = 0;
   return function() {
     count++;
-    console.log("Count:", count);
+    
   };
 }
 
@@ -750,17 +750,17 @@ counter();
 counter();
 counter();
 
-console.log("=== Example 3: Private Variable Protection ===");
+
 
 function createBankAccount() {
   var balance = 1000;
   return {
     deposit: function(amount) {
       balance += amount;
-      console.log("Deposited:", amount);
+      
     },
     getBalance: function() {
-      console.log("Balance:", balance);
+      
     }
   };
 }
@@ -769,12 +769,12 @@ var account = createBankAccount();
 account.deposit(500);
 account.getBalance();
 
-console.log("=== Example 4: Interview-Level Closure Question ===");
+
 
 function test() {
   var x = 10;
   return function() {
-    console.log(x);
+    
   };
 }
 
@@ -959,7 +959,7 @@ if (module1 && module1.lessons[2]) {
       }
     ],
     liveCodeIsJsSnippet: true,
-    liveCode: `console.log("=== Higher-Order Function Example ===");
+    liveCode: `
 
 function calculate(operation, a, b) {
   return operation(a, b);
@@ -976,8 +976,8 @@ function multiply(x, y) {
 var result1 = calculate(add, 5, 3);
 var result2 = calculate(multiply, 5, 3);
 
-console.log("Addition:", result1);
-console.log("Multiplication:", result2);`,
+
+`,
     liveCodeExplanation: `
       <p class="mb-2 text-gray-300">
         This example shows how a higher-order function can receive different operations (functions) as arguments and
@@ -1028,7 +1028,7 @@ if (module1 && module1.lessons[3]) {
         <li>
           <strong>Call Stack</strong> – Executes synchronous code line by line.
           <br />
-          Example: <code>console.log("Hello");</code>
+          Example: <code></code>
         </li>
         <li>
           <strong>Web APIs (Browser Features)</strong> – Handle async tasks such as
@@ -1065,13 +1065,13 @@ if (module1 && module1.lessons[3]) {
 
       <h3 class="text-xl font-semibold text-white mt-6 mb-3">Execution Order Example</h3>
       <div class="bg-[#111827] border border-[#1f2937] rounded-lg p-4 mb-4 text-gray-200">
-        <pre class="text-sm overflow-x-auto"><code>console.log("Start");
+        <pre class="text-sm overflow-x-auto"><code>
 
-setTimeout(() =&gt; console.log("Timeout"), 0);
+setTimeout(() =&gt; 
 
-Promise.resolve().then(() =&gt; console.log("Promise"));
+Promise.resolve().then(() =&gt; 
 
-console.log("End");</code></pre>
+</code></pre>
         <p class="text-gray-300 mt-2">
           Output order:<br />
           <code>Start</code><br />
@@ -1109,28 +1109,28 @@ console.log("End");</code></pre>
       {
         title: 'Async Operation Order Example',
         content:
-          'console.log("Start");\n\nsetTimeout(() => {}, 0);\n\nPromise.resolve().then(() => {});\n\nconsole.log("End");'
+          '\n\nsetTimeout(() => {}, 0);\n\nPromise.resolve().then(() => {});\n\n'
       }
     ],
     liveCodeIsJsSnippet: true,
-    liveCode: `console.log("Step 1: Start");
+    liveCode: `
 
 setTimeout(function timeoutFunction() {
-  console.log("Step 4: setTimeout executed");
+  
 }, 0);
 
 Promise.resolve().then(function promiseFunction() {
-  console.log("Step 3: Promise executed");
+  
 });
 
-console.log("Step 2: End");`,
+`,
     liveCodeExplanation: `
       <p class="mb-2">
         This example shows how the Event Loop, Microtasks (Promises), and Macrotasks (setTimeout) affect execution order.
       </p>
       <ul class="list-disc list-inside space-y-2">
         <li>
-          <code>console.log("Step 1: Start");</code><br />
+          <code></code><br />
           Runs immediately on the call stack. Marks the beginning of the program.
         </li>
         <li>
@@ -1144,16 +1144,16 @@ console.log("Step 2: End");`,
           priority than macrotasks, so this callback will run before the timeout callback.
         </li>
         <li>
-          <code>console.log("Step 2: End");</code><br />
+          <code></code><br />
           Another synchronous log. It runs right after <code>"Step 1: Start"</code> and before any async callbacks.
         </li>
         <li>
           After the call stack is empty, the Event Loop processes microtasks first:<br />
-          <code>console.log("Step 3: Promise executed");</code>
+          <code></code>
         </li>
         <li>
           Then it runs one macrotask from the Macrotask Queue:<br />
-          <code>console.log("Step 4: setTimeout executed");</code>
+          <code></code>
         </li>
         <li>
           Final output order in the preview:<br />
@@ -1270,7 +1270,7 @@ if (module1 && module1.lessons[4]) {
     liveCodeIsJsSnippet: true,
     liveCode: `function fetchUserData() {
   return new Promise(function(resolve, reject) {
-    console.log("Fetching user data...");
+    
     setTimeout(function() {
       resolve("User data received");
     }, 2000);
@@ -1278,10 +1278,10 @@ if (module1 && module1.lessons[4]) {
 }
 
 async function getUserData() {
-  console.log("Request started");
+  
   var result = await fetchUserData();
-  console.log(result);
-  console.log("Request finished");
+  
+  
 }
 
 getUserData();`,
@@ -1301,14 +1301,14 @@ getUserData();`,
           Promise from <code>fetchUserData</code> is fulfilled.
         </li>
         <li>
-          <code>console.log("Request started");</code> runs immediately when <code>getUserData</code> starts.
+          <code></code> runs immediately when <code>getUserData</code> starts.
         </li>
         <li>
           <code>var result = await fetchUserData();</code> waits for the Promise to resolve and stores
           <code>"User data received"</code> in <code>result</code>.
         </li>
         <li>
-          After the Promise resolves, <code>console.log(result);</code> prints the resolved value, followed by
+          After the Promise resolves, <code></code> prints the resolved value, followed by
           <code>"Request finished"</code>.
         </li>
         <li>
@@ -1447,9 +1447,9 @@ var updatedStudent = {
 };
 
 function displayStudent(...details) {
-  console.log("Student Details:");
+  
   details.forEach(function(detail) {
-    console.log(detail);
+    
   });
 }
 
@@ -1641,8 +1641,8 @@ function multiply(a, b) {
 var sum = add(5, 3);
 var product = multiply(5, 3);
 
-console.log("Sum:", sum);
-console.log("Product:", product);`,
+
+`,
     liveCodeExplanation: `
       <h3 class="text-lg font-semibold text-white mb-2">math.js Explanation</h3>
       <ul class="list-disc list-inside text-gray-300 mb-4">
@@ -1680,7 +1680,7 @@ console.log("Product:", product);`,
           Calls <code>multiply</code> with the same numbers. The result is <code>15</code>.
         </li>
         <li>
-          <strong>Lines 19–20 – <code>console.log</code> lines:</strong>
+          <strong>Lines 19–20 – output lines:</strong>
           Print the final output:
           <br />Sum: 8
           <br />Product: 15
@@ -1746,7 +1746,7 @@ if (module1 && module1.lessons[7]) {
           <br />
           Example:
           <div class="bg-[#111827] border border-[#1f2937] rounded-lg p-3 mt-2 text-gray-200">
-            <pre class="text-sm overflow-x-auto"><code>console.log(x); // x is not defined</code></pre>
+            <pre class="text-sm overflow-x-auto"><code> // x is not defined</code></pre>
           </div>
         </li>
         <li>
@@ -1801,20 +1801,7 @@ if (module1 && module1.lessons[7]) {
         developers.
       </p>
       <ul class="list-disc list-inside text-gray-300 space-y-1 mb-4">
-        <li><code>console.log()</code> – quick checks for values and program flow.</li>
-        <li><strong>Browser DevTools</strong> – inspect variables, call stack, and network requests.</li>
-        <li><strong>Breakpoints</strong> – pause code execution at a specific line to inspect state.</li>
-        <li><code>try...catch</code> – capture and log unexpected errors in production.</li>
-      </ul>
-      <p class="text-gray-300">
-        Strong debugging skills help you diagnose problems quickly, communicate issues clearly, and ship stable
-        features faster.
-      </p>
-    `,
-    syntax: [
-      {
-        title: 'Basic try...catch',
-        content: 'try {\\n    // risky code\\n} catch (error) {\\n    console.log(error.message);\\n}'
+        <li><code>\\n}'
       },
       {
         title: 'try...catch with finally',
@@ -1836,15 +1823,15 @@ if (module1 && module1.lessons[7]) {
 
     var result = a / b;
 
-    console.log("Result:", result);
+    
 
   } catch (error) {
 
-    console.log("Error:", error.message);
+    
 
   } finally {
 
-    console.log("Execution completed");
+    
 
   }
 
@@ -1878,7 +1865,7 @@ divideNumbers(10, 0);`,
           Performs the actual division. This line only runs when no error has been thrown above.
         </li>
         <li>
-          <strong>Line 11 – <code>console.log("Result:", result);</code>:</strong><br />
+          <strong>Line 11 – <code></code>:</strong><br />
           Logs the computed result. For the first call with <code>(10, 2)</code>, the output is
           <code>Result: 5</code>.
         </li>
@@ -1888,7 +1875,7 @@ divideNumbers(10, 0);`,
           lets you handle the problem gracefully.
         </li>
         <li>
-          <strong>Line 16 – <code>console.log("Error:", error.message);</code>:</strong><br />
+          <strong>Line 16 – <code></code>:</strong><br />
           Logs a readable error message. For the second call with <code>(10, 0)</code>, the output is
           <code>Error: Division by zero is not allowed</code>.
         </li>
@@ -1898,7 +1885,7 @@ divideNumbers(10, 0);`,
           tasks such as closing connections or hiding loading indicators.
         </li>
         <li>
-          <strong>Line 21 – <code>console.log("Execution completed");</code>:</strong><br />
+          <strong>Line 21 – <code></code>:</strong><br />
           Prints <code>Execution completed</code> after each function call, showing that the cleanup step runs both in
           success and error cases.
         </li>
@@ -2022,11 +2009,11 @@ var user = { name: "Test" };</code></pre>
   var intervalId = setInterval(function() {
 
     count++;
-    console.log("Count:", count);
+    
 
     if (count === 5) {
       clearInterval(intervalId);
-      console.log("Interval cleared to prevent memory leak");
+      
     }
 
   }, 1000);
@@ -2056,7 +2043,7 @@ startCounter();`,
           and contribute to a memory leak.
         </li>
         <li>
-          <strong>Lines 7–8 – <code>count++;</code> and <code>console.log("Count:", count);</code>:</strong><br />
+          <strong>Lines 7–8 – <code>count++;</code> and <code></code>:</strong><br />
           Increments the counter and logs the current value every second.<br />
           Example output:<br />
           <code>Count: 1</code><br />
@@ -2067,7 +2054,7 @@ startCounter();`,
         </li>
         <li>
           <strong>Lines 10–13 – stop condition:</strong><br />
-          <code>if (count === 5) {'{'} clearInterval(intervalId); console.log("Interval cleared to prevent memory leak"); {'}'}</code><br />
+          <code>if (count === 5) {'{'} clearInterval(intervalId);  {'}'}</code><br />
           When <code>count</code> reaches <code>5</code>, the interval is cleared. This stops future executions and
           releases the associated resources, preventing the timer from running forever.
         </li>
@@ -3161,14 +3148,14 @@ git push origin feature-navbar`,
           File content:<br />
           <div class="bg-[#111827] border border-[#1f2937] rounded-lg p-3 mt-2 mb-2 text-gray-200">
             <pre class="text-sm overflow-x-auto"><code>function createNavbar() {
-  console.log("Navbar created successfully");
+  
 }
 
 createNavbar();</code></pre>
           </div>
           Explanation:<br />
           <code>function createNavbar() {</code> → defines a function named <code>createNavbar</code>.<br />
-          <code>console.log("Navbar created successfully");</code> → prints a success message to the console.<br />
+          <code></code> → prints a success message to the console.<br />
           <code>}</code> → ends the function.<br />
           <code>createNavbar();</code> → calls the function and executes it.<br />
           Output: <code>Navbar created successfully</code>.
@@ -3382,14 +3369,14 @@ git push origin feature-profile`,
           File content:<br />
           <div class="bg-[#111827] border border-[#1f2937] rounded-lg p-3 mt-2 mb-2 text-gray-200">
             <pre class="text-sm overflow-x-auto"><code>function loadProfile() {
-  console.log("Profile loaded successfully");
+  
 }
 
 loadProfile();</code></pre>
           </div>
           Explanation:<br />
           <code>function loadProfile() {</code> → creates a function named <code>loadProfile</code>.<br />
-          <code>console.log("Profile loaded successfully");</code> → prints a success message to the console.<br />
+          <code></code> → prints a success message to the console.<br />
           <code>}</code> → ends the function.<br />
           <code>loadProfile();</code> → executes the function.<br />
           Output: <code>Profile loaded successfully</code>.
@@ -3785,14 +3772,14 @@ git checkout a3c45d2`,
           File content:<br />
           <div class="bg-[#111827] border border-[#1f2937] rounded-lg p-3 mt-2 mb-2 text-gray-200">
             <pre class="text-sm overflow-x-auto"><code>function startApplication() {
-  console.log("Application started successfully");
+  
 }
 
 startApplication();</code></pre>
           </div>
           Explanation:<br />
           <code>function startApplication() {</code> → creates a function named <code>startApplication</code>.<br />
-          <code>console.log("Application started successfully");</code> → prints a message.<br />
+          <code></code> → prints a message.<br />
           <code>}</code> → ends the function.<br />
           <code>startApplication();</code> → executes the function.<br />
           Output: <code>Application started successfully</code>.
@@ -5962,7 +5949,7 @@ if (module4 && module4.lessons[0]) {
       }
     ],
     liveCodeIsJsSnippet: true,
-    liveCode: `console.log("=== React Architecture and Virtual DOM ===");
+    liveCode: `
 
 function renderComponentTree() {
   const app = {
@@ -5970,10 +5957,10 @@ function renderComponentTree() {
     children: ["Header", "Dashboard", "Footer"]
   };
 
-  console.log("Component tree:", app);
-  console.log("1) Build Virtual DOM for <App />");
-  console.log("2) Diff with previous Virtual DOM");
-  console.log("3) Apply minimal changes to real DOM");
+  
+  
+  
+  
 }
 
 renderComponentTree();`,
@@ -6080,7 +6067,7 @@ npm run dev</code></pre>
       }
     ],
     liveCodeIsJsSnippet: true,
-    liveCode: `console.log("=== Vite + React Project Setup ===");
+    liveCode: `
 
 const commands = [
   "npm create vite@latest my-react-app -- --template react",
@@ -6090,7 +6077,7 @@ const commands = [
 ];
 
 commands.forEach((cmd, index) => {
-  console.log(index + 1 + ")", cmd);
+  
 });`,
     liveCodeExplanation: `
       <p class="mb-3 text-gray-300">
@@ -6237,22 +6224,22 @@ function App() {
       }
     ],
     liveCodeIsJsSnippet: true,
-    liveCode: `console.log("=== JSX and Rendering Logic (Simulated) ===");
+    liveCode: `
 
 let isLoggedIn = false;
 const users = ["John", "Alice", "Bob"];
 
 function render() {
   const message = isLoggedIn ? "Welcome User" : "Please Login";
-  console.log("Message:", message);
-  console.log("Users:", users.join(", "));
+  
+  
 }
 
-console.log("Initial render:");
+
 render();
 
 isLoggedIn = true;
-console.log("After login:");
+
 render();`,
     liveCodeExplanation: `
       <p class="mb-3 text-gray-300">
@@ -6422,7 +6409,7 @@ if (module4 && module4.lessons[3]) {
       }
     ],
     liveCodeIsJsSnippet: true,
-    liveCode: `console.log("=== Functional Components (Simulated) ===");
+    liveCode: `
 
 function Header() {
   return "Header: Welcome to My Application";
@@ -6447,8 +6434,8 @@ function App() {
   return parts.join(" | ");
 }
 
-console.log("App render output:");
-console.log(App());`,
+
+`,
     liveCodeExplanation: `
       <p class="mb-3 text-gray-300">
         This example shows how to design UI using small functional components and how they work together.
@@ -6596,12 +6583,12 @@ function User(props) {
       }
     ],
     liveCodeIsJsSnippet: true,
-    liveCode: `console.log("=== Props and Component Communication (Simulated) ===");
+    liveCode: `
 
 function UserCard(props) {
-  console.log("Rendering UserCard for:", props.name);
-  console.log("  Role:", props.role);
-  console.log("  Experience:", props.experience, "years");
+  
+  
+  
 }
 
 function App() {
@@ -6737,7 +6724,7 @@ const [isLoggedIn, setIsLoggedIn] = useState(false);</code></pre>
       }
     ],
     liveCodeIsJsSnippet: true,
-    liveCode: `console.log("=== useState Concept using Plain JavaScript ===");
+    liveCode: `
 
 function createCounter() {
   let count = 0;
@@ -6745,14 +6732,14 @@ function createCounter() {
   return {
     increase() {
       count += 1;
-      console.log("Count after increase:", count);
+      
     },
     decrease() {
       count -= 1;
-      console.log("Count after decrease:", count);
+      
     },
     getCount() {
-      console.log("Current count:", count);
+      
     }
   };
 }
@@ -6834,7 +6821,7 @@ if (module4 && module4.lessons[6]) {
       </p>
       <div class="bg-[#111827] border border-[#1f2937] rounded-lg p-3 mb-4 text-gray-200">
         <pre class="text-sm overflow-x-auto"><code>function handleClick() {
-  console.log("Button clicked");
+  
 }</code></pre>
       </div>
 
@@ -6859,7 +6846,7 @@ if (module4 && module4.lessons[6]) {
       },
       {
         title: 'Event Handler Function',
-        content: 'function handleClick() {\\n  console.log("Clicked");\\n}'
+        content: 'function handleClick() {\\n  \\n}'
       },
       {
         title: 'Arrow Function Event',
@@ -6875,17 +6862,17 @@ if (module4 && module4.lessons[6]) {
       }
     ],
     liveCodeIsJsSnippet: true,
-    liveCode: `console.log("=== Event Handling Simulation ===");
+    liveCode: `
 
 function handleClick() {
-  console.log("Button clicked");
+  
 }
 
 function handleInputChange(value) {
-  console.log("Input changed:", value);
+  
 }
 
-console.log("Simulating user events...");
+
 handleClick();
 handleInputChange("React Developer");`,
     liveCodeExplanation: `
@@ -7023,34 +7010,34 @@ if (module4 && module4.lessons[7]) {
       }
     ],
     liveCodeIsJsSnippet: true,
-    liveCode: `console.log("=== Conditional Rendering and Lists (Simulated) ===");
+    liveCode: `
 
 let isLoggedIn = false;
 const users = ["Rahul", "Anita", "Kiran"];
 
 function showScreen() {
   const message = isLoggedIn ? "Welcome User" : "Please Login";
-  console.log("Message:", message);
+  
 
   if (users.length > 0) {
-    console.log("User list:");
+    
     users.forEach((user, index) => {
-      console.log(" ", index + 1 + ".", user);
+      
     });
   } else {
-    console.log("No users available");
+    
   }
 
   if (isLoggedIn) {
-    console.log("Protected content is visible");
+    
   }
 }
 
-console.log("Initial screen:");
+
 showScreen();
 
 isLoggedIn = true;
-console.log("After login:");
+
 showScreen();`,
     liveCodeExplanation: `
       <p class="mb-3 text-gray-300">
@@ -7200,19 +7187,19 @@ if (module4 && module4.lessons[8]) {
       }
     ],
     liveCodeIsJsSnippet: true,
-    liveCode: `console.log("=== Simulated Component Lifecycle with useEffect ===");
+    liveCode: `
 
 function simulateComponent() {
-  console.log("Mount: Component Mounted");
+  
   let count = 0;
 
   function cleanup() {
-    console.log("Cleanup: Component Unmounted or before update");
+    
   }
 
   function update() {
     count += 1;
-    console.log("Update: count is now", count);
+    
   }
 
   update();
@@ -8252,21 +8239,8 @@ const CourseLearningFrontendIntermediate: React.FC = () => {
 </head>
 <body>
   <h1>JavaScript Output Preview</h1>
-  <p>console.log output will appear below.</p>
+  <p>Output will appear below.</p>
   <pre id="output"></pre>
-  <script>
-    (function() {
-      var originalLog = console.log;
-      var outputEl = document.getElementById('output');
-      console.log = function() {
-        var message = Array.prototype.slice.call(arguments).join(' ');
-        if (outputEl) {
-          outputEl.textContent += message + '\\n';
-        }
-        originalLog.apply(console, arguments);
-      };
-    })();
-  </script>
   <script>
 ${safeCode}
   </script>
@@ -8653,3 +8627,4 @@ ${safeCode}
 };
 
 export default CourseLearningFrontendIntermediate;
+

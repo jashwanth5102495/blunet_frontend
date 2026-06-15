@@ -147,7 +147,7 @@ const StudentPortal: React.FC = () => {
       sessionStorage.clear();
       navigate('/');
     } catch (e) {
-      console.error('Logout error:', e);
+      
       // Hard redirect as fallback
       window.location.href = '/';
     }
@@ -299,21 +299,21 @@ const StudentPortal: React.FC = () => {
                     setAssignmentStatuses(prev => ({ ...prev, ...updatedStatuses }));
                   }
                 } catch (mapErr) {
-                  console.warn('Could not map assignment statuses from summary', mapErr);
+                  
                 }
               } else if (typeof totalApi === 'number' && totalApi > 0) {
                 total = Math.max(totalLocal, totalApi);
               }
             }
           } catch (apiErr) {
-            console.error('Summary API failed, falling back to local data', apiErr);
+            
           }
         }
 
         const pending = Math.max(total - completed, 0);
         setAssignmentSummary({ total, completed, pending });
       } catch (e) {
-        console.error('Failed to compute assignment summary', e);
+        
         const mappedIds = getCourseIdMapping(selectedCourseForAssignments);
         const courseAssignments = assignments.filter(a => mappedIds.includes(a.courseId));
         const total = courseAssignments.length;
@@ -565,7 +565,7 @@ const StudentPortal: React.FC = () => {
         }
       }
     } catch (error) {
-      console.error('Error fetching module submissions:', error);
+      
     }
   };
 
@@ -622,12 +622,12 @@ const StudentPortal: React.FC = () => {
         }));
         return true;
       } else {
-        console.error('Submission failed:', result);
+        
         alert(`Failed to submit: ${result.message}`);
         return false;
       }
     } catch (error) {
-      console.error('Error submitting module:', error);
+      
       alert('Error submitting module. Please try again.');
       return false;
     }
@@ -2082,7 +2082,7 @@ const StudentPortal: React.FC = () => {
     try {
       userData = JSON.parse(currentUser);
     } catch (parseError) {
-      console.error('Failed to parse currentUser from localStorage:', parseError);
+      
       handleUnauthorized();
       return;
     }
@@ -2111,7 +2111,7 @@ const StudentPortal: React.FC = () => {
 
         // Handle unauthorized response for courses fetch
         if (coursesResponse.status === 401) {
-          console.error('Unauthorized: Token expired or invalid when fetching courses.');
+          
           handleUnauthorized();
           return;
         }
@@ -2168,7 +2168,7 @@ const StudentPortal: React.FC = () => {
           }
         } else {
           // Non-401 error from courses endpoint
-          console.error('Backend request failed with status:', coursesResponse.status);
+          
           setPurchasedCourses([]);
           setEnrolledCoursesData([]);
           setCourseProgress({});
@@ -2176,7 +2176,7 @@ const StudentPortal: React.FC = () => {
 
         // Fetch additional student data from backend
         let studentData = userData;
-        const studentResponse = await fetch(`${BASE_URL}/api/students/${userData.id}`, {
+        const studentResponse = await fetch(`${BASE_URL}/api/students/profile/${userData.id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -2184,7 +2184,7 @@ const StudentPortal: React.FC = () => {
 
         // Handle unauthorized response for student data fetch
         if (studentResponse.status === 401) {
-          console.error('Unauthorized: Token expired or invalid when fetching student data.');
+          
           handleUnauthorized();
           return;
         }
@@ -2212,7 +2212,7 @@ const StudentPortal: React.FC = () => {
         });
 
       } catch (error) {
-        console.error('Error loading student data:', error);
+        
         // Only set fallback profile on network/parse errors, not on auth errors
         setStudentProfile({
           name: 'Student Name',
@@ -2386,7 +2386,7 @@ const StudentPortal: React.FC = () => {
           }
         }
       } catch (error) {
-        console.error('Error verifying referral code:', error);
+        
         // On error, reset to original price
         setPaymentModalData({
           ...paymentModalData,
@@ -2472,7 +2472,7 @@ const StudentPortal: React.FC = () => {
         }
       }
     } catch (error) {
-      console.error('Payment submission error:', error);
+      
       alert('Error submitting payment. Please try again.');
     } finally {
       setIsProcessingPayment(false);
@@ -2529,7 +2529,7 @@ const StudentPortal: React.FC = () => {
                         }
                       }
                     } catch (error) {
-                      console.error('Error refreshing course data:', error);
+                      
                     } finally {
                       setIsLoading(false);
                     }
@@ -3068,7 +3068,7 @@ const StudentPortal: React.FC = () => {
                             setPwdError(result?.message || 'Failed to update password.');
                           }
                         } catch (err) {
-                          console.error('Password update error:', err);
+                          
                           setPwdError('Network or server error while updating password.');
                         } finally {
                           setPwdLoading(false);
@@ -4480,3 +4480,4 @@ const StudentPortal: React.FC = () => {
 };
 
 export default StudentPortal;
+

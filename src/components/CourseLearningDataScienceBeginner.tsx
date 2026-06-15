@@ -9386,7 +9386,7 @@ print(df)
             setPyodide(pyodideInstance);
             setPyodideOutput(prev => prev + '\n\nReady! Environment configured with NumPy, Pandas, Matplotlib, Seaborn, SciPy, Scikit-learn.\nType your code and click Run.');
         } catch (err) {
-            console.error("Failed to load Pyodide:", err);
+            
             setPyodideOutput(prev => prev + '\nError loading Python environment. Please refresh the page or check your internet connection.');
         } finally {
             setIsPyodideLoading(false);
@@ -9861,3 +9861,4 @@ if plt.get_fignums():
 };
 
 export default CourseLearningDataScienceBeginner;
+

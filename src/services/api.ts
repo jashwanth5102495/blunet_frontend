@@ -107,7 +107,7 @@ class ApiService {
 
       return data;
     } catch (error) {
-      console.error('API request failed:', error);
+      
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error occurred',
@@ -206,3 +206,4 @@ class ApiService {
 }
 
 export default new ApiService();
+

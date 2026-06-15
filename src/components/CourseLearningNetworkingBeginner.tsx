@@ -2647,7 +2647,7 @@ const CourseLearningNetworkingBeginner: React.FC = () => {
       setChatMessages(prev => [...prev, { role: 'assistant', content: answer }]);
     } catch (err) {
       setChatMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, I could not reach the assistant. Please try again.' }]);
-      console.error('Chat error:', err);
+      
     } finally {
       setChatLoading(false);
     }

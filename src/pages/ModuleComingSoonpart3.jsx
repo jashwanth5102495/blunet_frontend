@@ -834,7 +834,7 @@ function Home() {
   useEffect(() => {
     axios.get("http://localhost:8000/products/")
       .then(res => setProducts(res.data))
-      .catch(err => console.error(err));
+      .catch(err => 
   }, []);
 
   return (

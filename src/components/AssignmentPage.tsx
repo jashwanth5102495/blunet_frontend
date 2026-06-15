@@ -1723,7 +1723,7 @@ const AssignmentPage = () => {
         setAttemptHistory(result.data.attempts);
       }
     } catch (err) {
-      console.error('Error fetching attempt history:', err);
+      
     }
   };
 
@@ -1803,7 +1803,7 @@ const AssignmentPage = () => {
             });
           }
         } catch (progressErr) {
-          console.error('Failed to record assignment progress:', progressErr);
+          
         }
 
         setCurrentView('results');
@@ -1862,11 +1862,11 @@ const AssignmentPage = () => {
             }
           }
         } catch (e) {
-          console.error('Local progress record failed:', e);
+          
         }
         setCurrentView('results');
       } else {
-        console.error('Error submitting assignment:', err);
+        
         alert(err.message || 'Failed to submit assignment. Please try again.');
       }
     } finally {
@@ -2473,3 +2473,4 @@ const AssignmentPage = () => {
 };
 
 export default AssignmentPage;
+

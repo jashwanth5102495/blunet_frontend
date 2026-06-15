@@ -251,10 +251,10 @@ function ImportMetaCheck() {
       const isVite = !!window.__isVite;
       if (isVite) {
         setLog('import.meta.env → { VITE_APP_EXAMPLE: "true" } (simulated)');
-        console.log('import.meta.env (simulated):', { VITE_APP_EXAMPLE: 'true' });
+        
       } else {
         setLog('CRA: import.meta.env is not available by default');
-        console.log('CRA: import.meta.env is not available by default');
+        
       }
     } catch (e) {
       setLog('Environment check failed: ' + e.message);
@@ -496,7 +496,7 @@ header, nav, main, footer, section, aside {
 }
 `,
           'js/main.js': `document.addEventListener("DOMContentLoaded", () => {
-  console.log("CSS Grid & Flexbox Layout Demo Loaded");
+  
 });
 `,
         };
@@ -575,7 +575,7 @@ main {
 `,
           'js/main.js': `// Simple script to confirm the page is interactive
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("Semantic HTML5 Demo Loaded");
+  
 });
 `,
         };
@@ -709,7 +709,7 @@ header, footer {
   .card { font-size: 0.8rem; }
 }
 `,
-          'js/main.js': 'console.log("Responsive UI Design Demo Ready");',
+          'js/main.js': '',
         };
       }
       if (currentTopic === 3) {
@@ -1043,7 +1043,7 @@ footer {
   margin-top: 2rem;
 }`,
           'js/main.js': `document.addEventListener("DOMContentLoaded", () => {
-  console.log("AI-assisted development demo running...");
+  
 
   const cards = document.querySelectorAll(".card");
   cards.forEach((card, i) => {
@@ -1086,11 +1086,11 @@ import { add, subtract, multiply, divide } from './math.js';
 const student = "Ava";
 const greet = (name) => \`Welcome, \${name}!\`;
 
-console.log(greet(student));
-console.log(\`2 + 3 = \${add(2, 3)}\`);
-console.log(\`10 - 4 = \${subtract(10, 4)}\`);
-console.log(\`6 × 5 = \${multiply(6, 5)}\`);
-console.log(\`10 ÷ 2 = \${divide(10, 2)}\`);`,
+
+
+
+
+`,
         };
       }
       if (currentTopic === 1) {
@@ -1170,7 +1170,7 @@ fetch("https://jsonplaceholder.typicode.com/users")
       userList.appendChild(li);
     });
   })
-  .catch((error) => console.error("Error fetching users:", error));`,
+  .catch((error) => `,
         };
       }
       if (currentTopic === 3) {
@@ -1269,7 +1269,7 @@ function Counter() {
 
   useEffect(() => {
     document.title = \`Clicked \${count} times\`;
-    console.log('Effect: Count updated to', count);
+    
   }, [count]);
 
   return (
@@ -1365,7 +1365,7 @@ function ProductGrid() {
     fetch('https://fakestoreapi.com/products')
       .then(res => res.json())
       .then(data => setProducts(data))
-      .catch(err => console.error(err));
+      .catch(err => 
   }, []);
 
   return (
@@ -1661,7 +1661,7 @@ root.render(<App />);`,
 </html>`,
           'css/styles.css': `body{font-family:system-ui,sans-serif;background:#f5f7fb;color:#222} .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px} .card{border:1px solid #ddd;border-radius:8px;padding:12px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.05)} .img{width:120px;height:120px;object-fit:contain;margin:auto;display:block}`,
           'components/ProductCard.js': `function ProductCard({ item }){\n  return (\n    <div className="card">\n      <img className="img" src={item.image || item.image_url || ''} alt={item.name || item.title || 'Product'} />\n      <h4>{item.name || item.title}</h4>\n      <p>{item.price}</p>\n    </div>\n  );\n}\nwindow.ProductCard = ProductCard;`,
-          'App.js': `const root = ReactDOM.createRoot(document.getElementById('root'));\n\nfunction App(){\n  const [products, setProducts] = React.useState([]);\n  const API_URL = 'http://localhost:8000/api/products/';\n  const FALLBACK_URL = 'https://fakestoreapi.com/products?limit=8';\n\n  React.useEffect(() => {\n    async function load(){\n      try {\n        const res = await fetch(API_URL);\n        if (!res.ok) throw new Error('HTTP '+res.status);\n        const data = await res.json();\n        setProducts(Array.isArray(data) ? data : (data.results || []));\n      } catch (err) {\n        console.warn('Fallback to FakeStore API:', err.message);\n        try {\n          const res = await fetch(FALLBACK_URL);\n          const data = await res.json();\n          setProducts(Array.isArray(data) ? data : []);\n        } catch(e){ console.error(e); }\n      }\n    }\n    load();\n  }, []);\n\n  const ProductCard = window.ProductCard;\n  return (\n    <div style={{padding:'16px'}}>\n      <h2 style={{margin:'0 0 16px'}}>React → Django REST → MongoDB</h2>\n      <div className="grid">\n        {products.map(function(item){\n          return <ProductCard key={item.id || item._id || item.name} item={item}/>;\n        })}\n      </div>\n    </div>\n  );\n}\n\nroot.render(<App />);`,
+          'App.js': `const root = ReactDOM.createRoot(document.getElementById('root'));\n\nfunction App(){\n  const [products, setProducts] = React.useState([]);\n  const API_URL = 'http://localhost:8000/api/products/';\n  const FALLBACK_URL = 'https://fakestoreapi.com/products?limit=8';\n\n  React.useEffect(() => {\n    async function load(){\n      try {\n        const res = await fetch(API_URL);\n        if (!res.ok) throw new Error('HTTP '+res.status);\n        const data = await res.json();\n        setProducts(Array.isArray(data) ? data : (data.results || []));\n      } catch (err) {\n        \n        try {\n          const res = await fetch(FALLBACK_URL);\n          const data = await res.json();\n          setProducts(Array.isArray(data) ? data : []);\n        } catch(e){  }\n      }\n    }\n    load();\n  }, []);\n\n  const ProductCard = window.ProductCard;\n  return (\n    <div style={{padding:'16px'}}>\n      <h2 style={{margin:'0 0 16px'}}>React → Django REST → MongoDB</h2>\n      <div className="grid">\n        {products.map(function(item){\n          return <ProductCard key={item.id || item._id || item.name} item={item}/>;\n        })}\n      </div>\n    </div>\n  );\n}\n\nroot.render(<App />);`,
           'backend/settings.py': `DATABASES = {\n  'default': {\n    'ENGINE': 'djongo',\n    'NAME': 'productdb',\n  }\n}\nINSTALLED_APPS = [\n  'rest_framework',\n  'products',\n]`,
           'backend/products/models.py': `from djongo import models\n\nclass Product(models.Model):\n    name = models.CharField(max_length=100)\n    price = models.FloatField()\n    description = models.TextField()\n    image = models.URLField()\n\n    def __str__(self):\n        return self.name`,
           'backend/products/serializers.py': `from rest_framework import serializers\nfrom .models import Product\n\nclass ProductSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Product\n        fields = '__all__'`,
@@ -1852,7 +1852,7 @@ root.render(<App />);`,
 </html>`,
           'css/styles.css': `body{font-family:system-ui,sans-serif;background:#f9fafb;color:#111} .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px} .card{border:1px solid #ddd;border-radius:8px;padding:12px;background:#fff} .img{width:120px;height:120px;object-fit:contain;margin:auto;display:block}`,
           'components/ProductCard.js': `function ProductCard({ item }){\n  return (\n    <div className="card">\n      <img className="img" src={item.image || item.image_url || ''} alt={item.name || item.title || 'Product'} />\n      <h4>{item.name || item.title}</h4>\n      <p>{item.price}</p>\n    </div>\n  );\n}\nwindow.ProductCard = ProductCard;`,
-          'App.js': `const root = ReactDOM.createRoot(document.getElementById('root'));\n\nfunction App(){\n  const [products, setProducts] = React.useState([]);\n  const [error, setError] = React.useState('');\n  const API_URL = 'http://127.0.0.1:8000/api/products/';\n  const FALLBACK_URL = 'https://fakestoreapi.com/products?limit=6';\n\n  React.useEffect(() => {\n    async function load(){\n      try {\n        const res = await fetch(API_URL);\n        if (!res.ok) throw new Error('HTTP '+res.status);\n        const data = await res.json();\n        setProducts(Array.isArray(data) ? data : (data.results || []));\n      } catch (err) {\n        setError('Could not reach Django API. Start it with: cd backend && python manage.py runserver');\n        try {\n          const res = await fetch(FALLBACK_URL);\n          const data = await res.json();\n          setProducts(Array.isArray(data) ? data : []);\n        } catch(e){ console.error(e); }\n      }\n    }\n    load();\n  }, []);\n\n  const ProductCard = window.ProductCard;\n  return (\n    <div style={{padding:'16px'}}>\n      <h2 style={{margin:'0 0 12px'}}>Django REST + MongoDB via Djongo</h2>\n      {error && <p style={{color:'#b91c1c'}}>{error}</p>}\n      <div className="grid">\n        {products.map(function(item){\n          return <ProductCard key={item.id || item._id || item.name} item={item}/>;\n        })}\n      </div>\n      <div className="card" style={{marginTop:'12px'}}>\n        <strong>Backend Files</strong>\n        <pre style={{whiteSpace:'pre-wrap'}}>{'/backend\\n\\nbackend/\\n  settings.py\\n  urls.py\\nproducts/\\n  models.py\\n  serializers.py\\n  views.py\\nmanage.py'}</pre>\n      </div>\n    </div>\n  );\n}\n\nroot.render(<App />);`,
+          'App.js': `const root = ReactDOM.createRoot(document.getElementById('root'));\n\nfunction App(){\n  const [products, setProducts] = React.useState([]);\n  const [error, setError] = React.useState('');\n  const API_URL = 'http://127.0.0.1:8000/api/products/';\n  const FALLBACK_URL = 'https://fakestoreapi.com/products?limit=6';\n\n  React.useEffect(() => {\n    async function load(){\n      try {\n        const res = await fetch(API_URL);\n        if (!res.ok) throw new Error('HTTP '+res.status);\n        const data = await res.json();\n        setProducts(Array.isArray(data) ? data : (data.results || []));\n      } catch (err) {\n        setError('Could not reach Django API. Start it with: cd backend && python manage.py runserver');\n        try {\n          const res = await fetch(FALLBACK_URL);\n          const data = await res.json();\n          setProducts(Array.isArray(data) ? data : []);\n        } catch(e){  }\n      }\n    }\n    load();\n  }, []);\n\n  const ProductCard = window.ProductCard;\n  return (\n    <div style={{padding:'16px'}}>\n      <h2 style={{margin:'0 0 12px'}}>Django REST + MongoDB via Djongo</h2>\n      {error && <p style={{color:'#b91c1c'}}>{error}</p>}\n      <div className="grid">\n        {products.map(function(item){\n          return <ProductCard key={item.id || item._id || item.name} item={item}/>;\n        })}\n      </div>\n      <div className="card" style={{marginTop:'12px'}}>\n        <strong>Backend Files</strong>\n        <pre style={{whiteSpace:'pre-wrap'}}>{'/backend\\n\\nbackend/\\n  settings.py\\n  urls.py\\nproducts/\\n  models.py\\n  serializers.py\\n  views.py\\nmanage.py'}</pre>\n      </div>\n    </div>\n  );\n}\n\nroot.render(<App />);`,
           'backend/settings.py': `DATABASES = {\n  'default': {\n    'ENGINE': 'djongo',\n    'NAME': 'productdb',\n  }\n}\nINSTALLED_APPS = [\n  'rest_framework',\n  'products',\n]`,
           'backend/products/models.py': `from djongo import models\n\nclass Product(models.Model):\n    name = models.CharField(max_length=100)\n    price = models.FloatField()\n    description = models.TextField(blank=True)\n    image = models.URLField(blank=True)\n\n    def __str__(self):\n        return self.name`,
           'backend/products/serializers.py': `from rest_framework import serializers\nfrom .models import Product\n\nclass ProductSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Product\n        fields = '__all__'`,
@@ -2389,7 +2389,7 @@ root.render(React.createElement(App));`,
     return {
       'index.html': '<h2>Live Code Playground</h2><p>Edit files and see changes instantly.</p>',
       'css/styles.css': 'body{font-family:system-ui,sans-serif;padding:16px} h2{margin:0 0 8px}',
-      'js/main.js': 'console.log("Hello from Live Code")',
+      'js/main.js': '',
     };
   };
 
@@ -3165,8 +3165,7 @@ js/
               </p>
               <pre className="rounded bg-gray-900 text-gray-100 p-4 overflow-auto text-sm">{`fetch(url)
   .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(err => console.error(err));`}</pre>
+  .then(data => `}</pre>
 
               <h3 className="text-lg font-semibold">What is JSON?</h3>
               <p className="text-gray-700 dark:text-gray-300">
@@ -3196,9 +3195,9 @@ js/
   try {
     const response = await fetch('https://jsonplaceholder.typicode.com/users');
     const data = await response.json();
-    console.log(data);
+    
   } catch (error) {
-    console.error('Error:', error);
+    
   }
 }
 getData();`}</pre>
@@ -3587,8 +3586,8 @@ export const multiply = (a, b) => a * b;`}</pre>
                   <div>
                     <h4 className="font-medium">app.js</h4>
                     <pre className="rounded bg-gray-900 text-gray-100 p-4 overflow-auto text-sm">{`import { add, multiply } from './math.js';
-console.log(add(2, 3));
-console.log(multiply(4, 5));`}</pre>
+
+`}</pre>
                   </div>
                 </div>
               </div>
@@ -3701,8 +3700,7 @@ button.addEventListener("click", () => {
                 <p className="text-gray-700 dark:text-gray-300"><code>fetch()</code> is a built‑in JavaScript function that makes HTTP requests (GET, POST, PUT, DELETE) and returns a Promise that resolves with a Response object.</p>
                 <pre className="rounded bg-gray-900 text-gray-100 p-4 overflow-auto text-sm">{`fetch("https://api.example.com/data")
   .then(res => res.json())
-  .then(data => console.log(data))
-  .catch(err => console.error(err));`}</pre>
+  .then(data => `}</pre>
               </div>
 
               <div>
@@ -3885,7 +3883,7 @@ function Counter() {
 
   useEffect(() => {
     document.title = \`Clicked \${count} times\`;
-    console.log('Count updated:', count);
+    
   }, [count]);
 
   return (
@@ -5298,8 +5296,7 @@ grid-area: header;      /* use named area */`}</pre>
   body: JSON.stringify(data)
 })
   .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.error(error));`}</pre>
+  .then(data => `}</pre>
           <h3 className="font-semibold text-base">Common HTTP Methods</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-sm border border-gray-200 dark:border-gray-700 rounded">
@@ -5576,8 +5573,7 @@ button.addEventListener("click", () => {
             <h4 className="font-medium">Example</h4>
             <pre className="rounded bg-gray-900 text-gray-100 p-4 overflow-auto">{`fetch("https://jsonplaceholder.typicode.com/users")
   .then(res => res.json())
-  .then(data => console.log(data))
-  .catch(err => console.error(err));`}</pre>
+  .then(data => `}</pre>
           </div>
         </div>
       );
@@ -5595,7 +5591,7 @@ const data = await res.json(); // parse JSON`}</pre>
   const res = await fetch('https://fakestoreapi.com/products?limit=5');
   if (!res.ok) throw new Error('HTTP ' + res.status);
   const data = await res.json();
-  console.log(data);
+  
 }`}</pre>
           <h3 className="font-semibold text-base">POST JSON</h3>
           <pre className="rounded bg-gray-900 text-gray-100 p-4 overflow-auto">{`await fetch('https://jsonplaceholder.typicode.com/posts',{
@@ -5604,7 +5600,7 @@ const data = await res.json(); // parse JSON`}</pre>
   body: JSON.stringify({ productId: 1, qty: 2 })
 })`}</pre>
           <h3 className="font-semibold text-base">Error Handling</h3>
-          <pre className="rounded bg-gray-900 text-gray-100 p-4 overflow-auto">{`try { /* await fetch(...) */ } catch (err) { console.error(err); }`}</pre>
+          <pre className="rounded bg-gray-900 text-gray-100 p-4 overflow-auto">{`try { /* await fetch(...) */ } catch (err) {  }`}</pre>
           <h3 className="font-semibold text-base">Response Helpers</h3>
           <pre className="rounded bg-gray-900 text-gray-100 p-4 overflow-auto">{`res.ok // boolean
 res.status // HTTP code
@@ -5779,7 +5775,7 @@ function ProductGrid() {
     fetch('https://fakestoreapi.com/products')
       .then(res => res.json())
       .then(data => setProducts(data))
-      .catch(err => console.error(err));
+      .catch(err => 
   }, []);
 
   return (
@@ -6281,7 +6277,7 @@ function App() {
     fetch('http://localhost:8000/api/products/')
       .then(res => res.json())
       .then(data => setProducts(data))
-      .catch(err => console.error(err));
+      .catch(err => 
   }, []);
 
   return (
@@ -6330,7 +6326,7 @@ function App() {
   useEffect(() => {
     getProducts()
       .then(res => setProducts(res.data))
-      .catch(err => console.error("Error fetching data:", err));
+      .catch(err => 
   }, []);
 
   return (
@@ -6678,3 +6674,5 @@ Use TailwindCSS and ensure it’s responsive. Only show me the React component c
     </main>
   );
 }
+
+

@@ -396,7 +396,7 @@ const CourseDetail = () => {
         alert('Invalid referral code');
       }
     } catch (error) {
-      console.error('Error validating referral code:', error);
+      
       alert('Error validating referral code. Please try again.');
     }
   };
@@ -980,7 +980,7 @@ const CourseDetail = () => {
                       alert(errorData.message || 'Failed to submit payment. Please try again.');
                     }
                   } catch (error) {
-                    console.error('Payment submission error:', error);
+                    
                     alert('Error submitting payment. Please try again.');
                   } finally {
                     setIsValidatingCode(false);
@@ -1000,3 +1000,4 @@ const CourseDetail = () => {
 };
 
 export default CourseDetail;
+

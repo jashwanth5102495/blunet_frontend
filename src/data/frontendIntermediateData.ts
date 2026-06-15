@@ -219,7 +219,7 @@ export const defaultLiveCode = `<!DOCTYPE html>
   </p>
 
   <script>
-    console.log("Happy learning from the intermediate course!");
+    
   </script>
 
 </body>
@@ -282,7 +282,7 @@ const lesson1_1_content = `
       </ul>
 
       <div class="bg-[#111827] border border-[#1f2937] rounded-lg p-4 mb-4 text-gray-200">
-        <pre class="text-sm overflow-x-auto"><code>console.log(a);
+        <pre class="text-sm overflow-x-auto"><code>
 var a = 10;</code></pre>
         <p class="text-gray-300 mt-2">
           Output: <code>undefined</code><br />
@@ -323,7 +323,7 @@ var a = 10;</code></pre>
 }
 
 function second() {
-  console.log("Hello");
+  
 }
 
 first();</code></pre>
@@ -364,7 +364,7 @@ const lesson1_1_syntax = [
       },
       {
         title: 'Variable Hoisting Example',
-        content: 'console.log(x); // undefined\nvar x = 5;'
+        content: ' // undefined\nvar x = 5;'
       },
       {
         title: 'Stack Overflow Example',
@@ -372,35 +372,35 @@ const lesson1_1_syntax = [
       }
     ];
 
-const lesson1_1_liveCode = `console.log("=== Example 1: Execution Context ===");
+const lesson1_1_liveCode = `
 
-console.log("Start");
+
 
 var a = 10;
 
 function greet() {
   var message = "Hello World";
-  console.log(message);
+  
 }
 
 greet();
 
-console.log("End");
 
-console.log("=== Example 2: Call Stack Flow ===");
+
+
 
 function one() {
-  console.log("Inside One");
+  
   two();
 }
 
 function two() {
-  console.log("Inside Two");
+  
   three();
 }
 
 function three() {
-  console.log("Inside Three");
+  
 }
 
 one();`;
@@ -413,7 +413,7 @@ const lesson1_1_liveCodeExplanation = `
       <h3 class="text-lg font-semibold text-white mb-2">Example 1: Execution Context</h3>
       <ul class="list-disc list-inside text-gray-300 mb-4">
         <li>
-          <code>console.log("Start");</code> runs in the global execution context and prints the first message.
+          <code></code> runs in the global execution context and prints the first message.
         </li>
         <li>
           <code>var a = 10;</code> creates a global variable inside the global execution context.
@@ -428,7 +428,7 @@ const lesson1_1_liveCodeExplanation = `
         </li>
         <li>
           After <code>greet</code> finishes, its execution context is popped off the stack and
-          <code>console.log("End");</code> runs back in the global context.
+          <code></code> runs back in the global context.
         </li>
       </ul>
       <h3 class="text-lg font-semibold text-white mb-2">Example 2: Call Stack Flow</h3>
@@ -481,7 +481,7 @@ const lesson1_2_content = `
   const secret = "I am hidden";
   
   function inner() {
-    console.log(secret); // Accesses variable from outer scope
+     // Accesses variable from outer scope
   }
   
   return inner;
@@ -532,7 +532,7 @@ const lesson1_2_syntax = [
       }
     ];
 
-const lesson1_2_liveCode = `console.log("=== Example 1: Basic Closure ===");
+const lesson1_2_liveCode = `
 
 function createCounter() {
   let count = 0; // Private variable
@@ -540,11 +540,11 @@ function createCounter() {
   return {
     increment: function() {
       count++;
-      console.log("Current count:", count);
+      
     },
     decrement: function() {
       count--;
-      console.log("Current count:", count);
+      
     },
     getCount: function() {
       return count;
@@ -555,14 +555,14 @@ function createCounter() {
 const counterA = createCounter();
 const counterB = createCounter();
 
-console.log("Counter A operations:");
+
 counterA.increment();
 counterA.increment();
 
-console.log("Counter B operations (Independent state):");
+
 counterB.increment();
 
-console.log("=== Example 2: Function Factory ===");
+
 
 function createMultiplier(multiplier) {
   return function(number) {
@@ -573,8 +573,8 @@ function createMultiplier(multiplier) {
 const double = createMultiplier(2);
 const triple = createMultiplier(3);
 
-console.log("Double 5:", double(5));
-console.log("Triple 5:", triple(5));`;
+
+`;
 
 const lesson1_2_liveCodeExplanation = `
       <h3 class="text-lg font-semibold text-white mb-2">Example 1: Data Privacy with Closures</h3>
@@ -622,7 +622,7 @@ const lesson1_3_content = `
 // map takes a function as an argument
 const doubled = numbers.map(num => num * 2); 
 
-console.log(doubled); // [2, 4, 6]</code></pre>
+ // [2, 4, 6]</code></pre>
       </div>
 
       <h3 class="text-xl font-semibold text-white mt-6 mb-3">Why use HOFs?</h3>
@@ -650,13 +650,13 @@ const lesson1_3_syntax = [
         title: 'HOF returning a function',
         content: `function createGreeter(greeting) {
   return function(name) {
-    console.log(greeting + ", " + name);
+    
   };
 }`
       }
     ];
 
-const lesson1_3_liveCode = `console.log("=== Example 1: Custom Map Function ===");
+const lesson1_3_liveCode = `
 
 // A custom HOF that mimics Array.map
 function myMap(array, transformFunction) {
@@ -672,10 +672,10 @@ function myMap(array, transformFunction) {
 const numbers = [10, 20, 30, 40];
 const halved = myMap(numbers, (num) => num / 2);
 
-console.log("Original:", numbers);
-console.log("Halved:", halved);
 
-console.log("=== Example 2: Function Composition ===");
+
+
+
 
 // HOF that returns a function
 function greaterThan(n) {
@@ -687,11 +687,11 @@ function greaterThan(n) {
 const greaterThan10 = greaterThan(10);
 const greaterThan100 = greaterThan(100);
 
-console.log("Is 15 > 10?", greaterThan10(15));
-console.log("Is 5 > 10?", greaterThan10(5));
-console.log("Is 50 > 100?", greaterThan100(50));
 
-console.log("=== Example 3: Built-in HOFs ===");
+
+
+
+
 const users = [
   { name: "Alice", age: 25 },
   { name: "Bob", age: 30 },
@@ -700,7 +700,7 @@ const users = [
 
 // Filter users over 28
 const olderUsers = users.filter(user => user.age > 28);
-console.log("Users over 28:", olderUsers);`;
+`;
 
 const lesson1_3_liveCodeExplanation = `
       <h3 class="text-lg font-semibold text-white mb-2">Example 1: Custom Map</h3>
@@ -745,13 +745,13 @@ const lesson1_4_content = `
       </p>
 
       <div class="bg-[#111827] border border-[#1f2937] rounded-lg p-4 mb-4 text-gray-200">
-        <pre class="text-sm overflow-x-auto"><code>console.log('Start');
+        <pre class="text-sm overflow-x-auto"><code>
 
-setTimeout(() => console.log('Timeout'), 0); // Macrotask
+setTimeout(() =>  // Macrotask
 
-Promise.resolve().then(() => console.log('Promise')); // Microtask
+Promise.resolve().then(() =>  // Microtask
 
-console.log('End');
+
 
 // Output:
 // Start
@@ -765,44 +765,44 @@ const lesson1_4_syntax = [
       {
         title: 'setTimeout (Macrotask)',
         content: `setTimeout(() => {
-  console.log('Runs later');
+  
 }, 1000);`
       },
       {
         title: 'Promise (Microtask)',
         content: `Promise.resolve().then(() => {
-  console.log('Runs immediately after stack clears');
+  
 });`
       },
       {
         title: 'queueMicrotask',
         content: `queueMicrotask(() => {
-  console.log('Manual microtask');
+  
 });`
       }
     ];
 
-const lesson1_4_liveCode = `console.log("=== Event Loop Challenge ===");
+const lesson1_4_liveCode = `
 
-console.log("1. Script Start");
+
 
 setTimeout(() => {
-  console.log("2. setTimeout (Macrotask)");
+  
 }, 0);
 
 Promise.resolve()
   .then(() => {
-    console.log("3. Promise 1 (Microtask)");
+    
   })
   .then(() => {
-    console.log("4. Promise 2 (Microtask - Chained)");
+    
   });
 
 queueMicrotask(() => {
-  console.log("5. queueMicrotask (Microtask)");
+  
 });
 
-console.log("6. Script End");
+
 
 // Try to predict the order before running!`;
 
@@ -864,9 +864,7 @@ const lesson1_5_syntax = [
       {
         title: 'Consuming a Promise',
         content: `myPromise
-  .then(data => console.log(data))
-  .catch(error => console.error(error))
-  .finally(() => console.log("Done"));`
+  .then(data => `
       },
       {
         title: 'Async / Await',
@@ -876,17 +874,17 @@ const lesson1_5_syntax = [
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Failed", error);
+    
   }
 }`
       }
     ];
 
-const lesson1_5_liveCode = `console.log("=== Example 1: Async/Await Basics ===");
+const lesson1_5_liveCode = `
 
 function simulateApiCall(id) {
   return new Promise((resolve, reject) => {
-    console.log(\`Fetching user \${id}...\`);
+    
     setTimeout(() => {
       if (id > 0) {
         resolve({ id: id, name: "User " + id });
@@ -899,32 +897,32 @@ function simulateApiCall(id) {
 
 async function getUserData() {
   try {
-    console.log("Starting fetch...");
+    
     const user1 = await simulateApiCall(1);
-    console.log("Got user:", user1);
+    
     
     const user2 = await simulateApiCall(2);
-    console.log("Got user:", user2);
     
-    console.log("All done!");
+    
+    
   } catch (error) {
-    console.error("Error:", error);
+    
   }
 }
 
 getUserData();
 
-console.log("=== Example 2: Parallel Execution ===");
+
 
 async function getParallel() {
-  console.log("Starting parallel fetch...");
+  
   // Start both requests at the same time
   const p1 = simulateApiCall(3);
   const p2 = simulateApiCall(4);
   
   // Wait for both to finish
   const [u3, u4] = await Promise.all([p1, p2]);
-  console.log("Parallel results:", u3, u4);
+  
 }
 
 // Note: getParallel will start after getUserData yields, 
@@ -995,7 +993,7 @@ const newObject = { ...oldObject, newProp: 'value' };`
       }
     ];
 
-const lesson1_6_liveCode = `console.log("=== 1. Destructuring ===");
+const lesson1_6_liveCode = `
 const developer = {
   firstName: "Sarah",
   tech: "React",
@@ -1003,26 +1001,26 @@ const developer = {
 };
 
 const { firstName, tech } = developer;
-console.log(firstName, "uses", tech);
 
-console.log("=== 2. Spread Operator ===");
+
+
 const teamA = ["Alice", "Bob"];
 const teamB = ["Charlie", "Dave"];
 
 const allTeam = [...teamA, ...teamB, "Eve"];
-console.log("Merged Team:", allTeam);
+
 
 const originalObj = { a: 1, b: 2 };
 const updatedObj = { ...originalObj, b: 99, c: 3 }; // Overwrites b, adds c
-console.log("Updated Object:", updatedObj);
 
-console.log("=== 3. Rest Parameters ===");
+
+
 function multiply(multiplier, ...numbers) {
   return numbers.map(n => n * multiplier);
 }
 
 const result = multiply(2, 1, 2, 3, 4);
-console.log("Multiplied:", result);`;
+`;
 
 const lesson1_6_liveCodeExplanation = `
       <h3 class="text-lg font-semibold text-white mb-2">Code Analysis</h3>
@@ -1104,17 +1102,17 @@ function subtract(a, b) {
 const exports = { add, subtract, libraryName };
 
 // === main.js ===
-console.log("Using", exports.libraryName);
+
 
 const sum = exports.add(10, 5);
-console.log("Sum:", sum);
+
 
 const diff = exports.subtract(10, 5);
-console.log("Difference:", diff);
+
 
 // Dynamic Import simulation (Promise-based)
 // import('./module.js').then(module => ...)
-console.log("Modules help organize code into reusable chunks!");`;
+`;
 
 const lesson1_7_liveCodeExplanation = `
       <h3 class="text-lg font-semibold text-white mb-2">Module Simulation</h3>
@@ -1165,9 +1163,9 @@ const lesson1_8_syntax = [
   // Code that might fail
   const data = JSON.parse(badJson);
 } catch (error) {
-  console.error("Parsing failed:", error.message);
+  
 } finally {
-  console.log("Always runs");
+  
 }`
       },
       {
@@ -1178,7 +1176,7 @@ const lesson1_8_syntax = [
       }
     ];
 
-const lesson1_8_liveCode = `console.log("=== Example 1: Handling Errors ===");
+const lesson1_8_liveCode = `
 
 function safeDivide(a, b) {
   try {
@@ -1187,24 +1185,24 @@ function safeDivide(a, b) {
     }
     return a / b;
   } catch (err) {
-    console.error("Caught an error:", err.message);
+    
     return null; // Return a safe fallback value
   } finally {
-    console.log("Division attempt finished.");
+    
   }
 }
 
-console.log("10 / 2 =", safeDivide(10, 2));
-console.log("10 / 0 =", safeDivide(10, 0));
 
-console.log("=== Example 2: Parsing JSON ===");
+
+
+
 
 function parseUserData(jsonString) {
   try {
     const user = JSON.parse(jsonString);
-    console.log("User name:", user.name);
+    
   } catch (e) {
-    console.log("Invalid JSON data received.");
+    
   }
 }
 
@@ -1262,7 +1260,7 @@ clearInterval(timerId);`
       }
     ];
 
-const lesson1_9_liveCode = `console.log("=== Memory Management Simulation ===");
+const lesson1_9_liveCode = `
 
 let registry = [];
 
@@ -1276,12 +1274,12 @@ function createLargeObject(id) {
 function addToRegistry() {
   const obj = createLargeObject(registry.length);
   registry.push(obj);
-  console.log("Added object " + obj.id + ". Registry size: " + registry.length);
+  
 }
 
 function clearRegistry() {
   registry = []; // Remove references
-  console.log("Registry cleared. Garbage Collector will free this memory.");
+  
 }
 
 addToRegistry();
@@ -3627,7 +3625,7 @@ const lesson4_1_syntax = [
   }
 ];
 
-const lesson4_1_liveCode = `console.log("=== React Architecture and Virtual DOM ===");
+const lesson4_1_liveCode = `
 
 function renderComponentTree() {
   const app = {
@@ -3635,10 +3633,10 @@ function renderComponentTree() {
     children: ["Header", "Dashboard", "Footer"]
   };
 
-  console.log("Component tree:", app);
-  console.log("1) Build Virtual DOM for <App />");
-  console.log("2) Diff with previous Virtual DOM");
-  console.log("3) Apply minimal changes to real DOM");
+  
+  
+  
+  
 }
 
 renderComponentTree();`;
@@ -3742,7 +3740,7 @@ const lesson4_2_syntax = [
   }
 ];
 
-const lesson4_2_liveCode = `console.log("=== Vite + React Project Setup ===");
+const lesson4_2_liveCode = `
 
 const commands = [
   "npm create vite@latest my-react-app -- --template react",
@@ -3752,7 +3750,7 @@ const commands = [
 ];
 
 commands.forEach((cmd, index) => {
-  console.log(index + 1 + ")", cmd);
+  
 });`;
 
 const lesson4_2_liveCodeExplanation = `
@@ -3896,22 +3894,22 @@ const lesson4_3_syntax = [
   }
 ];
 
-const lesson4_3_liveCode = `console.log("=== JSX and Rendering Logic (Simulated) ===");
+const lesson4_3_liveCode = `
 
 let isLoggedIn = false;
 const users = ["John", "Alice", "Bob"];
 
 function render() {
   const message = isLoggedIn ? "Welcome User" : "Please Login";
-  console.log("Message:", message);
-  console.log("Users:", users.join(", "));
+  
+  
 }
 
-console.log("Initial render:");
+
 render();
 
 isLoggedIn = true;
-console.log("After login:");
+
 render();`;
 
 const lesson4_3_liveCodeExplanation = `
@@ -4078,7 +4076,7 @@ const lesson4_4_syntax = [
   }
 ];
 
-const lesson4_4_liveCode = `console.log("=== Functional Components (Simulated) ===");
+const lesson4_4_liveCode = `
 
 function Header() {
   return "Header: Welcome to My Application";
@@ -4103,8 +4101,8 @@ function App() {
   return parts.join(" | ");
 }
 
-console.log("App render output:");
-console.log(App());`;
+
+`;
 
 const lesson4_4_liveCodeExplanation = `
   <p class="mb-3 text-gray-300">
@@ -4249,12 +4247,12 @@ const lesson4_5_syntax = [
   }
 ];
 
-const lesson4_5_liveCode = `console.log("=== Props and Component Communication (Simulated) ===");
+const lesson4_5_liveCode = `
 
 function UserCard(props) {
-  console.log("Rendering UserCard for:", props.name);
-  console.log("  Role:", props.role);
-  console.log("  Experience:", props.experience, "years");
+  
+  
+  
 }
 
 function App() {
@@ -4550,3 +4548,5 @@ export const frontendIntermediateModules: CourseModule[] = intermediateStructure
       description: m.description
     };
 });
+
+

@@ -162,7 +162,7 @@ const StudentLogin = () => {
 
       navigate('/student-portal');
     } catch (err) {
-      console.error('Login error:', err);
+      
       const errorMsg = 'Unable to connect to server. Please try again.';
       setError(errorMsg);
       toast.error(errorMsg, {
@@ -436,5 +436,6 @@ const StudentLogin = () => {
 };
 
 export default StudentLogin;
+
 
 

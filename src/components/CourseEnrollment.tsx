@@ -38,14 +38,6 @@ interface Course {
   whatYouWillLearn: string[];
 }
 
-/*
-declare global {
-  interface Window {
-    Razorpay: any;
-  }
-}
-*/
-
 const CourseEnrollment: React.FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
@@ -668,7 +660,7 @@ const CourseEnrollment: React.FC = () => {
         alert('Invalid referral code');
       }
     } catch (error) {
-      console.error('Error validating referral code:', error);
+      
       alert('Error validating referral code. Please try again.');
     }
   };
@@ -706,6 +698,12 @@ const CourseEnrollment: React.FC = () => {
     try {
       // Get current user from localStorage
       const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+      const studentMongoId = currentUser.id || currentUser._id || null;
+      if (!studentMongoId) {
+        setIsSubmittingPayment(false);
+        alert('Student profile is missing. Please log in again and retry.');
+        return;
+      }
 
 
       // Prepare courseId variants to handle backend differences (prod vs local)
@@ -733,7 +731,7 @@ const CourseEnrollment: React.FC = () => {
 
         // Send enrollment to backend
         const token = JSON.parse(localStorage.getItem('currentUser') || '{}').token;
-        const resp = await fetch(`${BASE_URL}/api/students/${currentUser.id}/enroll`, {
+        const resp = await fetch(`${BASE_URL}/api/students/${studentMongoId}/enroll`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -774,7 +772,7 @@ const CourseEnrollment: React.FC = () => {
         throw new Error(lastErrorMessage || 'Failed to submit payment details');
       }
     } catch (error) {
-      console.error('Error submitting payment:', error);
+      
       setIsSubmittingPayment(false);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       alert(`There was an error submitting your payment details: ${errorMessage}. Please try again.`);
@@ -1136,3 +1134,4 @@ const CourseEnrollment: React.FC = () => {
 };
 
 export default CourseEnrollment;
+

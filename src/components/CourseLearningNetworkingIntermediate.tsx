@@ -6577,7 +6577,7 @@ export default function CourseLearningNetworkingIntermediate() {
       setChatMessages(prev => [...prev, { role: 'assistant', content: answer }]);
     } catch (err) {
       setChatMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, I could not reach the assistant. Please try again.' }]);
-      console.error('Chat error:', err);
+      
     } finally {
       setChatLoading(false);
     }
@@ -7646,3 +7646,4 @@ vtysh -c "show ip route"`}</code></pre>
     </main>
   );
 }
+

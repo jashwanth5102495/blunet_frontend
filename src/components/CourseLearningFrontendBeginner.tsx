@@ -3286,7 +3286,7 @@ border`
 /* Multi-line comment */ 
 
 let message = "Hello, JavaScript!"; 
-console.log(message); // Output to console` 
+ // Output to console` 
           },
           { 
             title: 'Function Syntax', 
@@ -3319,7 +3319,7 @@ console.log(message); // Output to console`
 
         // Simple console log 
         let greeting = "Welcome to JavaScript!"; 
-        console.log(greeting); 
+         
     </script> 
 
 </body> 
@@ -3478,7 +3478,7 @@ let person = {name: "Alice", age: 30}; // Object`
           { 
             title: 'Calling a Function', 
             content: `let message = greet("Alice"); 
-console.log(message);` 
+` 
           }
         ],
         liveCode: `<!DOCTYPE html> 
@@ -3764,10 +3764,10 @@ const _ = require('lodash');
 let numbers = [10, 5, 20, 15]; 
 
 // Using Lodash functions 
-console.log("Maximum:", _.max(numbers)); // 20 
-console.log("Minimum:", _.min(numbers)); // 5 
-console.log("Sorted:", _.sortBy(numbers)); // [5,10,15,20] 
-console.log("Unique:", _.uniq([1,2,2,3,3,3])); // [1,2,3]` 
+ // 20 
+ // 5 
+ // [5,10,15,20] 
+ // [1,2,3]` 
           }
         ],
         liveCode: `<!DOCTYPE html> 
@@ -3798,7 +3798,7 @@ console.log("Unique:", _.uniq([1,2,2,3,3,3])); // [1,2,3]`
             item.className = 'log-item';
             item.innerHTML = "<strong>" + label + "</strong> " + JSON.stringify(value);
             outputDiv.appendChild(item);
-            console.log(label, value);
+            
         }
 
         // --- User Code Start ---
@@ -4038,8 +4038,8 @@ export function multiply(a, b) {
 // app.js 
 import { add, multiply } from './mathUtils.js'; 
 
-console.log("Sum:", add(5, 3));         // Output: 8 
-console.log("Product:", multiply(5, 3)); // Output: 15` 
+         // Output: 8 
+ // Output: 15` 
           },
           { 
             title: 'Default Export Example', 
@@ -4051,7 +4051,7 @@ export default function greet(name) {
 // app.js 
 import greet from './greeting.js'; 
 
-console.log(greet("Alice")); // Output: Hello, Alice!` 
+ // Output: Hello, Alice!` 
           },
           { 
             title: 'Node.js (CommonJS) Example', 
@@ -4065,7 +4065,7 @@ module.exports = subtract;
 // app.js 
 const subtract = require('./utils'); 
 
-console.log(subtract(10, 4)); // Output: 6` 
+ // Output: 6` 
           }
         ],
         liveCode: `<!DOCTYPE html> 
@@ -4101,8 +4101,8 @@ export function divide(a, b) {
         <pre>
 import { add, subtract, multiply, divide } from './operations.js';
 
-console.log("5 + 3 =", add(5, 3)); 
-console.log("5 - 3 =", subtract(5, 3)); 
+ 
+ 
 ...</pre>
     </div>
 
@@ -4195,8 +4195,7 @@ const fetchData = new Promise((resolve, reject) => {
 
 // Handling the Promise 
 fetchData 
-  .then((message) => console.log(message)) 
-  .catch((error) => console.log(error));` 
+  .then((message) => ` 
           },
           { 
             title: 'Async/Await Example', 
@@ -4206,9 +4205,9 @@ async function fetchDataAsync() {
     let response = await new Promise((resolve, reject) => { 
       setTimeout(() => resolve("Data fetched successfully!"), 2000); 
     }); 
-    console.log(response); 
+     
   } catch (error) { 
-    console.log(error); 
+     
   } 
 } 
 
@@ -4285,12 +4284,12 @@ fetchDataAsync();`
                 document.getElementById('userAge').textContent = user.age;
                 userInfo.style.display = "block";
                 
-                console.log("User Details:", user); 
+                 
             } catch (error) { 
                 // Update UI with error
                 status.textContent = "Error: " + error;
                 status.style.color = "#f44336";
-                console.log("Error:", error); 
+                 
             } finally {
                 btn.disabled = false;
                 spinner.style.display = "none";
@@ -4345,8 +4344,7 @@ fetchDataAsync();`
             content: `// Fetch user data from an API 
 fetch('https://jsonplaceholder.typicode.com/users/1') 
   .then(response => response.json()) 
-  .then(data => console.log("User Data:", data)) 
-  .catch(error => console.log("Error:", error));` 
+  .then(data => ` 
           },
           { 
             title: 'LocalStorage Example', 
@@ -4355,7 +4353,7 @@ localStorage.setItem('username', 'Alice');
 
 // Retrieve data 
 let name = localStorage.getItem('username'); 
-console.log("Stored Name:", name); 
+ 
 
 // Remove data 
 localStorage.removeItem('username');` 
@@ -4367,7 +4365,7 @@ sessionStorage.setItem('sessionID', '12345');
 
 // Retrieve data 
 let session = sessionStorage.getItem('sessionID'); 
-console.log("Session ID:", session); 
+ 
 
 // Clear session 
 sessionStorage.clear();` 
@@ -5772,7 +5770,7 @@ const CourseLearningFrontendBeginner: React.FC = () => {
 <p>This is a live preview.</p>
 
 <script>
-  console.log("Hello from JavaScript!");
+  
 </script>
 
 </body>
@@ -5808,7 +5806,7 @@ const CourseLearningFrontendBeginner: React.FC = () => {
 <p>This is a live preview.</p>
 
 <script>
-  console.log("Hello from JavaScript!");
+  
 </script>
 
 </body>
@@ -6268,3 +6266,4 @@ const CourseLearningFrontendBeginner: React.FC = () => {
 };
 
 export default CourseLearningFrontendBeginner;
+

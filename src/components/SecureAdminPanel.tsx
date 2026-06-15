@@ -195,7 +195,7 @@ const SecureAdminPanel: React.FC = () => {
         setError(data?.message || 'Authentication failed on server.');
       }
     } catch (err) {
-      console.error('Admin login error:', err);
+      
       recordFailedAttempt();
       setError('Network or server error during authentication.');
     }
@@ -349,3 +349,4 @@ const SecureAdminPanel: React.FC = () => {
 };
 
 export default SecureAdminPanel;
+
