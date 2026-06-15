@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
+// just for versal pushing Topic 5: Fetching and Posting Data from React to Django
+
+
 # Add middleware
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
