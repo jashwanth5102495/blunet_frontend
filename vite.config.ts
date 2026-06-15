@@ -15,6 +15,21 @@ export default defineConfig(({ mode }) => ({
     port: 5176,
     strictPort: false,
     host: 'localhost',
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+      },
+      '/socket.io': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        ws: true,
+      },
+      '/uploads': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+      },
+    },
   },
   build: {
     chunkSizeWarningLimit: 1000, // Increase limit to 1000kb (default is 500kb)

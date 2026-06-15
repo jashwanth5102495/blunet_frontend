@@ -5,6 +5,7 @@ import { courseIntros } from '../data/courseIntroData';
 import { askLLM, ChatMessage } from '../services/llm';
 import { Mic, Send, BookOpen, Search, CheckCircle, ChevronDown, ChevronRight, ChevronLeft, Terminal, Code, Play, RotateCcw, Loader2 } from 'lucide-react';
 import { clsx } from 'clsx';
+import { markLessonComplete, getTotalLessonsFromModules } from '../utils/courseLessonProgress';
 
 // --- Types ---
 
@@ -9680,9 +9681,15 @@ if plt.get_fignums():
                                 
                                 <button 
                                    onClick={() => {
-                                      // Mark current as completed
+                                      markLessonComplete({
+                                        courseId: 'data-science-beginner',
+                                        moduleId: activeModuleId,
+                                        lessonIndex: activeLessonIndex,
+                                        totalLessons: getTotalLessonsFromModules(courseData),
+                                        lessonTitle: activeLesson?.title,
+                                        moduleTitle: activeModule?.title,
+                                      });
                                       setCompletedLessons(prev => new Set(prev).add(`${activeModuleId}-${activeLessonIndex}`));
-                                      
                                       if (activeLessonIndex < activeModule.lessons.length - 1) {
                                          setActiveLessonIndex(activeLessonIndex + 1);
                                       } else if (currentModuleIndex < courseData.length - 1) {

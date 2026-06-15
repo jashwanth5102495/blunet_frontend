@@ -11,9 +11,9 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: #000000;
-  color: #ffffff;
+  font-family: 'Sora', sans-serif;
+  background-color: hsl(var(--hero-bg));
+  color: hsl(var(--foreground));
   overflow-x: hidden;
 }
 
@@ -97,6 +97,24 @@ body {
 
 /* Glassmorphism Theme Variables */
 :root {
+  --background: 0 0% 10%;
+  --foreground: 0 0% 96%;
+  --primary: 119 99% 46%;
+  --primary-foreground: 0 0% 4%;
+  --secondary: 0 0% 18%;
+  --secondary-foreground: 0 0% 96%;
+  --muted: 0 0% 16%;
+  --muted-foreground: 0 0% 60%;
+  --accent: 119 99% 46%;
+  --accent-foreground: 0 0% 4%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 96%;
+  --border: 0 0% 20%;
+  --input: 0 0% 20%;
+  --ring: 119 99% 46%;
+  --radius: 0.5rem;
+  --nav-button: 0 0% 18%;
+  --hero-bg: 0 0% 8%;
   --glass-bg: rgba(255, 255, 255, 0.08);
   --glass-bg-hover: rgba(255, 255, 255, 0.15);
   --glass-border: rgba(255, 255, 255, 0.2);
@@ -108,6 +126,7 @@ body {
   --accent-2: #ff7bff; /* soft neon pink */
   --text-primary: #ffffff;
   --text-secondary: #e0e0e0;
+  --font-sora: 'Sora', sans-serif;
 }
 
 /* Glassmorphism Base */
@@ -330,26 +349,38 @@ body {
 /* Animation Classes - Faster Speeds */
 .animate-float-slow {
   animation: float-slow 4s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-float-reverse {
   animation: float-reverse 6s ease-in-out infinite reverse;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-float-diagonal {
   animation: float-diagonal 5s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-float-circular {
   animation: float-circular 8s linear infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-float-horizontal {
   animation: float-horizontal 3s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-float-vertical {
   animation: float-vertical 3.5s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-gradient-shift {
@@ -448,10 +479,14 @@ active Background Animations */
 /* Animation utility classes */
 .animate-spin-slow {
   animation: spin-slow 20s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .animate-spin-reverse {
   animation: spin-reverse 15s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .animate-wave {
@@ -922,4 +957,211 @@ active Background Animations */
 .animate-twinkle {
   animation: twinkle 2s ease-in-out infinite;
 }
- 
+
+.noise-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+}
+/* Animation for the pulsing effect */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Animation for the ping effect */
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* Custom animations for the orbital timeline */
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-ping {
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Transitions */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.duration-300 {
+  transition-duration: 300ms;
+}
+
+.duration-700 {
+  transition-duration: 700ms;
+}
+
+.duration-1000 {
+  transition-duration: 1000ms;
+}
+
+/* Backdrop blur */
+.backdrop-blur-lg {
+  backdrop-filter: blur(16px);
+}
+
+/* Custom gradients */
+.bg-gradient-orbital {
+  background: linear-gradient(to bottom right, #6366f1, #3b82f6, #14b8a6);
+}
+
+/* Z-index utilities */
+.z-10 {
+  z-index: 10;
+}
+
+.z-50 {
+  z-index: 50;
+}
+
+/* Custom shadows */
+.shadow-orbital {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+/* Custom transforms */
+.scale-125 {
+  transform: scale(1.25);
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scale-150 {
+  transform: scale(1.5);
+}
+
+/* Custom opacity values */
+.opacity-70 {
+  opacity: 0.7;
+}
+
+.opacity-50 {
+  opacity: 0.5;
+}
+
+/* Custom border opacity */
+.border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.border-white\/30 {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.border-white\/40 {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Custom background opacity */
+.bg-black\/90 {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.bg-white\/50 {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.bg-white\/80 {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Custom text opacity */
+.text-white\/70 {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.text-white\/80 {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.cpu-architecture { 
+  offset-anchor: 10px 0px; 
+  animation: animation-path; 
+  animation-iteration-count: infinite; 
+  animation-timing-function: cubic-bezier(0.75, -0.01, 0, 0.99); 
+} 
+
+.cpu-line-1 { 
+  offset-path: path("M 10 20 h 79.5 q 5 0 5 5 v 30"); 
+  animation-duration: 5s; 
+  animation-delay: 1s; 
+} 
+
+.cpu-line-2 { 
+  offset-path: path("M 180 10 h -69.7 q -5 0 -5 5 v 40"); 
+  animation-delay: 6s; 
+  animation-duration: 2s; 
+} 
+
+.cpu-line-3 { 
+  offset-path: path("M 130 20 v 21.8 q 0 5 -5 5 h -25"); 
+  animation-delay: 4s; 
+  animation-duration: 6s; 
+} 
+
+.cpu-line-4 { 
+  offset-path: path("M 170 80 v -21.8 q 0 -5 -5 -5 h -65"); 
+  animation-delay: 3s; 
+  animation-duration: 3s; 
+} 
+
+.cpu-line-5 { 
+  offset-path: path( 
+    "M 135 65 h 15 q 5 0 5 5 v 10 q 0 5 -5 5 h -39.8 q -5 0 -5 -5 v -35" 
+  ); 
+  animation-delay: 9s; 
+  animation-duration: 4s; 
+} 
+
+.cpu-line-6 { 
+  offset-path: path("M 94.8 95 v -46"); 
+  animation-delay: 3s; 
+  animation-duration: 7s; 
+} 
+
+.cpu-line-7 { 
+  offset-path: path( 
+    "M 88 88 v -15 q 0 -5 -5 -5 h -10 q -5 0 -5 -5 v -5 q 0 -5 5 -5 h 28" 
+  ); 
+  animation-delay: 4s; 
+  animation-duration: 4s; 
+} 
+
+.cpu-line-8 { 
+  offset-path: path("M 30 30 h 25 q 5 0 5 5 v 6.5 q 0 5 5 5 h 35"); 
+  animation-delay: 3s; 
+  animation-duration: 3s; 
+} 
+
+@keyframes animation-path { 
+  0% { 
+    offset-distance: 0%; 
+  } 
+  100% { 
+    offset-distance: 100%; 
+  } 
+} 

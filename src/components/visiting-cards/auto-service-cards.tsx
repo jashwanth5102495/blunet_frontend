@@ -30,8 +30,7 @@ export default function AutoServiceCards() {
     () => [
       {
         title: 'Web Applications',
-        image:
-          'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+        image: '/our-services/0.png',
         badgeTop: 'WEB',
         badgeBottom: '01',
         stat1Label: 'Build',
@@ -45,8 +44,7 @@ export default function AutoServiceCards() {
       },
       {
         title: 'Mobile Applications',
-        image:
-          'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80',
+        image: '/our-services/1.png',
         badgeTop: 'MOB',
         badgeBottom: '02',
         stat1Label: 'Platforms',
@@ -59,9 +57,8 @@ export default function AutoServiceCards() {
         locationLabel: 'Remote • Onsite',
       },
       {
-        title: 'Student Training Programs',
-        image:
-          'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80',
+        title: 'Students Development',
+        image: '/our-services/2.png',
         badgeTop: 'TRN',
         badgeBottom: '03',
         stat1Label: 'Mode',
@@ -75,8 +72,7 @@ export default function AutoServiceCards() {
       },
       {
         title: 'A.I Automation',
-        image:
-          'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1200&q=80',
+        image: '/our-services/3.png',
         badgeTop: 'A.I',
         badgeBottom: '04',
         stat1Label: 'Workflows',
@@ -90,8 +86,7 @@ export default function AutoServiceCards() {
       },
       {
         title: 'A.I integration',
-        image:
-          'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80',
+        image: '/our-services/4.png',
         badgeTop: 'A.I',
         badgeBottom: '05',
         stat1Label: 'APIs',
@@ -105,8 +100,7 @@ export default function AutoServiceCards() {
       },
       {
         title: 'On-Time Delivery',
-        image:
-          'https://images.unsplash.com/photo-1586953208448-b95a79798f07?auto=format&fit=crop&w=1200&q=80',
+        image: '/our-services/5.png',
         badgeTop: 'TIME',
         badgeBottom: '06',
         stat1Label: 'Plan',
@@ -120,8 +114,7 @@ export default function AutoServiceCards() {
       },
       {
         title: '24/7 Support',
-        image:
-          'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
+        image: '/our-services/6.png',
         badgeTop: 'SUP',
         badgeBottom: '07',
         stat1Label: 'SLA',
@@ -135,8 +128,7 @@ export default function AutoServiceCards() {
       },
       {
         title: 'Internship Programs',
-        image:
-          'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80',
+        image: '/our-services/7.png',
         badgeTop: 'INT',
         badgeBottom: '08',
         stat1Label: 'Projects',

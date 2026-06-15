@@ -56,25 +56,25 @@ const StudentReviews = () => {
     <div className="w-full overflow-hidden py-8">
       <div className="relative w-full overflow-hidden">
         {/* Gradient Masks */}
-        <div className="absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r from-gray-800 to-transparent pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-gray-800 to-transparent pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r from-white dark:from-gray-900 to-transparent pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-white dark:from-gray-900 to-transparent pointer-events-none" />
 
         <div className="flex animate-marquee-reverse whitespace-nowrap">
           {/* First set of reviews */}
           <div className="flex items-center space-x-6 mx-4">
             {reviews.map((review, index) => (
-              <div key={`review-1-${index}`} className="w-80 md:w-96 bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition-colors duration-300 flex-shrink-0 whitespace-normal">
+              <div key={`review-1-${index}`} className="w-80 md:w-96 bg-slate-50 dark:bg-gray-800 p-6 rounded-xl border border-slate-200 dark:border-gray-700 hover:border-emerald-500 transition-colors duration-300 flex-shrink-0 whitespace-normal">
                 <div className="flex items-center mb-4">
                   <img src={review.image} alt={review.name} className="w-10 h-10 rounded-full mr-3" />
                   <div>
-                    <h4 className="text-white font-semibold">{review.name}</h4>
-                    <p className="text-gray-400 text-xs">{review.role}</p>
+                    <h4 className="text-slate-900 dark:text-white font-semibold">{review.name}</h4>
+                    <p className="text-slate-500 dark:text-gray-400 text-xs">{review.role}</p>
                   </div>
                 </div>
                 <div className="flex mb-3">
                   {renderStars(review.rating)}
                 </div>
-                <p className="text-gray-300 text-sm leading-relaxed">
+                <p className="text-slate-600 dark:text-gray-300 text-sm leading-relaxed">
                   "{review.review}"
                 </p>
               </div>
@@ -84,18 +84,18 @@ const StudentReviews = () => {
           {/* Duplicate set for infinite scroll */}
           <div className="flex items-center space-x-6 mx-4">
             {reviews.map((review, index) => (
-              <div key={`review-2-${index}`} className="w-80 md:w-96 bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition-colors duration-300 flex-shrink-0 whitespace-normal">
+              <div key={`review-2-${index}`} className="w-80 md:w-96 bg-slate-50 dark:bg-gray-800 p-6 rounded-xl border border-slate-200 dark:border-gray-700 hover:border-emerald-500 transition-colors duration-300 flex-shrink-0 whitespace-normal">
                 <div className="flex items-center mb-4">
                   <img src={review.image} alt={review.name} className="w-10 h-10 rounded-full mr-3" />
                   <div>
-                    <h4 className="text-white font-semibold">{review.name}</h4>
-                    <p className="text-gray-400 text-xs">{review.role}</p>
+                    <h4 className="text-slate-900 dark:text-white font-semibold">{review.name}</h4>
+                    <p className="text-slate-500 dark:text-gray-400 text-xs">{review.role}</p>
                   </div>
                 </div>
                 <div className="flex mb-3">
                   {renderStars(review.rating)}
                 </div>
-                <p className="text-gray-300 text-sm leading-relaxed">
+                <p className="text-slate-600 dark:text-gray-300 text-sm leading-relaxed">
                   "{review.review}"
                 </p>
               </div>
@@ -105,18 +105,18 @@ const StudentReviews = () => {
            {/* Triplicate set for infinite scroll safety */}
            <div className="flex items-center space-x-6 mx-4">
             {reviews.map((review, index) => (
-              <div key={`review-3-${index}`} className="w-80 md:w-96 bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition-colors duration-300 flex-shrink-0 whitespace-normal">
+              <div key={`review-3-${index}`} className="w-80 md:w-96 bg-slate-50 dark:bg-gray-800 p-6 rounded-xl border border-slate-200 dark:border-gray-700 hover:border-emerald-500 transition-colors duration-300 flex-shrink-0 whitespace-normal">
                 <div className="flex items-center mb-4">
                   <img src={review.image} alt={review.name} className="w-10 h-10 rounded-full mr-3" />
                   <div>
-                    <h4 className="text-white font-semibold">{review.name}</h4>
-                    <p className="text-gray-400 text-xs">{review.role}</p>
+                    <h4 className="text-slate-900 dark:text-white font-semibold">{review.name}</h4>
+                    <p className="text-slate-500 dark:text-gray-400 text-xs">{review.role}</p>
                   </div>
                 </div>
                 <div className="flex mb-3">
                   {renderStars(review.rating)}
                 </div>
-                <p className="text-gray-300 text-sm leading-relaxed">
+                <p className="text-slate-600 dark:text-gray-300 text-sm leading-relaxed">
                   "{review.review}"
                 </p>
               </div>

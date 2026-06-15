@@ -5,7 +5,9 @@ const Threads = lazy(() => import('./Threads'));
 const FaultyTerminal = lazy(() => import('./FaultyTerminal'));
 const LetterGlitch = lazy(() => import('./LetterGlitch'));
 const LightRays = lazy(() => import('./LightRays'));
-const Waves = lazy(() => import('../Waves'));
+const LineWaves = lazy(() => import('../ui/LineWaves'));
+const Beams = lazy(() => import('../ui/Beams'));
+const Grainient = lazy(() => import('./Grainient'));
 
 // Error Boundary Component
 class BackgroundErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
@@ -32,12 +34,78 @@ interface RotatingBackgroundsProps {
 }
 
 const RotatingBackgrounds: React.FC<RotatingBackgroundsProps> = ({ 
-  interval = 7000 // 7 seconds default
+  interval = 5000 // 5 seconds default
 }) => {
   const [currentBackground, setCurrentBackground] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const backgrounds = useMemo(() => [
+    {
+      name: 'Beams',
+      duration: 10000,
+      component: (
+        <Beams
+          beamWidth={2}
+          beamHeight={15}
+          beamNumber={12}
+          lightColor="#ffffff"
+          speed={2}
+          noiseIntensity={1.75}
+          scale={0.2}
+          rotation={0}
+        />
+      )
+    },
+    {
+      name: 'Grainient',
+      component: (
+        <Grainient
+          color1="#c69191"
+          color2="#5227FF"
+          color3="#B497CF"
+          timeSpeed={1.05}
+          colorBalance={0.0}
+          warpStrength={1.0}
+          warpFrequency={5.0}
+          warpSpeed={3.6}
+          warpAmplitude={50.0}
+          blendAngle={0.0}
+          blendSoftness={0.05}
+          rotationAmount={500.0}
+          noiseScale={2.0}
+          grainAmount={0.1}
+          grainScale={2.0}
+          grainAnimated={false}
+          contrast={1.5}
+          gamma={1.0}
+          saturation={1.0}
+          centerX={0.0}
+          centerY={0.0}
+          zoom={0.9}
+        />
+      )
+    },
+    {
+      name: 'Line Waves',
+      duration: 10000,
+      component: (
+        <LineWaves
+          speed={0.3}
+          innerLineCount={32}
+          outerLineCount={36}
+          warpIntensity={1.0}
+          rotation={-45}
+          edgeFadeWidth={0.0}
+          colorCycleSpeed={1.0}
+          brightness={0.2}
+          color1="#ffffff"
+          color2="#ffffff"
+          color3="#ffffff"
+          enableMouseInteraction={true}
+          mouseInfluence={2.0}
+        />
+      )
+    },
     {
       name: 'Threads',
       component: (
@@ -88,59 +156,13 @@ const RotatingBackgrounds: React.FC<RotatingBackgroundsProps> = ({
           brightness={1}
         />
       )
-    },
-    {
-      name: 'Letter Glitch',
-      component: (
-        <LetterGlitch
-          glitchColors={["#2b4539", "#61dca3", "#61b3dc"]}
-          glitchSpeed={50}
-          centerVignette={true}
-          outerVignette={false}
-          smooth={true}
-        />
-      )
-    },
-    {
-      name: 'Waves',
-      component: (
-        <Waves
-          lineColor="rgba(255,255,255,0.22)"
-          backgroundColor="transparent"
-          waveSpeedX={0.02}
-          waveSpeedY={0.01}
-          waveAmpX={40}
-          waveAmpY={20}
-          friction={0.9}
-          tension={0.01}
-          maxCursorMove={120}
-          xGap={12}
-          yGap={36}
-        />
-      )
-    },
-    {
-      name: 'Ripple Grid',
-      component: (
-        <Waves
-          lineColor="rgba(138,180,248,0.3)"
-          backgroundColor="transparent"
-          waveSpeedX={0.028}
-          waveSpeedY={0.012}
-          waveAmpX={50}
-          waveAmpY={24}
-          friction={0.92}
-          tension={0.012}
-          maxCursorMove={140}
-          xGap={14}
-          yGap={40}
-        />
-      )
     }
   ], []);
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    const currentDuration = backgrounds[currentBackground].duration || interval;
+    
+    const timer = setTimeout(() => {
       setIsTransitioning(true);
       
       // After a short transition delay, change the background
@@ -148,10 +170,10 @@ const RotatingBackgrounds: React.FC<RotatingBackgroundsProps> = ({
         setCurrentBackground((prev) => (prev + 1) % backgrounds.length);
         setIsTransitioning(false);
       }, 300);
-    }, interval);
+    }, currentDuration);
 
-    return () => clearInterval(timer);
-  }, [interval, backgrounds.length]);
+    return () => clearTimeout(timer);
+  }, [currentBackground, interval, backgrounds]);
 
   return (
     <div style={{ 
@@ -185,7 +207,7 @@ const RotatingBackgrounds: React.FC<RotatingBackgroundsProps> = ({
       <div
         style={{
           position: 'absolute',
-          bottom: '20px',
+          top: '20px',
           right: '20px',
           background: 'rgba(0, 0, 0, 0.7)',
           color: 'white',
@@ -217,7 +239,7 @@ const RotatingBackgrounds: React.FC<RotatingBackgroundsProps> = ({
             height: '100%',
             background: '#00ffff',
             width: '0%', // This would need an animation loop to actually show progress
-            transition: `width ${interval}ms linear`
+            transition: `width ${backgrounds[currentBackground].duration || interval}ms linear`
           }}
         />
       </div>

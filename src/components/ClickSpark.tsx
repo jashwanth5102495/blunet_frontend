@@ -157,7 +157,7 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
       className={className}
       style={{
         width: '100%',
-        height: '100%',
+        minHeight: '100vh',
         position: 'relative'
       }}
       onClick={handleClick}

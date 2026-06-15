@@ -99,9 +99,14 @@ const LightRays: React.FC<LightRaysProps> = ({
     observerRef.current = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
-        setIsVisible(entry.isIntersecting);
+        // On mobile, sometimes intersection is tricky, so we'll be more lenient
+        if (entry.isIntersecting || window.innerWidth < 768) {
+          setIsVisible(true);
+        } else {
+          setIsVisible(false);
+        }
       },
-      { threshold: 0.1 }
+      { threshold: 0 } // Change threshold to 0 for better reliability
     );
 
     observerRef.current.observe(containerRef.current);
@@ -130,7 +135,7 @@ const LightRays: React.FC<LightRaysProps> = ({
       if (!containerRef.current) return;
 
       const renderer = new Renderer({
-        dpr: Math.min(window.devicePixelRatio, 2),
+        dpr: Math.min(window.devicePixelRatio, 1.5), // Lower DPR for better performance on mobile
         alpha: true,
       });
       rendererRef.current = renderer;
@@ -138,6 +143,9 @@ const LightRays: React.FC<LightRaysProps> = ({
       const gl = renderer.gl;
       gl.canvas.style.width = "100%";
       gl.canvas.style.height = "100%";
+      gl.canvas.style.position = "absolute";
+      gl.canvas.style.top = "0";
+      gl.canvas.style.left = "0";
 
       while (containerRef.current.firstChild) {
         containerRef.current.removeChild(containerRef.current.firstChild);

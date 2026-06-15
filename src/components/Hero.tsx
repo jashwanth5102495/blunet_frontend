@@ -9,13 +9,13 @@ const Hero = () => {
 
   return (
     <section id="hero-section" className="bg-black min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-      {/* Backgrounds (rotates one at a time every 7s) */}
-      <RotatingBackgrounds interval={7000} />
+      {/* Backgrounds (rotates one at a time every 5s) */}
+      <RotatingBackgrounds interval={5000} />
 
       {/* Overlay for better text readability */}
       <div className="absolute inset-0 hero-overlay"></div>
 
-      <div ref={containerRef} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      <div ref={containerRef} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 -translate-y-4 md:-translate-y-8">
         {/* Top badge - End-to-End Project Monitoring */}
         <motion.button 
           onClick={() => window.location.href = '/project-tracking'}
@@ -70,7 +70,7 @@ const Hero = () => {
         </motion.button>
 
         {/* Main heading with Company Name */}
-        <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+        <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
           <VariableProximity
             label="BluNet IT Services"
             fromFontVariationSettings="'wght' 400, 'opsz' 9"
@@ -83,11 +83,11 @@ const Hero = () => {
         </h1>
 
         {/* Creative Text with Rotating Words */}
-        <div className="text-2xl md:text-3xl font-bold text-white mb-6 leading-tight flex items-center justify-center gap-3">
+        <div className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-6 leading-tight flex items-center justify-center gap-3">
           <span>Creative</span>
           <RotatingText
             texts={['thinking', 'design', 'development', 'solutions', 'innovation']}
-            mainClassName="px-3 py-1 bg-purple-600 text-white overflow-hidden rounded-lg text-lg md:text-xl"
+            mainClassName="px-2 py-1 sm:px-3 sm:py-1 bg-purple-600 text-white overflow-hidden rounded-lg text-base sm:text-lg md:text-xl"
             staggerFrom={"last"}
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
@@ -100,7 +100,7 @@ const Hero = () => {
         </div>
 
         {/* Subtitle with Variable Proximity */}
-        <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-base sm:text-lg md:text-xl text-gray-400 mb-8 max-w-2xl mx-auto leading-relaxed">
           <VariableProximity
             label="Create a clear roadmap, track progress, and smoothly guide your project from idea to successful launch."
             fromFontVariationSettings="'wght' 300, 'opsz' 8"
