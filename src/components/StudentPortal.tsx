@@ -2245,15 +2245,9 @@ const StudentPortal: React.FC = () => {
           setCourseProgress({});
         }
 
-<<<<<<< HEAD
-        // Fetch additional student data from backend
-        let studentData = userData;
-        const studentResponse = await fetch(`${BASE_URL}/api/students/profile/${userData.id}`, {
-=======
         // Fetch additional student data from backend (must use student document _id)
         let studentData = { ...userData };
         const studentResponse = await fetch(`${BASE_URL}/api/students/profile/${profileId}`, {
->>>>>>> aa8a7c9a17dee1e39bc4faa84e817b33ddcf41eb
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -2268,12 +2262,6 @@ const StudentPortal: React.FC = () => {
 
         if (studentResponse.ok) {
           const result = await studentResponse.json();
-<<<<<<< HEAD
-          if (result.success) {
-            studentData = { ...userData, ...result.data };
-          }
-        } else {
-=======
           console.log('Result Data IN student portal:', result.data);
           if (result.success && result.data) {
             studentData = { ...userData, ...result.data };
@@ -2283,24 +2271,13 @@ const StudentPortal: React.FC = () => {
             'Could not fetch student profile from backend, using login session data',
             studentResponse.status
           );
->>>>>>> aa8a7c9a17dee1e39bc4faa84e817b33ddcf41eb
         }
 
         setStudentProfile(buildProfileFromUser(studentData, enrolledCount));
 
       } catch (error) {
-<<<<<<< HEAD
-        
-        // Only set fallback profile on network/parse errors, not on auth errors
-        setStudentProfile({
-          name: 'Student Name',
-          email: 'student@example.com',
-          enrolledCourses: 0
-        });
-=======
         console.error('Error loading student data:', error);
         setStudentProfile(buildProfileFromUser(userData, purchasedCourses.length));
->>>>>>> aa8a7c9a17dee1e39bc4faa84e817b33ddcf41eb
       } finally {
         setIsLoading(false);
       }
