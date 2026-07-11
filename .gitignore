@@ -24,3 +24,4 @@ GOOGLE_OAUTH_FIX.md
 *.sln
 *.sw?
 .env
+*.tsbuildinfo
