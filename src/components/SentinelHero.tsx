@@ -112,7 +112,7 @@ const SentinelHero: React.FC = () => {
           >
             <button 
               onClick={() => navigate('/student-login')}
-              className="pointer-events-auto bg-primary text-primary-foreground px-6 py-3 md:px-8 md:py-4 text-sm md:text-base rounded-sm cursor-pointer hover:brightness-110 transition-all active:scale-[0.97] border border-primary/40 shadow-[0_0_20px_rgba(34,197,94,0.2)]"
+              className="pointer-events-auto bg-primary text-primary-foreground px-6 py-3 md:px-8 md:py-4 text-sm md:text-base rounded-sm cursor-pointer hover:brightness-110 transition-all active:scale-[0.97] border border-primary/40 shadow-[0_0_20px_rgba(59,130,246,0.2)]"
             >
               Start Learning
             </button>

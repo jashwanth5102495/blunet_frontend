@@ -119,7 +119,7 @@ export const TestimonialSlider = ({
                 <button 
                   key={review.id} 
                   onClick={() => handleThumbnailClick(originalIndex)} 
-                  className="overflow-hidden rounded-xl w-16 h-20 md:w-24 md:h-32 opacity-40 hover:opacity-100 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#39FF14] focus:ring-offset-2 focus:ring-offset-background grayscale hover:grayscale-0" 
+                  className="overflow-hidden rounded-xl w-16 h-20 md:w-24 md:h-32 opacity-40 hover:opacity-100 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-2 focus:ring-offset-background grayscale hover:grayscale-0" 
                   aria-label={`View review from ${review.name}`} 
                 > 
                   <img 
@@ -165,13 +165,13 @@ export const TestimonialSlider = ({
                 exit="exit" 
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} 
               > 
-                <p className="text-sm font-bold tracking-widest text-[#39FF14] uppercase"> 
+                <p className="text-sm font-bold tracking-widest text-[#3b82f6] uppercase"> 
                   {activeReview.affiliation} 
                 </p> 
                 <h3 className="text-4xl md:text-5xl font-bold mt-4 text-white tracking-tight"> 
                   {activeReview.name} 
                 </h3> 
-                <div className="h-1 w-12 bg-[#39FF14] rounded-full my-8" />
+                <div className="h-1 w-12 bg-[#3b82f6] rounded-full my-8" />
                 <blockquote className="text-xl md:text-3xl font-medium leading-relaxed text-gray-300 italic"> 
                   "{activeReview.quote}" 
                 </blockquote> 
@@ -193,7 +193,7 @@ export const TestimonialSlider = ({
             <Button 
               variant="default" 
               size="icon" 
-              className="rounded-full w-14 h-14 bg-[#39FF14] text-black hover:bg-[#39FF14]/90 transition-all hover:scale-110 active:scale-95 shadow-[0_0_20px_rgba(57,255,20,0.3)]" 
+              className="rounded-full w-14 h-14 bg-[#3b82f6] text-black hover:bg-[#3b82f6]/90 transition-all hover:scale-110 active:scale-95 shadow-[0_0_20px_rgba(59,130,246,0.3)]" 
               onClick={handleNext} 
               aria-label="Next review" 
             > 

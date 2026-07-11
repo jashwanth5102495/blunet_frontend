@@ -2216,31 +2216,15 @@ const StudentPortal: React.FC = () => {
             
             // Set the full course data for display
             setEnrolledCoursesData(enrolledCourses);
-<<<<<<< HEAD
             
-            // Create course progress from enrollment data
-            const progressData = enrolledCourses.reduce((acc: any, course: any) => {
-              const courseId = course.courseId || course.id;
-              acc[courseId] = {
-                courseId: courseId,
-                progress: course.progress || 0,
-                completedLessons: 0, // This should come from enrollment data
-                totalLessons: course.modules?.length * 5 || 20, // Estimate based on modules
-                lastAccessedAt: course.enrollmentDate || new Date().toISOString(),
-                nextLesson: course.progress > 0 ? 'Continue Learning' : 'Start Course',
-                isStarted: course.progress > 0 || course.status === 'active'
-              };
-              return acc;
-            }, {});
-            
-            setCourseProgress(progressData);
-=======
+            // Update enrolled count
             enrolledCount = enrolledCourses.length;
             console.log('Enrolled Course Data', enrolledCourses);
             
-            setCourseProgress(mergeProgressWithLocalStorage(enrolledCourses));
-            console.log('Set course progress:', progressData);
->>>>>>> aa8a7c9a17dee1e39bc4faa84e817b33ddcf41eb
+            // Use mergeProgressWithLocalStorage to keep progress from localStorage
+            const progress = mergeProgressWithLocalStorage(enrolledCourses);
+            setCourseProgress(progress);
+            console.log('Set course progress:', progress);
             
             // Fetch module submissions for each enrolled course
             for (const course of enrolledCourses) {

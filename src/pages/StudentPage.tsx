@@ -140,9 +140,9 @@ const StudentPage: React.FC = () => {
             <div className="space-y-8">
               <div className="space-y-4">
                 <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
-                  Our <span className="inline-block bg-gradient-to-r from-[#39FF14] via-[#00FF99] to-[#7CFF00] bg-clip-text text-transparent [text-shadow:0_0_10px_rgba(57,255,20,0.35)]">Academy</span>
+                  Our <span className="inline-block bg-gradient-to-r from-[#3b82f6] via-[#60a5fa] to-[#93c5fd] bg-clip-text text-transparent [text-shadow:0_0_10px_rgba(59,130,246,0.35)]">Academy</span>
                 </h2>
-                <div className="h-1 w-20 bg-[#39FF14] rounded-full [box-shadow:0_0_8px_rgba(57,255,20,0.5)]" />
+                <div className="h-1 w-20 bg-[#3b82f6] rounded-full [box-shadow:0_0_8px_rgba(59,130,246,0.5)]" />
               </div>
               
               <div className="space-y-6 text-gray-300 text-lg leading-relaxed">
@@ -198,12 +198,12 @@ const StudentPage: React.FC = () => {
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16 space-y-4">
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
-              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#39FF14] via-[#00FF99] to-[#7CFF00] [text-shadow:0_0_10px_rgba(57,255,20,0.35)]">Courses</span>
+              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3b82f6] via-[#60a5fa] to-[#93c5fd] [text-shadow:0_0_10px_rgba(59,130,246,0.35)]">Courses</span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
               Choose from our selection of industry-leading programs designed to fast-track your engineering career.
             </p>
-            <div className="h-1 w-20 bg-[#39FF14] rounded-full mx-auto [box-shadow:0_0_8px_rgba(57,255,20,0.5)]" />
+            <div className="h-1 w-20 bg-[#3b82f6] rounded-full mx-auto [box-shadow:0_0_8px_rgba(59,130,246,0.5)]" />
           </div>
 
           <CardsSlider />
@@ -211,29 +211,23 @@ const StudentPage: React.FC = () => {
       </section>
 
       {/* Our Placement Officers Section */}
-      <section className="py-24 bg-black relative overflow-hidden border-b border-white/5">
+      {/* <section className="py-24 bg-black relative overflow-hidden border-b border-white/5">
         <div className="w-full relative z-10 px-4 md:px-12 lg:px-20">
           <div className="text-center mb-16 space-y-4">
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
-              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#39FF14] via-[#00FF99] to-[#7CFF00] [text-shadow:0_0_10px_rgba(57,255,20,0.35)]">Placement Officers</span>
+              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3b82f6] via-[#60a5fa] to-[#93c5fd] [text-shadow:0_0_10px_rgba(59,130,246,0.35)]">Placement Officers</span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
               Meet the dedicated team helping our students transition from learning to leading in the industry.
             </p>
-            <div className="h-1 w-20 bg-[#39FF14] rounded-full mx-auto [box-shadow:0_0_8px_rgba(57,255,20,0.5)]" />
+            <div className="h-1 w-20 bg-[#3b82f6] rounded-full mx-auto [box-shadow:0_0_8px_rgba(59,130,246,0.5)]" />
           </div>
 
           <div className="w-full">
             <TestimonialSlider reviews={placementOfficers} />
           </div>
         </div>
-        
-        {/* Decorative subtle lines */}
-        <div className="absolute inset-0 pointer-events-none opacity-20">
-          <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/50 to-transparent" />
-          <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-purple-500/50 to-transparent" />
-        </div>
-      </section>
+      </section> */}
 
       {/* Testimonials Section */}
       <section className="bg-black py-24 relative overflow-hidden">
@@ -250,7 +244,7 @@ const StudentPage: React.FC = () => {
             </div> 
   
             <h2 className="text-3xl md:text-5xl font-bold tracking-tighter text-white"> 
-              What our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#39FF14] via-[#00FF99] to-[#7CFF00]">Students Say</span> 
+              What our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3b82f6] via-[#60a5fa] to-[#93c5fd]">Students Say</span> 
             </h2> 
           </motion.div> 
   

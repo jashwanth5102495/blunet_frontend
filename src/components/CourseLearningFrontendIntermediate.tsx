@@ -1801,11 +1801,19 @@ if (module1 && module1.lessons[7]) {
         developers.
       </p>
       <ul class="list-disc list-inside text-gray-300 space-y-1 mb-4">
-        <li><code>\\n}'
+        <li><code>console.log()</code> – Print values to the browser console.</li>
+        <li><code>debugger;</code> – Pause execution and inspect variables.</li>
+        <li>Browser DevTools – Breakpoints, watch expressions, and call stacks.</li>
+      </ul>
+    `,
+    syntax: [
+      {
+        title: 'Basic try...catch',
+        content: 'try {\n    // code\n} catch (error) {\n    // handle error\n}'
       },
       {
         title: 'try...catch with finally',
-        content: 'try {\\n    // code\\n} catch (error) {\\n    // handle error\\n} finally {\\n    // always executes\\n}'
+        content: 'try {\n    // code\n} catch (error) {\n    // handle error\n} finally {\n    // always executes\n}'
       },
       {
         title: 'Throw Custom Error',

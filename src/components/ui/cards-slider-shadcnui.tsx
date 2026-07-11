@@ -205,22 +205,13 @@ export function CardsSlider() {
                   </div> 
  
                   <div className="pt-4 mt-auto border-t border-border/50 flex items-center justify-between"> 
-                    <div className="flex items-center gap-2"> 
-                      <Avatar className="h-8 w-8 border border-border/50 ring-2 ring-background"> 
-                        <AvatarImage 
-                          src={card.author.avatar} 
-                          alt={card.author.name} 
-                        /> 
-                        <AvatarFallback>{card.author.name[0]}</AvatarFallback> 
-                      </Avatar> 
-                      <div className="flex flex-col"> 
-                        <span className="text-xs font-semibold text-foreground"> 
-                          {card.author.name} 
-                        </span> 
-                        <span className="text-[10px] text-muted-foreground"> 
-                          {card.date} 
-                        </span> 
-                      </div> 
+                    <div className="flex flex-col"> 
+                      <span className="text-xs font-semibold text-foreground"> 
+                        {card.author.name} 
+                      </span> 
+                      <span className="text-[10px] text-muted-foreground"> 
+                        {card.date} 
+                      </span> 
                     </div> 
                     <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground bg-secondary/50 px-2.5 py-1 rounded-full"> 
                       <Clock className="h-3 w-3" /> 
