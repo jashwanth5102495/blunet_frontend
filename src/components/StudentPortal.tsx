@@ -2061,7 +2061,7 @@ const StudentPortal: React.FC = () => {
   ];
 
   const mergeProgressWithLocalStorage = (
-    enrolledCourses: { courseId?: string; id?: string; progress?: number; enrollmentDate?: string; status?: string; modules?: { length: number }[] }[]
+    enrolledCourses: { courseId?: string; id?: string; progress?: number; enrollmentDate?: string; status?: string; modules?: any[] }[]
   ) => {
     return enrolledCourses.reduce((acc: Record<string, CourseProgress>, course) => {
       const courseId = course.courseId || course.id || '';
