@@ -25,3 +25,9 @@ GOOGLE_OAUTH_FIX.md
 *.sw?
 .env
 *.tsbuildinfo
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
