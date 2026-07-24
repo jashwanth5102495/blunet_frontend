@@ -74,6 +74,16 @@ const navigation = {
             { name: "Terms of Service", href: "/terms" },
             { name: "Privacy Policy", href: "/privacy" },
           ],
+        },
+        {
+          id: "office",
+          name: "Office Address",
+          items: [
+            { name: "No.27, 2nd Floor, Sriranga Complex", href: "#" },
+            { name: "2nd Cross Road, Modi Hospital Road", href: "#" },
+            { name: "Rajajinagar, Bengaluru", href: "#" },
+            { name: "Karnataka 560086", href: "#" },
+          ],
         }
       ],
     },
@@ -100,7 +110,7 @@ export default function Footer() {
           {navigation.categories.map((category) => (
             <div
               key={category.name}
-              className="grid grid-cols-1 sm:grid-cols-3 flex-row justify-between gap-12 sm:gap-24 leading-6 md:flex"
+              className="grid grid-cols-1 sm:grid-cols-4 flex-row justify-between gap-12 sm:gap-24 leading-6 md:flex"
             >
               {category.sections.map((section) => (
                 <div key={section.name}>

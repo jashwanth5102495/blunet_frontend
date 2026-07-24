@@ -1,3 +1,35 @@
 User-agent: *
 Allow: /
+
+# Sitemap
 Sitemap: https://blunetitservices.in/sitemap.xml
+
+# Crawl-delay for better server performance
+Crawl-delay: 1
+
+# Allow all search engines to index main pages
+Allow: /about
+Allow: /services
+Allow: /student-page
+Allow: /courses
+Allow: /career
+Allow: /contact
+Allow: /projects
+Allow: /internship-form
+
+# Course pages
+Allow: /frontend-development-beginner
+Allow: /frontend-development-intermediate
+Allow: /cyber-security-beginner
+Allow: /cyber-security-intermediate
+Allow: /data-science-beginner
+Allow: /devops-beginner
+Allow: /networking-beginner
+
+# Disallow admin and protected areas
+Disallow: /AJRV8328
+Disallow: /student-portal
+Disallow: /creator-portal
+Disallow: /course-learning/
+Disallow: /assignment/
+Disallow: /student-setup

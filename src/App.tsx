@@ -16,6 +16,7 @@ import StudentPage from './pages/StudentPage';
 
 // Lazy load heavy components
 const Hero = lazy(() => import('./components/Hero'));
+const SEOMetadata = lazy(() => import('./components/SEOMetadata'));
 const IntegrationsSection = lazy(() => import('./components/ui/integrations-section'));
 const StudentProgramsSection = lazy(() => import('./components/StudentProgramsSection'));
 const ServicesSection = lazy(() => import('./components/ServicesSection'));
@@ -187,6 +188,7 @@ function AppInner() {
           <Routes>
             <Route path="/" element={
               <>
+                <SEOMetadata />
                 <Header />
                 <section id="home">
                   <Hero />
