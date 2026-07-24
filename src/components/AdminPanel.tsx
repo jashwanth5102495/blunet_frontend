@@ -235,6 +235,57 @@ const AdminPanel: React.FC = () => {
     }
   };
 
+  const handleExportCSV = async () => {
+    try {
+      const token = sessionStorage.getItem('admin_auth_token') || '';
+      const resp = await fetch(`${BASE_URL}/api/internship-forms/export`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      });
+      const result = await resp.json();
+      if (resp.ok && result.success && result.data) {
+        const forms = result.data;
+        if (forms.length === 0) {
+          alert('No records to export');
+          return;
+        }
+        
+        // Define CSV headers
+        const headers = ['Name', 'College', 'UG Course', 'Contact', 'Email', 'UG Percentage', 'Interested Role', 'Applied On'];
+        
+        // Create CSV rows
+        const csvRows = [headers.join(',')];
+        
+        for (const row of forms) {
+          const values = [
+            `"${(row.name || '').replace(/"/g, '""')}"`,
+            `"${(row.collegeName || '').replace(/"/g, '""')}"`,
+            `"${(row.ugCourse || '').replace(/"/g, '""')}"`,
+            `"${(row.contactNumber || '').replace(/"/g, '""')}"`,
+            `"${(row.email || '').replace(/"/g, '""')}"`,
+            `"${row.ugPercentage || ''}"`,
+            `"${(row.interestedRole || '').replace(/"/g, '""')}"`,
+            `"${row.createdAt ? new Date(row.createdAt).toLocaleDateString('en-IN') : ''}"`
+          ];
+          csvRows.push(values.join(','));
+        }
+        
+        const csvString = csvRows.join('\n');
+        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', `internship_applicants_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        alert(result.message || 'Failed to export');
+      }
+    } catch (e) {
+      alert('Error exporting data. Please try again.');
+    }
+  };
+
   // Fetch internship applicants when tab is active
   useEffect(() => {
     if (activeTab === 'internshipApplicants') {
@@ -1600,8 +1651,16 @@ const AdminPanel: React.FC = () => {
                   </select>
                   <span className="text-white/70 text-sm">records per page</span>
                 </div>
-                <div className="text-white/50 text-sm">
-                  Total: {internshipPagination.total} applicant{internshipPagination.total !== 1 ? 's' : ''}
+                <div className="flex items-center space-x-4">
+                  <div className="text-white/50 text-sm">
+                    Total: {internshipPagination.total} applicant{internshipPagination.total !== 1 ? 's' : ''}
+                  </div>
+                  <button 
+                    onClick={handleExportCSV}
+                    className="px-3 py-1.5 bg-green-600/20 hover:bg-green-600/40 text-green-400 rounded-lg text-sm font-medium transition-colors flex items-center shadow-sm"
+                  >
+                    <span className="mr-2">📥</span> Export CSV
+                  </button>
                 </div>
               </div>
 
