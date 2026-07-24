@@ -291,7 +291,7 @@ const Career = () => {
                 <ArrowRight className="w-5 h-5 ml-2" />
               </motion.button>
               <motion.button
-                onClick={() => setActiveTab('internships')}
+                onClick={() => navigate('/internship-form')}
                 className="border border-purple-500 text-purple-400 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-purple-500/10 transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

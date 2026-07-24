@@ -148,7 +148,99 @@ interface ActiveUserRow {
 const AdminPanel: React.FC = () => {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState<'projects' | 'courses' | 'payments' | 'referral' | 'faculty' | 'activeUsers' | 'total' | 'author'>('projects');
+  const [activeTab, setActiveTab] = useState<'projects' | 'courses' | 'payments' | 'referral' | 'faculty' | 'activeUsers' | 'total' | 'author' | 'internshipApplicants'>('projects');
+
+  // Internship Applicants State
+  const [internshipApplicants, setInternshipApplicants] = useState<any[]>([]);
+  const [internshipPagination, setInternshipPagination] = useState({ page: 1, limit: 10, total: 0, totalPages: 0 });
+  const [internshipLoading, setInternshipLoading] = useState(false);
+  const [internshipError, setInternshipError] = useState<string | null>(null);
+  const [editingApplicant, setEditingApplicant] = useState<any | null>(null);
+  const [editFormData, setEditFormData] = useState<any>({});
+  const [editSaving, setEditSaving] = useState(false);
+  const [editSuccessMsg, setEditSuccessMsg] = useState<string | null>(null);
+
+  const INTERNSHIP_ROLES = [
+    'Artificial Intelligence / Machine Learning', 'Data Science & Analytics', 'Full Stack Development',
+    'Frontend Development', 'Backend Development', 'Mobile App Development', 'DevOps & Cloud Engineering',
+    'Cyber Security', 'Blockchain Development', 'Software Engineering', 'Networking & Infrastructure',
+    'UI/UX Design', 'Web Design', 'Graphic Design', 'Internet of Things (IoT)', 'Embedded Systems',
+    'Game Development', 'Robotics & Automation', 'Computer Vision', 'Natural Language Processing',
+    'Database Administration', 'Cloud Computing', 'Digital Marketing', 'AR / VR Development',
+    'Quantum Computing', 'Big Data Engineering',
+  ];
+
+  const fetchInternshipApplicants = async (page = 1, limit = 10) => {
+    try {
+      setInternshipLoading(true);
+      setInternshipError(null);
+      const token = sessionStorage.getItem('admin_auth_token') || '';
+      const resp = await fetch(`${BASE_URL}/api/internship-forms?page=${page}&limit=${limit}`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      });
+      if (!resp.ok) throw new Error(`Failed to fetch (${resp.status})`);
+      const result = await resp.json();
+      if (result.success) {
+        setInternshipApplicants(result.data.forms);
+        setInternshipPagination(result.data.pagination);
+      } else {
+        throw new Error(result.message || 'Failed to load applicants');
+      }
+    } catch (e: any) {
+      setInternshipError(e?.message || 'Failed to load applicants');
+    } finally {
+      setInternshipLoading(false);
+    }
+  };
+
+  const handleEditApplicant = (applicant: any) => {
+    setEditingApplicant(applicant);
+    setEditFormData({
+      name: applicant.name || '',
+      collegeName: applicant.collegeName || '',
+      ugCourse: applicant.ugCourse || '',
+      contactNumber: applicant.contactNumber || '',
+      email: applicant.email || '',
+      ugPercentage: applicant.ugPercentage ?? '',
+      interestedRole: applicant.interestedRole || ''
+    });
+  };
+
+  const handleSaveEdit = async () => {
+    if (!editingApplicant) return;
+    setEditSaving(true);
+    try {
+      const token = sessionStorage.getItem('admin_auth_token') || '';
+      const resp = await fetch(`${BASE_URL}/api/internship-forms/${editingApplicant._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+        body: JSON.stringify({
+          ...editFormData,
+          ugPercentage: Number(editFormData.ugPercentage)
+        })
+      });
+      const result = await resp.json();
+      if (resp.ok && result.success) {
+        setInternshipApplicants(prev => prev.map(a => a._id === editingApplicant._id ? result.data : a));
+        setEditingApplicant(null);
+        setEditSuccessMsg('Applicant details updated successfully!');
+        setTimeout(() => setEditSuccessMsg(null), 3000);
+      } else {
+        alert(result.message || 'Failed to update');
+      }
+    } catch {
+      alert('Network error. Please try again.');
+    } finally {
+      setEditSaving(false);
+    }
+  };
+
+  // Fetch internship applicants when tab is active
+  useEffect(() => {
+    if (activeTab === 'internshipApplicants') {
+      fetchInternshipApplicants(internshipPagination.page, internshipPagination.limit);
+    }
+  }, [activeTab]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [students, setStudents] = useState<Student[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
@@ -1305,6 +1397,19 @@ const AdminPanel: React.FC = () => {
             <span className="text-xl">✍️</span>
             {isSidebarOpen && <span>Author</span>}
           </button>
+
+          <button
+            onClick={() => setActiveTab('internshipApplicants')}
+            className={`w-full flex items-center ${isSidebarOpen ? 'justify-start space-x-3 px-4' : 'justify-center px-2'} py-3 rounded-lg font-medium transition-all duration-200 ${
+              activeTab === 'internshipApplicants'
+                ? 'bg-blue-600 text-white shadow-lg'
+                : 'text-gray-400 hover:text-white hover:bg-white/10'
+            }`}
+            title={!isSidebarOpen ? "Internship Applicants" : ""}
+          >
+            <span className="text-xl">📝</span>
+            {isSidebarOpen && <span>Internship Applicants</span>}
+          </button>
         </nav>
 
         {/* Footer */}
@@ -1332,6 +1437,7 @@ const AdminPanel: React.FC = () => {
                 {activeTab === 'referral' && '🤝 Faculty & Referral System'}
                 {activeTab === 'activeUsers' && '👥 Active Users'}
                 {activeTab === 'total' && '📋 Total Enrollments'}
+                {activeTab === 'internshipApplicants' && '📝 Internship Applicants'}
               </h2>
               <p className="text-white/70 mt-1">
                 {activeTab === 'projects' && 'Manage and track all client projects'}
@@ -1340,6 +1446,7 @@ const AdminPanel: React.FC = () => {
                 {activeTab === 'referral' && 'Track referral codes and commission earnings'}
                 {activeTab === 'activeUsers' && 'Live active students and engagement time overview'}
                 {activeTab === 'total' && 'Overview of all students enrolled in each course'}
+                {activeTab === 'internshipApplicants' && 'View and manage internship applications'}
               </p>
             </div>
           </div>
@@ -1469,6 +1576,211 @@ const AdminPanel: React.FC = () => {
           {activeTab === 'author' && (
             <div className="bg-white/5 backdrop-blur-lg rounded-2xl border border-white/10 overflow-hidden min-h-full">
               <AuthorTools />
+            </div>
+          )}
+
+          {activeTab === 'internshipApplicants' && (
+            <div className="space-y-6">
+              {/* Controls Row */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-center space-x-3">
+                  <span className="text-white/70 text-sm">Show</span>
+                  <select
+                    value={internshipPagination.limit}
+                    onChange={(e) => {
+                      const newLimit = Number(e.target.value);
+                      setInternshipPagination(prev => ({ ...prev, limit: newLimit, page: 1 }));
+                      fetchInternshipApplicants(1, newLimit);
+                    }}
+                    className="bg-white/10 border border-white/20 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    {[10, 20, 50, 100].map(n => (
+                      <option key={n} value={n} className="bg-gray-900 text-white">{n}</option>
+                    ))}
+                  </select>
+                  <span className="text-white/70 text-sm">records per page</span>
+                </div>
+                <div className="text-white/50 text-sm">
+                  Total: {internshipPagination.total} applicant{internshipPagination.total !== 1 ? 's' : ''}
+                </div>
+              </div>
+
+              {/* Success Message */}
+              {editSuccessMsg && (
+                <div className="bg-green-900/20 border border-green-500/30 rounded-xl p-4 text-green-300 text-sm flex items-center space-x-2">
+                  <span className="text-lg">✅</span>
+                  <span>{editSuccessMsg}</span>
+                </div>
+              )}
+
+              {/* Error */}
+              {internshipError && (
+                <div className="bg-red-900/20 border border-red-500/30 rounded-xl p-4 text-red-300 text-sm">
+                  {internshipError}
+                </div>
+              )}
+
+              {/* Loading */}
+              {internshipLoading ? (
+                <div className="flex items-center justify-center py-20">
+                  <div className="w-8 h-8 border-2 border-white/20 border-t-blue-500 rounded-full animate-spin" />
+                </div>
+              ) : internshipApplicants.length === 0 ? (
+                <div className="text-center py-20 text-white/40">
+                  <span className="text-4xl block mb-3">📭</span>
+                  No internship applications yet.
+                </div>
+              ) : (
+                /* Table */
+                <div className="bg-white/5 backdrop-blur-lg rounded-2xl border border-white/10 overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-white/10">
+                          <th className="text-left px-4 py-3 text-white/60 font-medium">#</th>
+                          <th className="text-left px-4 py-3 text-white/60 font-medium">Name</th>
+                          <th className="text-left px-4 py-3 text-white/60 font-medium">College</th>
+                          <th className="text-left px-4 py-3 text-white/60 font-medium">UG Course</th>
+                          <th className="text-left px-4 py-3 text-white/60 font-medium">Contact</th>
+                          <th className="text-left px-4 py-3 text-white/60 font-medium">Email</th>
+                          <th className="text-left px-4 py-3 text-white/60 font-medium">UG %</th>
+                          <th className="text-left px-4 py-3 text-white/60 font-medium">Interested Role</th>
+                          <th className="text-left px-4 py-3 text-white/60 font-medium">Applied On</th>
+                          <th className="text-left px-4 py-3 text-white/60 font-medium">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {internshipApplicants.map((applicant, idx) => (
+                          <tr key={applicant._id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                            <td className="px-4 py-3 text-white/50">{(internshipPagination.page - 1) * internshipPagination.limit + idx + 1}</td>
+                            <td className="px-4 py-3 text-white font-medium">{applicant.name}</td>
+                            <td className="px-4 py-3 text-white/80">{applicant.collegeName}</td>
+                            <td className="px-4 py-3 text-white/80">{applicant.ugCourse}</td>
+                            <td className="px-4 py-3 text-white/80">{applicant.contactNumber}</td>
+                            <td className="px-4 py-3 text-blue-400">{applicant.email}</td>
+                            <td className="px-4 py-3 text-white/80">{applicant.ugPercentage}%</td>
+                            <td className="px-4 py-3">
+                              <span className="bg-purple-500/20 text-purple-300 px-2 py-1 rounded-lg text-xs font-medium">{applicant.interestedRole}</span>
+                            </td>
+                            <td className="px-4 py-3 text-white/50 text-xs">{applicant.createdAt ? new Date(applicant.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '-'}</td>
+                            <td className="px-4 py-3">
+                              <button
+                                onClick={() => handleEditApplicant(applicant)}
+                                className="px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 rounded-lg text-xs font-medium transition-colors"
+                              >
+                                ✏️ Edit
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {/* Pagination */}
+              {internshipPagination.totalPages > 1 && (
+                <div className="flex items-center justify-center space-x-2">
+                  <button
+                    onClick={() => {
+                      const p = Math.max(1, internshipPagination.page - 1);
+                      setInternshipPagination(prev => ({ ...prev, page: p }));
+                      fetchInternshipApplicants(p, internshipPagination.limit);
+                    }}
+                    disabled={internshipPagination.page <= 1}
+                    className="px-3 py-2 bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed rounded-lg text-sm transition-colors"
+                  >
+                    ← Prev
+                  </button>
+                  <span className="text-white/60 text-sm">
+                    Page {internshipPagination.page} of {internshipPagination.totalPages}
+                  </span>
+                  <button
+                    onClick={() => {
+                      const p = Math.min(internshipPagination.totalPages, internshipPagination.page + 1);
+                      setInternshipPagination(prev => ({ ...prev, page: p }));
+                      fetchInternshipApplicants(p, internshipPagination.limit);
+                    }}
+                    disabled={internshipPagination.page >= internshipPagination.totalPages}
+                    className="px-3 py-2 bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed rounded-lg text-sm transition-colors"
+                  >
+                    Next →
+                  </button>
+                </div>
+              )}
+
+              {/* Edit Modal */}
+              {editingApplicant && (
+                <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                  <div className="bg-gray-900 border border-white/20 rounded-2xl p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
+                    <div className="flex items-center justify-between mb-6">
+                      <h3 className="text-xl font-bold text-white">Edit Applicant</h3>
+                      <button
+                        onClick={() => setEditingApplicant(null)}
+                        className="text-white/50 hover:text-white text-2xl leading-none"
+                      >
+                        ×
+                      </button>
+                    </div>
+
+                    <div className="space-y-4">
+                      {[
+                        { label: 'Name', key: 'name', type: 'text' },
+                        { label: 'College Name', key: 'collegeName', type: 'text' },
+                        { label: 'UG Course', key: 'ugCourse', type: 'text' },
+                        { label: 'Contact Number', key: 'contactNumber', type: 'text' },
+                        { label: 'Email', key: 'email', type: 'email' },
+                        { label: 'UG Percentage', key: 'ugPercentage', type: 'number' }
+                      ].map(field => (
+                        <div key={field.key}>
+                          <label className="block text-white/70 text-sm font-medium mb-1">{field.label}</label>
+                          <input
+                            type={field.type}
+                            value={editFormData[field.key] || ''}
+                            onChange={(e) => setEditFormData((prev: any) => ({ ...prev, [field.key]: e.target.value }))}
+                            className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-sm"
+                          />
+                        </div>
+                      ))}
+                      <div>
+                        <label className="block text-white/70 text-sm font-medium mb-1">Interested Role</label>
+                        <select
+                          value={editFormData.interestedRole || ''}
+                          onChange={(e) => setEditFormData((prev: any) => ({ ...prev, interestedRole: e.target.value }))}
+                          className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-sm"
+                        >
+                          <option value="" className="bg-gray-900">Select role</option>
+                          {INTERNSHIP_ROLES.map(role => (
+                            <option key={role} value={role} className="bg-gray-900">{role}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="flex space-x-3 mt-8">
+                      <button
+                        onClick={() => setEditingApplicant(null)}
+                        className="flex-1 px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors text-sm font-medium"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleSaveEdit}
+                        disabled={editSaving}
+                        className="flex-1 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white rounded-lg transition-colors text-sm font-medium flex items-center justify-center"
+                      >
+                        {editSaving ? (
+                          <>
+                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                            Saving...
+                          </>
+                        ) : 'Save Changes'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         {activeTab === 'projects' && (
