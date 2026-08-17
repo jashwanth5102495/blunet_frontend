@@ -19,8 +19,8 @@ const SentinelHero: React.FC = () => {
 
   return (
     <section id="blunet-academy" className="relative min-h-screen flex items-end bg-hero-bg overflow-hidden font-sora antialiased">
-      {/* Top Right Liquid Radio Button */}
-      <div className="absolute top-6 right-6 z-[100] scale-100 sm:scale-110">
+      {/* Top Right Liquid Radio Button - Shifted down to top-28 to avoid overlapping navigation bar */}
+      <div className="absolute top-28 right-6 z-[100] scale-100 sm:scale-110">
         <div className="inline-flex h-11 rounded-lg bg-input/50 p-0.5">
           <RadioGroup 
             value={environment} 
@@ -50,12 +50,11 @@ const SentinelHero: React.FC = () => {
           </RadioGroup> 
         </div>
       </div>
-      {/* Spline 3D Background with Hue shift to turn Green lights into Blue */}
+      {/* Spline 3D Background */}
       <div 
         className="absolute inset-0"
         onWheelCapture={(e) => e.stopPropagation()}
         onTouchMoveCapture={(e) => e.stopPropagation()}
-        style={{ filter: "hue-rotate(100deg) brightness(1.2)" }}
       >
         <Suspense fallback={<div className="absolute inset-0 bg-hero-bg" />}>
           <Spline

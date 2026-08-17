@@ -30,7 +30,6 @@ export const TestimonialsColumn = (props: {
                   <div className="text-gray-300">{text}</div> 
                   <div className="mt-5">
                     <div className="font-medium tracking-tight leading-5 text-white">{name}</div>
-                    <div className="leading-5 opacity-60 tracking-tight text-gray-400">{role}</div>
                   </div> 
                 </div> 
               ))} 
