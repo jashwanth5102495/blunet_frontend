@@ -14,6 +14,7 @@ import { Button } from '../components/ui/button';
 import { Label } from '../components/ui/label';
 import { Textarea } from '../components/ui/textarea';
 import Footer from "../components/Footer";
+import StudentProgramsSection from "../components/StudentProgramsSection";
 
 const testimonials = [
   {
@@ -125,6 +126,7 @@ const StudentPage: React.FC = () => {
   return (
     <div className="bg-hero-bg min-h-screen">
       <SentinelHero />
+      <StudentProgramsSection />
 
       {/* Our Academy Section */}
       <section className="py-20 px-4 md:px-8 lg:px-16 bg-black relative overflow-hidden border-b border-white/5">

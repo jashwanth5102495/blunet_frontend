@@ -1,148 +1,211 @@
 import React from 'react';
+import { useTranslation } from '../hooks/useTranslation';
+import { useTheme } from '../contexts/ThemeContext';
 
-const Contact = () => {
+const Contact: React.FC = () => {
+  const { t, dir } = useTranslation();
+  const { theme } = useTheme();
+
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div id="contact" className={`min-h-screen pt-24 pb-16 transition-colors duration-300 ${
+      theme === 'dark' ? 'bg-black text-white' : 'bg-gray-50 text-black'
+    }`} dir={dir}>
+      
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-16">
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        
         {/* Header Section */}
         <div className="text-center mb-16">
           <div className="flex items-center justify-center mb-4">
-            <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-            <span className="text-gray-400 text-sm">• Get In Touch</span>
+            <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3"></div>
+            <span className="text-gray-400 text-sm">• {t('contact.badge')}</span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-8">
-            Contact Us
+          <h1 className={`text-4xl md:text-6xl font-bold mb-6 font-poppins ${
+            theme === 'dark' ? 'text-white' : 'text-black'
+          }`}>
+            {t('contact.title')}
           </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            We're here to help you with your technology needs. Get in touch with our team.
+          <p className={`text-lg max-w-3xl mx-auto font-sora ${
+            theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+          }`}>
+            {t('contact.subtitle')}
           </p>
         </div>
 
-        {/* Coming Soon Banner */}
-        <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-2xl p-12 mb-16 text-center">
-          <div className="flex items-center justify-center mb-6">
-            <div className="w-4 h-4 bg-blue-500 rounded-full animate-pulse mr-4"></div>
-            <h2 className="text-3xl font-bold text-blue-400">Contact Portal Coming Soon!</h2>
-          </div>
-          <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-            Our comprehensive contact portal is currently under development. 
-            We're building an advanced system to better serve our clients and provide seamless communication.
-          </p>
-          <div className="bg-gray-900/50 rounded-xl p-8 max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-white mb-6">What's Coming:</h3>
-            <div className="grid md:grid-cols-2 gap-6 text-left">
-              <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <div>
-                    <h4 className="text-white font-semibold">Live Chat Support</h4>
-                    <p className="text-gray-400 text-sm">Real-time chat with our technical experts</p>
+        {/* Headquarters and Contact Card (Matches attached mockup layout exactly) */}
+        <div className={`rounded-3xl p-6 sm:p-10 border grid md:grid-cols-2 gap-10 items-stretch max-w-5xl mx-auto transition-colors duration-300 ${
+          theme === 'dark' 
+            ? 'bg-zinc-950/60 border-white/10' 
+            : 'bg-white border-gray-200 shadow-xl'
+        }`}>
+          
+          {/* Left Column: Headquarters Details & Send an Enquiry Form */}
+          <div className="flex flex-col justify-between text-left">
+            <div>
+              {/* Badge */}
+              <div className="inline-block px-3.5 py-1 border border-cyan-500/30 rounded-full text-[10px] font-bold uppercase tracking-widest text-cyan-400 mb-6 font-mono">
+                ✦ Our Headquarters ✦
+              </div>
+
+              {/* Title */}
+              <h2 className={`text-3xl font-black font-poppins uppercase tracking-wider mb-6 ${
+                theme === 'dark' ? 'text-white' : 'text-black'
+              }`}>
+                BLUNET
+              </h2>
+
+              {/* Contact Info Subgrid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <div className="flex items-center space-x-2 text-cyan-400 font-bold text-sm mb-2">
+                    <span className="text-xs">📍</span>
+                    <span className="font-poppins uppercase tracking-widest text-[10px] font-bold">Address</span>
                   </div>
+                  <p className={`text-xs sm:text-sm font-sora leading-relaxed mb-2 ${
+                    theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    No.27, 2nd Floor, Sriranga complex 2nd Cross Road, Modi Hospital Rd, Bengaluru, Karnataka 560086
+                  </p>
+                  <a 
+                    href="https://maps.google.com/?q=No.27,2nd%20Floor,%20Sriranga%20complex%202nd%20Cross%20Road,%20Modi%20Hospital%20Rd,%20Bengaluru,%20Karnataka%20560086"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-cyan-400 hover:text-cyan-300 text-xs font-bold tracking-wider font-mono inline-flex items-center"
+                  >
+                    Open in Maps ↗
+                  </a>
                 </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+
+                <div className="space-y-4">
                   <div>
-                    <h4 className="text-white font-semibold">Project Consultation</h4>
-                    <p className="text-gray-400 text-sm">Schedule meetings with our development team</p>
+                    <div className="flex items-center space-x-2 text-cyan-400 font-bold text-sm mb-1">
+                      <span className="text-xs">📞</span>
+                      <span className="font-poppins uppercase tracking-widest text-[10px] font-bold">Phone</span>
+                    </div>
+                    <a 
+                      href="tel:+918328246413"
+                      className={`text-xs sm:text-sm font-mono block hover:text-cyan-400 transition-colors ${
+                        theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                      }`}
+                    >
+                      +91 83282 46413
+                    </a>
                   </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+
                   <div>
-                    <h4 className="text-white font-semibold">Support Tickets</h4>
-                    <p className="text-gray-400 text-sm">Track and manage your support requests</p>
+                    <div className="flex items-center space-x-2 text-cyan-400 font-bold text-sm mb-1">
+                      <span className="text-xs">✉️</span>
+                      <span className="font-poppins uppercase tracking-widest text-[10px] font-bold">Email</span>
+                    </div>
+                    <a 
+                      href="mailto:support@blunetitservices.in"
+                      className={`text-xs sm:text-sm font-mono block hover:text-cyan-400 transition-colors ${
+                        theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                      }`}
+                    >
+                      support@blunetitservices.in
+                    </a>
                   </div>
                 </div>
               </div>
-              <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <div>
-                    <h4 className="text-white font-semibold">Video Calls</h4>
-                    <p className="text-gray-400 text-sm">Face-to-face meetings with screen sharing</p>
-                  </div>
+
+              {/* Grid Separator line */}
+              <div className={`border-t mb-6 ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}></div>
+            </div>
+
+            {/* enquiry Form */}
+            <div>
+              <h3 className={`text-lg font-bold uppercase tracking-wider mb-4 font-poppins ${
+                theme === 'dark' ? 'text-white' : 'text-black'
+              }`}>
+                Send an Enquiry
+              </h3>
+
+              <form 
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const form = e.currentTarget;
+                  const nameInput = form.elements.namedItem('contactName') as HTMLInputElement;
+                  const phoneInput = form.elements.namedItem('contactPhone') as HTMLInputElement;
+                  const messageInput = form.elements.namedItem('contactMessage') as HTMLTextAreaElement;
+
+                  const name = nameInput.value.trim();
+                  const phone = phoneInput.value.trim();
+                  const message = messageInput.value.trim();
+
+                  if (!name || !message) {
+                    alert("Please fill in your name and message.");
+                    return;
+                  }
+
+                  const text = `Hi! I want to start a project with BluNet IT Services.\n\nName: ${name}\nPhone: ${phone || 'Not provided'}\nMessage: ${message}`;
+                  window.open(`https://wa.me/918328246413?text=${encodeURIComponent(text)}`, '_blank');
+                }}
+                className="space-y-4"
+              >
+                <div className="grid grid-cols-2 gap-4">
+                  <input 
+                    name="contactName"
+                    type="text" 
+                    required
+                    placeholder="Your Name"
+                    className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm focus:outline-none focus:border-cyan-400 font-sora border ${
+                      theme === 'dark' 
+                        ? 'bg-zinc-900 border-white/10 text-white placeholder-gray-600' 
+                        : 'bg-white border-gray-300 text-black placeholder-gray-400'
+                    } ${dir === 'rtl' ? 'text-right' : 'text-left'}`}
+                  />
+                  <input 
+                    name="contactPhone"
+                    type="text" 
+                    placeholder="Phone Number"
+                    className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm focus:outline-none focus:border-cyan-400 font-sora border ${
+                      theme === 'dark' 
+                        ? 'bg-zinc-900 border-white/10 text-white placeholder-gray-600' 
+                        : 'bg-white border-gray-300 text-black placeholder-gray-400'
+                    } ${dir === 'rtl' ? 'text-right' : 'text-left'}`}
+                  />
                 </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <div>
-                    <h4 className="text-white font-semibold">File Sharing</h4>
-                    <p className="text-gray-400 text-sm">Secure document and file exchange</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <div>
-                    <h4 className="text-white font-semibold">Progress Tracking</h4>
-                    <p className="text-gray-400 text-sm">Monitor your project development status</p>
-                  </div>
-                </div>
-              </div>
+
+                <textarea 
+                  name="contactMessage"
+                  required
+                  rows={3}
+                  placeholder="How can we help you?"
+                  className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm focus:outline-none focus:border-cyan-400 font-sora resize-none border ${
+                    theme === 'dark' 
+                      ? 'bg-zinc-900 border-white/10 text-white placeholder-gray-600' 
+                      : 'bg-white border-gray-300 text-black placeholder-gray-400'
+                  } ${dir === 'rtl' ? 'text-right' : 'text-left'}`}
+                />
+
+                <button 
+                  type="submit"
+                  className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white py-3 rounded-xl font-bold tracking-widest text-xs uppercase transition-colors cursor-pointer font-mono flex items-center justify-center space-x-2"
+                >
+                  <svg className="w-4 h-4 fill-current mr-1.5" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.458 5.704 1.459h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                  </svg>
+                  <span>Send via WhatsApp</span>
+                </button>
+              </form>
             </div>
           </div>
-        </div>
 
-        {/* Current Contact Information */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {/* Email */}
-          <div className="bg-gray-900 rounded-2xl p-8 border border-gray-800 hover:border-blue-500/50 transition-all duration-300">
-            <div className="flex items-center mb-4">
-              <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mr-4">
-                <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-white">Email</h3>
-            </div>
-            <p className="text-gray-300 mb-4">Get in touch via email for general inquiries and support.</p>
-            <a href="mailto:support@blunetitservices.in" className="text-blue-400 hover:text-blue-300 transition-colors block">
-                support@blunetitservices.in
-            </a>
-            <a href="mailto:blunetitservices@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors block">
-                blunetitservices@gmail.com
-            </a>
+          {/* Right Column: Google Maps Location Iframe (Matches Mockup Map styling) */}
+          <div className="rounded-2xl overflow-hidden border border-white/10 min-h-[320px] shadow-lg relative h-full">
+            <iframe
+              src="https://maps.google.com/maps?q=No.27,2nd%20Floor,%20Sriranga%20complex%202nd%20Cross%20Road,%20Modi%20Hospital%20Rd,%20Bengaluru,%20Karnataka%20560086&t=&z=16&ie=UTF8&iwloc=&output=embed"
+              className="absolute inset-0 w-full h-full border-0"
+              allowFullScreen={true}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="BluNet Headquarters Location Map"
+            ></iframe>
           </div>
 
-
-
-          {/* Address */}
-          <div className="bg-gray-900 rounded-2xl p-8 border border-gray-800 hover:border-purple-500/50 transition-all duration-300">
-            <div className="flex items-center mb-4">
-              <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mr-4">
-                <svg className="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-white">Office</h3>
-            </div>
-            <p className="text-gray-300 mb-4">Visit our office for in-person meetings and consultations.</p>
-            <p className="text-purple-400">
-              Hyderabad, Telangana<br />
-              India<br />
-              Austin, Texas<br />
-              USA
-            </p>
-          </div>
         </div>
 
-        {/* Call to Action */}
-        <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-2xl p-12 text-center">
-          <h2 className="text-3xl font-bold mb-6">Stay Updated</h2>
-          <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-            Be the first to know when our contact portal launches. Sign up for notifications and get early access.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-            <input 
-              type="email" 
-              placeholder="Enter your email"
-              className="flex-1 px-6 py-4 bg-gray-900 border border-gray-700 rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
-            />
-            <button className="bg-blue-500 text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-400 transition-colors">
-              Notify Me
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );

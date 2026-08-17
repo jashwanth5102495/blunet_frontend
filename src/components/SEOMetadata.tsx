@@ -1,13 +1,16 @@
 import { useEffect } from 'react';
+import { useTranslation } from '../hooks/useTranslation';
 
 const SEOMetadata = () => {
+  const { t, language } = useTranslation();
+
   useEffect(() => {
     // Structured Data for Organization
     const organizationSchema = {
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "BluNet IT Services",
-      "description": "Leading IT services company specializing in software development, cybersecurity, cloud solutions, and AI-powered applications. Transform your business with cutting-edge technology solutions.",
+      "description": t('seo.description'),
       "url": "https://blunetitservices.in",
       "logo": "https://blunetitservices.in/logo.png",
       "address": {
@@ -22,7 +25,7 @@ const SEOMetadata = () => {
         "@type": "ContactPoint",
         "contactType": "Customer Service",
         "areaServed": "IN",
-        "availableLanguage": "English"
+        "availableLanguage": ["English", "Hindi", "Kannada"]
       },
       "sameAs": [
         "https://linkedin.com/company/blunet-it-services",
@@ -43,95 +46,21 @@ const SEOMetadata = () => {
       ]
     };
 
-    // Structured Data for Local Business
-    const localBusinessSchema = {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "BluNet IT Services",
-      "image": "https://blunetitservices.in/logo.png",
-      "description": "Professional software development and IT training company in Bangalore offering web development, mobile apps, cybersecurity, and student training programs.",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "No.27, 2nd Floor, Sriranga Complex, 2nd Cross Road, Modi Hospital Road",
-        "addressLocality": "Rajajinagar",
-        "addressRegion": "Karnataka",
-        "postalCode": "560086",
-        "addressCountry": "IN"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": "12.9941",
-        "longitude": "77.5555"
-      },
-      "url": "https://blunetitservices.in",
-      "telephone": "+91-XXXXXXXXXX",
-      "priceRange": "$$",
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday",
-          "Tuesday", 
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday"
-        ],
-        "opens": "09:00",
-        "closes": "18:00"
-      }
-    };
-
-    // Structured Data for Educational Organization
-    const educationalSchema = {
-      "@context": "https://schema.org",
-      "@type": "EducationalOrganization",
-      "name": "BluNet IT Services - Training Division",
-      "description": "Comprehensive IT training programs including web development, cybersecurity, data science, and emerging technologies with hands-on projects and industry mentorship.",
-      "url": "https://blunetitservices.in/student-page",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "No.27, 2nd Floor, Sriranga Complex, 2nd Cross Road, Modi Hospital Road",
-        "addressLocality": "Rajajinagar",
-        "addressRegion": "Karnataka", 
-        "postalCode": "560086",
-        "addressCountry": "IN"
-      },
-      "hasCredential": [
-        {
-          "@type": "EducationalOccupationalCredential",
-          "name": "Web Development Certification",
-          "description": "Complete web development training with HTML, CSS, JavaScript, React, and backend technologies"
-        },
-        {
-          "@type": "EducationalOccupationalCredential", 
-          "name": "Cybersecurity Certification",
-          "description": "Comprehensive cybersecurity training covering ethical hacking, network security, and digital forensics"
-        },
-        {
-          "@type": "EducationalOccupationalCredential",
-          "name": "Data Science Certification", 
-          "description": "Data science and analytics training with Python, machine learning, and AI technologies"
-        }
-      ]
-    };
-
-    // Add structured data to head
+    // Update structured data to head
     const addStructuredData = (schema: object, id: string) => {
-      let script = document.getElementById(id);
-      if (script) {
-        script.textContent = JSON.stringify(schema);
+      const existingScript = document.getElementById(id) as HTMLScriptElement | null;
+      if (existingScript) {
+        existingScript.textContent = JSON.stringify(schema);
       } else {
-        script = document.createElement('script');
-        script.id = id;
-        script.type = 'application/ld+json';
-        script.textContent = JSON.stringify(schema);
-        document.head.appendChild(script);
+        const newScript = document.createElement('script');
+        newScript.id = id;
+        newScript.type = 'application/ld+json';
+        newScript.textContent = JSON.stringify(schema);
+        document.head.appendChild(newScript);
       }
     };
 
     addStructuredData(organizationSchema, 'organization-schema');
-    addStructuredData(localBusinessSchema, 'local-business-schema');
-    addStructuredData(educationalSchema, 'educational-schema');
 
     // Update meta tags
     const updateMetaTag = (property: string, content: string) => {
@@ -149,23 +78,23 @@ const SEOMetadata = () => {
       meta.setAttribute('content', content);
     };
 
-    // Update essential meta tags
-    updateMetaTag('description', 'BluNet IT Services - Leading software development company in Bangalore. Web development, mobile apps, cybersecurity, cloud solutions, AI applications, and professional IT training programs.');
-    updateMetaTag('keywords', 'software development, web development, mobile app development, cybersecurity, cloud solutions, AI development, IT training, Bangalore, Karnataka, India, student training, coding bootcamp');
-    updateMetaTag('og:title', 'BluNet IT Services - Software Development & IT Training Company');
-    updateMetaTag('og:description', 'Transform your business with cutting-edge software solutions. Professional web development, mobile apps, cybersecurity services, and comprehensive IT training programs in Bangalore.');
+    // Update essential meta tags based on active language
+    updateMetaTag('description', t('seo.description'));
+    updateMetaTag('keywords', t('seo.keywords'));
+    updateMetaTag('og:title', t('seo.ogTitle'));
+    updateMetaTag('og:description', t('seo.ogDescription'));
     updateMetaTag('og:type', 'website');
-    updateMetaTag('og:url', 'https://blunetitservices.in');
+    updateMetaTag('og:url', window.location.href);
     updateMetaTag('og:image', 'https://blunetitservices.in/logo.png');
     updateMetaTag('twitter:card', 'summary_large_image');
-    updateMetaTag('twitter:title', 'BluNet IT Services - Software Development & Training');
-    updateMetaTag('twitter:description', 'Leading IT services company specializing in software development, cybersecurity, cloud solutions, and professional training programs.');
+    updateMetaTag('twitter:title', t('seo.ogTitle'));
+    updateMetaTag('twitter:description', t('seo.ogDescription'));
     updateMetaTag('twitter:image', 'https://blunetitservices.in/logo.png');
 
     // Update title
-    document.title = 'BluNet IT Services - Software Development & IT Training Company in Bangalore';
+    document.title = t('seo.title');
 
-  }, []);
+  }, [language]); // Reacts immediately when language changes
 
   return null;
 };

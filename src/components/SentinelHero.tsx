@@ -50,11 +50,12 @@ const SentinelHero: React.FC = () => {
           </RadioGroup> 
         </div>
       </div>
-      {/* Spline 3D Background */}
+      {/* Spline 3D Background with Hue shift to turn Green lights into Blue */}
       <div 
         className="absolute inset-0"
         onWheelCapture={(e) => e.stopPropagation()}
         onTouchMoveCapture={(e) => e.stopPropagation()}
+        style={{ filter: "hue-rotate(100deg) brightness(1.2)" }}
       >
         <Suspense fallback={<div className="absolute inset-0 bg-hero-bg" />}>
           <Spline

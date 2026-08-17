@@ -1,7 +1,9 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import React, { type ReactNode, Suspense, lazy } from 'react';
-import { ThemeProvider } from './contexts/ThemeContext';
+import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 import Header from './components/Header';
+import Navbar from './components/Navbar';
 import ScrollToTop from './components/ScrollToTop';
 import ClickSpark from './components/ClickSpark';
 import { FallingPattern } from './components/ui/falling-pattern';
@@ -13,6 +15,8 @@ import { ProtectedLoginRoute, ProtectedCourseGate } from './components/AuthWrapp
 import { Slab } from 'react-loading-indicators';
 import Loader from './components/ui/loader-4';
 import StudentPage from './pages/StudentPage';
+import Chatbot from './components/Chatbot';
+import SideControls from './components/SideControls';
 
 // Lazy load heavy components
 const Hero = lazy(() => import('./components/Hero'));
@@ -37,7 +41,6 @@ const StudentLogin = lazy(() => import('./components/StudentLogin'));
 const StudentPortal = lazy(() => import('./components/StudentPortal'));
 const CreatorPortal = lazy(() => import('./components/CreatorPortal'));
 const SecureAdminPanel = lazy(() => import('./components/SecureAdminPanel'));
-const ProjectTracking = lazy(() => import('./components/ProjectTracking'));
 const CourseLearning = lazy(() => import('./components/CourseLearning'));
 const CourseLearningDevOpsBeginner = lazy(() => import('./components/CourseLearningDevOpsBeginner'));
 const CourseLearningDevOpsAdvanced = lazy(() => import('./components/CourseLearningDevOpsAdvanced'));
@@ -176,14 +179,19 @@ function VisitingCardsHero() {
 }
 
 function AppInner() {
+  const { theme } = useTheme();
+
   return (
       <ClickSpark 
         sparkColor="#60a5fa" 
         sparkCount={8} 
         sparkRadius={80} 
         duration={800}
-        className="min-h-screen bg-black text-white font-sans relative"
+        className={`min-h-screen font-sans relative transition-colors duration-300 ${
+          theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'
+        }`}
       >
+        <Navbar />
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={
@@ -196,12 +204,10 @@ function AppInner() {
                 <section id="integrations">
                   <IntegrationsSection />
                 </section>
-                <section id="student-programs">
-                  <StudentProgramsSection />
-                </section>
-                <section id="services">
+                <About />
+                {/* <section id="services">
                   <ServicesSection />
-                </section>
+                </section> */}
                 <section id="career">
                   <TradingSection />
                 </section>
@@ -252,7 +258,6 @@ function AppInner() {
             <Route path="/student-portal" element={<ProtectedLoginRoute><StudentPortal /></ProtectedLoginRoute>} />
             <Route path="/creator-portal" element={<><Header /><CreatorPortal /></>} />
             <Route path="/AJRV8328" element={<SecureAdminPanel />} />
-            <Route path="/project-tracking" element={<><Header /><ProjectTracking /></>} />
             <Route path="/course-learning/:courseId/:moduleId/:lessonId" element={<CourseLearningProtected />} />
             <Route path="/course-learning" element={<ProtectedLoginRoute><CourseLearning /></ProtectedLoginRoute>} />
             <Route path="/course-learning-devops-beginner/:courseId/:moduleId/:lessonId" element={<CourseLearningDevOpsBeginner />} />
@@ -315,6 +320,8 @@ function AppInner() {
             <Route path="/internship-form" element={<><Header /><InternshipForm /></>} />
           </Routes>
         </Suspense>
+        <Chatbot />
+        <SideControls />
       </ClickSpark>
   );
 }
@@ -323,10 +330,12 @@ function App() {
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
   const appTree = (
     <ThemeProvider>
-      <Router basename={import.meta.env.VITE_BASE_PATH || '/'}>
-        <ScrollToTop />
-        <AppInner />
-      </Router>
+      <LanguageProvider>
+        <Router basename={import.meta.env.VITE_BASE_PATH || '/'}>
+          <ScrollToTop />
+          <AppInner />
+        </Router>
+      </LanguageProvider>
     </ThemeProvider>
   );
 

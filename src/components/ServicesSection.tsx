@@ -1,5 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import InfiniteGallery from './ui/3d-gallery-photography';
+import { useTranslation } from '../hooks/useTranslation';
+import { useTheme } from '../contexts/ThemeContext';
 
 const TrueFocus = lazy(() => import('./ui/TrueFocus'));
 
@@ -19,10 +21,15 @@ const sampleImages = [
 ];
 
 const ServicesSection = () => {
+  const { t, dir } = useTranslation();
+  const { theme } = useTheme();
+
   return (
     <section 
-      className="relative flex items-center justify-center w-full min-h-screen overflow-hidden" 
-      style={{ backgroundColor: '#000000' }}
+      dir={dir}
+      className={`relative flex items-center justify-center w-full min-h-screen overflow-hidden transition-colors duration-300 ${
+        theme === 'dark' ? 'bg-black text-white' : 'bg-gray-50 text-black'
+      }`}
     >
       {/* 3D Gallery Background */}
       <div className="absolute inset-0 z-0">
@@ -31,7 +38,9 @@ const ServicesSection = () => {
           speed={1.2}
           zSpacing={3}
           visibleCount={8}
-          className="h-full w-full opacity-70"
+          className={`h-full w-full transition-opacity duration-300 ${
+            theme === 'dark' ? 'opacity-70' : 'opacity-40'
+          }`}
           fadeSettings={{
             fadeIn: { start: 0, end: 0.2 },
             fadeOut: { start: 0.8, end: 1.0 }
@@ -48,29 +57,17 @@ const ServicesSection = () => {
       <div className="relative z-10 w-full pointer-events-none flex flex-col items-center justify-center min-h-screen px-3">
         <div className="pointer-events-auto mb-8">
           <Suspense fallback={<div className="h-16" />}>
-            <div className="text-white">
+            <div className={theme === 'dark' ? 'text-white' : 'text-black'}>
               <TrueFocus 
-                sentence="OUR SERVICES"
+                sentence={t('services.title')}
                 manualMode={false}
                 blurAmount={5}
-                borderColor="white"
-                glowColor="rgba(255, 255, 255, 0.3)"
-                animationDuration={1}
-                pauseBetweenAnimations={1.5}
+                borderColor={theme === 'dark' ? 'white' : 'black'}
+                glowColor="rgba(0, 245, 255, 0.6)"
               />
             </div>
           </Suspense>
         </div>
-        
-        <h1 className="font-serif text-4xl md:text-7xl tracking-tight text-white mt-8 drop-shadow-2xl">
-          <span className="italic font-light">Modern Solutions.</span> Real Impact
-        </h1>
-      </div>
-
-      {/* Helper text overlay */}
-      <div className="pointer-events-none text-center absolute bottom-10 left-0 right-0 font-mono uppercase text-[11px] font-semibold text-white/80 z-20">
-        <p className="tracking-widest">Use mouse wheel, arrow keys, or touch to navigate</p>
-        <p className="opacity-50 mt-1 tracking-widest">Auto-play resumes after 3 seconds of inactivity</p>
       </div>
     </section>
   );
