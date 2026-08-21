@@ -18,141 +18,18 @@ const LANGUAGES = [
   { code: 'th', name: 'Thai', nativeName: 'ไทย' }
 ] as const;
 
-const SERVICES_DROPDOWN_TRANSLATIONS: Record<string, string[]> = {
-  en: [
-    "Digital Product Development",
-    "AI & Business Automation",
-    "Cloud & Infrastructure",
-    "24/7 Support",
-    "Digital Business analyst",
-    "E-Commerce",
-    "Education & Career",
-    "Learning & Training Software Solutions",
-    "Interior & Space Design",
-    "Global Trade & Commerce (Upcoming)"
-  ],
-  hi: [
-    "डिजिटल उत्पाद विकास",
-    "एआई और व्यावसायिक स्वचालन",
-    "क्लाउड और इन्फ्रास्ट्रक्चर",
-    "24/7 सहायता",
-    "डिजिटल बिजनेस विश्लेषक",
-    "ई-कॉमर्स",
-    "शिक्षा और कैरियर",
-    "प्रायोगिक शिक्षण और प्रशिक्षण",
-    "इंटीरियर और स्पेस डिज़ाइन",
-    "वैश्विक व्यापार (आगामी)"
-  ],
-  kn: [
-    "ಡಿಜಿಟಲ್ ಉತ್ಪನ್ನ ಅಭಿವೃದ್ಧಿ",
-    "ಎಐ ಮತ್ತು ವ್ಯವಹಾರ ಯಾಂತ್ರೀಕರಣ",
-    "ಕ್ಲೌಡ್ ಮತ್ತು ಮೂಲಸೌಕರ್ಯ",
-    "24/7 ಸಹಾಯ",
-    "ಡಿಜಿಟಲ್ ವ್ಯವಹಾರ ವಿಶ್ಲೇಷಕ",
-    "ಇ-ಕಾಮರ್ಸ್",
-    "ಶಿಕ್ಷಣ och ವೃತ್ತಿಜೀವನ",
-    "ತರಬೇತಿ ಮತ್ತು ಶಿಕ್ಷಣ ಸಾಫ್ಟ್‌ವೇರ್",
-    "ಇಂಟೀರಿಯರ್ ಮತ್ತು ಸ್ಪೇಸ್ ಡಿಸೈನ್",
-    "ಜಾಗತಿಕ ವ್ಯಾಪาร (ಮುಂಬರುವ)"
-  ],
-  ar: [
-    "تطوير المنتجات الرقمية",
-    "الذكاء الاصطناعي وأتمتة الأعمال",
-    "السحابة والبنية التحتية",
-    "دعم فني 24/7",
-    "محلل الأعمال الرقمية",
-    "التجارة الإلكترونية",
-    "التعليم والمهنة",
-    "برمجيات التدريب والتعليم",
-    "التصاميم الداخلية والمساحات",
-    "التجارة العالمية (قريباً)"
-  ],
-  'zh-CN': [
-    "数字化产品开发",
-    "人工智能与业务自动化",
-    "云计算与基础设施",
-    "24/7 支持",
-    "数字化业务分析师",
-    "电子商务",
-    "教育与职业",
-    "学习与培训软件",
-    "室内与空间设计",
-    "全球贸易与商业 (即将推出)"
-  ],
-  fr: [
-    "Développement de Produits Numériques",
-    "IA & Automatisation Commerciale",
-    "Cloud & Infrastructure",
-    "Support Informatique 24/7",
-    "Analyste d'Affaires Numériques",
-    "Commerce Électronique",
-    "Éducation & Carrière",
-    "Solutions d'Apprentissage & Formation",
-    "Design d'Intérieur & d'Espace",
-    "Commerce Global (À venir)"
-  ],
-  de: [
-    "Digitale Produktentwicklung",
-    "KI & Geschäftsautomatisierung",
-    "Cloud & Infrastruktur",
-    "24/7 IT-Support",
-    "Digitaler Business Analyst",
-    "E-Commerce",
-    "Bildung & Karriere",
-    "Lern- & Schulungssoftware",
-    "Innen- & Raumdesign",
-    "Welthandel & Commerce (In Kürze)"
-  ],
-  pt: [
-    "Desenvolvimento de Produtos Digitais",
-    "IA e Automação de Negócios",
-    "Nuvem e Infraestrutura",
-    "Suporte de TI 24/7",
-    "Analista de Negócios Digitais",
-    "Comércio Eletrônico",
-    "Educação e Carreira",
-    "Software de Aprendizado e Treinamento",
-    "Design de Interiores e Espaços",
-    "Comércio Global (Em breve)"
-  ],
-  es: [
-    "Desarrollo de Productos Digitales",
-    "IA y Automatización de Negocios",
-    "Nube e Infraestructura",
-    "Soporte de TI 24/7",
-    "Analista de Negocios Digitales",
-    "Comercio Electrónico",
-    "Educación y Carrera",
-    "Software de Aprendizaje y Capacitación",
-    "Diseño de Interiores y Espacio",
-    "Comercio Global (Próximamente)"
-  ],
-  th: [
-    "การพัฒนาผลิตภัณฑ์ดิจิทัล",
-    "เอไอและการจัดการอัตโนมัติของธุรกิจ",
-    "คลาวด์และโครงสร้างพื้นฐาน",
-    "ฝ่ายสนับสนุนด้านไอที 24/7",
-    "นักวิเคราะห์ธุรกิจดิจิทัล",
-    "อีคอมเมิร์ซ",
-    "การศึกษาและอาชีพ",
-    "โซลูชันซอฟต์แวร์การเรียนรู้และฝึกอบรม",
-    "การออกแบบภายในและพื้นที่",
-    "การค้าระดับโลก (เร็วๆ นี้)"
-  ]
-};
-
 const SEARCHABLE_ITEMS = [
   // Services
-  { name: "Digital Product Development", type: "Service", href: "/#services" },
-  { name: "AI & Business Automation", type: "Service", href: "/#services" },
-  { name: "Cloud & Infrastructure", type: "Service", href: "/#services" },
-  { name: "24/7 Support", type: "Service", href: "/#services" },
-  { name: "Digital Business Analyst", type: "Service", href: "/#services" },
-  { name: "E-Commerce", type: "Service", href: "/#services" },
+  { name: "Digital Product Development", type: "Service", href: "/services/digital-product-development" },
+  { name: "AI & Business Automation", type: "Service", href: "/services/ai-and-business-automation" },
+  { name: "Cloud & Infrastructure", type: "Service", href: "/services/cloud-and-infrastructure" },
+  { name: "24/7 Support", type: "Service", href: "/services/24-7-support" },
+  { name: "Digital Business Analyst", type: "Service", href: "/services/digital-business-analyst" },
+  { name: "E-Commerce Solutions", type: "Service", href: "/services/e-commerce-solutions" },
   { name: "Education & Career Solutions", type: "Service", href: "/student-page" },
   { name: "Learning & Training Software Solutions", type: "Service", href: "/student-page" },
-  { name: "Interior & Space Design", type: "Service", href: "/#services" },
-  { name: "Global Trade & Commerce (Upcoming)", type: "Service", href: "#" },
+  { name: "Interior & Space Design", type: "Service", href: "/services/interior-and-space-design" },
+  { name: "Global Trade & Commerce (Upcoming)", type: "Service", href: "/services/global-trade-and-commerce" },
   
   // Courses
   { name: "Frontend Development Beginner", type: "Course", href: "/courses" },
@@ -176,6 +53,8 @@ const Navbar: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [servicesHovered, setServicesHovered] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
+  const [mobileServicesExpanded, setMobileServicesExpanded] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<string>('digitalTech');
 
   // Search functionality
   const [searchOpen, setSearchOpen] = useState(false);
@@ -194,7 +73,7 @@ const Navbar: React.FC = () => {
     }
   }, [searchOpen]);
 
-  // Monitor scroll for glassmorphic navbar effect (completely transparent while in Hero section)
+  // Monitor scroll for transparent navbar in Hero viewport bounds
   useEffect(() => {
     const handleScroll = () => {
       const heroSection = document.getElementById('hero-section');
@@ -206,7 +85,6 @@ const Navbar: React.FC = () => {
           setScrolled(false);
         }
       } else {
-        // Subpage: apply glassmorphism on normal scroll threshold
         if (window.scrollY > 20) {
           setScrolled(true);
         } else {
@@ -235,19 +113,6 @@ const Navbar: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Keyboard accessibility
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setSearchOpen(false);
-        setDropdownOpen(false);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  // Language selector keyboard handlers
   const handleDropdownKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
       setDropdownOpen(false);
@@ -296,7 +161,65 @@ const Navbar: React.FC = () => {
   };
 
   const activeLangConfig = LANGUAGES.find((l) => l.code === language) || LANGUAGES[0];
-  const dropdownServices = SERVICES_DROPDOWN_TRANSLATIONS[language] || SERVICES_DROPDOWN_TRANSLATIONS['en'];
+
+  const megaMenuData: Record<string, {
+    label: string;
+    desc: string;
+    image: string;
+    features: string[];
+    offerings: { name: string; desc: string; href: string }[];
+  }> = {
+    digitalTech: {
+      label: "Digital Technologies",
+      desc: "Build custom digital products, web and mobile systems optimized for scale and performance.",
+      image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=600&h=400",
+      features: ["Custom UI/UX Design", "React & Native Mobile Stacks", "End-to-End Delivery"],
+      offerings: [
+        { name: "Digital Product Development", desc: "Custom web apps, SaaS dashboards, and native iOS/Android mobile apps.", href: "/services/digital-product-development" },
+        { name: "Cloud & Infrastructure", desc: "Database setup, autoscaling configurations, remote servers, and DevOps pipelines.", href: "/services/cloud-and-infrastructure" },
+        { name: "24/7 Support", desc: "Priority bug troubleshooting, database health checks, and server monitoring.", href: "/services/24-7-support" }
+      ]
+    },
+    businessAutomation: {
+      label: "Business Automation",
+      desc: "Optimize operations, categorize data, and automate customer interactions with custom AI agents and triggers.",
+      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=600&h=400",
+      features: ["AI Agents & Chatbots", "Workflow Integrations", "Database Automation"],
+      offerings: [
+        { name: "AI & Business Automation", desc: "Custom email responders, automated data parsers, and custom AI agents.", href: "/services/ai-and-business-automation" },
+        { name: "Digital Business Analyst", desc: "Strategic workflow assessments, pipeline engineering, and process consulting.", href: "/services/digital-business-analyst" },
+        { name: "E-Commerce Solutions", desc: "Secure checkout flows, inventory synchronization, and customized storefronts.", href: "/services/e-commerce-solutions" }
+      ]
+    },
+    educationCareers: {
+      label: "Education & Careers",
+      desc: "Unlock practical technical skills and personalized mentorship to transition into corporate roles.",
+      image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=600&h=400",
+      features: ["Hands-on Coding Labs", "AI-assisted Workflows", "Resume & Portfolio Guidance"],
+      offerings: [
+        { name: "Education & Career Solutions", desc: "Personalized career roadmap planning and academic engineering project guidance.", href: "/student-page" },
+        { name: "Learning & Training Software Solutions", desc: "Practical coding labs and interactive technology upskilling programs.", href: "/student-page" }
+      ]
+    },
+    specializedDesign: {
+      label: "Specialized Design",
+      desc: "Create clean, functional layout spaces and interior systems for residential and commercial spaces.",
+      image: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=600&h=400",
+      features: ["3D Blueprint Renderings", "Lighting & Spatial Layouts", "Commercial Office Setup"],
+      offerings: [
+        { name: "Interior & Space Design", desc: "Aesthetic conceptual spatial maps, commercial office designs, and 3D visual plans.", href: "/services/interior-and-space-design" }
+      ]
+    },
+    globalCommerce: {
+      label: "Global Commerce (Upcoming)",
+      desc: "Connecting local tech innovations to global distribution pipelines and customs trade clearances.",
+      image: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=600&h=400",
+      features: ["Cross-Border Sourcing & Logistics", "Digital Customs Documentation", "Global Supply Warehousing"],
+      offerings: [
+        { name: "Global Trade & Commerce", desc: "Upcoming logistics pipelines, clearance infrastructure, and global import-export support.", href: "/services/global-trade-and-commerce" }
+      ]
+    }
+  };
 
   // Filter search results
   const filteredSearchItems = searchQuery.trim() === ""
@@ -318,7 +241,7 @@ const Navbar: React.FC = () => {
             : 'bg-transparent py-5'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="flex items-center justify-between h-14">
             
             {/* Logo */}
@@ -337,97 +260,176 @@ const Navbar: React.FC = () => {
                   return (
                     <div 
                       key={item.href}
-                      className="relative py-4"
+                      className="py-4"
                       onMouseEnter={() => setServicesHovered(true)}
                       onMouseLeave={() => setServicesHovered(false)}
                     >
                       <a
                         href={item.href}
-                        onClick={(e) => handleNavClick(e, item.href)}
-                        className={`text-xs tracking-widest font-medium uppercase transition-colors duration-200 ${
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
+                        className={`text-xs tracking-widest font-medium uppercase transition-colors duration-200 flex items-center space-x-1 cursor-pointer ${
                           theme === 'dark' ? 'text-gray-300 hover:text-cyan-400' : 'text-gray-700 hover:text-cyan-600'
                         }`}
                       >
-                        {item.name}
+                        <span>{item.name}</span>
+                        <ChevronDown className="w-3 h-3 ml-0.5 opacity-70" />
                       </a>
                       
-                      {/* Services Dropdown */}
+                      {/* Services Mega Menu (Dropdown) */}
                       <AnimatePresence>
                         {servicesHovered && (
                           <motion.div
-                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                            initial={{ opacity: 0, y: 12, scale: 0.98 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                            transition={{ duration: 0.15 }}
-                            className={`absolute top-full mt-2 w-[480px] backdrop-blur-xl border rounded-2xl p-4 shadow-2xl z-[9999] grid grid-cols-2 gap-2 text-left ${
+                            exit={{ opacity: 0, y: 12, scale: 0.98 }}
+                            transition={{ duration: 0.2, ease: "easeOut" }}
+                            className={`absolute left-0 right-0 mx-auto top-full mt-2 w-full max-w-6xl backdrop-blur-xl border rounded-[2rem] p-6 shadow-2xl z-[9999] grid grid-cols-12 gap-6 text-left ${
                               theme === 'dark' 
                                 ? 'bg-black/95 border-white/10' 
-                                : 'bg-white/95 border-gray-200'
-                            } ${
-                              dir === 'rtl' ? 'right-0 origin-top-right' : 'left-0 origin-top-left'
+                                : 'bg-white/95 border-gray-200 text-black shadow-2xl'
                             }`}
+                            style={{
+                              transformOrigin: "top center"
+                            }}
                           >
-                            {dropdownServices.map((service, sIdx) => {
-                              const isUpcoming = sIdx === 9;
-                              const isEducation = sIdx === 6 || sIdx === 7;
-                              const targetHref = isEducation ? '/student-page' : '/#services';
-                              
-                              return (
-                                <a
-                                  key={sIdx}
-                                  href={targetHref}
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    setServicesHovered(false);
-                                    if (isUpcoming) {
-                                      const chatBtn = document.querySelector('button[aria-label="Chat with Blu"]');
-                                      if (chatBtn instanceof HTMLButtonElement) {
-                                        chatBtn.click();
-                                      }
-                                      return;
-                                    }
-                                    if (isEducation) {
-                                      navigate('/student-page');
-                                    } else {
-                                      if (location.pathname === '/') {
-                                        const element = document.getElementById('services');
-                                        element?.scrollIntoView({ behavior: 'smooth' });
-                                      } else {
-                                        navigate('/#services');
-                                      }
-                                    }
-                                  }}
-                                  className={`p-2 rounded-lg border border-transparent hover:bg-cyan-500/10 transition ${
-                                    theme === 'dark' ? 'hover:border-white/5' : 'hover:border-black/5'
-                                  } ${
-                                    dir === 'rtl' ? 'text-right' : 'text-left'
+                            {/* Col 1: Categories Sidebar */}
+                            <div className={`col-span-3 border-r pr-4 flex flex-col space-y-2 ${
+                              theme === 'dark' ? 'border-white/10' : 'border-gray-200'
+                            }`}>
+                              <h4 className={`text-[9px] font-black uppercase tracking-widest font-mono mb-4 ${
+                                theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+                              }`}>
+                                Categories
+                              </h4>
+                              {Object.keys(megaMenuData).map((catKey) => (
+                                <button
+                                  key={catKey}
+                                  onMouseEnter={() => setActiveCategory(catKey)}
+                                  className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-[10px] tracking-widest font-black uppercase transition-all duration-200 text-left cursor-pointer ${
+                                    activeCategory === catKey
+                                      ? 'bg-cyan-500 text-black shadow-md'
+                                      : theme === 'dark'
+                                        ? 'text-gray-300 hover:bg-white/5 hover:text-white'
+                                        : 'text-gray-700 hover:bg-gray-100 hover:text-black'
                                   }`}
                                 >
-                                  <span className={`text-[11px] font-bold block ${
-                                    isUpcoming 
-                                      ? 'text-gray-500 font-mono' 
-                                      : theme === 'dark'
-                                        ? 'text-gray-300 hover:text-cyan-400' 
-                                        : 'text-gray-700 hover:text-cyan-600'
-                                  }`}>
-                                    {service}
-                                  </span>
-                                </a>
-                              );
-                            })}
+                                  <span>{megaMenuData[catKey].label}</span>
+                                  {activeCategory === catKey && <div className="w-1.5 h-1.5 rounded-full bg-black"></div>}
+                                </button>
+                              ))}
+                            </div>
+
+                            {/* Col 2: Services Offerings in selected category */}
+                            <div className="col-span-5 px-2">
+                              <h4 className="text-[9px] font-black uppercase tracking-widest font-mono text-cyan-400 mb-4">
+                                {megaMenuData[activeCategory].label} Offerings
+                              </h4>
+                              <div className="grid grid-cols-1 gap-2.5">
+                                {megaMenuData[activeCategory].offerings.map((srv, srvIdx) => (
+                                  <a
+                                    key={srvIdx}
+                                    href={srv.href}
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      setServicesHovered(false);
+                                      if (srv.href === '/services/global-trade-and-commerce') {
+                                        const chatBtn = document.querySelector('button[aria-label="Chat with Blu"]');
+                                        if (chatBtn instanceof HTMLButtonElement) {
+                                          chatBtn.click();
+                                        }
+                                        return;
+                                      }
+                                      navigate(srv.href);
+                                    }}
+                                    className={`group flex flex-col p-3.5 rounded-2xl border border-transparent transition-all duration-250 ${
+                                      theme === 'dark' 
+                                        ? 'hover:bg-white/5 hover:border-white/5' 
+                                        : 'hover:bg-cyan-500/5 hover:border-cyan-500/10'
+                                    }`}
+                                  >
+                                    <span className={`text-xs font-bold transition-colors ${
+                                      theme === 'dark' ? 'text-white group-hover:text-cyan-400' : 'text-black group-hover:text-cyan-600'
+                                    }`}>
+                                      {srv.name}
+                                    </span>
+                                    <span className={`text-[10px] mt-1 leading-relaxed ${
+                                      theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                                    }`}>
+                                      {srv.desc}
+                                    </span>
+                                  </a>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* Col 3: Category Spotlight / Overview */}
+                            <div className={`col-span-4 border-l pl-4 flex flex-col justify-between ${
+                              theme === 'dark' ? 'border-white/10' : 'border-gray-200'
+                            }`}>
+                              <div>
+                                <h4 className={`text-[9px] font-black uppercase tracking-widest font-mono mb-3 ${
+                                  theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+                                }`}>
+                                  Category Overview
+                                </h4>
+                                <h3 className={`text-sm font-black tracking-wide uppercase font-poppins mb-2 ${
+                                  theme === 'dark' ? 'text-white' : 'text-black'
+                                }`}>
+                                  {megaMenuData[activeCategory].label}
+                                </h3>
+                                <p className={`text-[10px] leading-relaxed mb-4 ${
+                                  theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                                }`}>
+                                  {megaMenuData[activeCategory].desc}
+                                </p>
+                                
+                                <div className="w-full h-24 rounded-2xl overflow-hidden border border-white/5 bg-gray-950">
+                                  <img 
+                                    src={megaMenuData[activeCategory].image} 
+                                    alt={megaMenuData[activeCategory].label} 
+                                    className="w-full h-full object-cover opacity-80 hover:scale-103 transition-all duration-300"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="pt-3">
+                                <h5 className={`text-[8px] font-black uppercase tracking-widest font-mono mb-2 ${
+                                  theme === 'dark' ? 'text-gray-500' : 'text-gray-400'
+                                }`}>
+                                  Included Features
+                                </h5>
+                                <div className="flex flex-wrap gap-2">
+                                  {megaMenuData[activeCategory].features.map((feat, fIdx) => (
+                                    <span 
+                                      key={fIdx} 
+                                      className={`text-[9px] font-bold px-2 py-1 rounded-md border font-mono ${
+                                        theme === 'dark' 
+                                          ? 'bg-zinc-900 border-white/5 text-gray-300' 
+                                          : 'bg-gray-100 border-gray-200 text-gray-700'
+                                      }`}
+                                    >
+                                      {feat}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+
                           </motion.div>
                         )}
                       </AnimatePresence>
                     </div>
                   );
                 }
-                
+
                 return (
                   <a
                     key={item.href}
                     href={item.href}
                     onClick={(e) => handleNavClick(e, item.href)}
-                    className={`text-xs tracking-widest font-medium uppercase transition-colors duration-200 py-4 ${
+                    className={`text-xs tracking-widest font-medium uppercase transition-colors duration-200 ${
                       theme === 'dark' ? 'text-gray-300 hover:text-cyan-400' : 'text-gray-700 hover:text-cyan-600'
                     }`}
                   >
@@ -437,10 +439,10 @@ const Navbar: React.FC = () => {
               })}
             </div>
 
-            {/* Right Section: Search & Language Dropdown */}
+            {/* Desktop Actions */}
             <div className="hidden md:flex items-center space-x-4">
               
-              {/* Search Icon (Triggers functional search overlay) */}
+              {/* Search Glass icon */}
               <button 
                 onClick={() => setSearchOpen(true)}
                 className={`transition-colors p-2 cursor-pointer ${
@@ -568,7 +570,7 @@ const Navbar: React.FC = () => {
                 {dropdownOpen && (
                   <div 
                     className={`absolute mt-2 w-40 rounded-xl border shadow-2xl p-1 z-[9999] ${
-                      theme === 'dark' ? 'bg-black/95 border-white/10' : 'bg-white border-gray-200'
+                      theme === 'dark' ? 'bg-black/95 border-white/10' : 'bg-white border-gray-200 text-black'
                     } ${
                       dir === 'rtl' ? 'left-0' : 'right-0'
                     }`}
@@ -628,20 +630,72 @@ const Navbar: React.FC = () => {
                 to { opacity: 1; transform: translateY(0); }
               }
             `}</style>
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
-                className={`block px-3 py-2 text-sm tracking-widest font-medium uppercase rounded-lg transition-colors ${
-                  theme === 'dark' 
-                    ? 'text-gray-300 hover:text-cyan-400 hover:bg-white/5' 
-                    : 'text-gray-755 hover:text-cyan-600 hover:bg-gray-100'
-                }`}
-              >
-                {item.name}
-              </a>
-            ))}
+            
+            {/* Nav Items */}
+            {navItems.map((item) => {
+              if (item.href === '/#services') {
+                return (
+                  <div key={item.href} className="space-y-1">
+                    <button
+                      onClick={() => setMobileServicesExpanded(!mobileServicesExpanded)}
+                      className={`w-full flex items-center justify-between px-3 py-2 text-sm tracking-widest font-medium uppercase rounded-lg transition-colors cursor-pointer text-left ${
+                        theme === 'dark' 
+                          ? 'text-gray-300 hover:text-cyan-400 hover:bg-white/5' 
+                          : 'text-gray-755 hover:text-cyan-600 hover:bg-gray-100'
+                      }`}
+                    >
+                      <span>{item.name}</span>
+                      <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileServicesExpanded ? 'rotate-180' : ''}`} />
+                    </button>
+                    
+                    {mobileServicesExpanded && (
+                      <div className="pl-6 pr-2 py-2 space-y-2">
+                        {Object.values(megaMenuData).flatMap(cat => cat.offerings).map((srv, srvIdx) => (
+                          <a
+                            key={srvIdx}
+                            href={srv.href}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setIsOpen(false);
+                              if (srv.href === '/services/global-trade-and-commerce') {
+                                const chatBtn = document.querySelector('button[aria-label="Chat with Blu"]');
+                                if (chatBtn instanceof HTMLButtonElement) {
+                                  chatBtn.click();
+                                }
+                                return;
+                              }
+                              navigate(srv.href);
+                            }}
+                            className={`block p-2 rounded-lg text-xs leading-relaxed transition ${
+                              theme === 'dark' ? 'text-gray-400 hover:text-white hover:bg-white/5' : 'text-gray-650 hover:text-black hover:bg-gray-50'
+                            }`}
+                          >
+                            <span className="font-bold block">{srv.name}</span>
+                            <span className="text-[10px] opacity-80 block">{srv.desc}</span>
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
+                  className={`block px-3 py-2 text-sm tracking-widest font-medium uppercase rounded-lg transition-colors ${
+                    theme === 'dark' 
+                      ? 'text-gray-300 hover:text-cyan-400 hover:bg-white/5' 
+                      : 'text-gray-755 hover:text-cyan-600 hover:bg-gray-100'
+                  }`}
+                >
+                  {item.name}
+                </a>
+              );
+            })}
+            
             <div className={`pt-2 border-t flex flex-col space-y-3 ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
               <a
                 href="#contact"

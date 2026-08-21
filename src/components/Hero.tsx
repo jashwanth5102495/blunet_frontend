@@ -140,8 +140,8 @@ const Hero: React.FC = () => {
       {/* Background Images (cycles across all 10 images) */}
       <RotatingBackgrounds interval={5000} onIndexChange={setActiveIndex} />
 
-      {/* Dark filter overlay to keep the white text visible */}
-      <div className="absolute inset-0 bg-black/50 z-0"></div>
+      {/* Dark filter overlay to keep the white text visible (darker bg-black/75 on mobile to dim background graphics) */}
+      <div className="absolute inset-0 bg-black/75 md:bg-black/50 z-0"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 select-none w-full">
         
@@ -151,15 +151,15 @@ const Hero: React.FC = () => {
           className="flex flex-col items-center justify-center text-center w-full select-none"
         >
           {/* Company Title (Normal/Light weight) - Center aligned and static */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light font-poppins uppercase text-white tracking-widest leading-none">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-light font-poppins uppercase text-white tracking-widest leading-none">
             {t('hero.title')}
           </h1>
 
           {/* Small, perfect, non-ugly horizontal divider line */}
           <div className="w-16 h-[1.5px] bg-cyan-400/80 my-4 sm:my-5 rounded-full"></div>
           
-          {/* Roller container for dynamic bold service text in next line */}
-          <div className="h-[1.4em] overflow-hidden relative flex items-center justify-center w-full">
+          {/* Roller container for dynamic bold service text in next line (Dynamic height on mobile to prevent clipping) */}
+          <div className="min-h-[3.2em] sm:min-h-[2.8em] md:h-[1.4em] overflow-hidden relative flex items-center justify-center w-full py-1">
             <AnimatePresence mode="wait">
               <motion.span
                 key={activeService}
@@ -167,7 +167,7 @@ const Hero: React.FC = () => {
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -24, opacity: 0 }}
                 transition={{ duration: 0.35, ease: "easeOut" }}
-                className="text-white font-black text-2xl sm:text-3xl md:text-4.5xl lg:text-5.5xl whitespace-normal break-words max-w-[90vw] leading-tight block text-center uppercase tracking-wide"
+                className="text-white font-black text-xl sm:text-2xl md:text-4.5xl lg:text-5.5xl whitespace-normal break-words max-w-[90vw] leading-tight block text-center uppercase tracking-wide"
               >
                 {activeService}
               </motion.span>

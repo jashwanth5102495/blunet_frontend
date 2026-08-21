@@ -285,13 +285,27 @@ const Chatbot: React.FC = () => {
 
   const handleLeadSubmit = (data: Record<string, string>) => {
     setIsTyping(true);
+
+    const whatsappText = `Hello BluNet IT Services, I would like to request a project consultation. Here are my project details:
+
+Name: ${data.name}
+Company: ${data.company || 'Not Specified'}
+Email: ${data.email}
+Project Description: ${data.description}
+Budget: ${data.budget}
+Timeline: ${data.timeline}`;
+
     setTimeout(() => {
       setIsTyping(false);
+
+      // Open pre-filled WhatsApp message
+      window.open(`https://wa.me/918328246413?text=${encodeURIComponent(whatsappText)}`, '_blank');
+
       setMessages(prev => [
         ...prev.filter(m => !m.isLeadCard),
         {
           id: Math.random().toString(),
-          text: `Thank you, ${data.name}! Your consultation request has been submitted successfully. A BluNet technology representative will review your project details and reach out to you at **${data.email}** within 24 hours.`,
+          text: `Thank you, ${data.name}! Your details have been compiled. I have launched a chat window redirecting you to our WhatsApp business line (+91 83282 46413) to finalize your project consultation directly with our engineering team.`,
           sender: 'blu',
           timestamp: new Date()
         }

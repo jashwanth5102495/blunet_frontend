@@ -58,6 +58,7 @@ const AIToolsProjectPage = lazy(() => import('./components/AIToolsProjectPage'))
 const DevOpsProjectPage = lazy(() => import('./components/DevOpsProjectPage'));
 const StudentSetup = lazy(() => import('./components/StudentSetup'));
 const InternshipForm = lazy(() => import('./components/InternshipForm'));
+const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
 
 // New lazy load
 const IntroHtmlProtected = lazy(() => import('./components/IntroHtmlProtected'));
@@ -318,6 +319,7 @@ function AppInner() {
             {/* Plasma/Dither demo routes removed */}
             <Route path="/student-page" element={<><Header /><StudentPage /></>} />
             <Route path="/internship-form" element={<><Header /><InternshipForm /></>} />
+            <Route path="/services/:serviceSlug" element={<><Header /><ServiceDetail /></>} />
           </Routes>
         </Suspense>
         <Chatbot />
