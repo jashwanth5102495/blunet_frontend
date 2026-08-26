@@ -194,7 +194,7 @@ const Chatbot: React.FC = () => {
       cleanInput.includes('shipping') || 
       cleanInput.includes('customs')
     ) {
-      return "Global Trade & Commerce is an upcoming BluNet service. We are currently preparing infrastructure to support cross-border trade, customs clearance, and global distribution. However, this service is not currently available.\n\nCurrently, I can help you explore our active technology, automation, cloud, logistics, support, and design solutions. What can I help you build today?";
+      return "BluNet focuses on digital software development, cloud infrastructure, AI automation, SLA IT support, and training solutions. We do not provide active international trade or shipping services. If you need special integrations or custom tracking software for your supply chain, feel free to contact us!";
     }
 
     if (
@@ -233,7 +233,7 @@ const Chatbot: React.FC = () => {
     }
 
     if (cleanInput.includes('services') || cleanInput.includes('what do you do') || cleanInput.includes('what you provide')) {
-      return `BluNet provides high-quality technology, education, and design solutions:\n\n• **Digital Product Development** (Web apps, SaaS, Mobile Apps)\n• **AI & Business Automation** (AI agents, automated workflows)\n• **Cloud & Infrastructure** (Hosting, hosting setups, backups)\n• **24/7 Support** (SLA support, monitoring)\n• **E-Commerce Solutions** (Online stores, product catalogs)\n• **Logistics & Fleet Solutions** (Driver tracking, dispatch boards)\n• **Education & Career Solutions** (Career guidance, academic pathways)\n• **Learning & Training Software Solutions** (Practical tech courses)\n• **Interior & Space Design** (Office and residential spaces)\n\nWe also have **Global Trade & Commerce** on our upcoming roadmap.\n\nWhich of these services are you interested in?`;
+      return `BluNet provides high-quality technology, education, and business solutions:\n\n• **Digital Product Development** (Web apps, SaaS, Mobile Apps)\n• **AI & Business Automation** (AI agents, automated workflows)\n• **Cloud & Infrastructure** (Hosting setups, DevOps pipelines)\n• **24/7 Support** (SLA support, system updates)\n• **Digital Business Analyst** (Requirements scoping, process maps)\n• **E-Commerce Solutions** (Online stores, shopping checkouts)\n• **Education & Career Solutions** (Personalized pathway guidance)\n• **Learning & Training Software Solutions** (Upskilling coding programs)\n\nWhich of these services are you interested in?`;
     }
 
     if (cleanInput.includes('website') || cleanInput.includes('web app') || cleanInput.includes('application') || cleanInput.includes('mobile app') || cleanInput.includes('ios') || cleanInput.includes('android') || cleanInput.includes('saas') || cleanInput.includes('software')) {
@@ -269,7 +269,7 @@ const Chatbot: React.FC = () => {
     }
 
     if (cleanInput.includes('interior') || cleanInput.includes('design') || cleanInput.includes('space') || cleanInput.includes('furniture') || cleanInput.includes('room')) {
-      return "Alongside our IT services, BluNet provides professional **Interior & Space Design** for residential and commercial office properties. This includes layouts, concept boards, lighting plans, and 3D visual blueprints.\n\nIs this design project for a home space or an office workspace?";
+      return "BluNet focuses on digital software development, cloud infrastructure, AI automation, SLA IT support, and training solutions. We no longer offer physical interior or residential space design services. If you are building a digital software product, SaaS platform, or training system, we would love to help you!";
     }
 
     if (cleanInput.includes('hi') || cleanInput.includes('hello') || cleanInput.includes('hey') || cleanInput.includes('greetings')) {

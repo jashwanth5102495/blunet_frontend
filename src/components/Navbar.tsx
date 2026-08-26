@@ -28,8 +28,6 @@ const SEARCHABLE_ITEMS = [
   { name: "E-Commerce Solutions", type: "Service", href: "/services/e-commerce-solutions" },
   { name: "Education & Career Solutions", type: "Service", href: "/student-page" },
   { name: "Learning & Training Software Solutions", type: "Service", href: "/student-page" },
-  { name: "Interior & Space Design", type: "Service", href: "/services/interior-and-space-design" },
-  { name: "Global Trade & Commerce (Upcoming)", type: "Service", href: "/services/global-trade-and-commerce" },
   
   // Courses
   { name: "Frontend Development Beginner", type: "Course", href: "/courses" },
@@ -199,24 +197,6 @@ const Navbar: React.FC = () => {
       offerings: [
         { name: "Education & Career Solutions", desc: "Personalized career roadmap planning and academic engineering project guidance.", href: "/student-page" },
         { name: "Learning & Training Software Solutions", desc: "Practical coding labs and interactive technology upskilling programs.", href: "/student-page" }
-      ]
-    },
-    specializedDesign: {
-      label: "Specialized Design",
-      desc: "Create clean, functional layout spaces and interior systems for residential and commercial spaces.",
-      image: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=600&h=400",
-      features: ["3D Blueprint Renderings", "Lighting & Spatial Layouts", "Commercial Office Setup"],
-      offerings: [
-        { name: "Interior & Space Design", desc: "Aesthetic conceptual spatial maps, commercial office designs, and 3D visual plans.", href: "/services/interior-and-space-design" }
-      ]
-    },
-    globalCommerce: {
-      label: "Global Commerce (Upcoming)",
-      desc: "Connecting local tech innovations to global distribution pipelines and customs trade clearances.",
-      image: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=600&h=400",
-      features: ["Cross-Border Sourcing & Logistics", "Digital Customs Documentation", "Global Supply Warehousing"],
-      offerings: [
-        { name: "Global Trade & Commerce", desc: "Upcoming logistics pipelines, clearance infrastructure, and global import-export support.", href: "/services/global-trade-and-commerce" }
       ]
     }
   };

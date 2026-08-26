@@ -12,9 +12,7 @@ const SERVICE_TRANSLATIONS: Record<string, string[]> = {
     "Digital Business analyst",
     "E-Commerce",
     "Education & Career",
-    "Learning & Training Software Solutions",
-    "Interior & Space Design",
-    "Global Trade & Commerce (Upcoming)"
+    "Learning & Training Software Solutions"
   ],
   hi: [
     "डिजिटल उत्पाद विकास",
@@ -24,9 +22,7 @@ const SERVICE_TRANSLATIONS: Record<string, string[]> = {
     "डिजिटल बिजनेस विश्लेषक",
     "ई-कॉमर्स",
     "शिक्षा और कैरियर",
-    "प्रायोगिक शिक्षण और प्रशिक्षण",
-    "इंटीरियर और स्पेस डिज़ाइन",
-    "वैश्विक व्यापार (आगामी)"
+    "प्रायोगिक शिक्षण और प्रशिक्षण"
   ],
   kn: [
     "ಡಿಜಿಟಲ್ ಉತ್ಪನ್ನ ಅಭಿವೃದ್ಧಿ",
@@ -36,9 +32,7 @@ const SERVICE_TRANSLATIONS: Record<string, string[]> = {
     "ಡಿಜಿಟಲ್ ವ್ಯವಹಾರ ವಿಶ್ಲೇಷಕ",
     "ಇ-ಕಾಮರ್ಸ್",
     "ಶಿಕ್ಷಣ och ವೃತ್ತಿಜೀವನ",
-    "ತರಬೇತಿ ಮತ್ತು ಶಿಕ್ಷಣ ಸಾಫ್ಟ್‌ವೇರ್",
-    "ಇಂಟೀರಿಯರ್ ಮತ್ತು ಸ್ಪೇಸ್ ಡಿಸೈನ್",
-    "ಜಾಗತಿಕ ವ್ಯಾಪಾರ (ಮುಂಬರುವ)"
+    "ತರಬೇತಿ ಮತ್ತು ಶಿಕ್ಷಣ ಸಾಫ್ಟ್‌ವೇರ್"
   ],
   ar: [
     "تطوير المنتجات الرقمية",
@@ -48,9 +42,7 @@ const SERVICE_TRANSLATIONS: Record<string, string[]> = {
     "محلل الأعمال الرقمية",
     "التجارة الإلكترونية",
     "التعليم والمهنة",
-    "برمجيات التدريب والتعليم",
-    "التصاميم الداخلية والمساحات",
-    "التجارة العالمية (قريباً)"
+    "برمجيات التدريب والتعليم"
   ],
   'zh-CN': [
     "数字化产品开发",
@@ -60,9 +52,7 @@ const SERVICE_TRANSLATIONS: Record<string, string[]> = {
     "数字化业务分析师",
     "电子商务",
     "教育与职业",
-    "学习与培训软件",
-    "室内与空间设计",
-    "全球贸易与商业 (即将推出)"
+    "学习与培训软件"
   ],
   fr: [
     "Développement de Produits Numériques",
@@ -72,9 +62,7 @@ const SERVICE_TRANSLATIONS: Record<string, string[]> = {
     "Analyste d'Affaires Numériques",
     "Commerce Électronique",
     "Éducation & Carrière",
-    "Solutions d'Apprentissage & Formation",
-    "Design d'Intérieur & d'Espace",
-    "Commerce Global (À venir)"
+    "Solutions d'Apprentissage & Formation"
   ],
   de: [
     "Digitale Produktentwicklung",
@@ -84,9 +72,7 @@ const SERVICE_TRANSLATIONS: Record<string, string[]> = {
     "Digitaler Business Analyst",
     "E-Commerce",
     "Bildung & Karriere",
-    "Lern- & Schulungssoftware",
-    "Innen- & Raumdesign",
-    "Welthandel & Commerce (In Kürze)"
+    "Lern- & Schulungssoftware"
   ],
   pt: [
     "Desenvolvimento de Produtos Digitais",
@@ -96,21 +82,17 @@ const SERVICE_TRANSLATIONS: Record<string, string[]> = {
     "Analista de Negócios Digitais",
     "Comércio Eletrônico",
     "Educação e Carreira",
-    "Software de Aprendizado e Treinamento",
-    "Design de Interiores e Espaços",
-    "Comércio Global (Em breve)"
+    "Software de Aprendizado e Treinamento"
   ],
   es: [
     "Desarrollo de Productos Digitales",
     "IA y Automatización de Negocios",
     "Nube e Infraestructura",
     "Soporte de TI 24/7",
-    "Analista de Negocios Digitales",
+    "Analista de Negocios Digitais",
     "Comercio Electrónico",
     "Educación y Carrera",
-    "Software de Aprendizaje y Capacitación",
-    "Diseño de Interiores y Espacio",
-    "Comercio Global (Próximamente)"
+    "Software de Aprendizaje y Capacitación"
   ],
   th: [
     "การพัฒนาผลิตภัณฑ์ดิจิทัล",
@@ -120,9 +102,7 @@ const SERVICE_TRANSLATIONS: Record<string, string[]> = {
     "นักวิเคราะห์ธุรกิจดิจิทัล",
     "อีคอมเมิร์ซ",
     "การศึกษาและอาชีพ",
-    "โซลูชันซอฟต์แวร์การเรียนรู้และฝึกอบรม",
-    "การออกแบบภายในและพื้นที่",
-    "การค้าระดับโลก (เร็วๆ นี้)"
+    "โซลูชันซอฟต์แวร์การเรียนรู้และฝึกอบรม"
   ]
 };
 

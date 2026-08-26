@@ -14,9 +14,7 @@ const backgroundImages = [
   '/hero/Digital Business analyst.webp',
   '/hero/E-Commerce.webp',
   '/hero/Education & Career.webp',
-  '/hero/e learning.webp',
-  '/hero/Interior & Space Design.webp',
-  '/hero/Logistics & Fleet.webp'
+  '/hero/e learning.webp'
 ];
 
 const RotatingBackgrounds: React.FC<RotatingBackgroundsProps> = ({ 
